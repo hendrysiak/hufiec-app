@@ -1,0 +1,8 @@
+.Phrase {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.List {
+    list-style: none;
+}

@@ -1,12 +1,11 @@
 import React from "react";
+import classes from "./ListEl.module.css";
 
 const ListEl = props => {
-  const style = { margin: "0 10px", display: "inline-block" };
   return (
-    <li>
-      <p style={style}>{props.number + 1}</p>
-      <p style={style}>{props.value * 1}</p>
-      <p style={style}>{props.title}</p>
+    <li className={classes.List}>
+      <p className={classes.Phrase}>{props.cash}</p>
+      <p className={classes.Phrase}>{props.title}</p>
     </li>
   );
 };
