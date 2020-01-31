@@ -1,0 +1,28 @@
+.Form {
+    margin: auto auto;
+    padding: 50px;
+    background-color: rgba(0%, 0%, 0%, 15%);
+}
+
+.Input {
+    width: 90%;
+    height: 25%;
+    font-size: 1.1rem;
+    border: none;
+    background: none;
+    border-bottom: 1px solid black;
+}
+
+.Input:focus {
+    outline: none;
+    box-shadow: 0px 5px 40px -5px black;
+}
+
+.Button {
+    width: 40%;
+    height: 25%;
+    margin: 10px 0;
+    background: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}

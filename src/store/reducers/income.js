@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 
 const initialState = {
+    loading: false,
     error: null,
     initIncome: null,
     teams: [{
@@ -125,6 +126,16 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.LOADING_START:
+            return {
+                ...state,
+                loading: true
+            }
+        case actionTypes.LOADING_END:
+            return {
+                ...state,
+                loading: false
+            }
         case actionTypes.FETCH_FILE:
             return {
                 ...state,
@@ -140,6 +151,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 teams: newTeams
+            }
+        case actionTypes.EDIT_INCOME:
+            const editingIncomes = action.editIncome
+            return {
+                ...state,
+                initIncome: editingIncomes
             }
         default:
             return state;

@@ -1,0 +1,46 @@
+.GridArea {
+    height: 100vh;
+    display: grid;
+    grid-template: "header header "10vh "aside main  "85vh "aside footer  "5vh / 1fr 6fr
+}
+
+.Header {
+    background-color: red;
+    grid-area: header;
+}
+
+.Aside {
+    background-color: rgba(74, 123, 38, 100%);
+    grid-area: aside
+}
+
+.Main {
+    background-color: rgba(156, 206, 57, 100%);
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.Footer {
+    background-color: black;
+    grid-area: footer
+}
+
+.List {
+    list-style: none;
+    color: white;
+    padding-inline-start: 0px;
+}
+
+.ListElement {
+    display: block;
+    height: 50px;
+    cursor: pointer;
+}
+
+.ListElement:hover {
+    opacity: 0.5;
+    /* background-color: rgba(74, 123, 38, 255); */
+    /* background-color: red; */
+}

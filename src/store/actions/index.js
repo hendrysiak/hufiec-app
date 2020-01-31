@@ -1,5 +1,6 @@
 export {
     fetchIncome,
-    sortingIncome
+    sortingIncome,
+    editingIncome
 }
 from './income'

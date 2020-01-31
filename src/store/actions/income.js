@@ -15,8 +15,22 @@ export const fetchIncomeFailed = error => {
     }
 }
 
+export const loadingEnd = () => {
+    return {
+        type: actionTypes.LOADING_END,
+
+    }
+}
+
+export const loadingStart = () => {
+    return {
+        type: actionTypes.LOADING_START
+    }
+}
+
 export const fetchIncome = (url) => {
     return async dispatch => {
+        dispatch(loadingStart())
         try {
             const result = await axios.get(url);
             const resultArray = result.data.Document.BkToCstmrAcctRpt.Rpt.Ntry;
@@ -29,8 +43,10 @@ export const fetchIncome = (url) => {
                 });
             });
             dispatch(setIncome(resultInfo));
+            dispatch(loadingEnd())
         } catch (err) {
             dispatch(fetchIncomeFailed(err));
+            dispatch(loadingEnd())
         }
     };
 };
@@ -63,5 +79,12 @@ export const sortingIncome = (actualTeams, actualIncome) => {
             }
         });
         dispatch(sortedIncome(actualTeams))
+    }
+}
+
+export const editingIncome = (income) => {
+    return {
+        type: actionTypes.EDIT_INCOME,
+        income
     }
 }

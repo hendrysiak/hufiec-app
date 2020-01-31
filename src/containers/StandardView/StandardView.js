@@ -10,13 +10,18 @@ import * as actions from "../../store/actions/index";
 
 class StandardView extends Component {
   state = {
-    loading: false
+    loading: false,
+    income: null
   };
 
   componentDidMount = () => {
-    const url =
-      "https://gist.githubusercontent.com/hendrysiak/9b7f2fa73d9384e3c412fcab3f8cff6c/raw/8eee22684e05fe23d515f3aa3676894ff2583191/xml-convert";
-    this.props.onFetchIncome(url);
+    this.setState({ income: this.props.init });
+    console.log(this.state.income);
+  };
+
+  downloadIncome = () => {
+    this.setState({ income: this.props.init });
+    console.log(this.state.income);
   };
 
   verifyTeams = () => {
@@ -40,8 +45,22 @@ class StandardView extends Component {
     return notPassValue;
   };
 
-  editIncome = event => {
-    console.log(event.target);
+  editIncome = (event, index) => {
+    const incomeToEdit = [...this.props.init];
+    console.log(event.target.value);
+    console.log(incomeToEdit[index].title);
+    incomeToEdit[index].title = event.target.value;
+    console.log(incomeToEdit[index].title);
+    this.setState({ income: incomeToEdit });
+    // this.props.onEditIncome(incomeToEdit);
+  };
+
+  showIncome = () => {
+    const patterns = [...this.props.teams].map(
+      el => new RegExp(`/${el.id}/`, "m")
+    );
+    console.log(patterns);
+    // const coloredIncome = [...this.props];
   };
 
   render() {
@@ -61,32 +80,42 @@ class StandardView extends Component {
     //   }
     // });
 
-    let listOfNonAssignedIncome;
-    if (this.props.init) {
-      listOfNonAssignedIncome = this.showNonAssignedIncomes().map(
-        (element, index) => {
-          if (element.cash * 1 > 0) {
-            return (
-              <ListEl
-                key={index}
-                title={element.title}
-                cash={element.cash}
-                clicked={event => this.editIncome(event)}
-              />
-            );
-          }
+    let listOfIncome;
+    if (this.state.income) {
+      listOfIncome = this.state.income.map((element, index) => {
+        const patterns = [...this.props.teams].map(
+          el => new RegExp(`(${el.id})`, "m")
+        );
+        patterns.splice(patterns.length - 1, 1);
+        if (patterns.some(item => item.test(element.title))) {
+          return (
+            <ListEl
+              color="green"
+              key={index}
+              title={element.title}
+              cash={element.cash}
+              clicked={event => this.editIncome(event, index)}
+            />
+          );
+        } else {
+          return (
+            <ListEl
+              color="red"
+              key={index}
+              title={element.title}
+              cash={element.cash}
+              clicked={event => this.editIncome(event, index)}
+            />
+          );
         }
-      );
+      });
     }
 
-    const style = { display: "flex", flexDirection: "row" };
-
     return (
-      <div style={style}>
-        <div>
-          <h2>Nie rozpoznałem tych przelewów:</h2>
-          {listOfNonAssignedIncome}
-        </div>
+      <main className={this.props.class}>
+        <h2>Przelewy zaimportowane:</h2>
+        {listOfIncome}
+
         {/* <div>
           <h2>Wpływy</h2>
           {listOfIncome}
@@ -99,10 +128,8 @@ class StandardView extends Component {
           <h2>Wpływy nieprzypisane</h2>
           {listOfNonAssignedIncome}
         </div> */}
-        {/* <button onClick={this.showNonAssignedIncomes}>
-          Pokaż wartości niepasujące
-        </button> */}
-      </div>
+        <button onClick={this.downloadIncome}>Pobież przelewy</button>
+      </main>
     );
   }
 }
@@ -117,8 +144,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-    onSortIncome: (actualTeams, actualncome) =>
-      dispatch(actions.sortingIncome(actualTeams, actualncome))
+    onSortIncome: (actualTeams, actualIncome) =>
+      dispatch(actions.sortingIncome(actualTeams, actualIncome)),
+    onEditIncome: income => dispatch(actions.editingIncome(income))
   };
 };
 

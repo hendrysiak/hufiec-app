@@ -1,8 +1,25 @@
 .Phrase {
     margin: 0 10px;
+    width: 100px;
     display: inline-block;
 }
 
 .List {
+    height: 50px;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: block;
     list-style: none;
+    display: flex;
+    border-bottom: 2px solid grey;
+}
+
+.Input {
+    height: 30px;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: rgba(156, 206, 57, 100%);
+    border: none;
 }
