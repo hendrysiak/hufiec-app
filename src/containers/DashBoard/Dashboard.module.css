@@ -24,7 +24,8 @@
 
 .Footer {
     background-color: black;
-    grid-area: footer
+    grid-area: footer;
+    color: white;
 }
 
 .List {

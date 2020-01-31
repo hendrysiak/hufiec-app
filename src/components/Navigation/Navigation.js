@@ -9,7 +9,7 @@ const navigationItems = props => (
       IMPORT PRZELEWÓW
     </NavigationItem>
     <NavigationItem link="/imported">PRZELEWY ZAIMPORTOWANE</NavigationItem>
-    <NavigationItem link="/non-assigned">PRZELEWY NIEPRZYPISANE</NavigationItem>
+    <NavigationItem link="/sorted">PRZELEWY POSORTOWANE</NavigationItem>
     <NavigationItem link="/codes">FILTRUJ PO KODZIE</NavigationItem>
     <NavigationItem link="/teams">FILTRUJ PO DRUŻYNIE</NavigationItem>
     <NavigationItem link="/add-code">DODAJ KOD</NavigationItem>
