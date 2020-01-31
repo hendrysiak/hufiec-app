@@ -16,7 +16,7 @@ class ImportIncome extends Component {
       spinner = <Spinner />;
     }
     return (
-      <main className={this.props.class}>
+      <main className="Main">
         <form className={classes.Form} onSubmit={event => this.setUrl(event)}>
           <h2>Wstaw URL z importem XML</h2>
           <input type="text" className={classes.Input} />

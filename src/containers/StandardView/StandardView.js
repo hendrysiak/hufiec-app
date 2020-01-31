@@ -112,7 +112,7 @@ class StandardView extends Component {
     }
 
     return (
-      <main className={this.props.class}>
+      <main className="Main">
         <h2>Przelewy zaimportowane:</h2>
         {listOfIncome}
 
