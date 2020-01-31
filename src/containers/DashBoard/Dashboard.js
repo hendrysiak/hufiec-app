@@ -7,6 +7,7 @@ import classes from "./Dashboard.module.css";
 import NonAssignedIncome from "../NonAssignedIncome/NonAssignedIncome";
 import ImportIncome from "../../components/ImportIncome/ImportIncome";
 import Navigation from "../../components/Navigation/Navigation";
+import SortedIncome from "../../components/SortedIncome/SortedIncome";
 
 import * as actions from "../../store/actions/index";
 
@@ -21,6 +22,7 @@ class Dashboard extends Component {
           <Navigation />
         </aside>
         <Switch>
+          <Route path="/sorted" component={SortedIncome} />
           <Route path="/imported" component={NonAssignedIncome} />
           <Route path="/" component={ImportIncome} />
         </Switch>
