@@ -1,22 +1,17 @@
 .GridArea {
     height: 100vh;
     display: grid;
-    grid-template: "header header "10vh "aside main  "85vh "aside footer  "5vh / 1fr 6fr
+    grid-template: "nav section  "95vh "nav footer  "5vh / 1fr 6fr
 }
 
-.Header {
+.Nav {
     background-color: rgba(74, 123, 38, 100%);
-    grid-area: header;
+    grid-area: nav
 }
 
-.Aside {
-    background-color: rgba(74, 123, 38, 100%);
-    grid-area: aside
-}
-
-.Main {
-    background-color: rgba(156, 206, 57, 100%);
-    grid-area: main;
+.Section {
+    background-color: lightgrey;
+    grid-area: section;
     display: flex;
     flex-direction: column;
     overflow-y: auto;

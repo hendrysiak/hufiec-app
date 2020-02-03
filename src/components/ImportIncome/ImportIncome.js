@@ -16,7 +16,7 @@ class ImportIncome extends Component {
       spinner = <Spinner />;
     }
     return (
-      <main className="Main">
+      <section className="Section">
         <p>
           Chwilowo skopiuj to:
           https://gist.githubusercontent.com/hendrysiak/9b7f2fa73d9384e3c412fcab3f8cff6c/raw/8eee22684e05fe23d515f3aa3676894ff2583191/xml-convert
@@ -29,7 +29,7 @@ class ImportIncome extends Component {
           </button>
         </form>
         {spinner}
-      </main>
+      </section>
     );
   }
 }

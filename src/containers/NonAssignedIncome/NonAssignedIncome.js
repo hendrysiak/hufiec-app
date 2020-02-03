@@ -77,14 +77,14 @@ class NonAssignedIncome extends Component {
     }
 
     return (
-      <main className="Main">
+      <section className="Section">
         <div>
           <h2>Przelewy zaimportowane:</h2>
           <button onClick={this.updateIncome}>Zaktualizuj przelewy</button>
           <button onClick={this.verifyTeams}>Posortuj przelewy</button>
         </div>
         {listOfIncome}
-      </main>
+      </section>
     );
   }
 }

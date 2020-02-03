@@ -42,9 +42,20 @@
     }
 }
 
-.Main {
-    background-color: rgba(156, 206, 57, 100%);
-    grid-area: main;
+.GridArea {
+    height: 100vh;
+    display: grid;
+    grid-template: "nav section  "95vh "nav footer  "5vh / 1fr 6fr
+}
+
+.Nav {
+    background-color: rgba(74, 123, 38, 100%);
+    grid-area: nav
+}
+
+.Section {
+    background-color: lightgray;
+    grid-area: section;
     display: flex;
     flex-direction: column;
     overflow-y: auto;

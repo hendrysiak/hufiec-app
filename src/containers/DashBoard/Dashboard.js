@@ -4,28 +4,35 @@ import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import classes from "./Dashboard.module.css";
-import NonAssignedIncome from "../NonAssignedIncome/NonAssignedIncome";
-import ImportIncome from "../../components/ImportIncome/ImportIncome";
+
 import Navigation from "../../components/Navigation/Navigation";
-import SortedIncome from "../../components/SortedIncome/SortedIncome";
+import Transfers from "../Transfers/Transfers";
 
 import * as actions from "../../store/actions/index";
 
 class Dashboard extends Component {
+  state = {
+    navigation: [
+      { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
+      { link: "/codes", title: "FILTRUJ PO KODZIE" },
+      { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
+      { link: "/add-code", title: "DODAJ KOD" },
+      { link: "/add-summary", title: "DODAJ ROZLICZENIE" },
+      { link: "/show-base", title: "POKAŻ BAZĘ" }
+    ]
+  };
+
   render() {
     return (
       <div className={classes.GridArea}>
-        <header className={classes.Header}>
-          <h1>Witamy w programie HRSL 0.1!</h1>
-        </header>
-        <aside className={classes.Aside}>
-          <Navigation />
-        </aside>
+        <nav className={classes.Nav}>
+          <Navigation list={this.state.navigation} navigation="main" />
+        </nav>
+
         <Switch>
-          <Route path="/sorted" component={SortedIncome} />
-          <Route path="/imported" component={NonAssignedIncome} />
-          <Route path="/" component={ImportIncome} />
+          <Route path="/transfers" component={Transfers} />
         </Switch>
+
         <footer className={classes.Footer}>
           <h3>
             Projekt i wykonanie: <strong>Łukasz Hendrysiak</strong>

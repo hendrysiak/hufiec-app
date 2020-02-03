@@ -20,6 +20,7 @@
     width: 100%;
     font-size: 1.5rem;
     font-weight: bold;
-    background-color: rgba(156, 206, 57, 100%);
+    /* background-color: rgba(156, 206, 57, 100%); */
+    background-color: rgba(100%, 100%, 100%, 0%);
     border: none;
 }

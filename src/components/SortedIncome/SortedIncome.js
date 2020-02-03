@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import * as actions from "../../store/actions/index";
 
+import Navigation from "../Navigation/Navigation";
+
 import classes from "./SortedIncome.module.css";
 
 class SortedIncome extends Component {
@@ -29,11 +31,20 @@ class SortedIncome extends Component {
   };
 
   render() {
+    let sortedIncome;
+    if (this.props.teams) {
+      sortedIncome = this.props.teams.map(team => {
+        return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
+      });
+    }
     return (
-      <main className="Main">
-        <div>
-          <h2>Przelewy posortowane według kodów:</h2>
-          <ul className={classes.NavigationItems}>
+      <section className="Section">
+        <h2>Przelewy posortowane według kodów:</h2>
+        <div className="GridArea">
+          <nav className={classes.Nav}>
+            <Navigation list={sortedIncome} navigation="main" />
+          </nav>
+          {/* <ul className={classes.NavigationItems}>
             <li>1111</li>
             <li>1111</li>
             <li>1111</li>
@@ -44,9 +55,9 @@ class SortedIncome extends Component {
             <li>1111</li>
             <li>1111</li>
             <li>1111</li>
-          </ul>
+          </ul> */}
         </div>
-      </main>
+      </section>
     );
   }
 }
