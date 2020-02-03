@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import * as actions from "../../store/actions/index";
 
 import Navigation from "../Navigation/Navigation";
+
+import Team from "../Team/Team";
 
 import classes from "./SortedIncome.module.css";
 
@@ -44,18 +47,17 @@ class SortedIncome extends Component {
           <nav className={classes.Nav}>
             <Navigation list={sortedIncome} navigation="main" />
           </nav>
-          {/* <ul className={classes.NavigationItems}>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-            <li>1111</li>
-          </ul> */}
+          <main>
+            {sortedIncome.map((team, index) => {
+              return (
+                <Route
+                  key={index}
+                  path={`/transfers/sorted/${team.title}`}
+                  component={props => <Team teamNum={team.title} />}
+                />
+              );
+            })}
+          </main>
         </div>
       </section>
     );
