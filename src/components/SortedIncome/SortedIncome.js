@@ -1,36 +1,63 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "../../axios-income";
 
 import * as actions from "../../store/actions/index";
 
 import Navigation from "../Navigation/Navigation";
-
 import Team from "../Team/Team";
 
 import classes from "./SortedIncome.module.css";
 
 class SortedIncome extends Component {
   state = {
-    income: null
+    income: null,
+    codes: null,
+    sortedIncome: null
+  };
+  componentDidMount = async () => {
+    try {
+      const response = await axios.get("/codes.json");
+      await this.setState({ codes: response.data, income: this.props.teams });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  componentDidMount = () => {
-    this.setState({ income: this.props.init });
+  // assignToAccount = () => {
+  //   const incomeToSort = [...this.props.teams];
+
+  //   console.log(incomeToSort);
+  //   this.assignIncome();
+  // };
+
+  sortedIncomeByAccount = (account, array) => {
+    // const accountName = `${account}`;
+    const pattern = new RegExp(`(${account})`, "m");
+    // const codes = [...this.state.codes.general].map(item => new RegExp(`(${item})`, "m"));
+    const assignedIncomeToAccount = array.filter(income =>
+      pattern.test(income.title)
+    );
+    // const codes = [...this.state.codes.general];
+    // codes.forEach(code => array.push({ code, incomes: [] }));
+    const obj = {};
+    obj[account] = assignedIncomeToAccount;
+    return obj;
   };
 
-  verifyTeams = () => {
-    this.props.onSortIncome(this.props.teams, this.props.init);
-  };
+  assignIncome = () => {
+    const incomeToSort = [...this.props.teams];
+    const codes = [...this.state.codes.general];
 
-  editIncome = (event, index) => {
-    const incomeToEdit = [...this.props.init];
-    incomeToEdit[index].title = event.target.value;
-    this.setState({ income: incomeToEdit });
-  };
-
-  updateIncome = () => {
-    this.props.onEditIncome(this.state.income);
+    const sortedIncome = incomeToSort.map(team => ({
+      id: team.id,
+      accounts: codes.map(code => this.sortedIncomeByAccount(code, team.income))
+      // team.income.map(income => {
+      //   codes.forEach(code => this.sortedIncomeByAccount(code, income));
+      // })
+    }));
+    console.log(sortedIncome);
   };
 
   render() {

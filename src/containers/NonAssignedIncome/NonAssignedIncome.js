@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import ListEl from "../../components/ListEl/ListEl";
+import ListContainer from "../../components/ListContainer/ListContainer";
 
 import * as actions from "../../store/actions/index";
 
@@ -83,7 +84,7 @@ class NonAssignedIncome extends Component {
           <button onClick={this.updateIncome}>Zaktualizuj przelewy</button>
           <button onClick={this.verifyTeams}>Posortuj przelewy</button>
         </div>
-        {listOfIncome}
+        <ListContainer>{listOfIncome}</ListContainer>
       </section>
     );
   }

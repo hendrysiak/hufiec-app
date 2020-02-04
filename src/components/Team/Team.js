@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ListEl from "../ListEl/ListEl";
+import axios from "../../axios-income";
 
 class Team extends Component {
-  componentDidMount = () => {
-    console.log(this.props.teams);
+  componentDidMount = async () => {
+    try {
+      const response = await axios.get("/codes.json");
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   getTeam = () => {
@@ -18,7 +25,7 @@ class Team extends Component {
       <div>
         <ul>
           {this.getTeam()[0].income.map((item, index) => (
-            <li key={index}>{item.title}</li>
+            <ListEl key={index} title={item.title} cash={item.cash} />
           ))}
         </ul>
       </div>
