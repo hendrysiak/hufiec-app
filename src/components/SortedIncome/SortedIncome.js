@@ -20,7 +20,7 @@ class SortedIncome extends Component {
     try {
       const response = await axios.get("/codes.json");
       await this.setState({ codes: response.data, income: this.props.teams });
-      // console.log(this.state.codes);
+      console.log(this.state.codes.general);
     } catch (err) {
       console.log(err);
     }
@@ -53,11 +53,19 @@ class SortedIncome extends Component {
 
   assignIncome = () => {
     const incomeToSort = [...this.props.teams];
-    const codes = [...this.state.codes.general];
-
+    const codes = this.state.codes;
     const sortedIncome = incomeToSort.map(team => ({
       id: team.id,
-      accounts: codes.map(code => this.sortedIncomeByAccount(code, team.income))
+      accounts: [
+        ...codes.general.map(code =>
+          this.sortedIncomeByAccount(code, team.income)
+        ),
+        ...(codes[team.id]
+          ? codes[team.id].map(code =>
+              this.sortedIncomeByAccount(code, team.income)
+            )
+          : [])
+      ]
       // team.income.map(income => {
       //   codes.forEach(code => this.sortedIncomeByAccount(code, income));
       // })
