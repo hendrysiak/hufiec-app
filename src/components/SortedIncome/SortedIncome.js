@@ -20,6 +20,7 @@ class SortedIncome extends Component {
     try {
       const response = await axios.get("/codes.json");
       await this.setState({ codes: response.data, income: this.props.teams });
+      // console.log(this.state.codes);
     } catch (err) {
       console.log(err);
     }
@@ -41,8 +42,12 @@ class SortedIncome extends Component {
     );
     // const codes = [...this.state.codes.general];
     // codes.forEach(code => array.push({ code, incomes: [] }));
-    const obj = {};
-    obj[account] = assignedIncomeToAccount;
+    const obj = {
+      code: account,
+      incomeByCode: assignedIncomeToAccount
+    };
+    // obj[account] = assignedIncomeToAccount;
+    // console.log(obj);
     return obj;
   };
 
@@ -57,7 +62,7 @@ class SortedIncome extends Component {
       //   codes.forEach(code => this.sortedIncomeByAccount(code, income));
       // })
     }));
-    console.log(sortedIncome);
+    this.props.onAssignIncome(sortedIncome);
   };
 
   render() {
@@ -66,6 +71,9 @@ class SortedIncome extends Component {
       sortedIncome = this.props.teams.map(team => {
         return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
       });
+    }
+    if (this.state.codes) {
+      this.assignIncome();
     }
     return (
       <section className="Section">
@@ -103,7 +111,8 @@ const mapDispatchToProps = dispatch => {
     onFetchIncome: url => dispatch(actions.fetchIncome(url)),
     onSortIncome: (actualTeams, actualIncome) =>
       dispatch(actions.sortingIncome(actualTeams, actualIncome)),
-    onEditIncome: income => dispatch(actions.editingIncome(income))
+    onEditIncome: income => dispatch(actions.editingIncome(income)),
+    onAssignIncome: income => dispatch(actions.assignIncome(income))
   };
 };
 

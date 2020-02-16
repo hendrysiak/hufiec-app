@@ -5,3 +5,5 @@ export const EDIT_INCOME = 'EDIT_INCOME';
 
 export const LOADING_START = "LOADING_START"
 export const LOADING_END = "LOADING_END"
+
+export const ASSIGN_INCOME_BY_CODE = "ASSIGN_INCOME_BY_CODE";

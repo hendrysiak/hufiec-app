@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ListEl from "../ListEl/ListEl";
+import ListContainer from "../ListContainer/ListContainer";
 import axios from "../../axios-income";
 
 class Team extends Component {
@@ -8,15 +9,16 @@ class Team extends Component {
     try {
       const response = await axios.get("/codes.json");
       console.log(response);
+      console.log(this.props.incomes);
     } catch (err) {
       console.log(err);
     }
   };
 
   getTeam = () => {
-    const teams = this.props.teams;
+    const teams = this.props.incomes;
     const incomes = teams.filter(item =>
-      item.id == this.props.teamNum ? item.income : false
+      item.id == this.props.teamNum ? item.accounts : false
     );
     return incomes;
   };
@@ -24,8 +26,12 @@ class Team extends Component {
     return (
       <div>
         <ul>
-          {this.getTeam()[0].income.map((item, index) => (
-            <ListEl key={index} title={item.title} cash={item.cash} />
+          {this.getTeam()[0].accounts.map((item, index) => (
+            <ListContainer key={index} title={item.code}>
+              {item.incomeByCode.map((income, index) => (
+                <ListEl key={index} title={income.title} cash={income.cash} />
+              ))}
+            </ListContainer>
           ))}
         </ul>
       </div>
@@ -36,7 +42,8 @@ class Team extends Component {
 const mapStateToProps = state => {
   return {
     init: state.income.initIncome,
-    teams: state.income.teams
+    teams: state.income.teams,
+    incomes: state.income.assignedIncome
   };
 };
 

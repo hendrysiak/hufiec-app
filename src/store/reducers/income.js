@@ -121,7 +121,8 @@ const initialState = {
             id: "pozostałe",
             income: []
         }
-    ]
+    ],
+    assignedIncome: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -157,6 +158,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 initIncome: editingIncomes
+            };
+        case actionTypes.ASSIGN_INCOME_BY_CODE:
+            const assignedIncome = action.income
+            return {
+                ...state,
+                assignedIncome
             }
         default:
             return state;

@@ -88,3 +88,10 @@ export const editingIncome = (income) => {
         income
     }
 }
+
+export const assignIncome = (income) => {
+    return {
+        type: actionTypes.ASSIGN_INCOME_BY_CODE,
+        income
+    }
+}
