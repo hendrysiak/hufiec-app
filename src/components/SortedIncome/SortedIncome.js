@@ -19,8 +19,9 @@ class SortedIncome extends Component {
   componentDidMount = async () => {
     try {
       const response = await axios.get("/codes.json");
+      const response2 = await axios.get("/teams.json");
       await this.setState({ codes: response.data, income: this.props.teams });
-      console.log(this.state.codes.general);
+      console.log(response2.data[12427].SC);
     } catch (err) {
       console.log(err);
     }
