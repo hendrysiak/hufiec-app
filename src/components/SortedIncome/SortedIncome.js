@@ -26,28 +26,15 @@ class SortedIncome extends Component {
     }
   };
 
-  // assignToAccount = () => {
-  //   const incomeToSort = [...this.props.teams];
-
-  //   console.log(incomeToSort);
-  //   this.assignIncome();
-  // };
-
   sortedIncomeByAccount = (account, array) => {
-    // const accountName = `${account}`;
     const pattern = new RegExp(`(${account})`, "m");
-    // const codes = [...this.state.codes.general].map(item => new RegExp(`(${item})`, "m"));
     const assignedIncomeToAccount = array.filter(income =>
       pattern.test(income.title)
     );
-    // const codes = [...this.state.codes.general];
-    // codes.forEach(code => array.push({ code, incomes: [] }));
     const obj = {
       code: account,
       incomeByCode: assignedIncomeToAccount
     };
-    // obj[account] = assignedIncomeToAccount;
-    // console.log(obj);
     return obj;
   };
 
@@ -66,9 +53,6 @@ class SortedIncome extends Component {
             )
           : [])
       ]
-      // team.income.map(income => {
-      //   codes.forEach(code => this.sortedIncomeByAccount(code, income));
-      // })
     }));
     this.props.onAssignIncome(sortedIncome);
   };
