@@ -16,7 +16,7 @@ class NonAssignedIncome extends Component {
   };
 
   verifyTeams = () => {
-    this.props.onSortIncome(this.props.teams, this.props.init);
+    this.props.onSortIncome(this.props.teams, this.state.income);
   };
 
   // showNonAssignedIncomes = () => {

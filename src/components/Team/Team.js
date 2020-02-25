@@ -8,7 +8,7 @@ class Team extends Component {
   componentDidMount = async () => {
     try {
       const response = await axios.get("/codes.json");
-      console.log(response);
+      // console.log(response);
       console.log(this.props.incomes);
     } catch (err) {
       console.log(err);
@@ -27,7 +27,10 @@ class Team extends Component {
       <div>
         <ul>
           {this.getTeam()[0].accounts.map((item, index) => (
-            <ListContainer key={index} title={item.code}>
+            <ListContainer
+              key={index}
+              title={item.code !== "nonAssigned" ? item.code : "Nie rozpoznane"}
+            >
               {item.incomeByCode.map((income, index) => (
                 <ListEl key={index} title={income.title} cash={income.cash} />
               ))}
