@@ -28,11 +28,12 @@ class Dashboard extends Component {
         <nav className={classes.Nav}>
           <Navigation list={this.state.navigation} navigation="main" />
         </nav>
-
-        <Switch>
-          <Route path="/transfers" component={Transfers} />
-        </Switch>
-
+        <div>
+          <Switch>
+            <Route path="/transfers" component={Transfers} />
+          </Switch>
+          <div className={classes.Background}></div>
+        </div>
         <footer className={classes.Footer}>
           <h3>
             Projekt i wykonanie: <strong>Łukasz Hendrysiak</strong>

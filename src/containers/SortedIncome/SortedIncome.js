@@ -5,9 +5,9 @@ import axios from "../../axios-income";
 
 import * as actions from "../../store/actions/index";
 
-import Navigation from "../Navigation/Navigation";
-import Team from "../Team/Team";
-import StatusInfo from "../UI/StatusInfo/StatusInfo";
+import Navigation from "../../components/Navigation/Navigation";
+import Team from "../../components/Team/Team";
+import StatusInfo from "../../components/UI/StatusInfo/StatusInfo";
 
 import classes from "./SortedIncome.module.css";
 
@@ -216,13 +216,13 @@ class SortedIncome extends Component {
     return (
       <section className="Section">
         {statusInfo}
-        <button onClick={this.getInfo}>Udziel info w konsoli o propsach</button>
+        {/* <button onClick={this.getInfo}>Udziel info w konsoli o propsach</button> */}
         {/* <button onClick={this.assignIncome}>
           Sortuj przelewy kodami do drużyn
         </button> */}
         <button onClick={this.sendingHandler}>Wyślij dane na serwer</button>
 
-        <input type="text" placeholder="Podaj ID drużyny" id="input" />
+        {/* <input type="text" placeholder="Podaj ID drużyny" id="input" /> */}
 
         <h2>Przelewy posortowane według kodów:</h2>
         <div className="GridArea">

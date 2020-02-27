@@ -80,9 +80,9 @@ class NonAssignedIncome extends Component {
     return (
       <section className="Section">
         <div>
-          <h2>Przelewy zaimportowane:</h2>
           <button onClick={this.updateIncome}>Zaktualizuj przelewy</button>
           <button onClick={this.verifyTeams}>Posortuj przelewy</button>
+          <h2>Przelewy zaimportowane:</h2>
         </div>
         <ListContainer>{listOfIncome}</ListContainer>
       </section>

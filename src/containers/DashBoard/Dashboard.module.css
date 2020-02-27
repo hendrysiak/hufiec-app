@@ -10,11 +10,21 @@
 }
 
 .Section {
-    background-color: lightgrey;
     grid-area: section;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+}
+
+.Background {
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../../assets/Agnieszka_Madetko-Kurczab_18.jpg') center center/cover no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%);
+    z-index: -1;
 }
 
 .Footer {
