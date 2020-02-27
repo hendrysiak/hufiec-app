@@ -11,11 +11,13 @@ const navigationItems = props => (
         : classes.NavigationItemsHeader
     }
   >
-    {props.list.map((item, index) => (
-      <NavigationItem key={index} link={item.link}>
-        {item.title}
-      </NavigationItem>
-    ))}
+    {props.list
+      ? props.list.map((item, index) => (
+          <NavigationItem key={index} link={item.link}>
+            {item.title}
+          </NavigationItem>
+        ))
+      : null}
   </ul>
 );
 

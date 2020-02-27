@@ -205,6 +205,7 @@ class SortedIncome extends Component {
       sortedIncome = this.props.teams.map(team => {
         return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
       });
+      console.log(sortedIncome);
     }
     let statusInfo;
     if (this.state.sendingTeam) {
