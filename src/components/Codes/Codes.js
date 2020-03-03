@@ -6,6 +6,7 @@ import Navigation from "../Navigation/Navigation";
 const Codes = () => {
   const [accounts, getAccountsFromServer] = useState(null);
   const [codes, getCodesFromServer] = useState(null);
+  const [infoAboutIncomes, setInfoAboutIncome] = useState(null);
   const [isLoading, setLoadingStatus] = useState(false);
 
   const getInfo = async () => {
@@ -19,22 +20,31 @@ const Codes = () => {
     await getCodesFromServer(codesList);
   };
 
-  //   const fixedInfoOfAccount = () => {
-  //     let newAccounts = [];
-  //     codes.forEach(code => newAccounts.push({ [code]: [] }));
-  //     newAccounts.forEach(account =>{
-  //         accounts.forEach(team =>{
-  //             if(team[account])
-  //         })
-  //     })
-  //     // for(let account in accounts){
-  //     //     codes.forEach(code => account[account][code] ? account[account][code].forEach(income => {
-  //     //         income.code = code;
-  //     //         newAccounts.push(income)
-  //     //     }) : null)
-  //     // }
-  //     console.log(newAccounts);
-  //   };
+  const fixedInfoOfAccount = () => {
+    const infoAboutIncome = [];
+
+    for (let team in accounts) {
+      codes.forEach(code => {
+        if (accounts[team].hasOwnProperty(`${code}`)) {
+          infoAboutIncome[code] = {
+            ...infoAboutIncome[code],
+            ...{
+              team,
+              incomes: accounts[team][code]
+            }
+          };
+        } else {
+          infoAboutIncome["nonAssigned"] = {
+            ...infoAboutIncome["nonAssigned"],
+            ...{
+              incomes: accounts[team][code]
+            }
+          };
+        }
+      });
+    }
+    setInfoAboutIncome(infoAboutIncome);
+  };
 
   useEffect(() => {
     setLoadingStatus(true);
@@ -50,17 +60,13 @@ const Codes = () => {
   const showInfo = () => {
     console.log(accounts);
     console.log(codes);
-    // fixedInfoOfAccount();
+    fixedInfoOfAccount();
   };
 
   let spinner;
   if (isLoading) spinner = <Spinner />;
   let codesMenu = [];
   if (codes) {
-    // let codesItems = [];
-    // for (let code in codes) {
-    //   codes[code].forEach(code => codesItems.push(code));
-    // }
     codesMenu = codes.map(code => {
       return { link: `/codes/${code}`, title: `${code}` };
     });
