@@ -8,6 +8,7 @@ import classes from "./Dashboard.module.css";
 import Navigation from "../../components/Navigation/Navigation";
 import Transfers from "../Transfers/Transfers";
 import Codes from "../../components/Codes/Codes";
+import AddCode from "../../components/AddCode/AddCode";
 
 import * as actions from "../../store/actions/index";
 
@@ -33,6 +34,7 @@ class Dashboard extends Component {
           <Switch>
             <Route path="/transfers" component={Transfers} />
             <Route path="/codes" component={Codes} />
+            <Route path="/add-code" component={AddCode} />
           </Switch>
           <div className={classes.Background}></div>
         </div>

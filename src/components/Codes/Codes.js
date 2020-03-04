@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
 import axios from "../../axios-income";
 import Spinner from "../UI/Spinner/Spinner";
 import Navigation from "../Navigation/Navigation";
+import Code from "./Code/Code";
 
 const Codes = () => {
   const [accounts, getAccountsFromServer] = useState(null);
@@ -18,11 +20,11 @@ const Codes = () => {
     const accounts = await axios.get("/teams.json");
     await getAccountsFromServer(accounts.data);
     await getCodesFromServer(codesList);
+    fixedInfoOfAccount();
   };
 
   const fixedInfoOfAccount = () => {
-    const infoAboutIncome = [];
-
+    const infoAboutIncome = {};
     for (let team in accounts) {
       codes.forEach(code => {
         if (accounts[team].hasOwnProperty(`${code}`)) {
@@ -43,6 +45,10 @@ const Codes = () => {
         }
       });
     }
+    // let fixedInfo = infoAboutIncome.map(item => {
+    //   return { item };
+    // });
+
     setInfoAboutIncome(infoAboutIncome);
   };
 
@@ -55,12 +61,14 @@ const Codes = () => {
     } finally {
       setLoadingStatus(false);
     }
-  }, []);
+  }, [infoAboutIncomes]);
 
   const showInfo = () => {
     console.log(accounts);
     console.log(codes);
-    fixedInfoOfAccount();
+    console.log(infoAboutIncomes);
+    console.log(infoAboutIncomes["CMOK"]);
+    // infoAboutIncomes.forEach((code, index) => console.log(code, index));
   };
 
   let spinner;
@@ -70,6 +78,31 @@ const Codes = () => {
     codesMenu = codes.map(code => {
       return { link: `/codes/${code}`, title: `${code}` };
     });
+  }
+  let routing = [];
+  if (infoAboutIncomes) {
+    for (let code in infoAboutIncomes) {
+      routing.push({
+        [code]: {
+          team: infoAboutIncomes[code]["team"],
+          incomes: infoAboutIncomes[code]["incomes"]
+        }
+      });
+
+      // console.log(infoAboutIncomes[code]);
+    }
+    console.log(routing[1]);
+    // infoAboutIncomes.forEach((code, index) => console.log(code, index));
+    // routing = infoAboutIncomes.map((code, index) => {
+    //   console.log(code, index);
+    //   return (
+    //     <Route
+    //       key={index}
+    //       path={`/codes/${code}`}
+    //       component={props => <Code income={code} />}
+    //     />
+    //   );
+    // });
   }
 
   return (
@@ -84,17 +117,15 @@ const Codes = () => {
       </header>
       <main>
         <div className="GridArea">
-          <main>
-            {/* {sortedIncome.map((team, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={`/transfers/sorted/${team.title}`}
-                  component={props => <Team teamNum={team.title} />}
-                />
-              );
-            })} */}
-          </main>
+          {routing.map((item, index) => {
+            return (
+              <Route
+                key={index}
+                path={`/codes/${item}`}
+                component={props => <Code income={item} />}
+              />
+            );
+          })}
         </div>
       </main>
     </section>
