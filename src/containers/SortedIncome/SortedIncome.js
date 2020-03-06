@@ -196,8 +196,8 @@ class SortedIncome extends Component {
   sendingHandler = () => {
     if (this.props.incomes) {
       // this.props.incomes.forEach(team => this.sendingDataHandler(team.id));
-      // this.sendingDataHandler(12427);
-      this.sendingDataHandler("pozostałe");
+      this.sendingDataHandler(12427);
+      // this.sendingDataHandler("pozostałe");
     } else {
       console.log("Incomes not ready yet!");
     }
