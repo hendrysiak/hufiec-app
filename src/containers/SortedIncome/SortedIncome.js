@@ -86,7 +86,9 @@ class SortedIncome extends Component {
     try {
       const response = await axios.get(`/teams/${id}.json`);
       const accounts = await response.data;
-      const patterns = await response.data.members;
+      const patterns = (await response.data.members)
+        ? response.data.members
+        : null;
       const incomes = await [
         ...this.props.incomes.find(item => item.id === Number(id)).accounts
       ];
@@ -153,12 +155,13 @@ class SortedIncome extends Component {
                   person.value += Number(income.cash);
                   // i.incomeByCode.splice(index, 1);
                 } else if (
-                  !matchInfo &&
-                  !accounts[i.code].some(
-                    income =>
-                      income.name.match(namePattern) &&
-                      income.surname.match(surnamePattern)
-                  )
+                  !matchInfo
+                  // &&
+                  // !accounts[i.code].some(
+                  //   income =>
+                  //     income.name.match(namePattern) &&
+                  //     income.surname.match(surnamePattern)
+                  // )
                 ) {
                   accounts["nonAssigned"].push(income);
                   // i.incomeByCode.splice(index, 1);
@@ -175,7 +178,7 @@ class SortedIncome extends Component {
         // console.log(incomes);
         // console.log(nonAssigned);}
       } else if (id === "pozostałe") {
-        const responseInfo = await axios.post(`/other.json`, accounts);
+        const responseInfo = await axios.patch(`/teams/other.json`, accounts);
         console.log(responseInfo);
         this.setState({ sendingTeam: null });
       }
@@ -193,7 +196,8 @@ class SortedIncome extends Component {
   sendingHandler = () => {
     if (this.props.incomes) {
       // this.props.incomes.forEach(team => this.sendingDataHandler(team.id));
-      this.sendingDataHandler(12427);
+      // this.sendingDataHandler(12427);
+      this.sendingDataHandler("pozostałe");
     } else {
       console.log("Incomes not ready yet!");
     }

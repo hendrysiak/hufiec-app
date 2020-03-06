@@ -1,0 +1,29 @@
+.Main {
+    display: flex;
+}
+
+.ListEl {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ListContainer {
+    padding-inline-start: 0px;
+    padding: 15px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.Aside {
+    height: 80vh;
+}
+
+.Section {
+    width: 70%;
+    height: 80vh;
+}
+
+.IncomeWrapper {
+    height: 100%;
+    overflow-y: auto;
+}

@@ -9,6 +9,7 @@ import Navigation from "../../components/Navigation/Navigation";
 import Transfers from "../Transfers/Transfers";
 import Codes from "../../components/Codes/Codes";
 import AddCode from "../../components/AddCode/AddCode";
+import Teams from "../../components/Teams/Teams";
 
 import * as actions from "../../store/actions/index";
 
@@ -35,6 +36,7 @@ class Dashboard extends Component {
             <Route path="/transfers" component={Transfers} />
             <Route path="/codes" component={Codes} />
             <Route path="/add-code" component={AddCode} />
+            <Route path="/teams" component={Teams} />
           </Switch>
           <div className={classes.Background}></div>
         </div>
