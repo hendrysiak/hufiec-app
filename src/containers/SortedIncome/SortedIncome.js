@@ -101,70 +101,169 @@ class SortedIncome extends Component {
         for (let i of incomes) {
           if (!accounts.hasOwnProperty(i.code)) {
             accounts[i.code] = [];
-            i.incomeByCode.forEach((income, index, array) => {
-              for (let pattern of patterns) {
+            let passedIncome = i.incomeByCode.filter(income => {
+              return patterns.some(pattern => {
                 const namePattern = new RegExp(`(${pattern.name})`, "i");
                 const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
-                const matchInfo =
+                return (
                   income.title.match(namePattern) &&
-                  income.title.match(surnamePattern);
-                const someVerify = accounts[i.code].some(
-                  (insertedTitle, index) =>
-                    namePattern.test(insertedTitle.name) &&
-                    surnamePattern.test(insertedTitle.surname)
+                  income.title.match(surnamePattern)
                 );
-                if (matchInfo) {
-                  const index = accounts[i.code].findIndex(
-                    element =>
-                      namePattern.test(element.name) &&
-                      surnamePattern.test(element.surname)
-                  );
-                  console.log(index);
-                  index > 0
-                    ? (accounts[i.code][index].value += Number(income.cash))
-                    : accounts[i.code].push({
-                        name: pattern.name,
-                        surname: pattern.surname,
-                        value: Number(income.cash)
-                      });
-                }
-                // else if (matchInfo && someVerify) {
-                //   console.log("Działa");
-                //   const index = accounts[i.code].findIndex(
-                //     insertedTitle =>
-                //       namePattern.test(insertedTitle.name) &&
-                //       surnamePattern.test(insertedTitle.surname)
-                //   );
-                //   console.log(index);
-                //   accounts[i.code][index].value += Number(income.cash);
-                // }
-                else if (matchInfo && !someVerify) {
-                  accounts["nonAssigned"].push(income);
-                }
-              }
+              });
             });
-          } else if (accounts.hasOwnProperty(i.code)) {
-            accounts[i.code].forEach(person => {
-              const namePattern = new RegExp(`(${person.name})`, "i");
-              const surnamePattern = new RegExp(`(${person.surname})`, "i");
-              i.incomeByCode.forEach((income, index) => {
-                const matchInfo =
+            let notPassedIncome = i.incomeByCode.filter(income => {
+              return patterns.every(pattern => {
+                const namePattern = new RegExp(`(${pattern.name})`, "i");
+                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+                return !(
                   income.title.match(namePattern) &&
-                  income.title.match(surnamePattern);
-                if (matchInfo) {
-                  person.value += Number(income.cash);
-                  // i.incomeByCode.splice(index, 1);
-                } else if (
-                  !matchInfo
-                  // &&
-                  // !accounts[i.code].some(
-                  //   income =>
-                  //     income.name.match(namePattern) &&
-                  //     income.surname.match(surnamePattern)
-                  // )
+                  income.title.match(surnamePattern)
+                );
+              });
+            });
+
+            let newValues = [];
+
+            for (let i in passedIncome) {
+              const index = patterns.findIndex(pattern => {
+                const namePattern = new RegExp(`(${pattern.name})`, "i");
+                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+                return (
+                  passedIncome[i].title.match(namePattern) &&
+                  passedIncome[i].title.match(surnamePattern)
+                );
+              });
+              if (index > -1) {
+                newValues.push({
+                  value: Number(passedIncome[i].cash),
+                  name: patterns[index].name,
+                  surname: patterns[index].surname
+                });
+              } else {
+                newValues.push(passedIncome[i]);
+              }
+            }
+
+            accounts["nonAssigned"] = [
+              ...accounts["nonAssigned"],
+              ...notPassedIncome
+            ];
+            accounts[i.code] = [...newValues];
+
+            // i.incomeByCode.forEach((income, index, array) => {
+            //   for (let pattern of patterns) {
+            //     const namePattern = new RegExp(`(${pattern.name})`, "i");
+            //     const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+            //     const matchInfo =
+            //       income.title.match(namePattern) &&
+            //       income.title.match(surnamePattern);
+            //     const someVerify = accounts[i.code].some(
+            //       (insertedTitle, index) =>
+            //         namePattern.test(insertedTitle.name) &&
+            //         surnamePattern.test(insertedTitle.surname)
+            //     );
+            //     if (matchInfo) {
+            //       const index = accounts[i.code].findIndex(
+            //         element =>
+            //           namePattern.test(element.name) &&
+            //           surnamePattern.test(element.surname)
+            //       );
+            //       console.log(index);
+            //       index > 0
+            //         ? (accounts[i.code][index].value += Number(income.cash))
+            //         : accounts[i.code].push({
+            //             name: pattern.name,
+            //             surname: pattern.surname,
+            //             value: Number(income.cash)
+            //           });
+            //     }
+            //     // else if (matchInfo && someVerify) {
+            //     //   console.log("Działa");
+            //     //   const index = accounts[i.code].findIndex(
+            //     //     insertedTitle =>
+            //     //       namePattern.test(insertedTitle.name) &&
+            //     //       surnamePattern.test(insertedTitle.surname)
+            //     //   );
+            //     //   console.log(index);
+            //     //   accounts[i.code][index].value += Number(income.cash);
+            //     // }
+            //     else if (matchInfo && !someVerify) {
+            //       accounts["nonAssigned"].push(income);
+            //     }
+            //   }
+            // });
+          } else if (accounts.hasOwnProperty(i.code)) {
+            let passedIncome = i.incomeByCode.filter(income => {
+              return patterns.some(pattern => {
+                const namePattern = new RegExp(`(${pattern.name})`, "i");
+                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+                return (
+                  income.title.match(namePattern) &&
+                  income.title.match(surnamePattern)
+                );
+              });
+            });
+            let notPassedIncome = i.incomeByCode.filter(income => {
+              return patterns.every(pattern => {
+                const namePattern = new RegExp(`(${pattern.name})`, "i");
+                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+                return !(
+                  income.title.match(namePattern) &&
+                  income.title.match(surnamePattern)
+                );
+              });
+            });
+
+            accounts["nonAssigned"] = [
+              ...accounts["nonAssigned"],
+              ...notPassedIncome
+            ];
+
+            console.log(accounts["nonAssigned"]);
+            console.log(notPassedIncome);
+            let newValues = [];
+
+            for (let i in passedIncome) {
+              const index = patterns.findIndex(pattern => {
+                const namePattern = new RegExp(`(${pattern.name})`, "i");
+                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
+                return (
+                  passedIncome[i].title.match(namePattern) &&
+                  passedIncome[i].title.match(surnamePattern)
+                );
+              });
+              if (index > -1) {
+                newValues.push({
+                  value: Number(passedIncome[i].cash),
+                  name: patterns[index].name,
+                  surname: patterns[index].surname
+                });
+              } else {
+                newValues.push(passedIncome[i]);
+              }
+            }
+
+            accounts[i.code].forEach(person => {
+              newValues.forEach(income => {
+                if (
+                  income.hasOwnProperty("name") &&
+                  income.hasOwnProperty("surname")
                 ) {
-                  accounts["nonAssigned"].push(income);
-                  // i.incomeByCode.splice(index, 1);
+                  if (
+                    person.name === income.name &&
+                    person.surname === income.surname
+                  ) {
+                    person.value += Number(income.value);
+                  } else {
+                    if (
+                      !accounts[i.code].some(
+                        personExisted =>
+                          personExisted.name === income.name &&
+                          personExisted.surname === income.surname
+                      )
+                    )
+                      accounts[i.code].push(income);
+                  }
                 }
               });
             });
