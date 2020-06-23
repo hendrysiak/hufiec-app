@@ -62,7 +62,8 @@ const Teams = () => {
       fixedIncomes.push({ code: income, incomes: [...incomes[income]] });
     }
     incomesByCode = fixedIncomes.map((income, index) =>
-      income.code !== "members" ? (
+      income.code !== "members" ? 
+      (income.code !== "nonAssigned" ? (
         <ListContainer key={index} title={income.code}>
           {income.incomes.map((person, index) => (
             <ListEl
@@ -72,7 +73,17 @@ const Teams = () => {
             />
           ))}
         </ListContainer>
-      ) : null
+      ): (
+        <ListContainer key={index} title={income.code}>
+          {income.incomes.map((person, index) => (
+            <ListEl
+              key={index}
+              cash={person.value}
+              title={person.title}
+            />
+          ))}
+        </ListContainer>
+      )) : null
     );
   }
 

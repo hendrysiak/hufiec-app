@@ -90,7 +90,11 @@ class SortedIncome extends Component {
         ? response.data.members
         : null;
       const incomes = await [
-        ...this.props.incomes.find(item => item.id === Number(id)).accounts
+        ...this.props.incomes.find(item => {
+          if(id !== "pozostałe") return item.id === Number(id);
+          else return item.id === id
+        }
+          ).accounts
       ];
       const nonAssigned = await [
         ...incomes.find(item => item.code === "nonAssigned").incomeByCode
@@ -128,16 +132,6 @@ class SortedIncome extends Component {
                         value: Number(income.cash)
                       });
                 }
-                // else if (matchInfo && someVerify) {
-                //   console.log("Działa");
-                //   const index = accounts[i.code].findIndex(
-                //     insertedTitle =>
-                //       namePattern.test(insertedTitle.name) &&
-                //       surnamePattern.test(insertedTitle.surname)
-                //   );
-                //   console.log(index);
-                //   accounts[i.code][index].value += Number(income.cash);
-                // }
                 else if (matchInfo && !someVerify) {
                   accounts["nonAssigned"].push(income);
                 }
@@ -153,18 +147,11 @@ class SortedIncome extends Component {
                   income.title.match(surnamePattern);
                 if (matchInfo) {
                   person.value += Number(income.cash);
-                  // i.incomeByCode.splice(index, 1);
                 } else if (
                   !matchInfo
-                  // &&
-                  // !accounts[i.code].some(
-                  //   income =>
-                  //     income.name.match(namePattern) &&
-                  //     income.surname.match(surnamePattern)
-                  // )
                 ) {
                   accounts["nonAssigned"].push(income);
-                  // i.incomeByCode.splice(index, 1);
+
                 }
               });
             });
@@ -173,12 +160,8 @@ class SortedIncome extends Component {
         const responseInfo = await axios.put(`/teams/${id}.json`, accounts);
         console.log(responseInfo);
         this.setState({ sendingTeam: null });
-        // console.log(accounts);
-        // console.log(patterns);
-        // console.log(incomes);
-        // console.log(nonAssigned);}
       } else if (id === "pozostałe") {
-        const responseInfo = await axios.patch(`/teams/other.json`, accounts);
+        const responseInfo = await axios.put(`/teams/pozostałe.json`, accounts);
         console.log(responseInfo);
         this.setState({ sendingTeam: null });
       }
@@ -193,11 +176,11 @@ class SortedIncome extends Component {
     this.sendingDataHandler(value);
   };
 
-  sendingHandler = () => {
+  sendingHandler = async () => {
+    const response = await axios.get('/lisOfTeams.json');
+    const teams = await response.data;
     if (this.props.incomes) {
-      // this.props.incomes.forEach(team => this.sendingDataHandler(team.id));
-      // this.sendingDataHandler(12427);
-      this.sendingDataHandler("pozostałe");
+      teams.forEach(team => this.sendingDataHandler(team));
     } else {
       console.log("Incomes not ready yet!");
     }

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import classes from "./Dashboard.module.css";
 
@@ -10,12 +10,13 @@ import Transfers from "../Transfers/Transfers";
 import Codes from "../../components/Codes/Codes";
 import AddCode from "../../components/AddCode/AddCode";
 import Teams from "../../components/Teams/Teams";
+import ForCoders from '../../components/ForCoders/ForCoders';
 
 import * as actions from "../../store/actions/index";
 
-class Dashboard extends Component {
-  state = {
-    navigation: [
+const Dashboard = () => {
+
+const  navigation = [
       { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
       { link: "/codes", title: "FILTRUJ PO KODZIE" },
       { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
@@ -23,13 +24,13 @@ class Dashboard extends Component {
       { link: "/add-summary", title: "DODAJ ROZLICZENIE" },
       { link: "/show-base", title: "POKAŻ BAZĘ" }
     ]
-  };
+  
 
-  render() {
+ 
     return (
       <div className={classes.GridArea}>
         <nav className={classes.Nav}>
-          <Navigation list={this.state.navigation} navigation="main" />
+          <Navigation list={navigation} navigation="main" />
         </nav>
         <div>
           <Switch>
@@ -37,6 +38,7 @@ class Dashboard extends Component {
             <Route path="/codes" component={Codes} />
             <Route path="/add-code" component={AddCode} />
             <Route path="/teams" component={Teams} />
+            <Route path="/for-coders" component={ForCoders} />
           </Switch>
           <div className={classes.Background}></div>
         </div>
@@ -47,8 +49,8 @@ class Dashboard extends Component {
         </footer>
       </div>
     );
-  }
-}
+  
+};
 
 const mapStateToProps = state => {
   return {
