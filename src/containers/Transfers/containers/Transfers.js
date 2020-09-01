@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import SortedIncome from "../components/SortedIncome/SortedIncome";
@@ -27,6 +27,7 @@ class Transfers extends Component {
           <Navigation list={this.state.navigation} />
         </header>
         <main>
+          <Route path="/transfers" ><Redirect to="/transfers/import"/></Route>
           <Route path="/transfers/import" component={ImportIncome} />
           <Route path="/transfers/imported" component={NonAssignedIncome} />
           <Route path="/transfers/sorted" component={SortedIncome} />

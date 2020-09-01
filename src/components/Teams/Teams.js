@@ -13,7 +13,7 @@ const Teams = () => {
 
   const getTeamsFromServer = async () => {
     try {
-      const teams = await axios.get("/lisOfTeams.json");
+      const teams = await axios.get("/listOfTeams.json");
       await getTeams(teams.data);
     } catch (err) {
       console.log(err);

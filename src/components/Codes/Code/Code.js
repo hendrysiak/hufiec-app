@@ -5,7 +5,9 @@ import ListEl from "../../ListEl/ListEl";
 const Code = props => {
   let incomes;
   if (props.income) {
-    incomes = props.income.income.map((element, index) => (
+    props.income.code !== 'nonAssigned'
+    
+    ? incomes = props.income.income.map((element, index) => (
       <ListContainer key={index} title={element.team}>
         {element.persons.map(person => (
           <ListEl
@@ -14,7 +16,18 @@ const Code = props => {
           />
         ))}
       </ListContainer>
-    ));
+    ))
+
+    : incomes = props.income.income.map((element, index) => (
+      <ListContainer key={index} title={element.team}>
+        {element.persons.map(person => (
+          <ListEl
+            cash={person.cash}
+            title={`${person.title}`}
+          />
+        ))}
+      </ListContainer>
+    ))
   }
   return <div>{incomes}</div>;
 };

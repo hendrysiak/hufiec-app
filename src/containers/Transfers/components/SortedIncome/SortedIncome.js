@@ -219,7 +219,7 @@ const SortedIncome = () => {
   };
 
   const sendingHandler = async () => {
-    const response = await axios.get('/lisOfTeams.json');
+    const response = await axios.get('/listOfTeams.json');
     const teams = await response.data;
     if (incomes) {
       teams.forEach(team => sendingDataHandler(team));
