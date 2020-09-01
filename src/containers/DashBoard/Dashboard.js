@@ -6,13 +6,15 @@ import { connect, useSelector } from "react-redux";
 import classes from "./Dashboard.module.css";
 
 import Navigation from "../../components/Navigation/Navigation";
-import Transfers from "../Transfers/Transfers";
+import Transfers from "../Transfers/containers/Transfers";
 import Codes from "../../components/Codes/Codes";
 import AddCode from "../../components/AddCode/AddCode";
 import Teams from "../../components/Teams/Teams";
 import ForCoders from '../../components/ForCoders/ForCoders';
 
 import * as actions from "../../store/actions/index";
+
+import { getTeamsWithAccountState } from './api-handlers/account.handler'
 
 const Dashboard = () => {
 
@@ -25,6 +27,9 @@ const  navigation = [
       { link: "/show-base", title: "POKAŻ BAZĘ" }
     ]
   
+    useEffect(() => {
+      getTeamsWithAccountState();
+    },[])
 
  
     return (

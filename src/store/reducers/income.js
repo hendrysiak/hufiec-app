@@ -122,7 +122,8 @@ const initialState = {
             income: []
         }
     ],
-    assignedIncome: null
+    assignedIncome: null,
+    accountState: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -147,6 +148,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: action.error
             }
+        case actionTypes.SET_ACCOUNT_STATE: {
+            return {
+                ...state,
+                accountState: action.accountState
+            }
+        }
         case actionTypes.SORT_INCOME:
             const newTeams = action.sortedIncome
             return {

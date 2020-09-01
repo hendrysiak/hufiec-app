@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import ListEl from "../../components/ListEl/ListEl";
-import ListContainer from "../../components/ListContainer/ListContainer";
+import ListEl from "../../../../components/ListEl/ListEl";
+import ListContainer from "../../../../components/ListContainer/ListContainer";
 
-import * as actions from "../../store/actions/index";
+import * as actions from "../../../../store/actions/index";
 
 class NonAssignedIncome extends Component {
   state = {

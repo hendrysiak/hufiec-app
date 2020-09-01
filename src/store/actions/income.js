@@ -8,6 +8,13 @@ export const setIncome = income => {
     }
 }
 
+export const fetchAccountState = accountState => {
+    return {
+        type: actionTypes.SET_ACCOUNT_STATE,
+        accountState
+    }
+}
+
 export const fetchIncomeFailed = error => {
     return {
         type: actionTypes.FETCH_FILE_FAILED,

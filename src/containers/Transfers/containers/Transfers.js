@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-import SortedIncome from "../SortedIncome/SortedIncome";
-import NonAssignedIncome from "../NonAssignedIncome/NonAssignedIncome";
-import ImportIncome from "../../components/ImportIncome/ImportIncome";
-import Navigation from "../../components/Navigation/Navigation";
+import SortedIncome from "../components/SortedIncome/SortedIncome";
+import NonAssignedIncome from "../components/NonAssignedIncome/NonAssignedIncome";
+import ImportIncome from "../components/ImportIncome/ImportIncome";
+import Navigation from "../../../components/Navigation/Navigation";
 
-import * as actions from "../../store/actions/index";
+import * as actions from "../../../store/actions/index";
 
 import classes from "./Transfers.module.css";
 

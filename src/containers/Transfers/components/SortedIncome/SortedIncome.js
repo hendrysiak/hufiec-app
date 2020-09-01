@@ -1,88 +1,130 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import { connect } from "react-redux";
-import axios from "../../axios-income";
+import { useSelector, connect } from "react-redux";
+import axios from "../../../../axios-income";
 
-import * as actions from "../../store/actions/index";
+import * as actions from "../../../../store/actions/index";
+import store from "../../../../store/store";
 
-import Navigation from "../../components/Navigation/Navigation";
-import Team from "../../components/Team/Team";
-import StatusInfo from "../../components/UI/StatusInfo/StatusInfo";
+import Navigation from "../../../../components/Navigation/Navigation";
+import Team from "../../../../components/Team/Team";
+import StatusInfo from "../../../../components/UI/StatusInfo/StatusInfo";
 
 import classes from "./SortedIncome.module.css";
 
-class SortedIncome extends Component {
-  state = {
-    income: null,
-    codes: null,
-    sortedIncome: null,
-    sendingTeam: null,
-    incomes: []
+const SortedIncome = () => {
+  
+    const [income, setIncome] = useState(null);
+    const [codes, setCodes] = useState(null);
+    const [sortedIncome, setSortedIncome] = useState(null);
+    const [sendingTeam, setSendingTeam] = useState(null);
+    const [incomes, setIncomes] = useState([]);
+
+    const teams  = useSelector(state => state.income.teams);
+    const init  = useSelector(state => state.income.initIncome);
+    const assignedIncome  = useSelector(state => state.income.assignedIncome);
+    const accountState = useSelector(state => state.income.accountState);
+
+    const mapDispatchToProps = dispatch => {
+  return {
+    onFetchIncome: url => dispatch(actions.fetchIncome(url)),
+    onSortIncome: (actualTeams, actualIncome) =>
+      dispatch(actions.sortingIncome(actualTeams, actualIncome)),
+    onEditIncome: income => dispatch(actions.editingIncome(income)),
+    // onAssignIncome: income => )
   };
-  componentDidMount = async () => {
-    // const incomes = [...this.props.incomes];
-    // this.setState({ incomes });
+};
+
+  const getData = async () => {
     try {
       const response = await axios.get("/codes.json");
-      // const response2 = await axios.get("/teams.json");
-      if (!this.state.codes) {
-        await this.setState({ codes: response.data, income: this.props.teams });
+      if (!codes) {
+        await setCodes(response.data)
+        await setIncome(teams);
       }
     } catch (err) {
       console.log(err);
     }
-    this.assignIncome();
+    // if (codes) assignIncome();
   };
-  // editIncome = (event, index) => {
-  //   const incomeToEdit = [...this.props.init];
-  //   incomeToEdit[index].title = event.target.value;
-  //   this.setState({ income: incomeToEdit });
-  // };
 
-  sortedIncomeByAccount = (account, array, patterns) => {
+  useEffect(() => {
+    getData();
+  }, []) 
+
+
+
+ const sortedIncomeByAccount = (account, array, patterns) => {
+  
+  // create pattern by code
     const patternsToSortIncome = [...patterns].map(
       pattern => new RegExp(`(${pattern})`, "m")
     );
+
+// cut off 'unassigned'
     patternsToSortIncome.splice(patternsToSortIncome.length - 1, 1);
+
     let assignedIncomeToAccount;
+
     if (account !== "nonAssigned") {
       const pattern = new RegExp(`(${account})`, "m");
       assignedIncomeToAccount = array.filter(income =>
         pattern.test(income.title)
       );
+
     } else {
       assignedIncomeToAccount = array.filter(income =>
         patternsToSortIncome.every(item => !item.test(income.title))
       );
     }
+
     const obj = {
       code: account,
       incomeByCode: assignedIncomeToAccount
     };
+
     return obj;
   };
-
-  assignIncome = () => {
-    const incomeToSort = [...this.props.teams];
-    const sortedIncome = incomeToSort.map(team => {
+  
+  const assignIncome = () => {
+    const sortedIncome = [...teams].map(team => {
       const codesPatern = [
-        ...this.state.codes.general,
-        ...(this.state.codes[team.id] ? this.state.codes[team.id] : [])
+        ...codes.general,
+        ...(codes[team.id] ? codes[team.id] : [])
       ];
       return {
         id: team.id,
         accounts: [
           ...codesPatern.map((code, index, array) =>
-            this.sortedIncomeByAccount(code, team.income, array)
+            sortedIncomeByAccount(code, team.income, array)
           )
         ]
       };
     });
-    this.props.onAssignIncome(sortedIncome);
+    store.dispatch(actions.assignIncome(sortedIncome));
   };
 
-  sendingDataHandler = async id => {
-    this.setState({ sendingTeam: id });
+  useEffect(() => {
+    if (codes) assignIncome();
+  }, [codes]) 
+
+
+  const sendingDataHandler = async id => {
+    // const updatedState = [...accountState];
+
+    // assignedIncome.forEach(team => {
+    //   if (team.id !== 'pozostałe') {
+    //     team.accounts.forEach(account => {
+
+
+
+    //     })
+        
+    //   }
+    // })
+
+
+    setSendingTeam(id);
     try {
       const response = await axios.get(`/teams/${id}.json`);
       const accounts = await response.data;
@@ -90,7 +132,7 @@ class SortedIncome extends Component {
         ? response.data.members
         : null;
       const incomes = await [
-        ...this.props.incomes.find(item => {
+        ...incomes.find(item => {
           if(id !== "pozostałe") return item.id === Number(id);
           else return item.id === id
         }
@@ -170,34 +212,33 @@ class SortedIncome extends Component {
     }
   };
 
-  getInfo = () => {
-    console.log(this.props.incomes);
+  const getInfo = () => {
+    console.log(incomes);
     const value = document.querySelector("#input").value;
     this.sendingDataHandler(value);
   };
 
-  sendingHandler = async () => {
+  const sendingHandler = async () => {
     const response = await axios.get('/lisOfTeams.json');
     const teams = await response.data;
-    if (this.props.incomes) {
-      teams.forEach(team => this.sendingDataHandler(team));
+    if (incomes) {
+      teams.forEach(team => sendingDataHandler(team));
     } else {
       console.log("Incomes not ready yet!");
     }
   };
 
-  render() {
-    let sortedIncome;
-    if (this.props.teams) {
-      sortedIncome = this.props.teams.map(team => {
+    let incomesAfterSorting;
+    if (teams) {
+      incomesAfterSorting = teams.map(team => {
         return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
       });
       console.log(sortedIncome);
     }
     let statusInfo;
-    if (this.state.sendingTeam) {
+    if (sendingTeam) {
       statusInfo = (
-        <StatusInfo info={`Wysyłam dane dla ${this.state.sendingTeam}`} />
+        <StatusInfo info={`Wysyłam dane dla ${sendingTeam}`} />
       );
     }
 
@@ -208,17 +249,17 @@ class SortedIncome extends Component {
         {/* <button onClick={this.assignIncome}>
           Sortuj przelewy kodami do drużyn
         </button> */}
-        <button onClick={this.sendingHandler}>Wyślij dane na serwer</button>
+        <button onClick={sendingHandler}>Wyślij dane na serwer</button>
 
         {/* <input type="text" placeholder="Podaj ID drużyny" id="input" /> */}
 
         <h2>Przelewy posortowane według kodów:</h2>
         <div className="GridArea">
           <nav className={classes.Nav}>
-            <Navigation list={sortedIncome} navigation="main" />
+            <Navigation list={incomesAfterSorting} navigation="main" />
           </nav>
           <main>
-            {sortedIncome.map((team, index) => {
+            {incomesAfterSorting.map((team, index) => {
               return (
                 <Route
                   key={index}
@@ -231,25 +272,11 @@ class SortedIncome extends Component {
         </div>
       </section>
     );
-  }
+  
 }
 
-const mapStateToProps = state => {
-  return {
-    init: state.income.initIncome,
-    teams: state.income.teams,
-    incomes: state.income.assignedIncome
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-    onSortIncome: (actualTeams, actualIncome) =>
-      dispatch(actions.sortingIncome(actualTeams, actualIncome)),
-    onEditIncome: income => dispatch(actions.editingIncome(income)),
-    onAssignIncome: income => dispatch(actions.assignIncome(income))
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SortedIncome);
+
+
+export default SortedIncome;

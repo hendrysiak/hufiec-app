@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/index";
-import Spinner from "../UI/Spinner/Spinner";
+import * as actions from "../../../../store/actions/index";
+import Spinner from "../../../../components/UI/Spinner/Spinner";
 import classes from "./ImportIncome.module.css";
+
+import store from "../../../../store/store";
 
 class ImportIncome extends Component {
   setUrl = event => {
     event.preventDefault();
-    this.props.onFetchIncome(event.target.children[1].value);
+    store.dispatch(actions.fetchIncome(event.target.children[1].value));
   };
 
   render() {
