@@ -78,7 +78,7 @@ const Teams = () => {
           {income.incomes.map((person, index) => (
             <ListEl
               key={index}
-              cash={person.value}
+              cash={person.cash}
               title={person.title}
             />
           ))}

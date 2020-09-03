@@ -56,7 +56,6 @@ class NonAssignedIncome extends Component {
         if (patterns.some(item => item.test(element.title))) {
           return (
             <ListEl
-              color="green"
               key={index}
               title={element.title}
               cash={element.cash}
@@ -66,7 +65,7 @@ class NonAssignedIncome extends Component {
         } else {
           return (
             <ListEl
-              color="red"
+              error={true}
               key={index}
               title={element.title}
               cash={element.cash}
