@@ -1,60 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Route } from "react-router-dom";
 import axios from "../../axios-income";
 import Spinner from "../UI/Spinner/Spinner";
 import Navigation from "../Navigation/Navigation";
 import Code from "./Code/Code";
 
+import { getInfo } from '../../helpers/getInfo';
+
 import classes from "./Codes.module.css";
 
 const Codes = () => {
-  const [accounts, getAccountsFromServer] = useState([]);
-  const [codes, getCodesFromServer] = useState(null);
+  const accounts = useSelector(state => state.income.accountList);
+  const codes = useSelector(state => state.income.codes);
   // const [infoAboutIncomes, setInfoAboutIncome] = useState(null);
   const [isLoading, setLoadingStatus] = useState(false);
 
-  const getInfo = async () => {
-    const codes = await axios.get("/codes.json");
-    let codesList = [];
-    for (let code in codes.data) {
-      await codes.data[code].forEach(code => codesList.push(code));
-    }
-    const accounts = await axios.get("/teams.json");
-    let accountList = []; // init empty array
-    for (let team in accounts.data) {
-      // iteration by all teams
-      for (let code in accounts.data[team]) {
-        // for each code in team
-        let index = accountList.findIndex(item => item.code === code); // get index, if exist
-        //if index exist, assign new incomes to existing code
-        if (index > -1) {
-          accountList[index].income = [
-            ...accountList[index].income,
-            { team, persons: [...accounts.data[team][code]] }
-          ];
-        } else {
-          // if index doesn't exist, push new object with code
-          accountList.push({
-            code,
-            income: [{ team, persons: [...accounts.data[team][code]] }]
-          });
-        }
-      }
-    }
-    await getAccountsFromServer(accountList);
-    await getCodesFromServer(codesList);
-  };
-
-  useEffect(() => {
-    setLoadingStatus(true);
-    try {
-      getInfo();
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoadingStatus(false);
-    }
-  }, []);
 
   let spinner;
   if (isLoading) spinner = <Spinner />;

@@ -123,7 +123,8 @@ const initialState = {
         }
     ],
     assignedIncome: null,
-    accountState: null
+    accountState: null,
+    codes: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -143,6 +144,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 initIncome: action.income
             };
+        case actionTypes.FETCH_CODES:
+            return {
+                ...state,
+                codes: action.codes
+            };
         case actionTypes.FETCH_FILE_FAILED:
             return {
                 ...state,
@@ -152,6 +158,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 accountState: action.accountState
+            }
+        }
+        case actionTypes.SET_ACCOUNT_LIST: {
+            return {
+                ...state,
+                accountList: action.accountList
             }
         }
         case actionTypes.SORT_INCOME:

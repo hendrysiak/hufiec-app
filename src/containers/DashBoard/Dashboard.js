@@ -14,7 +14,8 @@ import ForCoders from '../../components/ForCoders/ForCoders';
 
 import * as actions from "../../store/actions/index";
 
-import { getTeamsWithAccountState } from './api-handlers/account.handler'
+import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
+import EventBilling from "../EventBilling/containers/EventBilling";
 
 const Dashboard = () => {
 
@@ -23,12 +24,13 @@ const  navigation = [
       { link: "/codes", title: "FILTRUJ PO KODZIE" },
       { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
       { link: "/add-code", title: "DODAJ KOD" },
-      { link: "/add-summary", title: "DODAJ ROZLICZENIE" },
+      { link: "/add-billing", title: "DODAJ ROZLICZENIE" },
       { link: "/show-base", title: "POKAŻ BAZĘ" }
     ]
   
     useEffect(() => {
       getTeamsWithAccountState();
+      getCodes();
     },[])
 
  
@@ -43,6 +45,7 @@ const  navigation = [
             <Route path="/codes" component={Codes} />
             <Route path="/add-code" component={AddCode} />
             <Route path="/teams" component={Teams} />
+            <Route path="/add-billing" component={EventBilling} />
             <Route path="/for-coders" component={ForCoders} />
           </Switch>
           <div className={classes.Background}></div>

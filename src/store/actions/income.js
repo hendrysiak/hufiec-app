@@ -8,10 +8,24 @@ export const setIncome = income => {
     }
 }
 
+export const fetchCodes = codes => {
+    return {
+        type: actionTypes.FETCH_CODES,
+        codes
+    }
+}
+
 export const fetchAccountState = accountState => {
     return {
         type: actionTypes.SET_ACCOUNT_STATE,
         accountState
+    }
+}
+
+export const fetchAccountList = accountList => {
+    return {
+        type: actionTypes.SET_ACCOUNT_LIST,
+        accountList
     }
 }
 
