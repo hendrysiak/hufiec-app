@@ -1,0 +1,3987 @@
+{
+  "codes" : {
+    "6676" : [ "BK-01" ],
+    "12427" : [ "BK-03" ],
+    "general" : [ "CMOK", "SC", "ZH-01", "ZH-02", "nonAssigned" ]
+  },
+  "listOfTeams" : [ 6673, 6676, 6682, 6688, 6689, 6692, 6693, 6697, 6698, 6699, 6700, 6701, 6704, 6706, 6707, 6711, 6713, 6717, 6722, 6723, 6705, 12427, 14149, 15439, 15446, 15946, 15947, 15948, 16439, 17203, 110202, 11600, "pozostałe" ],
+  "teams" : {
+    "6673" : {
+      "CMOK" : [ {
+        "name" : "MACIEJ",
+        "surname" : "SZCZEPANIK",
+        "value" : 30
+      }, {
+        "name" : "Ksawery",
+        "surname" : "Kwaśniok",
+        "value" : 15
+      }, {
+        "name" : "MIKOŁAJ",
+        "surname" : "SKUCZEŃ",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "SKUCZEŃ",
+        "value" : 15
+      }, {
+        "name" : "MAREK",
+        "surname" : "SKUCZEŃ",
+        "value" : 15
+      }, {
+        "name" : "ADAM",
+        "surname" : "PACHOLSKI",
+        "value" : 30
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "WOJTCZAK",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "SZCZYGIEŁ",
+        "value" : 30
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "SCHOLZ",
+        "value" : 30
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "TOMICZEK",
+        "value" : 30
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "BIESZCZAD",
+        "value" : 15
+      }, {
+        "name" : "MAREK",
+        "surname" : "GRALIŃSKI",
+        "value" : 30
+      }, {
+        "name" : "Maksymilian",
+        "surname" : "Kloc",
+        "value" : 15
+      }, {
+        "name" : "Jarosław",
+        "surname" : "Brabański",
+        "value" : 30
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "ŁASKAWSKA",
+        "value" : 30
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KRASOWSKI",
+        "value" : 15
+      }, {
+        "name" : "KINGA",
+        "surname" : "KORZENIEC",
+        "value" : 30
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "KORZENIEC",
+        "value" : 30
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KLICH",
+        "value" : 30
+      }, {
+        "name" : "Kamil",
+        "surname" : "Sitek",
+        "value" : 30
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "PANEK",
+        "value" : 30
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "KŁYK",
+        "value" : 30
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KŁYK",
+        "value" : 30
+      }, {
+        "name" : "JAN",
+        "surname" : "BOGDAN",
+        "value" : 30
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "KOKOT",
+        "value" : 15
+      }, {
+        "name" : "MARTA",
+        "surname" : "KOKOT",
+        "value" : 30
+      }, {
+        "name" : "HANNA",
+        "surname" : "LABUS",
+        "value" : 30
+      }, {
+        "name" : "BARBARA",
+        "surname" : "LIPINA",
+        "value" : 15
+      }, {
+        "name" : "POLA",
+        "surname" : "LIPINA",
+        "value" : 15
+      }, {
+        "name" : "MARCEL",
+        "surname" : "CHROMIK",
+        "value" : 30
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Pander",
+        "value" : 30
+      }, {
+        "name" : "Aleksandra",
+        "surname" : "Morek",
+        "value" : 30
+      }, {
+        "name" : "Julia",
+        "surname" : "Galowy",
+        "value" : 30
+      }, {
+        "name" : "JOANNA",
+        "surname" : "MERKER",
+        "value" : 30
+      }, {
+        "name" : "OLIWIER",
+        "surname" : "WOJTCZAK",
+        "value" : 15
+      }, {
+        "name" : "ŁUKASZ",
+        "surname" : "NIEWIŃSKI",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "NIEWIŃSKA",
+        "value" : 30
+      }, {
+        "name" : "EMILIA",
+        "surname" : "TRELA",
+        "value" : 30
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KOWALSKI",
+        "value" : 30
+      }, {
+        "name" : "Szymon",
+        "surname" : "Kowalski",
+        "value" : 15
+      } ],
+      "SC" : [ {
+        "name" : "PATRYCJA",
+        "surname" : "SCHOLZ",
+        "value" : 30
+      }, {
+        "name" : "Kamil",
+        "surname" : "Sitek",
+        "value" : 30
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Pander",
+        "value" : 60
+      }, {
+        "name" : "KINGA",
+        "surname" : "KORZENIEC",
+        "value" : 4
+      }, {
+        "name" : "ŁUKASZ",
+        "surname" : "NIEWIŃSKI",
+        "value" : 90
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "NIEWIŃSKA",
+        "value" : 90
+      } ],
+      "ZH-02" : [ {
+        "name" : "KONRAD",
+        "surname" : "GRYTA",
+        "value" : 150
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KLICH",
+        "value" : 150
+      }, {
+        "name" : "Ksawery",
+        "surname" : "Kwaśniok",
+        "value" : 150
+      }, {
+        "name" : "EMILIA",
+        "surname" : "HAŃDEREK",
+        "value" : 150
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "TOMICZEK",
+        "value" : 150
+      }, {
+        "name" : "Maksymilian",
+        "surname" : "Kloc",
+        "value" : 150
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "ŁASKAWSKA",
+        "value" : 150
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "KORZENIEC",
+        "value" : 150
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KRASOWSKI",
+        "value" : 150
+      }, {
+        "name" : "MARCEL",
+        "surname" : "CHROMIK",
+        "value" : 150
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "KŁYK",
+        "value" : 150
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KŁYK",
+        "value" : 150
+      }, {
+        "name" : "EMILIA",
+        "surname" : "TRELA",
+        "value" : 150
+      }, {
+        "name" : "POLA",
+        "surname" : "LIPINA",
+        "value" : 150
+      }, {
+        "name" : "BARBARA",
+        "surname" : "LIPINA",
+        "value" : 150
+      }, {
+        "name" : "Nikodem",
+        "surname" : "Żymła",
+        "value" : 150
+      }, {
+        "name" : "MARTA",
+        "surname" : "KOKOT",
+        "value" : 150
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "KOKOT",
+        "value" : 150
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "SZCZEPANIK",
+        "value" : 150
+      }, {
+        "name" : "Jakub",
+        "surname" : "Poborski",
+        "value" : 150
+      }, {
+        "name" : "PATRYK",
+        "surname" : "NOWAK",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "BARTOSZ",
+        "surname" : "BIESZCZAD"
+      }, {
+        "name" : "JAN",
+        "surname" : "BOGDAN"
+      }, {
+        "name" : "MARCEL",
+        "surname" : "CHROMIK"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "CZMYR"
+      }, {
+        "name" : "MAREK",
+        "surname" : "GRALIŃSKI"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "GRALIŃSKI"
+      }, {
+        "name" : "KONRAD",
+        "surname" : "GRYTA"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "HAŃDEREK"
+      }, {
+        "name" : "JACEK",
+        "surname" : "HAŃDEREK"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KLICH"
+      }, {
+        "name" : "MARTA",
+        "surname" : "KOKOT"
+      }, {
+        "name" : "KINGA",
+        "surname" : "KORZENIEC"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "KORZENIEC"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KOWALSKI"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KRASOWSKI"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "KŁYK"
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "KŁYK"
+      }, {
+        "name" : "HANNA",
+        "surname" : "LABUS"
+      }, {
+        "name" : "BARBARA",
+        "surname" : "LIPINA"
+      }, {
+        "name" : "POLA",
+        "surname" : "LIPINA"
+      }, {
+        "name" : "BOGDAN",
+        "surname" : "MERKER"
+      }, {
+        "name" : "JOANNA",
+        "surname" : "MERKER"
+      }, {
+        "name" : "KAROL",
+        "surname" : "MROWIEC"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "NIEWIŃSKA"
+      }, {
+        "name" : "ŁUKASZ",
+        "surname" : "NIEWIŃSKI"
+      }, {
+        "name" : "PATRYK",
+        "surname" : "NOWAK"
+      }, {
+        "name" : "ADAM",
+        "surname" : "PACHOLSKI"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "PANEK"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "PAWLAK"
+      }, {
+        "name" : "JULIA",
+        "surname" : "PIELA"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "RADZIMSKI"
+      }, {
+        "name" : "HANNA",
+        "surname" : "ROSÓŁ"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "SCHOLZ"
+      }, {
+        "name" : "ANETA",
+        "surname" : "SKUCZEŃ"
+      }, {
+        "name" : "MAREK",
+        "surname" : "SKUCZEŃ"
+      }, {
+        "name" : "MIKOŁAJ",
+        "surname" : "SKUCZEŃ"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "SKUCZEŃ"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "SPRYŚ"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "STECZ"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "ŚWIDERSKI"
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "SZCZEPANIK"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "SZCZYGIEŁ"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "TOMICZEK"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "TRELA"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "WOJTCZAK"
+      }, {
+        "name" : "OLIWIER",
+        "surname" : "WOJTCZAK"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "ŁASKAWSKA"
+      }, {
+        "name" : "Michał",
+        "surname" : "Morek"
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "KOKOT"
+      }, {
+        "name" : "Maksymilian",
+        "surname" : "Kloc"
+      }, {
+        "name" : "Nikodem",
+        "surname" : "Żymła"
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Pander"
+      }, {
+        "name" : "Aleksandra",
+        "surname" : "Morek"
+      }, {
+        "name" : "Julia",
+        "surname" : "Galowy"
+      }, {
+        "name" : "Szymon",
+        "surname" : "Makuchowski"
+      }, {
+        "name" : "Paulina",
+        "surname" : "Straszok"
+      }, {
+        "name" : "Natalia",
+        "surname" : "Kamińska"
+      }, {
+        "name" : "Jakub",
+        "surname" : "Poborski"
+      }, {
+        "name" : "Szymon",
+        "surname" : "Kowalski"
+      }, {
+        "name" : "Lena",
+        "surname" : "Czekajska"
+      }, {
+        "name" : "Ksawery",
+        "surname" : "Kwaśniok"
+      }, {
+        "name" : "Filip",
+        "surname" : "Wasążnik"
+      }, {
+        "name" : "Kamil",
+        "surname" : "Sitek"
+      }, {
+        "name" : "Jarosław",
+        "surname" : "Brabański"
+      }, {
+        "name" : "Ines",
+        "surname" : "Joschko"
+      }, {
+        "name" : "Izabella",
+        "surname" : "Joschko"
+      }, {
+        "name" : "MAJA",
+        "surname" : "TOMCZAK"
+      }, {
+        "name" : "Maria",
+        "surname" : "Jendrusiewicz"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "CHYBOWSKA"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "15.0",
+        "title" : "2019 - Lena Czekajska -6673-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019- MałgorzataCzmyr-6673-Cmoksong"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 - Lena Czekajska -6673-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019- MałgorzataCzmyr-6673-Cmoksong"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 - Lena Czekajska -6673-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019- MałgorzataCzmyr-6673-Cmoksong"
+      } ]
+    },
+    "6676" : {
+      "members" : [ {
+        "name" : "BOGDAN",
+        "surname" : "BLAUT"
+      } ]
+    },
+    "6682" : {
+      "CMOK" : [ {
+        "name" : "FILIP",
+        "surname" : "KEMPA",
+        "value" : 30
+      }, {
+        "name" : "VIKTORIA",
+        "surname" : "MATURA",
+        "value" : 30
+      }, {
+        "name" : "KAMILA",
+        "surname" : "HERGESEL",
+        "value" : 15
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "KILARSKA",
+        "value" : 30
+      }, {
+        "name" : "Tatiana",
+        "surname" : "Staniczek",
+        "value" : 30
+      }, {
+        "name" : "Synthia",
+        "surname" : "Staniczek",
+        "value" : 30
+      }, {
+        "name" : "Dominik",
+        "surname" : "Hałys",
+        "value" : 30
+      }, {
+        "name" : "FILIP",
+        "surname" : "KAPICA",
+        "value" : 30
+      }, {
+        "name" : "ADAM",
+        "surname" : "FABIAN",
+        "value" : 30
+      }, {
+        "name" : "NATALIA",
+        "surname" : "PIKSA",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KRAWCZAK",
+        "value" : 30
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "WITKOWSKI",
+        "value" : 30
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "KAJL",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KAJL",
+        "value" : 30
+      }, {
+        "name" : "Amelia",
+        "surname" : "Belcer",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "BUŁAKOWSKA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "KAMILA",
+        "surname" : "HERGESEL",
+        "value" : 150
+      }, {
+        "name" : "HANNA",
+        "surname" : "KLIMANEK",
+        "value" : 30
+      }, {
+        "name" : "Dominik",
+        "surname" : "Hałys",
+        "value" : 30
+      }, {
+        "name" : "FILIP",
+        "surname" : "KEMPA",
+        "value" : 120
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "KAJL",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KAJL",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "MARTYNA",
+        "surname" : "BUŁAKOWSKA"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "CZUBKOWSKA"
+      }, {
+        "name" : "KAMILA",
+        "surname" : "HERGESEL"
+      }, {
+        "name" : "FILIP",
+        "surname" : "KEMPA"
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "KILARSKA"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KRAWCZAK"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "WITKOWSKI"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KAJL"
+      }, {
+        "name" : "HANNA",
+        "surname" : "KLIMANEK"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "PIKSA"
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "KAJL"
+      }, {
+        "name" : "ADAM",
+        "surname" : "FABIAN"
+      }, {
+        "name" : "FILIP",
+        "surname" : "KAPICA"
+      }, {
+        "name" : "VIKTORIA",
+        "surname" : "MATURA"
+      }, {
+        "name" : "AGATA",
+        "surname" : "NOWAKOWSKA"
+      }, {
+        "name" : "Amelia",
+        "surname" : "Belcer"
+      }, {
+        "name" : "Synthia",
+        "surname" : "Staniczek"
+      }, {
+        "name" : "Tatiana",
+        "surname" : "Staniczek"
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Bobrowska"
+      }, {
+        "name" : "Dawid",
+        "surname" : "Oleś"
+      }, {
+        "name" : "Dominik",
+        "surname" : "Hałys"
+      }, {
+        "name" : "ALEX",
+        "surname" : "WOJTASZEK"
+      }, {
+        "name" : "Małgorzata",
+        "surname" : "Honisz"
+      } ]
+    },
+    "6688" : {
+      "members" : [ {
+        "name" : "KAROLINA",
+        "surname" : "BŁAŻYTKO"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "DRESZER"
+      }, {
+        "name" : "WIKTOR",
+        "surname" : "GAWRON"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "JĘDRUSIK"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "JĘDRUSIK"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "MOREŃ"
+      }, {
+        "name" : "JULIA",
+        "surname" : "MOTYLEWSKA"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "MOTYLEWSKI"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "POLAP"
+      } ]
+    },
+    "6689" : {
+      "CMOK" : [ {
+        "name" : "ANDRZEJ",
+        "surname" : "HOSZEK",
+        "value" : 30
+      }, {
+        "name" : "SZYMON",
+        "surname" : "HOSZEK",
+        "value" : 30
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Trubic",
+        "value" : 30
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "TRUBIC",
+        "value" : 30
+      }, {
+        "name" : "ANGELIKA",
+        "surname" : "GAWLIK",
+        "value" : 30
+      }, {
+        "name" : "Kasandra",
+        "surname" : "Jeglorz",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "CZYŻYCKA",
+        "value" : 30
+      }, {
+        "name" : "ARTUR",
+        "surname" : "ZAURSKI",
+        "value" : 30
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "SEIDEL",
+        "value" : 30
+      }, {
+        "name" : "Maria",
+        "surname" : "Lipiec",
+        "value" : 15
+      }, {
+        "name" : "BARTŁOMIEJ",
+        "surname" : "LIPIEC",
+        "value" : 30
+      }, {
+        "name" : "Tymon",
+        "surname" : "Wiesiołek",
+        "value" : 30
+      }, {
+        "name" : "PIOTR",
+        "surname" : "LORENCKI",
+        "value" : 30
+      }, {
+        "name" : "NATALIA",
+        "surname" : "RATKA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "ANDRZEJ",
+        "surname" : "HOSZEK",
+        "value" : 60
+      }, {
+        "name" : "SZYMON",
+        "surname" : "HOSZEK",
+        "value" : 60
+      }, {
+        "name" : "NATALIA",
+        "surname" : "RATKA",
+        "value" : 10
+      }, {
+        "name" : "ANGELIKA",
+        "surname" : "GAWLIK",
+        "value" : 10
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "SEIDEL",
+        "value" : 10
+      } ],
+      "members" : [ {
+        "name" : "ANGELIKA",
+        "surname" : "GAWLIK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "GRZYB"
+      }, {
+        "name" : "ANDRZEJ",
+        "surname" : "HOSZEK"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "HOSZEK"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "JURASZEK"
+      }, {
+        "name" : "BARTŁOMIEJ",
+        "surname" : "LIPIEC"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "LORENCKI"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "RATKA"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "SEIDEL"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "SZYKOWSKI"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "TRUBIC"
+      }, {
+        "name" : "MICHALINA",
+        "surname" : "WALENCIAK"
+      }, {
+        "name" : "ARTUR",
+        "surname" : "ZAURSKI"
+      }, {
+        "name" : "JULIA",
+        "surname" : "CZYŻYCKA"
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Trubic"
+      }, {
+        "name" : "Kasandra",
+        "surname" : "Jeglorz"
+      }, {
+        "name" : "Maksymilian",
+        "surname" : "Latos"
+      }, {
+        "name" : "Maria",
+        "surname" : "Lipiec"
+      }, {
+        "name" : "Tymon",
+        "surname" : "Wiesiołek"
+      } ]
+    },
+    "6692" : {
+      "SC" : [ {
+        "name" : "NADIA",
+        "surname" : "PYTLOK",
+        "value" : 10
+      }, {
+        "name" : "Weronika",
+        "surname" : "Rydlewska",
+        "value" : 50
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "SZUDEJA",
+        "value" : 30
+      }, {
+        "name" : "NATALIA",
+        "surname" : "PUŁAWSKA",
+        "value" : 30
+      }, {
+        "name" : "KSAWERY",
+        "surname" : "KOŁODZIEJ",
+        "value" : 30
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "WRAZIDŁO",
+        "value" : 30
+      }, {
+        "name" : "MAJA",
+        "surname" : "BROM",
+        "value" : 30
+      }, {
+        "name" : "AMELIA",
+        "surname" : "SZYMANEK",
+        "value" : 120
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "KEMPNA",
+        "value" : 10
+      } ],
+      "members" : [ {
+        "name" : "DAGMARA",
+        "surname" : "ADAMSKA"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "KALUSCHE"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "PELKA"
+      }, {
+        "name" : "AGATA",
+        "surname" : "POLAK"
+      }, {
+        "name" : "NADIA",
+        "surname" : "PYTLOK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "HAUSMAN"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "KEMPNA"
+      }, {
+        "name" : "NADIA",
+        "surname" : "MISIEK"
+      }, {
+        "name" : "ANTONI",
+        "surname" : "NOWAK"
+      }, {
+        "name" : "DARIA",
+        "surname" : "KOTAS"
+      }, {
+        "name" : "KACPER",
+        "surname" : "ROJEK"
+      }, {
+        "name" : "Maja",
+        "surname" : "Knoppik"
+      }, {
+        "name" : "MAJA",
+        "surname" : "BROM"
+      }, {
+        "name" : "AMELIA",
+        "surname" : "SZYMANEK"
+      }, {
+        "name" : "Weronika",
+        "surname" : "Rydlewska"
+      }, {
+        "name" : "ADRIAN",
+        "surname" : "OTRZĄSEK"
+      }, {
+        "name" : "LENA",
+        "surname" : "GRABOWSKA"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "PIERŚCIŃSKA"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "COPIK"
+      }, {
+        "name" : "ANTONINA",
+        "surname" : "MAŃKA"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "SZUDEJA"
+      }, {
+        "name" : "KSAWERY",
+        "surname" : "KOŁODZIEJ"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "WRAZIDŁO"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "PUŁAWSKA"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "KOTULA"
+      }, {
+        "name" : "LENA",
+        "surname" : "KUCIŃSKA"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "KNOL"
+      }, {
+        "name" : "Natalia2",
+        "surname" : "Hajduk"
+      } ]
+    },
+    "6693" : {
+      "members" : [ {
+        "name" : "WOJCIECH",
+        "surname" : "GIEDŹ"
+      }, {
+        "name" : "MIRON",
+        "surname" : "KOMANDER"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "KRUPA"
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "MANEK"
+      }, {
+        "name" : "MAKSYMILIAN",
+        "surname" : "MUSKIETORZ"
+      }, {
+        "name" : "EWELINA",
+        "surname" : "NADULSKA"
+      }, {
+        "name" : "DARIA",
+        "surname" : "NARLOCH"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "PIGAN"
+      } ]
+    },
+    "6697" : {
+      "CMOK" : [ {
+        "name" : "ALEKSANDRA",
+        "surname" : "MIELNICZEK",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "GAWENDA",
+        "value" : 30
+      }, {
+        "name" : "MARTA",
+        "surname" : "HALOR",
+        "value" : 30
+      }, {
+        "name" : "KLAUDIA",
+        "surname" : "BŁAUCIK",
+        "value" : 30
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "MIKOŁAJCZYK",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "PUŁAWSKA",
+        "value" : 30
+      }, {
+        "name" : "ALICJA",
+        "surname" : "HOJKA",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "KOKOC",
+        "value" : 15
+      }, {
+        "name" : "EMILIA",
+        "surname" : "SALWIK",
+        "value" : 30
+      }, {
+        "name" : "NATALIA",
+        "surname" : "JOCHEMSKA",
+        "value" : 15
+      } ],
+      "SC" : [ {
+        "name" : "ALEKSANDRA",
+        "surname" : "MIELNICZEK",
+        "value" : 120
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "MIKOŁAJCZYK",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "PUŁAWSKA",
+        "value" : 30
+      }, {
+        "name" : "POLA",
+        "surname" : "MAKOWSKA",
+        "value" : 60
+      }, {
+        "name" : "PAULINA",
+        "surname" : "SZCZUDLAK",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "NOWAK",
+        "value" : 120
+      } ],
+      "members" : [ {
+        "name" : "OLIWIA",
+        "surname" : "BORÓWKA"
+      }, {
+        "name" : "KLAUDIA",
+        "surname" : "BŁAUCIK"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "GAWENDA"
+      }, {
+        "name" : "MARTA",
+        "surname" : "HALOR"
+      }, {
+        "name" : "ALICJA",
+        "surname" : "HOJKA"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "JOCHEMSKA"
+      }, {
+        "name" : "LAURA",
+        "surname" : "KOPIENIOK"
+      }, {
+        "name" : "DANIEL",
+        "surname" : "KOZALA"
+      }, {
+        "name" : "JULIA",
+        "surname" : "MAJKOWSKA"
+      }, {
+        "name" : "POLA",
+        "surname" : "MAKOWSKA"
+      }, {
+        "name" : "PATRYK",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "MIELNICZEK"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "PISCZUR"
+      }, {
+        "name" : "MARIA",
+        "surname" : "PUŁAWSKA"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "SALWIK"
+      }, {
+        "name" : "JULIA",
+        "surname" : "SOPOROWSKA"
+      }, {
+        "name" : "MARIANNA",
+        "surname" : "STRZEJA"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "SZCZUDLAK"
+      }, {
+        "name" : "MARIA",
+        "surname" : "TOMASZEWSKA"
+      }, {
+        "name" : "JULIA",
+        "surname" : "KOKOC"
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "MIKOŁAJCZYK"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "NOWAK"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "STĘPIŃSKI"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 Julia Soporowska 6697 Cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 Julia Soporowska 6697 Cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 Julia Soporowska 6697 Cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019-Patryk Mazur-6697-cmok"
+      }, {
+        "cash" : "15.0",
+        "title" : "2019 Julia Soporowska 6697 Cmok"
+      } ]
+    },
+    "6698" : {
+      "members" : [ {
+        "name" : "WOJCIECH",
+        "surname" : "FRANK"
+      } ]
+    },
+    "6699" : {
+      "SC" : [ {
+        "name" : "FILIP",
+        "surname" : "BORÓWKA",
+        "value" : 120
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "CZYŻ",
+        "value" : 10
+      } ],
+      "members" : [ {
+        "name" : "FILIP",
+        "surname" : "BORÓWKA"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "CZYŻ"
+      }, {
+        "name" : "JUSTYNA",
+        "surname" : "NOWAK"
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "WANDZIK"
+      }, {
+        "name" : "DOROTA",
+        "surname" : "WEISS-WANDZIK"
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "WIECZOREK"
+      }, {
+        "name" : "Paweł",
+        "surname" : "Drewniok"
+      } ]
+    },
+    "6700" : {
+      "members" : [ {
+        "name" : "KRZYSZTOF",
+        "surname" : "SZYCHTA"
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "WOJCIECHOWSKA"
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Żebrowski"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KOŹMIŃSKI"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "OMYŁA"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "MYDŁOWSKI"
+      }, {
+        "name" : "Paweł",
+        "surname" : "Dziewięcki"
+      }, {
+        "name" : "Jakub",
+        "surname" : "Kochanowski"
+      }, {
+        "name" : "Miłosz",
+        "surname" : "Koźlicki"
+      }, {
+        "name" : "Gabriel",
+        "surname" : "Ozga"
+      }, {
+        "name" : "Paweł",
+        "surname" : "Wybraniec"
+      }, {
+        "name" : "Jerzy",
+        "surname" : "Darul"
+      } ]
+    },
+    "6701" : {
+      "CMOK" : [ {
+        "name" : "MAJA",
+        "surname" : "ARNDT",
+        "value" : 30
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "PODGÓRSKA",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "NIWIŃSKA",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "BORCZYK",
+        "value" : 30
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "BORCZYK",
+        "value" : 30
+      }, {
+        "name" : "JONASZ",
+        "surname" : "NOCOŃ",
+        "value" : 30
+      }, {
+        "name" : "JAKUB",
+        "surname" : "NOCOŃ",
+        "value" : 15
+      }, {
+        "name" : "FILIP",
+        "surname" : "ZABROCKI",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "PAPIERZ",
+        "value" : 30
+      }, {
+        "name" : "FILIP",
+        "surname" : "MUSIOŁ",
+        "value" : 30
+      }, {
+        "name" : "STANISŁAW",
+        "surname" : "PŁOTCZYK",
+        "value" : 30
+      }, {
+        "name" : "ANNA",
+        "surname" : "PŁOTCZYK",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "NYGA",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "TENDERA",
+        "value" : 30
+      }, {
+        "name" : "Nikola",
+        "surname" : "Kawa",
+        "value" : 30
+      }, {
+        "name" : "Tymon",
+        "surname" : "Świderski",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "NOCOŃ",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "NOCOŃ",
+        "value" : 30
+      }, {
+        "name" : "OLIVIER",
+        "surname" : "PIELKA",
+        "value" : 30
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SMENTEK",
+        "value" : 30
+      }, {
+        "name" : "Marta",
+        "surname" : "Król",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "CELMER",
+        "value" : 30
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Rehlich",
+        "value" : 30
+      }, {
+        "name" : "PAULINA",
+        "surname" : "BUBAŁA",
+        "value" : 30
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "DZIKOWSKA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "JULIA",
+        "surname" : "PAPIERZ",
+        "value" : 30
+      }, {
+        "name" : "MARZENA",
+        "surname" : "AKCIŃSKA",
+        "value" : 90
+      }, {
+        "name" : "Marta",
+        "surname" : "Król",
+        "value" : 30
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "CELMER",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "NOCOŃ",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "NOCOŃ",
+        "value" : 30
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "DZIKOWSKA",
+        "value" : 30
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "KILKOWSKA",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "MAJA",
+        "surname" : "ARNDT"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "BORCZYK"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "BORCZYK"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "BUBAŁA"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "CELMER"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DĘDEK"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "DZIKOWSKA"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "GOROL"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "KACZMARCZYK"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "KIRAGA"
+      }, {
+        "name" : "BARBARA",
+        "surname" : "KLYTA"
+      }, {
+        "name" : "FILIP",
+        "surname" : "MUSIOŁ"
+      }, {
+        "name" : "JULIA",
+        "surname" : "NIWIŃSKA"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "NOCOŃ"
+      }, {
+        "name" : "JONASZ",
+        "surname" : "NOCOŃ"
+      }, {
+        "name" : "JULIA",
+        "surname" : "NOCOŃ"
+      }, {
+        "name" : "MARIA",
+        "surname" : "NOCOŃ"
+      }, {
+        "name" : "JULIA",
+        "surname" : "NYGA"
+      }, {
+        "name" : "SYLWIA",
+        "surname" : "PAKOSZ"
+      }, {
+        "name" : "JULIA",
+        "surname" : "PAPIERZ"
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "PODGÓRSKA"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SMENTEK"
+      }, {
+        "name" : "MILENA",
+        "surname" : "STACHACZYŃSKA"
+      }, {
+        "name" : "JULIA",
+        "surname" : "TENDERA"
+      }, {
+        "name" : "MARTA",
+        "surname" : "WYLĘŻAŁEK"
+      }, {
+        "name" : "FILIP",
+        "surname" : "ZABROCKI"
+      }, {
+        "name" : "Tymon",
+        "surname" : "Świderski"
+      }, {
+        "name" : "OLIVIER",
+        "surname" : "PIELKA"
+      }, {
+        "name" : "ANNA",
+        "surname" : "PŁOTCZYK"
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "KILKOWSKA"
+      }, {
+        "name" : "STANISŁAW",
+        "surname" : "PŁOTCZYK"
+      }, {
+        "name" : "MARZENA",
+        "surname" : "AKCIŃSKA"
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Rehlich"
+      }, {
+        "name" : "Marta",
+        "surname" : "Król"
+      }, {
+        "name" : "Nikola",
+        "surname" : "Kawa"
+      }, {
+        "name" : "Jagoda",
+        "surname" : "Ksoll"
+      }, {
+        "name" : "Szymon",
+        "surname" : "Lasota"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "30.0",
+        "title" : "2019-Victoria Brożek-6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Wiktoria Kaczmarczyk -6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Emlia Kiraga-6701-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Victoria Brożek-6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Wiktoria Kaczmarczyk -6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Emlia Kiraga-6701-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Victoria Brożek-6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Wiktoria Kaczmarczyk -6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Emlia Kiraga-6701-Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Victoria Brożek-6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Wiktoria Kaczmarczyk -6701-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Emlia Kiraga-6701-Cmok"
+      } ]
+    },
+    "6704" : {
+      "CMOK" : [ {
+        "name" : "MATEUSZ",
+        "surname" : "RUDEK",
+        "value" : 30
+      }, {
+        "name" : "AMELIA",
+        "surname" : "LAMIK",
+        "value" : 30
+      }, {
+        "name" : "Agata",
+        "surname" : "Jakubasik",
+        "value" : 30
+      }, {
+        "name" : "Karolina",
+        "surname" : "Jakubasik",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "WIDERA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Marta",
+        "surname" : "Mencel",
+        "value" : 90
+      }, {
+        "name" : "GABRIELA",
+        "surname" : "MAŚLIŃSKA",
+        "value" : 60
+      } ],
+      "members" : [ {
+        "name" : "WIKTORIA",
+        "surname" : "BARTNIK"
+      }, {
+        "name" : "JULIA",
+        "surname" : "BEZAK"
+      }, {
+        "name" : "ADAM",
+        "surname" : "DUDA"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "DUDA"
+      }, {
+        "name" : "JUSTYNA",
+        "surname" : "FOLKERT"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "GOŁATKA"
+      }, {
+        "name" : "GABRIEL",
+        "surname" : "JAROSZ"
+      }, {
+        "name" : "GABRIELA",
+        "surname" : "MAŚLIŃSKA"
+      }, {
+        "name" : "MAKSYMILIAN",
+        "surname" : "PSUREK"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "PSUREK"
+      }, {
+        "name" : "SYLWIA",
+        "surname" : "PSUREK"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "RUDEK"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "SIEKACZ"
+      }, {
+        "name" : "WALDEMAR",
+        "surname" : "SULKA"
+      }, {
+        "name" : "Agata",
+        "surname" : "Jakubasik"
+      }, {
+        "name" : "Karolina",
+        "surname" : "Jakubasik"
+      }, {
+        "name" : "Marta",
+        "surname" : "Mencel"
+      }, {
+        "name" : "Jolanta",
+        "surname" : "Józefiok"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "WIDERA"
+      }, {
+        "name" : "AMELIA",
+        "surname" : "LAMIK"
+      } ]
+    },
+    "6705" : {
+      "CMOK" : [ {
+        "name" : "NATALIA",
+        "surname" : "DUDEK",
+        "value" : 15
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "RÓŻYCKI",
+        "value" : 30
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "RÓŻYCKA",
+        "value" : 15
+      }, {
+        "name" : "MARTA",
+        "surname" : "RÓŻYCKA",
+        "value" : 15
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "GRAD",
+        "value" : 15
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "RUDZKA",
+        "value" : 15
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "GRYGA",
+        "value" : 15
+      }, {
+        "name" : "KAROL",
+        "surname" : "WINKLER",
+        "value" : 15
+      }, {
+        "name" : "Martyna",
+        "surname" : "Wilk",
+        "value" : 15
+      }, {
+        "name" : "JULIA",
+        "surname" : "ZALESKA",
+        "value" : 15
+      }, {
+        "name" : "JAGODA",
+        "surname" : "ERM",
+        "value" : 15
+      } ],
+      "SC" : [ {
+        "name" : "MICHAŁ",
+        "surname" : "SZYDLIK",
+        "value" : 30
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "RUDZKA",
+        "value" : 30
+      }, {
+        "name" : "Martyna",
+        "surname" : "Wilk",
+        "value" : 20
+      } ],
+      "ZH-01" : [ {
+        "name" : "MAGDALENA",
+        "surname" : "GRYGA",
+        "value" : 150
+      }, {
+        "name" : "Kinga",
+        "surname" : "Gniwecka",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "KATARZYNA",
+        "surname" : "BRYSZ"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "DUDEK"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "DUDEK"
+      }, {
+        "name" : "JAGODA",
+        "surname" : "ERM"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "GRAD"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "GRYGA"
+      }, {
+        "name" : "PATRYK",
+        "surname" : "GRZEŚKOWIAK"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "HELMYS"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "HELMYS"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "KLEMCZAK"
+      }, {
+        "name" : "ANNA",
+        "surname" : "KMITA"
+      }, {
+        "name" : "JAROSŁAW",
+        "surname" : "KSIĄŻEK"
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "MALEWSKI"
+      }, {
+        "name" : "MARTA",
+        "surname" : "RÓŻYCKA"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "RÓŻYCKA"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "RÓŻYCKI"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "RUDZKA"
+      }, {
+        "name" : "ALICJA",
+        "surname" : "SKŁODOWSKA"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "SZAFRANEK"
+      }, {
+        "name" : "ARTUR",
+        "surname" : "SZAFRANEK"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "SZAFRANEK"
+      }, {
+        "name" : "LENA",
+        "surname" : "SZAFRANEK"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "SZYDLIK"
+      }, {
+        "name" : "KAROL",
+        "surname" : "WINKLER"
+      }, {
+        "name" : "JULIA",
+        "surname" : "ZALESKA"
+      }, {
+        "name" : "Martyna",
+        "surname" : "Wilk"
+      }, {
+        "name" : "Kinga",
+        "surname" : "Gniwecka"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "JĘDROSZEK"
+      } ]
+    },
+    "6706" : {
+      "members" : [ {
+        "name" : "SEBASTIAN",
+        "surname" : "BARANOWICZ"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "BIAŁOCH"
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "CHOLEWIŃSKI"
+      }, {
+        "name" : "ARKADIUSZ",
+        "surname" : "DREWNIAK"
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "JASIŃSKI"
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "KEDZIOR"
+      }, {
+        "name" : "DAWID",
+        "surname" : "KIEŁBASA"
+      }, {
+        "name" : "MARIUSZ",
+        "surname" : "KLYSZCZ"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "KLYTA"
+      }, {
+        "name" : "PATRYK",
+        "surname" : "KOLANY"
+      }, {
+        "name" : "ŁUKASZ",
+        "surname" : "KOWOLIK"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "KOŹLIK"
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "KOZOK"
+      }, {
+        "name" : "JOANNA",
+        "surname" : "KRAWCZYK"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "KRZYSTAŃSKA"
+      }, {
+        "name" : "MARTA",
+        "surname" : "KSIĄŻEK"
+      }, {
+        "name" : "KRYSTIAN",
+        "surname" : "KUBALA"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "MANDLA"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "MASTERNAK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "MULLER"
+      }, {
+        "name" : "KAMIL",
+        "surname" : "NOWAK"
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "PROWDA"
+      }, {
+        "name" : "SANDRA",
+        "surname" : "RADZIEJEWSKA"
+      }, {
+        "name" : "TOMASZ",
+        "surname" : "SAMULSKI"
+      }, {
+        "name" : "SEBASTIAN",
+        "surname" : "SAPA"
+      }, {
+        "name" : "MICHALINA",
+        "surname" : "SIERADZKA"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "SIMON"
+      }, {
+        "name" : "SANDRA",
+        "surname" : "STOLARSKA"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "WALECKI"
+      }, {
+        "name" : "EWELINA",
+        "surname" : "WALLAT"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "WRÓBLOWSKI"
+      }, {
+        "name" : "KAMIL",
+        "surname" : "FIDLER"
+      }, {
+        "name" : "WANESSA",
+        "surname" : "FIMIAK"
+      }, {
+        "name" : "KAMIL",
+        "surname" : "KUSZ"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "MYRCIK"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "WILK"
+      } ]
+    },
+    "6707" : {
+      "CMOK" : [ {
+        "name" : "MARTA",
+        "surname" : "BALCER",
+        "value" : 30
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "PILIŃSKI",
+        "value" : 30
+      }, {
+        "name" : "EWELINA",
+        "surname" : "GAWRON",
+        "value" : 15
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "SUSEK",
+        "value" : 15
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "GAWRON",
+        "value" : 15
+      }, {
+        "name" : "NATALIA",
+        "surname" : "CYGAN",
+        "value" : 30
+      }, {
+        "name" : "NATALIA",
+        "surname" : "KUSZ",
+        "value" : 30
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "LEŚNIEWSKI",
+        "value" : 15
+      }, {
+        "name" : "SZYMON",
+        "surname" : "SKIBA",
+        "value" : 30
+      }, {
+        "name" : "JOANNA",
+        "surname" : "MAZUR",
+        "value" : 30
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "FRAJ",
+        "value" : 30
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "FRAJ",
+        "value" : 30
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "OLEKSIUK",
+        "value" : 30
+      }, {
+        "name" : "NADIA",
+        "surname" : "SAID",
+        "value" : 30
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "DUDA",
+        "value" : 15
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "GĄDEK",
+        "value" : 30
+      }, {
+        "name" : "BEATA",
+        "surname" : "KRZYSZCZYK",
+        "value" : 30
+      }, {
+        "name" : "KONRAD",
+        "surname" : "STOLKA",
+        "value" : 30
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "WLOKA",
+        "value" : 30
+      }, {
+        "name" : "MARTA",
+        "surname" : "WLOKA",
+        "value" : 30
+      }, {
+        "name" : "HELENA",
+        "surname" : "MUCHA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "KACPER",
+        "surname" : "KOWALSKI",
+        "value" : 90
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "OLEJARCZYK",
+        "value" : 10
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "LEŚNIEWSKI",
+        "value" : 120
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "OLEKSIUK",
+        "value" : 60
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "LISZKA",
+        "value" : 10
+      }, {
+        "name" : "HELENA",
+        "surname" : "MUCHA",
+        "value" : 10
+      } ],
+      "members" : [ {
+        "name" : "MARTA",
+        "surname" : "BALCER"
+      }, {
+        "name" : "MARIA",
+        "surname" : "BOCZEK"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "BULA"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "CYGAN"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "DUDA"
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "FRAJ"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "FRAJ"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "GĄDEK"
+      }, {
+        "name" : "EWELINA",
+        "surname" : "GAWRON"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "GAWRON"
+      }, {
+        "name" : "ZOFIA",
+        "surname" : "GLISZCZYŃSKA"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "KALKA"
+      }, {
+        "name" : "KACPER",
+        "surname" : "KOWALSKI"
+      }, {
+        "name" : "BEATA",
+        "surname" : "KRZYSZCZYK"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "KRZYSZCZYK"
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "LEŚNIEWSKI"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "LISZKA"
+      }, {
+        "name" : "JOANNA",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "OLEJARCZYK"
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "OLEKSIUK"
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "PILIŃSKI"
+      }, {
+        "name" : "SAMBOR",
+        "surname" : "PŁASZCZYK"
+      }, {
+        "name" : "TAMARA",
+        "surname" : "PŁASZCZYK"
+      }, {
+        "name" : "NADIA",
+        "surname" : "SAID"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "SKIBA"
+      }, {
+        "name" : "KONRAD",
+        "surname" : "STOLKA"
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "SUSEK"
+      }, {
+        "name" : "MARTA",
+        "surname" : "SZYMCZAK"
+      }, {
+        "name" : "MARTA",
+        "surname" : "WLOKA"
+      }, {
+        "name" : "MATEUSZ",
+        "surname" : "WLOKA"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "ZNAJ"
+      }, {
+        "name" : "MARTA",
+        "surname" : "BUDIS"
+      }, {
+        "name" : "JULIA",
+        "surname" : "PRZEWDZING"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "IWANOW"
+      }, {
+        "name" : "SEBASTIAN",
+        "surname" : "MIECZKOWSKI"
+      }, {
+        "name" : "HELENA",
+        "surname" : "MUCHA"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "MUCHA"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "SZEWCZYK"
+      }, {
+        "name" : "ADRIAN",
+        "surname" : "WALICZEK"
+      }, {
+        "name" : "Julia",
+        "surname" : "Czmok"
+      }, {
+        "name" : "Wojciech",
+        "surname" : "Partuś"
+      }, {
+        "name" : "Marta",
+        "surname" : "Szewczyk"
+      }, {
+        "name" : "Tomasz",
+        "surname" : "PilińSKI"
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Lazar"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "BUDIS"
+      }, {
+        "name" : "AGATA",
+        "surname" : "CYGAN"
+      }, {
+        "name" : "HANNA",
+        "surname" : "GLISZCZYŃSKA"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "KUSZ"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "LAZAR"
+      }, {
+        "name" : "MAJA",
+        "surname" : "NIKIEL"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "30.0",
+        "title" : "2019-Szymon Iwanow-6707-RD-03"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-zuzanna lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-natalia lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019 JULIA CZMOK 6707 Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Szymon Iwanow-6707-RD-03"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-zuzanna lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-natalia lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019 JULIA CZMOK 6707 Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Szymon Iwanow-6707-RD-03"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-zuzanna lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-natalia lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019 JULIA CZMOK 6707 Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Szymon Iwanow-6707-RD-03"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-zuzanna lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-natalia lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019 JULIA CZMOK 6707 Cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Szymon Iwanow-6707-RD-03"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-zuzanna lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-natalia lazar-6707-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019 JULIA CZMOK 6707 Cmok"
+      } ]
+    },
+    "6711" : {
+      "CMOK" : [ {
+        "name" : "WIKTORIA",
+        "surname" : "KOSTORZ",
+        "value" : 30
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "WASIELEWSKA",
+        "value" : 30
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "PRUDŁO",
+        "value" : 15
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "MAZUR",
+        "value" : 30
+      }, {
+        "name" : "ELENA",
+        "surname" : "WOLNY",
+        "value" : 30
+      }, {
+        "name" : "SIMONA",
+        "surname" : "KONSEK",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "MAŁGORZATA",
+        "surname" : "WASIELEWSKA",
+        "value" : 30
+      }, {
+        "name" : "ELENA",
+        "surname" : "WOLNY",
+        "value" : 120
+      } ],
+      "ZH-01" : [ {
+        "name" : "WIKTOR",
+        "surname" : "GAJDA",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "SEWERYN",
+        "surname" : "BARTUSZ"
+      }, {
+        "name" : "HANNA",
+        "surname" : "CIUPAK"
+      }, {
+        "name" : "GRZEGORZ",
+        "surname" : "FRANK"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "FRANK"
+      }, {
+        "name" : "WIKTOR",
+        "surname" : "GAJDA"
+      }, {
+        "name" : "SANDRA",
+        "surname" : "GEMBORA"
+      }, {
+        "name" : "ALINA",
+        "surname" : "GLISZCZYŃSKA"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "KASZYŃSKI"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "KIK"
+      }, {
+        "name" : "TYMOTEUSZ",
+        "surname" : "KOLASIŃSKI"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "KOSTORZ"
+      }, {
+        "name" : "GRZEGORZ",
+        "surname" : "KRAWCZYK"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "KRAWCZYK"
+      }, {
+        "name" : "HANNA",
+        "surname" : "KUŚ"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "LIS"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "PRUDŁO"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "ROTER"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "STACHACZYŃSKI"
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "STANOWSKI"
+      }, {
+        "name" : "KACPER",
+        "surname" : "STANOWSKI"
+      }, {
+        "name" : "DAVID",
+        "surname" : "STASIŃSKI"
+      }, {
+        "name" : "KINGA",
+        "surname" : "SZWEDA"
+      }, {
+        "name" : "LAURA",
+        "surname" : "TOMANEK"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "WASIELEWSKA"
+      }, {
+        "name" : "BARTŁOMIEJ",
+        "surname" : "WĘGRZYN"
+      }, {
+        "name" : "MIKOŁAJ",
+        "surname" : "WOJAK"
+      }, {
+        "name" : "ELENA",
+        "surname" : "WOLNY"
+      }, {
+        "name" : "magdalena",
+        "surname" : "piecyk"
+      }, {
+        "name" : "Oliwia",
+        "surname" : "Kaczmarek"
+      }, {
+        "name" : "SIMONA",
+        "surname" : "KONSEK"
+      }, {
+        "name" : "Julia",
+        "surname" : "Wilk"
+      }, {
+        "name" : "Patryk",
+        "surname" : "STĘPIEŃ"
+      } ]
+    },
+    "6713" : {
+      "members" : [ {
+        "name" : "KLAUDIA",
+        "surname" : "BANISZ"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "BANISZ"
+      }, {
+        "name" : "BARBARA",
+        "surname" : "BUSZKA"
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "CHLIPAŁA"
+      }, {
+        "name" : "SANDRA",
+        "surname" : "CZAPLOK"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "CZAPLOK"
+      }, {
+        "name" : "LAURA",
+        "surname" : "DEMARCZYK"
+      }, {
+        "name" : "ZBIGNIEW",
+        "surname" : "GOMOLA"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "GONDEK"
+      }, {
+        "name" : "ANETA",
+        "surname" : "KADZIMIERZ"
+      }, {
+        "name" : "JAN",
+        "surname" : "KADZIMIERZ"
+      }, {
+        "name" : "MIECZYSŁAW",
+        "surname" : "KARKUSZ"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "KIERZEK"
+      }, {
+        "name" : "SABINA",
+        "surname" : "KIWIC"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "KRZEP"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "KUKLA"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "KUPCZYK"
+      }, {
+        "name" : "MONIKA",
+        "surname" : "LAKSA"
+      }, {
+        "name" : "BOGDAN",
+        "surname" : "MADEJSKI"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "MUCH"
+      }, {
+        "name" : "SYLWESTER",
+        "surname" : "RAK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "SPYRA"
+      }, {
+        "name" : "MAREK",
+        "surname" : "SZCZĘDZINA"
+      }, {
+        "name" : "KLAUDIA",
+        "surname" : "SZWAJNOS"
+      }, {
+        "name" : "MARIUSZ",
+        "surname" : "SZYMECZKO"
+      }, {
+        "name" : "DAWID",
+        "surname" : "TOMALA"
+      }, {
+        "name" : "DŻESIKA",
+        "surname" : "WYDRA"
+      }, {
+        "name" : "KACPER",
+        "surname" : "CICHOŃ"
+      }, {
+        "name" : "SYKWESTER",
+        "surname" : "KIRAGA"
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "TRZEWICARZ"
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "WIENCEK"
+      } ]
+    },
+    "6717" : {
+      "CMOK" : [ {
+        "name" : "JOANNA",
+        "surname" : "KOSIAK",
+        "value" : 30
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Zgraj",
+        "value" : 30
+      }, {
+        "name" : "ANNA",
+        "surname" : "GŁAZ",
+        "value" : 15
+      }, {
+        "name" : "SAMUELE",
+        "surname" : "CAROZZI",
+        "value" : 30
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "JANUSZ",
+        "value" : 30
+      }, {
+        "name" : "BŁAŻEJ",
+        "surname" : "JANUSZ",
+        "value" : 30
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "RAWICZ-GROTOWSKA",
+        "value" : 30
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "RAWICZ-GROTOWSKI",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "NATALIA",
+        "surname" : "ĆWIĘK",
+        "value" : 120
+      }, {
+        "name" : "ANNA",
+        "surname" : "GŁAZ",
+        "value" : 120
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Zgraj",
+        "value" : 10
+      } ],
+      "ZH-02" : [ {
+        "name" : "BŁAŻEJ",
+        "surname" : "JANUSZ",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "AGNIESZKA",
+        "surname" : "BIEGAJ"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "CEKAŁA"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "ĆWIĘK"
+      }, {
+        "name" : "MONIKA",
+        "surname" : "GRZYB"
+      }, {
+        "name" : "BŁAŻEJ",
+        "surname" : "JANUSZ"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "JANUSZ"
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "KARA"
+      }, {
+        "name" : "JOANNA",
+        "surname" : "KOSIAK"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "RAWICZ-GROTOWSKA"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "RAWICZ-GROTOWSKI"
+      }, {
+        "name" : "MARTA",
+        "surname" : "CEKAŁA"
+      }, {
+        "name" : "KAMIL",
+        "surname" : "LIPIEC"
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Zgraj"
+      }, {
+        "name" : "KAROLINA",
+        "surname" : "KUCHTA"
+      }, {
+        "name" : "SAMUELE",
+        "surname" : "CAROZZI"
+      }, {
+        "name" : "ANNA",
+        "surname" : "GŁAZ"
+      }, {
+        "name" : "Beata",
+        "surname" : "Szymańska"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "30.0",
+        "title" : "2019-Marta Cekała-6717-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Jakub Cekała-6717-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Marta Cekała-6717-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Jakub Cekała-6717-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Marta Cekała-6717-cmok"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Jakub Cekała-6717-cmok"
+      } ]
+    },
+    "6722" : {
+      "SC" : [ {
+        "name" : "MARTYNA",
+        "surname" : "STACHACZYŃSKA",
+        "value" : 40
+      } ],
+      "members" : [ {
+        "name" : "AGNIESZKA",
+        "surname" : "DIKTA"
+      }, {
+        "name" : "JULIA",
+        "surname" : "PIEŚLA"
+      }, {
+        "name" : "DAWID",
+        "surname" : "KOWOL"
+      }, {
+        "name" : "Ignacy",
+        "surname" : "Kołodziej"
+      }, {
+        "name" : "Julia",
+        "surname" : "Flicińska"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "STACHACZYŃSKA"
+      }, {
+        "name" : "Natalia",
+        "surname" : "Tomanek"
+      }, {
+        "name" : "Zofia",
+        "surname" : "Sikora"
+      }, {
+        "name" : "Maja",
+        "surname" : "Drabik"
+      } ]
+    },
+    "6723" : {
+      "CMOK" : [ {
+        "name" : "Marta",
+        "surname" : "Mazur",
+        "value" : 30
+      }, {
+        "name" : "Paulina",
+        "surname" : "Domagalska",
+        "value" : 30
+      }, {
+        "name" : "Magdalena",
+        "surname" : "Wypchoł",
+        "value" : 60
+      }, {
+        "name" : "TOMASZ",
+        "surname" : "JONEK",
+        "value" : 15
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "KOLON",
+        "value" : 30
+      }, {
+        "name" : "Łucja",
+        "surname" : "Karkus",
+        "value" : 15
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "KARKUS",
+        "value" : 30
+      }, {
+        "name" : "Jakub",
+        "surname" : "Białas",
+        "value" : 30
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "BIAŁAS",
+        "value" : 30
+      }, {
+        "name" : "Iga",
+        "surname" : "Pacyna",
+        "value" : 30
+      }, {
+        "name" : "Paulina",
+        "surname" : "Świtek",
+        "value" : 15
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "RYNCEWICZ",
+        "value" : 30
+      }, {
+        "name" : "MAJA",
+        "surname" : "RYNCEWICZ",
+        "value" : 30
+      }, {
+        "name" : "Julita",
+        "surname" : "Mikosz",
+        "value" : 30
+      }, {
+        "name" : "PATRYK",
+        "surname" : "BAŁAKIER",
+        "value" : 30
+      }, {
+        "name" : "DARIA",
+        "surname" : "CICHY",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Magdalena",
+        "surname" : "Wypchoł",
+        "value" : 80
+      }, {
+        "name" : "Iga",
+        "surname" : "Pacyna",
+        "value" : 30
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "KOLON",
+        "value" : 10
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "BIAŁAS",
+        "value" : 30
+      }, {
+        "name" : "Jakub",
+        "surname" : "Białas",
+        "value" : 30
+      }, {
+        "name" : "Paulina",
+        "surname" : "Świtek",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "PATRYK",
+        "surname" : "BAŁAKIER"
+      }, {
+        "name" : "DARIA",
+        "surname" : "CICHY"
+      }, {
+        "name" : "TOMASZ",
+        "surname" : "JONEK"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "KOLON"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "Lipiec"
+      }, {
+        "name" : "SEBASTIAN",
+        "surname" : "NIEGEL"
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "RYNCEWICZ"
+      }, {
+        "name" : "MAJA",
+        "surname" : "RYNCEWICZ"
+      }, {
+        "name" : "MACIEJ",
+        "surname" : "BIAŁAS"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "KARKUS"
+      }, {
+        "name" : "Julita",
+        "surname" : "Mikosz"
+      }, {
+        "name" : "Dominik",
+        "surname" : "Necel"
+      }, {
+        "name" : "Maja",
+        "surname" : "Pawlak"
+      }, {
+        "name" : "Jakub",
+        "surname" : "Białas"
+      }, {
+        "name" : "Łucja",
+        "surname" : "Karkus"
+      }, {
+        "name" : "Paulina",
+        "surname" : "Domagalska"
+      }, {
+        "name" : "Marta",
+        "surname" : "Mazur"
+      }, {
+        "name" : "Iga",
+        "surname" : "Pacyna"
+      }, {
+        "name" : "Paulina",
+        "surname" : "Świtek"
+      }, {
+        "name" : "Magdalena",
+        "surname" : "Wypchoł"
+      }, {
+        "name" : "ARTUR",
+        "surname" : "ADAMEK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "BIELAWSKI"
+      }, {
+        "name" : "DOMINIK",
+        "surname" : "SZYMAŃSKI"
+      } ]
+    },
+    "11600" : {
+      "CMOK" : [ {
+        "name" : "PATRYCJA",
+        "surname" : "HANUSZKIEWICZ",
+        "value" : 15
+      }, {
+        "name" : "Nina",
+        "surname" : "Kańtoch",
+        "value" : 30
+      }, {
+        "name" : "KINGA",
+        "surname" : "WŁOŚ",
+        "value" : 15
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DROŻNIEWICZ",
+        "value" : 15
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "DROŻNIEWICZ",
+        "value" : 15
+      }, {
+        "name" : "RYSZARD",
+        "surname" : "SZYMIK",
+        "value" : 15
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "HAJDUK",
+        "value" : 15
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "HAJDUK",
+        "value" : 15
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Wandzik",
+        "value" : 30
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SZABLA",
+        "value" : 30
+      }, {
+        "name" : "MIKOŁAJ",
+        "surname" : "GAWARECKI",
+        "value" : 30
+      }, {
+        "name" : "MARTA",
+        "surname" : "DURKIEWICZ",
+        "value" : 30
+      }, {
+        "name" : "MARCEL",
+        "surname" : "MAZUR",
+        "value" : 30
+      }, {
+        "name" : "ALEKSANDER",
+        "surname" : "WODARSKI",
+        "value" : 30
+      }, {
+        "name" : "ARKADIUSZ",
+        "surname" : "WODARSKI",
+        "value" : 30
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "WANDZIK",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Nina",
+        "surname" : "Kańtoch",
+        "value" : 20
+      }, {
+        "name" : "KINGA",
+        "surname" : "WŁOŚ",
+        "value" : 30
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DROŻNIEWICZ",
+        "value" : 20
+      }, {
+        "name" : "Natalia",
+        "surname" : "Hajduk",
+        "value" : 30
+      }, {
+        "name" : "ALEKSANDER",
+        "surname" : "WODARSKI",
+        "value" : 20
+      }, {
+        "name" : "ARKADIUSZ",
+        "surname" : "WODARSKI",
+        "value" : 20
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "WANDZIK",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "WIKTOR",
+        "surname" : "BRAŃSKI"
+      }, {
+        "name" : "MARTA",
+        "surname" : "DURKIEWICZ"
+      }, {
+        "name" : "MIKOŁAJ",
+        "surname" : "GAWARECKI"
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "HAJDUK"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "HAJDUK"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "HANUSZKIEWICZ"
+      }, {
+        "name" : "BEATA",
+        "surname" : "KORUS"
+      }, {
+        "name" : "MARCEL",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "RYSZARD",
+        "surname" : "SZYMIK"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "WANDZIK"
+      }, {
+        "name" : "KINGA",
+        "surname" : "WŁOŚ"
+      }, {
+        "name" : "Ignacy",
+        "surname" : "Brański"
+      }, {
+        "name" : "Agata",
+        "surname" : "Szyduczyńska"
+      }, {
+        "name" : "Mateusz",
+        "surname" : "Wandzik"
+      }, {
+        "name" : "Natalia",
+        "surname" : "Hajduk"
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "DROŻNIEWICZ"
+      }, {
+        "name" : "ARKADIUSZ",
+        "surname" : "WODARSKI"
+      }, {
+        "name" : "ALEKSANDER",
+        "surname" : "WODARSKI"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SZABLA"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DROŻNIEWICZ"
+      }, {
+        "name" : "Nina",
+        "surname" : "Kańtoch"
+      }, {
+        "name" : "Oliwia",
+        "surname" : "Margasińska"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "PARTUŚ"
+      }, {
+        "name" : "PATRYK",
+        "surname" : "WYLĄG"
+      }, {
+        "name" : "REMIGIUSZ",
+        "surname" : "SARNOWSKI"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "20.0",
+        "title" : "2019-Zuzanna Szabla-11600-S.C"
+      }, {
+        "cash" : "20.0",
+        "title" : "2019-Zuzanna Szabla-11600-S.C"
+      } ]
+    },
+    "12427" : {
+      "CMOK" : [ {
+        "name" : "PIOTR",
+        "surname" : "CMOK",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KAMIŃSKA",
+        "value" : 30
+      }, {
+        "name" : "KINGA",
+        "surname" : "SWANDZIKOWSKA",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "GÓRKA",
+        "value" : 30
+      }, {
+        "name" : "DAWID",
+        "surname" : "WIESZCZYK",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "ŻABIŃSKA",
+        "value" : 30
+      }, {
+        "name" : "SZYMON",
+        "surname" : "ANDRUCH",
+        "value" : 30
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "POGORZAŁEK",
+        "value" : 30
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "MOTYKA",
+        "value" : 30
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "PILARSKA",
+        "value" : 30
+      }, {
+        "name" : "JULIA",
+        "surname" : "BARAN",
+        "value" : 30
+      }, {
+        "name" : "ANGELIKA",
+        "surname" : "DŁUGOSZ",
+        "value" : 30
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "KALUSCHE",
+        "value" : 30
+      }, {
+        "name" : "MARIA",
+        "surname" : "RADECKA",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "JAKUB",
+        "surname" : "MEREDYK",
+        "value" : 120
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "PILARSKA",
+        "value" : 30
+      } ],
+      "ZH-01" : [ {
+        "name" : "MAKSYMILIAN",
+        "surname" : "WRÓBEL",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "SZYMON",
+        "surname" : "ANDRUCH"
+      }, {
+        "name" : "JULIA",
+        "surname" : "BARAN"
+      }, {
+        "name" : "ALEKSANDRA",
+        "surname" : "BROŻEK"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "CMOK"
+      }, {
+        "name" : "ANGELIKA",
+        "surname" : "DŁUGOSZ"
+      }, {
+        "name" : "MARIA",
+        "surname" : "GÓRKA"
+      }, {
+        "name" : "ŁUKASZ",
+        "surname" : "HENDRYSIAK"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "KALUSCHE"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "KAMIŃSKA"
+      }, {
+        "name" : "ARTUR",
+        "surname" : "KOPIENIOK"
+      }, {
+        "name" : "KINGA",
+        "surname" : "KOTAS"
+      }, {
+        "name" : "JAKUB",
+        "surname" : "MEREDYK"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "MOTYKA"
+      }, {
+        "name" : "EWA",
+        "surname" : "NAWROCKA"
+      }, {
+        "name" : "KATARZYNA",
+        "surname" : "OWCZAREK"
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "PETRYKOWSKI"
+      }, {
+        "name" : "PATRYCJA",
+        "surname" : "PILARSKA"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "POGORZAŁEK"
+      }, {
+        "name" : "MARIA",
+        "surname" : "RADECKA"
+      }, {
+        "name" : "KINGA",
+        "surname" : "SWANDZIKOWSKA"
+      }, {
+        "name" : "JULIA",
+        "surname" : "WANDZIK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "WIESZCZYK"
+      }, {
+        "name" : "MAKSYMILIAN",
+        "surname" : "WRÓBEL"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "ŻABIŃSKA"
+      }, {
+        "name" : "Kajetan",
+        "surname" : "Demarczyk"
+      }, {
+        "name" : "Alicja",
+        "surname" : "Jakowska"
+      }, {
+        "name" : "SZCZEPAN",
+        "surname" : "KOŁODZIEJ"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "LATARNIK"
+      } ]
+    },
+    "14149" : {
+      "CMOK" : [ {
+        "name" : "LENA",
+        "surname" : "HAUK",
+        "value" : 30
+      }, {
+        "name" : "PAULINA",
+        "surname" : "BRZOZKA",
+        "value" : 30
+      }, {
+        "name" : "EMILIA",
+        "surname" : "SZYMAŃSKA",
+        "value" : 30
+      }, {
+        "name" : "Aleksandra",
+        "surname" : "Szymańska",
+        "value" : 30
+      }, {
+        "name" : "Dorota",
+        "surname" : "Sławik",
+        "value" : 15
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Smyla",
+        "value" : 30
+      }, {
+        "name" : "HANNA",
+        "surname" : "ŻUR",
+        "value" : 30
+      }, {
+        "name" : "Filip",
+        "surname" : "Sławik",
+        "value" : 15
+      }, {
+        "name" : "Kamil",
+        "surname" : "Kopka",
+        "value" : 30
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "PACWA",
+        "value" : 15
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "CENKIER",
+        "value" : 30
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "SZYMAŃSKI",
+        "value" : 30
+      }, {
+        "name" : "ANTONINA",
+        "surname" : "MIKA",
+        "value" : 30
+      }, {
+        "name" : "Zofia",
+        "surname" : "Mieszczak",
+        "value" : 30
+      }, {
+        "name" : "HANNA",
+        "surname" : "MIESZCZAK",
+        "value" : 30
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Polak",
+        "value" : 30
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "HECZKO",
+        "value" : 30
+      }, {
+        "name" : "Maja",
+        "surname" : "Heczko",
+        "value" : 30
+      }, {
+        "name" : "Aurelia",
+        "surname" : "Kulawik",
+        "value" : 30
+      }, {
+        "name" : "Kornelia",
+        "surname" : "Kulawik",
+        "value" : 30
+      }, {
+        "name" : "EMILIA",
+        "surname" : "KAWOREK",
+        "value" : 30
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "KAWOREK",
+        "value" : 30
+      }, {
+        "name" : "NINA",
+        "surname" : "KAŁUŻA",
+        "value" : 30
+      }, {
+        "name" : "HANNA",
+        "surname" : "KAŁUŻA",
+        "value" : 30
+      }, {
+        "name" : "Jakub",
+        "surname" : "Brzoza",
+        "value" : 30
+      }, {
+        "name" : "Lena",
+        "surname" : "Gaida",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Zuzanna",
+        "surname" : "Smyla",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "RAFAŁ",
+        "surname" : "BIEGAJ"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "KAWOREK"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "KAWOREK"
+      }, {
+        "name" : "ANTONINA",
+        "surname" : "MIKA"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "PACWA"
+      }, {
+        "name" : "ALICJA",
+        "surname" : "SZAMBURSKA"
+      }, {
+        "name" : "JAGODA",
+        "surname" : "WALENCIAK"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "WALENCIAK"
+      }, {
+        "name" : "HANNA",
+        "surname" : "KAŁUŻA"
+      }, {
+        "name" : "NINA",
+        "surname" : "KAŁUŻA"
+      }, {
+        "name" : "HANNA",
+        "surname" : "MIESZCZAK"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SAWICkA"
+      }, {
+        "name" : "BARTOSZ",
+        "surname" : "SZYMAŃSKI"
+      }, {
+        "name" : "HANNA",
+        "surname" : "ŻUR"
+      }, {
+        "name" : "LENA",
+        "surname" : "HAUK"
+      }, {
+        "name" : "NADIA",
+        "surname" : "HAUK"
+      }, {
+        "name" : "Aleksandra",
+        "surname" : "Szymańska"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "SZYMAŃSKA"
+      }, {
+        "name" : "NIKOLA",
+        "surname" : "HECZKO"
+      }, {
+        "name" : "AGNIESZKA",
+        "surname" : "CENKIER"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "BRZOZKA"
+      }, {
+        "name" : "Wiktoria",
+        "surname" : "Polak"
+      }, {
+        "name" : "Lena",
+        "surname" : "Gaida"
+      }, {
+        "name" : "Emilia",
+        "surname" : "Szamburska"
+      }, {
+        "name" : "Jakub",
+        "surname" : "Brzoza"
+      }, {
+        "name" : "Filip",
+        "surname" : "Sławik"
+      }, {
+        "name" : "Dorota",
+        "surname" : "Sławik"
+      }, {
+        "name" : "Maja",
+        "surname" : "Heczko"
+      }, {
+        "name" : "Kamil",
+        "surname" : "Kopka"
+      }, {
+        "name" : "Zofia",
+        "surname" : "Mieszczak"
+      }, {
+        "name" : "Aurelia",
+        "surname" : "Kulawik"
+      }, {
+        "name" : "Kornelia",
+        "surname" : "Kulawik"
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Smyla"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "30.0",
+        "title" : "2019-Zuzanna Sawicka-14149-CMOG"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-Zuzanna Sawicka-14149-CMOG"
+      } ]
+    },
+    "15439" : {
+      "members" : [ {
+        "name" : "URSZULA",
+        "surname" : "BADURA"
+      }, {
+        "name" : "LUDMIŁA",
+        "surname" : "DOMŻALSKA"
+      }, {
+        "name" : "IGNACY",
+        "surname" : "DUBIŃSKI"
+      }, {
+        "name" : "EUGENIUSZ",
+        "surname" : "KEMPA"
+      }, {
+        "name" : "BRYGIDA",
+        "surname" : "KIEŁTYKA"
+      }, {
+        "name" : "HENRYK",
+        "surname" : "KIEŁTYKA"
+      }, {
+        "name" : "KRYSTYNA",
+        "surname" : "KLUGE"
+      }, {
+        "name" : "JANINA",
+        "surname" : "PACHOLSKA"
+      }, {
+        "name" : "RUTA",
+        "surname" : "SMOLORZ"
+      }, {
+        "name" : "JERZY",
+        "surname" : "STELMACH"
+      }, {
+        "name" : "HELENA",
+        "surname" : "STENCEL"
+      }, {
+        "name" : "URSZULA",
+        "surname" : "SZAFARCZYK"
+      }, {
+        "name" : "ANIELA",
+        "surname" : "SZAFRANEK"
+      }, {
+        "name" : "HELENA",
+        "surname" : "SZLAK"
+      }, {
+        "name" : "STEFANIA",
+        "surname" : "URBANEK"
+      }, {
+        "name" : "JAN",
+        "surname" : "WALDERA"
+      }, {
+        "name" : "HELENA",
+        "surname" : "WYCIŚLIK"
+      }, {
+        "name" : "MARIAN",
+        "surname" : "KOWALSKI"
+      } ]
+    },
+    "15446" : {
+      "CMOK" : [ {
+        "name" : "BARBARA",
+        "surname" : "RÓŻYCKA",
+        "value" : 15
+      } ],
+      "members" : [ {
+        "name" : "BARBARA",
+        "surname" : "RÓŻYCKA"
+      } ]
+    },
+    "15946" : {
+      "CMOK" : [ {
+        "name" : "Mikołaj",
+        "surname" : "Grzesiczek",
+        "value" : 30
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DYMEK",
+        "value" : 30
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "STILER",
+        "value" : 15
+      }, {
+        "name" : "Maciej",
+        "surname" : "Sykulski",
+        "value" : 30
+      }, {
+        "name" : "Martyna",
+        "surname" : "Sykulska",
+        "value" : 30
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "WOŹNIKOWSKA",
+        "value" : 30
+      }, {
+        "name" : "Sandra",
+        "surname" : "Baron",
+        "value" : 30
+      }, {
+        "name" : "Karol",
+        "surname" : "Malewski",
+        "value" : 30
+      }, {
+        "name" : "Dawid",
+        "surname" : "Raszka",
+        "value" : 30
+      }, {
+        "name" : "ROKSANA",
+        "surname" : "HENISZ",
+        "value" : 30
+      }, {
+        "name" : "Angelika",
+        "surname" : "Henisz",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Maciej",
+        "surname" : "Sykulski",
+        "value" : 30
+      }, {
+        "name" : "Martyna",
+        "surname" : "Sykulska",
+        "value" : 30
+      }, {
+        "name" : "Sandra",
+        "surname" : "Baron",
+        "value" : 30
+      }, {
+        "name" : "Michał",
+        "surname" : "Rudzki",
+        "value" : 60
+      }, {
+        "name" : "ROKSANA",
+        "surname" : "HENISZ",
+        "value" : 30
+      }, {
+        "name" : "Angelika",
+        "surname" : "Henisz",
+        "value" : 30
+      }, {
+        "name" : "Dawid",
+        "surname" : "Raszka",
+        "value" : 50
+      } ],
+      "ZH-01" : [ {
+        "name" : "Aleksandra",
+        "surname" : "Gryga",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "LENA",
+        "surname" : "DOLESZIN"
+      }, {
+        "name" : "SZYMON",
+        "surname" : "DYMEK"
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "GRZEŚKOWIAK"
+      }, {
+        "name" : "ROKSANA",
+        "surname" : "HENISZ"
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "LEŚNIK"
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "STILER"
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "WOŹNIKOWSKA"
+      }, {
+        "name" : "Aleksandra",
+        "surname" : "Gryga"
+      }, {
+        "name" : "Angelika",
+        "surname" : "Henisz"
+      }, {
+        "name" : "Karol",
+        "surname" : "Malewski"
+      }, {
+        "name" : "Magdalena",
+        "surname" : "Popiołek"
+      }, {
+        "name" : "Adam",
+        "surname" : "Badura"
+      }, {
+        "name" : "Sandra",
+        "surname" : "Baron"
+      }, {
+        "name" : "Mikołaj",
+        "surname" : "Grzesiczek"
+      }, {
+        "name" : "Michał",
+        "surname" : "Rudzki"
+      }, {
+        "name" : "Martyna",
+        "surname" : "Sykulska"
+      }, {
+        "name" : "Maciej",
+        "surname" : "Sykulski"
+      }, {
+        "name" : "Magdalena",
+        "surname" : "Gendera"
+      }, {
+        "name" : "Dawid",
+        "surname" : "Raszka"
+      } ]
+    },
+    "15947" : {
+      "CMOK" : [ {
+        "name" : "SANDRA",
+        "surname" : "KOSTORZ",
+        "value" : 30
+      } ],
+      "SC" : [ {
+        "name" : "Igor",
+        "surname" : "Krala",
+        "value" : 30
+      }, {
+        "name" : "Lena",
+        "surname" : "Patyńska",
+        "value" : 30
+      }, {
+        "name" : "LAURA",
+        "surname" : "KUCHARSKA",
+        "value" : 30
+      }, {
+        "name" : "Agata",
+        "surname" : "Kostorz",
+        "value" : 30
+      }, {
+        "name" : "Wojciech",
+        "surname" : "Kostorz",
+        "value" : 30
+      }, {
+        "name" : "Paulina",
+        "surname" : "Kasperczyk",
+        "value" : 30
+      } ],
+      "ZH-01" : [ {
+        "name" : "ARKADIUSZ",
+        "surname" : "TARABURA",
+        "value" : 150
+      }, {
+        "name" : "MARTYNA",
+        "surname" : "GAJDA",
+        "value" : 150
+      } ],
+      "members" : [ {
+        "name" : "MARTYNA",
+        "surname" : "GAJDA"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "JONAK"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "KIK"
+      }, {
+        "name" : "RADOSŁAW",
+        "surname" : "KOLASIŃSKI"
+      }, {
+        "name" : "SANDRA",
+        "surname" : "KOSTORZ"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "KUŚ"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "LIS"
+      }, {
+        "name" : "MALWINA",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "ADAM",
+        "surname" : "PIETRZYKOWSKI"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "SZCZEPEK"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "TOMCZYK"
+      }, {
+        "name" : "MAŁGORZATA",
+        "surname" : "DOMAGAŁA"
+      }, {
+        "name" : "LILIANA",
+        "surname" : "KALISZ"
+      }, {
+        "name" : "LAURA",
+        "surname" : "KUCHARSKA"
+      }, {
+        "name" : "PAULINA",
+        "surname" : "PIECYK"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "PIERSA"
+      }, {
+        "name" : "ARKADIUSZ",
+        "surname" : "TARABURA"
+      }, {
+        "name" : "ALEKSANDER",
+        "surname" : "ZAJĄCZKOWSKI"
+      }, {
+        "name" : "Lena",
+        "surname" : "Patyńska"
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Sobera"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "STAWOWA"
+      }, {
+        "name" : "Olga",
+        "surname" : "Sieczko"
+      }, {
+        "name" : "Laura",
+        "surname" : "Smyk"
+      }, {
+        "name" : "Filip",
+        "surname" : "Lyszczok"
+      }, {
+        "name" : "Iga",
+        "surname" : "Patyńska"
+      }, {
+        "name" : "Agata",
+        "surname" : "Kostorz"
+      }, {
+        "name" : "Wojciech",
+        "surname" : "Kostorz"
+      }, {
+        "name" : "Milena",
+        "surname" : "Akcińska"
+      }, {
+        "name" : "Igor",
+        "surname" : "Krala"
+      }, {
+        "name" : "Agata",
+        "surname" : "Kasperczyk"
+      }, {
+        "name" : "Pola",
+        "surname" : "Pilecka"
+      }, {
+        "name" : "Paulina",
+        "surname" : "Kasperczyk"
+      } ]
+    },
+    "15948" : {
+      "SC" : [ {
+        "name" : "KEWIN",
+        "surname" : "KRYSTEK",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "ANNA",
+        "surname" : "FERDYN"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "JANKOWSKI"
+      }, {
+        "name" : "AMELIA",
+        "surname" : "KLONOWSKA"
+      }, {
+        "name" : "KEWIN",
+        "surname" : "KRYSTEK"
+      }, {
+        "name" : "WOJCIECH",
+        "surname" : "LASKOWSKI"
+      }, {
+        "name" : "FILIP",
+        "surname" : "PATYńSKI"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "PETER"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "PLACHETKA"
+      }, {
+        "name" : "AMELIA",
+        "surname" : "PUCHAŁA"
+      }, {
+        "name" : "NATALIA",
+        "surname" : "SARNA"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "SARNA"
+      }, {
+        "name" : "PAWEŁ",
+        "surname" : "TULIK"
+      }, {
+        "name" : "Bartosz",
+        "surname" : "Będkowski"
+      }, {
+        "name" : "Zuzanna",
+        "surname" : "Lenga"
+      } ]
+    },
+    "16439" : {
+      "SC" : [ {
+        "name" : "BARBARA",
+        "surname" : "DYKIEREK",
+        "value" : 30
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "DYKIEREK",
+        "value" : 30
+      }, {
+        "name" : "HANNA",
+        "surname" : "GALUS",
+        "value" : 10
+      } ],
+      "members" : [ {
+        "name" : "HANNA",
+        "surname" : "ARNDT"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "BROL"
+      }, {
+        "name" : "BARBARA",
+        "surname" : "DYKIEREK"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "DYKIEREK"
+      }, {
+        "name" : "HANNA",
+        "surname" : "GALUS"
+      }, {
+        "name" : "DOMINIKA",
+        "surname" : "MIKA"
+      }, {
+        "name" : "Melania",
+        "surname" : "Turek"
+      }, {
+        "name" : "Marta",
+        "surname" : "Jurkiewicz"
+      }, {
+        "name" : "Katarzyna",
+        "surname" : "Gałecka"
+      }, {
+        "name" : "Hanna",
+        "surname" : "Grychtoł"
+      }, {
+        "name" : "Marianna",
+        "surname" : "Grychtoł"
+      }, {
+        "name" : "Liliana",
+        "surname" : "Chmielowska"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "10.0",
+        "title" : "Magdalena Brol.41-706.RudaŚląska.ul.Ligocka 48.składkaczłonkowska 2019.kod16439-sc"
+      }, {
+        "cash" : "10.0",
+        "title" : "Magdalena Brol.41-706.RudaŚląska.ul.Ligocka 48.składkaczłonkowska 2019.kod16439-sc"
+      } ]
+    },
+    "17203" : {
+      "SC" : [ {
+        "name" : "PIOTR",
+        "surname" : "ŻOGAŁA",
+        "value" : 30
+      }, {
+        "name" : "JAN",
+        "surname" : "ŻOGAŁA",
+        "value" : 30
+      } ],
+      "members" : [ {
+        "name" : "KLAUDIUSZ",
+        "surname" : "PALUCH"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "HIKIEL"
+      }, {
+        "name" : "ANNA",
+        "surname" : "PALUCH"
+      }, {
+        "name" : "JULIA",
+        "surname" : "PALUCH"
+      }, {
+        "name" : "OLIWIA",
+        "surname" : "PALUCH"
+      }, {
+        "name" : "WIKTORIA",
+        "surname" : "PALUCH"
+      }, {
+        "name" : "AGATA",
+        "surname" : "PILNY"
+      }, {
+        "name" : "ROBERT",
+        "surname" : "PILNY"
+      }, {
+        "name" : "EMILIA",
+        "surname" : "PROCEK"
+      }, {
+        "name" : "RAFAŁ",
+        "surname" : "SKRZYPCZYK"
+      }, {
+        "name" : "WERONIKA",
+        "surname" : "SKRZYPCZYK"
+      }, {
+        "name" : "KLAUDIA",
+        "surname" : "URZĘDNIK"
+      }, {
+        "name" : "DAWID",
+        "surname" : "WILK"
+      }, {
+        "name" : "ANASTAZJA",
+        "surname" : "ZĄBKIEWICZ"
+      }, {
+        "name" : "JAN",
+        "surname" : "ŻOGAŁA"
+      }, {
+        "name" : "PIOTR",
+        "surname" : "ŻOGAŁA"
+      }, {
+        "name" : "PRZEMYSŁAW",
+        "surname" : "ŻOGAŁA"
+      }, {
+        "name" : "Łukasz",
+        "surname" : "Leszczyński"
+      }, {
+        "name" : "HANNA",
+        "surname" : "DRYŚ"
+      }, {
+        "name" : "MAGDALENA",
+        "surname" : "DRYŚ"
+      }, {
+        "name" : "TOMASZ",
+        "surname" : "ŻOGAŁA"
+      }, {
+        "name" : "ZUZANNA",
+        "surname" : "SZUŚCIK"
+      }, {
+        "name" : "Dominika",
+        "surname" : "Jałowiecka"
+      } ],
+      "nonAssigned" : [ {
+        "cash" : "200.0",
+        "title" : "2020-KLAUDIUSZ PALUCH-17203-OH-01"
+      }, {
+        "cash" : "200.0",
+        "title" : "2020-KLAUDIUSZ PALUCH-17203-OH-01"
+      } ]
+    },
+    "110202" : {
+      "members" : [ {
+        "name" : "DANUTA",
+        "surname" : "FAŁEK"
+      }, {
+        "name" : "STANISŁAW",
+        "surname" : "FAŁEK"
+      }, {
+        "name" : "ELŻBIETA",
+        "surname" : "FRANK"
+      }, {
+        "name" : "GRAŻYNA",
+        "surname" : "HANUSZKIEWICZ"
+      }, {
+        "name" : "ANDRZEJ",
+        "surname" : "LAKSA"
+      }, {
+        "name" : "MICHAŁ",
+        "surname" : "MAZUR"
+      }, {
+        "name" : "KRYSTIAN",
+        "surname" : "NIEGEL"
+      }, {
+        "name" : "ELŻBIETA",
+        "surname" : "PŁONKA"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "RODZOCH"
+      }, {
+        "name" : "MARCIN",
+        "surname" : "RÓŻYCKI"
+      }, {
+        "name" : "JANUSZ",
+        "surname" : "STECZ"
+      }, {
+        "name" : "KRZYSZTOF",
+        "surname" : "SZAMSZA"
+      }, {
+        "name" : "ONUFRY",
+        "surname" : "SZAŁKIEWICZ"
+      }, {
+        "name" : "ANNA",
+        "surname" : "SZYMAŃSKA"
+      }, {
+        "name" : "DAMIAN",
+        "surname" : "SZYMAŃSKI"
+      }, {
+        "name" : "ANDRZEJ",
+        "surname" : "ŻUREK"
+      }, {
+        "name" : "JANUSZ",
+        "surname" : "CZUBKOWSKI"
+      } ]
+    },
+    "pozostałe" : {
+      "nonAssigned" : [ {
+        "cash" : "255.0",
+        "title" : "2019-Michał Porada-1111-PCZ opłataza okres 07.2019 - 12.2019  45.00/3m-ce i 40.00/3 m-ce"
+      }, {
+        "cash" : "-2029.5",
+        "title" : "f-ra: 1042/10/2019SUW Kuźnica"
+      }, {
+        "cash" : "-4000.0",
+        "title" : "fak. 178/11/2019transport"
+      }, {
+        "cash" : "-184.5",
+        "title" : "fak. 2141/19/17DH przegląd kominiarski"
+      }, {
+        "cash" : "-465.41",
+        "title" : "fak. 380117291wydruki 01-31.10.2019"
+      }, {
+        "cash" : "-873.5",
+        "title" : "fak. 4122018955wywóz odpadówKuźnica"
+      }, {
+        "cash" : "-56.71",
+        "title" : "fak.F0080638407/011/19opłata za telefonKuźnica"
+      }, {
+        "cash" : "-274.29",
+        "title" : "fak. 400026233wynajem  01.11-30.11.2019r"
+      }, {
+        "cash" : "135.0",
+        "title" : "2019-BARBARA CHRUŚCIŃSKA-1111-PCZOPŁATA ZA X-XII"
+      }, {
+        "cash" : "50.0",
+        "title" : "2019-Dariusz Ratka-1111-PCZXI 2019"
+      }, {
+        "cash" : "-6000.0",
+        "title" : "przelew środków"
+      }, {
+        "cash" : "30.0",
+        "title" : "joanna loboda MALCHERA 35/3 44-335jastrzebie zdroj 2019 kamil loboda1111"
+      }, {
+        "cash" : "30.0",
+        "title" : "2019-NikodemGrudzka-111drużyny-cmok"
+      }, {
+        "cash" : "-32.69",
+        "title" : "WOD/5681/10/2019woda Dom Harcerza"
+      }, {
+        "cash" : "-3741.56",
+        "title" : "f-ra: D/30/85/8616049/0221019Ropłata za energię elektrycznąośrodek obozowo-biwakowy Kuźnica"
+      }, {
+        "cash" : "-747.23",
+        "title" : "f-ra: 1020/10/2019SUW Kuźnica"
+      }, {
+        "cash" : "-590.4",
+        "title" : "fak. 108/19przegląd serwisowy kotła"
+      }, {
+        "cash" : "150.0",
+        "title" : "2020-Marcin Klemczak-2rgdh-zh-01"
+      }, {
+        "cash" : "10.0",
+        "title" : "2018-ANDRZEJ ŻUREK-110202-S.C."
+      } ]
+    }
+  }
+}

@@ -10,44 +10,29 @@ import { getInfo } from '../../helpers/getInfo';
 
 import classes from "./Codes.module.css";
 
-const Codes = () => {
+const Codes = (props) => {
   const accounts = useSelector(state => state.income.accountList);
+  const accountState = useSelector(state => state.income.accountList).find(a => a.code === props.code);
   const codes = useSelector(state => state.income.codes);
   // const [infoAboutIncomes, setInfoAboutIncome] = useState(null);
   const [isLoading, setLoadingStatus] = useState(false);
 
+  console.log(props.codesMenu);
 
   let spinner;
   if (isLoading) spinner = <Spinner />;
-  let codesMenu = [];
-  if (codes) {
-    codesMenu = codes.map(code => {
-      return { link: `/codes/${code}`, title: `${code}` };
-    });
-  }
-  let routing;
-  if (accounts.length) {
-    routing = accounts.map((item, index) => {
-      return (
-        <Route
-          key={index}
-          path={`/codes/${item.code}`}
-          component={() => <Code income={item} />}
-        />
-      );
-    });
-  }
+
 
   return (
     <section className="Section">
       <header>
         <nav className="Nav">
-          <Navigation list={codesMenu} />
+          <Navigation list={props.codesMenu} />
         </nav>
         <h2>Pokaż listę po kodzie</h2>
         {spinner}
       </header>
-      <main className={classes.Main}>{routing}</main>
+      <main className={classes.Main}>{props.routing}</main>
     </section>
   );
 };

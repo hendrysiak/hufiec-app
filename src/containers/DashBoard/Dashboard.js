@@ -1,78 +1,80 @@
-import React, { Component, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+// import React, { Component, useEffect, useState } from "react";
+// import { Route, Switch } from "react-router-dom";
 
-import { connect, useSelector } from "react-redux";
+// import { connect, useSelector } from "react-redux";
 
-import classes from "./Dashboard.module.css";
+// // import classes from "./Dashboard.module.css";
 
-import Navigation from "../../components/Navigation/Navigation";
-import Transfers from "../Transfers/containers/Transfers";
-import Codes from "../../components/Codes/Codes";
-import AddCode from "../../components/AddCode/AddCode";
-import Teams from "../../components/Teams/Teams";
-import ForCoders from '../../components/ForCoders/ForCoders';
+// import Navigation from "../../components/Navigation/Navigation";
+// import Transfers from "../Transfers/containers/Transfers";
+// import Codes from "../../components/Codes/Codes";
+// import AddCode from "../../components/AddCode/AddCode";
+// import Teams from "../../components/Teams/Teams";
+// import ForCoders from '../../components/ForCoders/ForCoders';
 
-import * as actions from "../../store/actions/index";
+// import * as actions from "../../store/actions/index";
 
-import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
-import EventBilling from "../EventBilling/containers/EventBilling";
+// import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
+// import EventBilling from "../EventBilling/containers/EventBilling";
 
-const Dashboard = () => {
+// const Dashboard = () => {
 
-const  navigation = [
-      { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
-      { link: "/codes", title: "FILTRUJ PO KODZIE" },
-      { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
-      { link: "/add-code", title: "DODAJ KOD" },
-      { link: "/add-billing", title: "DODAJ ROZLICZENIE" },
-      { link: "/show-base", title: "POKAŻ BAZĘ" }
-    ]
+//   useEffect(() => {
+//     const downloadData = async () => {
+//       await getTeamsWithAccountState();
+//       await getCodes();
+//     }
+//     downloadData();
+//   },[])
+
+// const  navigation = [
+//       { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
+//       { link: "/codes", title: "FILTRUJ PO KODZIE" },
+//       { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
+//       { link: "/add-code", title: "DODAJ KOD" },
+//       { link: "/add-billing", title: "DODAJ ROZLICZENIE" },
+//       { link: "/show-base", title: "POKAŻ BAZĘ" }
+//     ]
+   
+//     return (
+//       <div className={classes.GridArea}>
+//         <nav className={classes.Nav}>
+//           <Navigation list={navigation} navigation="main" />
+//         </nav>
+//         <div>
+//           <Switch>
+//             <Route path="/transfers" component={Transfers} />
+//             <Route path="/codes" component={Codes} />
+//             <Route path="/add-code" component={AddCode} />
+//             <Route path="/teams" component={Teams} />
+//             <Route path="/add-billing" component={EventBilling} />
+//             <Route path="/for-coders" component={ForCoders} />
+//           </Switch>
+//           <div className={classes.Background}></div>
+//         </div>
+//         <footer className={classes.Footer}>
+//           <h3>
+//             Projekt i wykonanie: <strong>Łukasz Hendrysiak</strong>
+//           </h3>
+//         </footer>
+//       </div>
+//     );
   
-    useEffect(() => {
-      getTeamsWithAccountState();
-      getCodes();
-    },[])
+// };
 
- 
-    return (
-      <div className={classes.GridArea}>
-        <nav className={classes.Nav}>
-          <Navigation list={navigation} navigation="main" />
-        </nav>
-        <div>
-          <Switch>
-            <Route path="/transfers" component={Transfers} />
-            <Route path="/codes" component={Codes} />
-            <Route path="/add-code" component={AddCode} />
-            <Route path="/teams" component={Teams} />
-            <Route path="/add-billing" component={EventBilling} />
-            <Route path="/for-coders" component={ForCoders} />
-          </Switch>
-          <div className={classes.Background}></div>
-        </div>
-        <footer className={classes.Footer}>
-          <h3>
-            Projekt i wykonanie: <strong>Łukasz Hendrysiak</strong>
-          </h3>
-        </footer>
-      </div>
-    );
-  
-};
+// const mapStateToProps = state => {
+//   return {
+//     init: state.income.initIncome,
+//     teams: state.income.teams
+//   };
+// };
 
-const mapStateToProps = state => {
-  return {
-    init: state.income.initIncome,
-    teams: state.income.teams
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onFetchIncome: url => dispatch(actions.fetchIncome(url)),
+//     onSortIncome: (actualTeams, actualIncome) =>
+//       dispatch(actions.sortingIncome(actualTeams, actualIncome))
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-    onSortIncome: (actualTeams, actualIncome) =>
-      dispatch(actions.sortingIncome(actualTeams, actualIncome))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

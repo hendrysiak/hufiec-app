@@ -24,7 +24,6 @@ export const getAccountList =  (accounts) => {
       }
     }
   }
-  console.log(accountList)
   store.dispatch(fetchAccountList(accountList))
 }
 
