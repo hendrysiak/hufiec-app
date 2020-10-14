@@ -4,6 +4,10 @@ import ListEl from "../ListEl/ListEl";
 import ListContainer from "../ListContainer/ListContainer";
 import axios from "../../axios-income";
 
+import Navigation from "../Navigation/Navigation";
+
+import classes from "./Team.module.css";
+
 const Team = (props) => {
 
   const assignedIncome  = useSelector(state => state.income.assignedIncome);
@@ -30,8 +34,15 @@ const Team = (props) => {
   };
 
     return (
-      <div>
-        <ul>
+      <section className="Section">
+        <header>
+          <h2>Lista wpływów po kodzie</h2>
+        </header>
+        <div className="GridArea">
+    <nav className={classes.Nav}>
+      <Navigation list={props.teamMenuForSortedIncome} navigation="main"/>
+    </nav>
+  <main className="Main">
           {getTeam()[0].accounts.map((item, index) => (
             <ListContainer
               key={index}
@@ -42,8 +53,11 @@ const Team = (props) => {
               ))}
             </ListContainer>
           ))}
-        </ul>
-      </div>
+    </main>
+    </div>
+  </section>
+
+
     );
 }
 

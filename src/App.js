@@ -19,12 +19,15 @@ import Code from "./components/Codes/Code/Code";
 import SortedIncome from "./containers/Transfers/components/SortedIncome/SortedIncome";
 import NonAssignedIncome from "./containers/Transfers/components/NonAssignedIncome/NonAssignedIncome";
 import ImportIncome from "./containers/Transfers/components/ImportIncome/ImportIncome";
+import Team from './components/Team/Team';
 
-import { getTeamsWithAccountState, getCodes } from '../src/containers/DashBoard/api-handlers/account.handler'
+import { getTeamsWithAccountState, getCodes } from '../src/containers/DashBoard/api-handlers/account.handler';
 
 const App = () => {
   const accounts = useSelector(state => state.income.accountList);
   const codes = useSelector(state => state.income.codes);
+  const initIncome = useSelector(state => state.income.initIncome)
+  const teams = useSelector(state => state.income.teams)
 
   useEffect(() => {
     const downloadData = async () => {
@@ -45,8 +48,11 @@ const App = () => {
 
   let codesMenuForCodes = [];
   let codesMenuForEvent = [];
+  let teamMenuForSortedIncome = [];
   let routingForCodes;
   let routingForEvents;
+  let routingForSortedTeam;
+  
   
 if (codes) {
   codesMenuForEvent = codes.map(code => {
@@ -78,6 +84,23 @@ if (codes) {
   });
 }
 
+if (initIncome) {
+  if (teams) {
+    teamMenuForSortedIncome = teams.map(team => {
+      return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
+    });
+
+    routingForSortedTeam = teams.map((team, index) => {
+      return (
+      <Route
+        key={index}
+        path={`/transfers/sorted/${team.id}`}
+        render={() => <Team teamNum={team.id} teamMenuForSortedIncome={teamMenuForSortedIncome}/>}
+      />);
+    });
+  }
+}
+
 
   return (
       <div className="App">
@@ -89,16 +112,19 @@ if (codes) {
         <div>
         
           <Switch>
-            <Route path="/transfers" render={() => <ImportIncome />} />
-            <Route path="/transfers/imported" render={() => <NonAssignedIncome />} />
-            <Route path="/transfers/sorted" render={() => <SortedIncome />} />
+            <Route exact path="/transfers" render={() => <ImportIncome />} />
+            <Route exact path="/transfers/imported" render={() => <NonAssignedIncome />} />
+            <Route exact path="/transfers/sorted" render={() => <SortedIncome routingForSortedTeam={routingForSortedTeam} />} />
+            {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
             <Route exact path="/codes" render={() => <Codes codesMenu={codesMenuForCodes} routing={routingForCodes} />} />
             <Route exact path="/add-code" render={() => <AddCode/>} />
             <Route exact path="/teams" render={() => <Teams />} />
             <Route exact path="/add-billing" render={() => <EventBilling codesMenu={codesMenuForEvent} routing={routingForEvents}/>} />
             <Route exact path="/for-coders" render={() => <ForCoders/>} />
+            {/* <Route exact path={`/transfers/sorted/:teamId`} render={(rp) => <Team teamNum={rp.match.params.title} />}/> */}
             {routingForCodes}
             {routingForEvents}
+            {routingForSortedTeam}
           </Switch>
           
       </div>

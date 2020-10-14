@@ -3,34 +3,43 @@ import { connect } from "react-redux";
 import * as actions from "../../../../store/actions/index";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import classes from "./ImportIncome.module.css";
+import { Link, useHistory } from "react-router-dom";
 
 import store from "../../../../store/store";
 
-class ImportIncome extends Component {
-  setUrl = event => {
+const ImportIncome = () => {
+
+  const history = useHistory();
+
+
+
+  const setUrl = event => {
     event.preventDefault();
+    console.log(event.target.children[1].value);
     store.dispatch(actions.fetchIncome(event.target.children[1].value));
+    history.push('/transfers/imported')
   };
 
-  render() {
-    let spinner;
-    if (this.props.loading) {
-      spinner = <Spinner />;
-    }
+    // let spinner;
+    // if (this.props.loading) {
+    //   spinner = <Spinner />;
+    // }
     return (
       <section className="Section">
-            <form className={classes.Form} onSubmit={event => this.setUrl(event)}>
+            <form className={classes.Form} onSubmit={event => setUrl(event)}>
           <h2>Wstaw URL z importem XML</h2>
           <input type="text" className={classes.Input} />
+          {/* <Link to="/transfers/imported"> */}
           <button type="submit" className={classes.Button}>
             Importuj
           </button>
+          {/* </Link> */}
         </form>
-        {spinner}
+        {/* {spinner} */}
       </section>
     );
-  }
-}
+
+};
 
 const mapStateToProps = state => {
   return {

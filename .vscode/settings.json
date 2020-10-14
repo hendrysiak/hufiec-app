@@ -1,0 +1,10 @@
+{
+  "eslint.lintTask.enable": true,
+  "eslint.lintTask.options": "src/** -c .eslintrc.js --ignore-pattern src/images/** --ignore-pattern *.scss --ignore-pattern *.svg --ignore-pattern serviceWorker.ts",
+  //for wersion 1.9.0
+  "eslint.provideLintTask" : true,
+  "eslint.validate": [
+    { "language": "typescriptreact", "autoFix": true },
+    { "language": "typescript", "autoFix": true }
+   ]
+}

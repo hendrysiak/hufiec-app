@@ -36,22 +36,8 @@ export const fetchIncomeFailed = error => {
     }
 }
 
-export const loadingEnd = () => {
-    return {
-        type: actionTypes.LOADING_END,
-
-    }
-}
-
-export const loadingStart = () => {
-    return {
-        type: actionTypes.LOADING_START
-    }
-}
-
 export const fetchIncome = (url) => {
     return async dispatch => {
-        dispatch(loadingStart())
         try {
             const result = await axios.get(url);
             const resultArray = result.data.Document.BkToCstmrAcctRpt.Rpt.Ntry;
@@ -64,10 +50,8 @@ export const fetchIncome = (url) => {
                 });
             });
             dispatch(setIncome(resultInfo));
-            dispatch(loadingEnd())
         } catch (err) {
             dispatch(fetchIncomeFailed(err));
-            dispatch(loadingEnd())
         }
     };
 };
@@ -113,6 +97,13 @@ export const editingIncome = (income) => {
 export const assignIncome = (income) => {
     return {
         type: actionTypes.ASSIGN_INCOME_BY_CODE,
+        income
+    }
+}
+
+export const assignIncomesToAccount = (income) => {
+    return {
+        type: actionTypes.ASSIGN_INCOME_TO_ACCOUNT,
         income
     }
 }

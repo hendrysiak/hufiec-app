@@ -2,6 +2,14 @@ export {
     fetchIncome,
     sortingIncome,
     editingIncome,
-    assignIncome
+    assignIncome,
+    assignIncomesToAccount
 }
 from './income'
+
+export {
+    loadingEnd,
+    loadingStart,
+    setSendingTeam
+}
+from './ui'

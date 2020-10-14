@@ -11,13 +11,18 @@ import Team from "../../../../components/Team/Team";
 import StatusInfo from "../../../../components/UI/StatusInfo/StatusInfo";
 
 import classes from "./SortedIncome.module.css";
+import { Switch } from "@material-ui/core";
 
-const SortedIncome = () => {
+import { sendingDataHandler } from '../../helpers/sending.handlers'
+
+import { sortingIncome } from '../../../../helpers/sorting.helper';
+
+const SortedIncome = (props) => {
   
     const [income, setIncome] = useState(null);
     const [codes, setCodes] = useState(null);
     const [sortedIncome, setSortedIncome] = useState(null);
-    const [sendingTeam, setSendingTeam] = useState(null);
+    // const [sendingTeam, setSendingTeam] = useState(null);
     const [incomes, setIncomes] = useState([]);
 
     const teams  = useSelector(state => state.income.teams);
@@ -25,15 +30,8 @@ const SortedIncome = () => {
     const assignedIncome  = useSelector(state => state.income.assignedIncome);
     const accountState = useSelector(state => state.income.accountState);
 
-    const mapDispatchToProps = dispatch => {
-  return {
-    onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-    onSortIncome: (actualTeams, actualIncome) =>
-      dispatch(actions.sortingIncome(actualTeams, actualIncome)),
-    onEditIncome: income => dispatch(actions.editingIncome(income)),
-    // onAssignIncome: income => )
-  };
-};
+    const sendingTeam = useSelector(state => state.ui.sendingTeam);
+
 
   const getData = async () => {
     try {
@@ -49,183 +47,42 @@ const SortedIncome = () => {
   };
 
   useEffect(() => {
+    console.log('Data downloaded');
+  }, [accountState]);
+
+  useEffect(() => {
     getData();
   }, []) 
 
 
-
- const sortedIncomeByAccount = (account, array, patterns) => {
-  
-  // create pattern by code
-    const patternsToSortIncome = [...patterns].map(
-      pattern => new RegExp(`(${pattern})`, "m")
-    );
-
-// cut off 'unassigned'
-    patternsToSortIncome.splice(patternsToSortIncome.length - 1, 1);
-
-    let assignedIncomeToAccount;
-
-    if (account !== "nonAssigned") {
-      const pattern = new RegExp(`(${account})`, "m");
-      assignedIncomeToAccount = array.filter(income =>
-        pattern.test(income.title)
-      );
-
-    } else {
-      assignedIncomeToAccount = array.filter(income =>
-        patternsToSortIncome.every(item => !item.test(income.title))
-      );
-    }
-
-    const obj = {
-      code: account,
-      incomeByCode: assignedIncomeToAccount
-    };
-
-    return obj;
-  };
   
   const assignIncome = () => {
-    const sortedIncome = [...teams].map(team => {
-      const codesPatern = [
-        ...codes.general,
-        ...(codes[team.id] ? codes[team.id] : [])
-      ];
-      return {
-        id: team.id,
-        accounts: [
-          ...codesPatern.map((code, index, array) =>
-            sortedIncomeByAccount(code, team.income, array)
-          )
-        ]
-      };
-    });
-    store.dispatch(actions.assignIncome(sortedIncome));
+
+    const membersByTeam = {};
+    const teams = Object.keys(accountState);
+    teams.forEach(team => {
+        membersByTeam[team] = accountState[team].members
+    })
+
+    const updatedCodes = Object.values(codes).flat();
+
+    const { sortedIncomes, sortedOutcomes } = sortingIncome(init, membersByTeam, updatedCodes)
+
+    store.dispatch(actions.assignIncomesToAccount(sortedIncomes));
   };
 
   useEffect(() => {
-    if (codes) assignIncome();
-  }, [codes]) 
+    if (codes && init && teams) assignIncome();
+  }, [codes, init, teams]) 
 
-
-  const sendingDataHandler = async id => {
-    // const updatedState = [...accountState];
-
-    // assignedIncome.forEach(team => {
-    //   if (team.id !== 'pozostałe') {
-    //     team.accounts.forEach(account => {
-
-
-
-    //     })
-        
-    //   }
-    // })
-
-
-    setSendingTeam(id);
-    try {
-      const response = await axios.get(`/teams/${id}.json`);
-      const accounts = await response.data;
-      const patterns = (await response.data.members)
-        ? response.data.members
-        : null;
-      const incomes = await [
-        ...incomes.find(item => {
-          if(id !== "pozostałe") return item.id === Number(id);
-          else return item.id === id
-        }
-          ).accounts
-      ];
-      const nonAssigned = await [
-        ...incomes.find(item => item.code === "nonAssigned").incomeByCode
-      ];
-      accounts["nonAssigned"] = [...nonAssigned];
-
-      if (id !== "pozostałe") {
-        for (let i of incomes) {
-          if (!accounts.hasOwnProperty(i.code)) {
-            accounts[i.code] = [];
-            i.incomeByCode.forEach((income, index, array) => {
-              for (let pattern of patterns) {
-                const namePattern = new RegExp(`(${pattern.name})`, "i");
-                const surnamePattern = new RegExp(`(${pattern.surname})`, "i");
-                const matchInfo =
-                  income.title.match(namePattern) &&
-                  income.title.match(surnamePattern);
-                const someVerify = accounts[i.code].some(
-                  (insertedTitle, index) =>
-                    namePattern.test(insertedTitle.name) &&
-                    surnamePattern.test(insertedTitle.surname)
-                );
-                if (matchInfo) {
-                  const index = accounts[i.code].findIndex(
-                    element =>
-                      namePattern.test(element.name) &&
-                      surnamePattern.test(element.surname)
-                  );
-                  console.log(index);
-                  index > 0
-                    ? (accounts[i.code][index].value += Number(income.cash))
-                    : accounts[i.code].push({
-                        name: pattern.name,
-                        surname: pattern.surname,
-                        value: Number(income.cash)
-                      });
-                }
-                else if (matchInfo && !someVerify) {
-                  accounts["nonAssigned"].push(income);
-                }
-              }
-            });
-          } else if (accounts.hasOwnProperty(i.code)) {
-            accounts[i.code].forEach(person => {
-              const namePattern = new RegExp(`(${person.name})`, "i");
-              const surnamePattern = new RegExp(`(${person.surname})`, "i");
-              i.incomeByCode.forEach((income, index) => {
-                const matchInfo =
-                  income.title.match(namePattern) &&
-                  income.title.match(surnamePattern);
-                if (matchInfo) {
-                  person.value += Number(income.cash);
-                } else if (
-                  !matchInfo
-                ) {
-                  accounts["nonAssigned"].push(income);
-
-                }
-              });
-            });
-          }
-        }
-        const responseInfo = await axios.put(`/teams/${id}.json`, accounts);
-        console.log(responseInfo);
-        this.setState({ sendingTeam: null });
-      } else if (id === "pozostałe") {
-        const responseInfo = await axios.put(`/teams/pozostałe.json`, accounts);
-        console.log(responseInfo);
-        this.setState({ sendingTeam: null });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const getInfo = () => {
-    console.log(incomes);
     const value = document.querySelector("#input").value;
-    this.sendingDataHandler(value);
+    sendingDataHandler(value, axios, incomes);
   };
 
   const sendingHandler = async () => {
-    const response = await axios.get('/listOfTeams.json');
-    const teams = await response.data;
-    if (incomes) {
-      teams.forEach(team => sendingDataHandler(team));
-    } else {
-      console.log("Incomes not ready yet!");
-    }
+    axios.put('/teams.json', accountState)
   };
 
     let incomesAfterSorting;
@@ -233,7 +90,7 @@ const SortedIncome = () => {
       incomesAfterSorting = teams.map(team => {
         return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
       });
-      console.log(sortedIncome);
+      // console.log(sortedIncome);
     }
     let statusInfo;
     if (sendingTeam) {
@@ -260,13 +117,15 @@ const SortedIncome = () => {
           </nav>
           <main>
             {incomesAfterSorting.map((team, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={`/transfers/sorted/${team.title}`}
-                  component={props => <Team teamNum={team.title} />}
-                />
-              );
+              return (<main>{props.routingForSortedTeam}</main>)
+                // // <Switch>
+                // <Route
+                //   key={index}
+                //   path={`/transfers/sorted/${team.title}`}
+                //   component={props => <Team teamNum={team.title} />}
+                // />
+                // // </Switch>
+              // );
             })}
           </main>
         </div>

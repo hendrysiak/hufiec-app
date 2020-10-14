@@ -23,10 +23,10 @@ const Transfers = () => {
           <Navigation list={navigation} />
         </header>
         <main>
-            <Route path="/transfers" ><Redirect to="/transfers/import"/></Route>
+            {/* <Route path="/transfers" ><Redirect to="/transfers/import"/></Route>
             <Route path="/transfers/import" render={() => <ImportIncome />} />
             <Route path="/transfers/imported" render={() => <NonAssignedIncome />} />
-            <Route path="/transfers/sorted" render={() => <SortedIncome />} />
+            <Route path="/transfers/sorted" render={() => <SortedIncome />} /> */}
         </main>
       </section>
     );

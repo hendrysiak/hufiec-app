@@ -1,22 +1,31 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import ListEl from "../../../../components/ListEl/ListEl";
 import ListContainer from "../../../../components/ListContainer/ListContainer";
 
 import * as actions from "../../../../store/actions/index";
 
-class NonAssignedIncome extends Component {
-  state = {
-    income: null
-  };
+import { useHistory } from "react-router-dom";
 
-  componentDidMount = () => {
-    this.setState({ income: this.props.init });
-  };
+import store from "../../../../store/store";
 
-  verifyTeams = () => {
-    this.props.onSortIncome(this.props.teams, this.state.income);
+const NonAssignedIncome = () => {
+
+  const initIncome = useSelector(state => state.income.initIncome)
+  const teams = useSelector(state => state.income.teams)
+
+  const [currentIncome, setCurrentIncome] = useState([]);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    setCurrentIncome(initIncome)
+  }, [initIncome])
+
+  const verifyTeams = () => {
+    store.dispatch(actions.sortingIncome(teams, currentIncome));
+    history.push('/transfers/sorted')
   };
 
   // showNonAssignedIncomes = () => {
@@ -35,21 +44,21 @@ class NonAssignedIncome extends Component {
   //   return notPassValue;
   // };
 
-  editIncome = (event, index) => {
-    const incomeToEdit = [...this.props.init];
+  const editIncome = (event, index) => {
+    const incomeToEdit = [...initIncome];
     incomeToEdit[index].title = event.target.value;
-    this.setState({ income: incomeToEdit });
+    setCurrentIncome(incomeToEdit);
   };
 
-  updateIncome = () => {
-    this.props.onEditIncome(this.state.income);
+  const updateIncome = () => {
+    store.dispatch(actions.editingIncome(currentIncome))
   };
 
-  render() {
+
     let listOfIncome;
-    if (this.state.income) {
-      listOfIncome = this.state.income.map((element, index) => {
-        const patterns = [...this.props.teams].map(
+    if (currentIncome) {
+      listOfIncome = currentIncome.map((element, index) => {
+        const patterns = [...teams].map(
           el => new RegExp(`(${el.id})`, "m")
         );
         patterns.splice(patterns.length - 1, 1);
@@ -59,7 +68,7 @@ class NonAssignedIncome extends Component {
               key={index}
               title={element.title}
               cash={element.cash}
-              clicked={event => this.editIncome(event, index)}
+              clicked={event => editIncome(event, index)}
             />
           );
         } else {
@@ -69,7 +78,7 @@ class NonAssignedIncome extends Component {
               key={index}
               title={element.title}
               cash={element.cash}
-              clicked={event => this.editIncome(event, index)}
+              clicked={event => editIncome(event, index)}
             />
           );
         }
@@ -79,30 +88,29 @@ class NonAssignedIncome extends Component {
     return (
       <section className="Section">
         <div>
-          <button onClick={this.updateIncome}>Zaktualizuj przelewy</button>
-          <button onClick={this.verifyTeams}>Posortuj przelewy</button>
+          <button onClick={() => updateIncome()}>Zaktualizuj przelewy</button>
+          <button onClick={() => verifyTeams()}>Posortuj przelewy</button>
           <h2>Przelewy zaimportowane:</h2>
         </div>
         <ListContainer>{listOfIncome}</ListContainer>
       </section>
     );
-  }
 }
 
-const mapStateToProps = state => {
-  return {
-    init: state.income.initIncome,
-    teams: state.income.teams
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     init: state.income.initIncome,
+//     teams: state.income.teams
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-    onSortIncome: (actualTeams, actualIncome) =>
-      dispatch(actions.sortingIncome(actualTeams, actualIncome)),
-    onEditIncome: income => dispatch(actions.editingIncome(income))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onFetchIncome: url => dispatch(actions.fetchIncome(url)),
+//     onSortIncome: (actualTeams, actualIncome) =>
+//       dispatch(actions.sortingIncome(actualTeams, actualIncome)),
+//     onEditIncome: income => dispatch(actions.editingIncome(income))
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NonAssignedIncome);
+export default NonAssignedIncome;
