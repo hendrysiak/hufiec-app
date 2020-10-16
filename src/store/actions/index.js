@@ -1,6 +1,5 @@
 export {
     fetchIncome,
-    sortingIncome,
     editingIncome,
     assignIncome,
     assignIncomesToAccount

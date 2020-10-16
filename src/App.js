@@ -21,7 +21,7 @@ import NonAssignedIncome from "./containers/Transfers/components/NonAssignedInco
 import ImportIncome from "./containers/Transfers/components/ImportIncome/ImportIncome";
 import Team from './components/Team/Team';
 
-import { getTeamsWithAccountState, getCodes } from '../src/containers/DashBoard/api-handlers/account.handler';
+import { getTeamsWithAccountState, getCodes, getRegistry } from '../src/containers/DashBoard/api-handlers/account.handler';
 
 const App = () => {
   const accounts = useSelector(state => state.income.accountList);
@@ -33,6 +33,7 @@ const App = () => {
     const downloadData = async () => {
       await getTeamsWithAccountState();
       await getCodes();
+      await getRegistry()
     }
     downloadData();
   },[])

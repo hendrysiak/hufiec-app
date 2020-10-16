@@ -21,14 +21,13 @@ const SortedIncome = (props) => {
   
     const [income, setIncome] = useState(null);
     const [codes, setCodes] = useState(null);
-    const [sortedIncome, setSortedIncome] = useState(null);
-    // const [sendingTeam, setSendingTeam] = useState(null);
     const [incomes, setIncomes] = useState([]);
 
     const teams  = useSelector(state => state.income.teams);
     const init  = useSelector(state => state.income.initIncome);
     const assignedIncome  = useSelector(state => state.income.assignedIncome);
-    const accountState = useSelector(state => state.income.accountState);
+    const incomesToSend  = useSelector(state => state.income.sortedIncomes);
+    const registry = useSelector(state => state.income.registry);
 
     const sendingTeam = useSelector(state => state.ui.sendingTeam);
 
@@ -46,27 +45,17 @@ const SortedIncome = (props) => {
     // if (codes) assignIncome();
   };
 
-  useEffect(() => {
-    console.log('Data downloaded');
-  }, [accountState]);
+
 
   useEffect(() => {
     getData();
   }, []) 
-
-
   
   const assignIncome = () => {
 
-    const membersByTeam = {};
-    const teams = Object.keys(accountState);
-    teams.forEach(team => {
-        membersByTeam[team] = accountState[team].members
-    })
-
     const updatedCodes = Object.values(codes).flat();
 
-    const { sortedIncomes, sortedOutcomes } = sortingIncome(init, membersByTeam, updatedCodes)
+    const { sortedIncomes, sortedOutcomes } = sortingIncome(init, registry, updatedCodes)
 
     store.dispatch(actions.assignIncomesToAccount(sortedIncomes));
   };
@@ -82,9 +71,16 @@ const SortedIncome = (props) => {
   };
 
   const sendingHandler = async () => {
-    axios.put('/teams.json', accountState)
+    // const incomesAfterSort = [];
+
+    // for (const income in incomesToSend) {
+    //   incomesAfterSort.push(incomesToSend[income]);
+    // }
+
+    // if (incomesToSend) axios.put('/incomes.json', incomesAfterSort)
   };
 
+  //TODO - navigation without routing and nested element
     let incomesAfterSorting;
     if (teams) {
       incomesAfterSorting = teams.map(team => {

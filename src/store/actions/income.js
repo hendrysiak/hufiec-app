@@ -15,17 +15,18 @@ export const fetchCodes = codes => {
     }
 }
 
-export const fetchAccountState = accountState => {
+export const fetchAccountState = (incomes, outcomes) => {
     return {
         type: actionTypes.SET_ACCOUNT_STATE,
-        accountState
+        incomes,
+        outcomes
     }
 }
 
-export const fetchAccountList = accountList => {
+export const fetchRegistry = registry => {
     return {
-        type: actionTypes.SET_ACCOUNT_LIST,
-        accountList
+        type: actionTypes.SET_REGISTRY_STATE,
+        registry
     }
 }
 
@@ -60,30 +61,6 @@ export const sortedIncome = sortedIncome => {
     return {
         type: actionTypes.SORT_INCOME,
         sortedIncome
-    }
-}
-
-export const sortingIncome = (actualTeams, actualIncome) => {
-    return dispatch => {
-        actualTeams.forEach(element => {
-            if (element.id !== "pozostałe") {
-                const regex = new RegExp(`(${element.id})`, "m");
-                const valueInfo = actualIncome.filter(info => regex.test(info.title));
-
-                element.income = [...valueInfo];
-            } else if (element.id === "pozostałe") {
-                const regexArr = actualTeams.map(
-                    element => new RegExp(`(${element.id})`, "m")
-                );
-                regexArr.splice(regexArr.length - 1, 1);
-
-                const notPassValue = actualIncome.filter(info =>
-                    regexArr.every(item => !item.test(info.title))
-                );
-                element.income = [...notPassValue];
-            }
-        });
-        dispatch(sortedIncome(actualTeams))
     }
 }
 

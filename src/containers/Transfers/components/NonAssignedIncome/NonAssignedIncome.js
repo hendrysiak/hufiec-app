@@ -13,7 +13,7 @@ import store from "../../../../store/store";
 const NonAssignedIncome = () => {
 
   const initIncome = useSelector(state => state.income.initIncome)
-  const teams = useSelector(state => state.income.teams)
+  const registry = useSelector(state => state.income.registry)
 
   const [currentIncome, setCurrentIncome] = useState([]);
 
@@ -24,25 +24,9 @@ const NonAssignedIncome = () => {
   }, [initIncome])
 
   const verifyTeams = () => {
-    store.dispatch(actions.sortingIncome(teams, currentIncome));
     history.push('/transfers/sorted')
   };
 
-  // showNonAssignedIncomes = () => {
-  //   const actualTeams = [...this.props.teams];
-  //   const actualIncome = [...this.props.init];
-
-  //   const regexArr = actualTeams.map(
-  //     element => new RegExp(`(${element.id})`, "m")
-  //   );
-  //   regexArr.splice(regexArr.length - 1, 1);
-
-  //   const notPassValue = actualIncome.filter(info =>
-  //     regexArr.every(item => !item.test(info.title))
-  //   );
-  //   console.log(notPassValue);
-  //   return notPassValue;
-  // };
 
   const editIncome = (event, index) => {
     const incomeToEdit = [...initIncome];
@@ -56,10 +40,10 @@ const NonAssignedIncome = () => {
 
 
     let listOfIncome;
-    if (currentIncome) {
+    if (currentIncome && registry) {
       listOfIncome = currentIncome.map((element, index) => {
-        const patterns = [...teams].map(
-          el => new RegExp(`(${el.id})`, "m")
+        const patterns = [...Object.keys(registry)].map(
+          el => new RegExp(`${el}`, "m")
         );
         patterns.splice(patterns.length - 1, 1);
         if (patterns.some(item => item.test(element.title))) {
