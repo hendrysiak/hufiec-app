@@ -78,9 +78,15 @@ export const assignIncome = (income) => {
     }
 }
 
-export const assignIncomesToAccount = (income) => {
+export const assignIncomesToAccount = (incomes) => {
     return {
         type: actionTypes.ASSIGN_INCOME_TO_ACCOUNT,
-        income
+        incomes
+    }
+}
+export const assignOutcomesToAccount = (outcomes) => {
+    return {
+        type: actionTypes.ASSIGN_OUTCOME_TO_ACCOUNT,
+        outcomes
     }
 }

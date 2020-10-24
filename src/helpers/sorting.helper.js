@@ -14,7 +14,7 @@ export const sortingTransferToIncomesAndOutomes = (incomes) => {
     outcomes: sortedOutcomes.map(outcome => {
       return {
         cash: Number(outcome.cash),
-        title: outcome.cash
+        title: outcome.title
       }    
     })
   }
@@ -82,15 +82,28 @@ export const matchingIncomesToTeamMember = (teams, incomes) => {
 
 }
 
+export const matchingIncomeByYear = (incomes) => {
+  const currentYear = new Date().getFullYear();
+  const yearRegex = new RegExp(currentYear, "mi")
+  const matchedIncomesByYear = incomes.map(income => {
+    let updatedIncome = income;
+
+    if (yearRegex.test(updatedIncome.title)) updatedIncome = {...updatedIncome, year: currentYear}
+    return updatedIncome;
+  })
+  return matchedIncomesByYear;
+}
+
 export const sortingIncome = (incomesToSort, teams, codes) => {
   const { incomes, outcomes } = sortingTransferToIncomesAndOutomes(incomesToSort);
 
   const byTeam = sortingIncomesByTeams(teams, incomes);
   const byCode = sortingIncomesByCode(codes, byTeam);
   const byMembers = matchingIncomesToTeamMember(teams, byCode);
+  const byYear = matchingIncomeByYear(byMembers)
 
   return {
-    sortedIncomes: byMembers,
+    sortedIncomes: byYear,
     sortedOutcomes: outcomes
   }
 

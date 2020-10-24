@@ -2,7 +2,8 @@ export {
     fetchIncome,
     editingIncome,
     assignIncome,
-    assignIncomesToAccount
+    assignIncomesToAccount,
+    assignOutcomesToAccount
 }
 from './income'
 

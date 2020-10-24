@@ -7,6 +7,7 @@ const initialState = {
     registry: null,
     assignedIncome: null,
     sortedIncomes: null,
+    sortedOutcomes: null,
     dbIncomes: null,
     dbOutcomes: null,
     codes: null,
@@ -56,10 +57,16 @@ const reducer = (state = initialState, action) => {
                 assignedIncome
             }
         case actionTypes.ASSIGN_INCOME_TO_ACCOUNT:
-            const updatedIncome = action.income
+            const updatedIncomes = action.incomes
             return {
                 ...state,
-                sortedIncomes: { ...updatedIncome } 
+                sortedIncomes: { ...updatedIncomes } 
+            }
+        case actionTypes.ASSIGN_OUTCOME_TO_ACCOUNT:
+            const updatedOutcomes = action.outcomes
+            return {
+                ...state,
+                sortedOutcomes: { ...updatedOutcomes } 
             }
         default:
             return state;
