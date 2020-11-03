@@ -62,3 +62,8 @@ code {
     /* background-color: rgba(74, 123, 38, 255); */
     /* background-color: red; */
 }
+
+.loader {
+    width: 100vw;
+    height: 100vh;
+}

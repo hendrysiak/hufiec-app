@@ -14,12 +14,11 @@ import ListContainer from "../../../../components/ListContainer/ListContainer";
 
 const SortedIncome = (props) => {
   
-    const [income, setIncome] = useState(null);
     const codes = useSelector(state => state.income.codes);
 
     const init  = useSelector(state => state.income.initIncome);
 
-    const [ currentTeam, setCurrentTeam ] = useState(null);
+    const [ currentTeam, setCurrentTeam ] = useState(6673);
     const [ displayedIncome, setDisplayedIncome ] = useState([]);
 
     const incomesToSend  = useSelector(state => state.income.sortedIncomes);
@@ -33,8 +32,10 @@ const SortedIncome = (props) => {
 
     useEffect(() => {
       if (incomesToSend && Object.values(incomesToSend).length > 0) {
-        const sortedIncome = Object.values(incomesToSend).filter(income => income.team === currentTeam);
-        console.log(sortedIncome);
+        let sortedIncome;
+        if (currentTeam === 'Błędne dopasowanie do jednostki') 
+          sortedIncome = Object.values(incomesToSend).filter(income => !income.team);
+        else sortedIncome = Object.values(incomesToSend).filter(income => income.team === currentTeam);
         setDisplayedIncome(sortedIncome);
       };
     },[currentTeam])
@@ -56,8 +57,18 @@ const SortedIncome = (props) => {
 
 
   const sendingHandler = async () => {
-    const updatedIncomes = [...currentDbIncomes, ...Object.values(incomesToSend)];
+    const updatedIncomes = [...currentDbIncomes];
+    Object.values(incomesToSend).forEach(i => {
+      const foundElement = updatedIncomes.findIndex(ui => {
+        return ui.team === i.team && ui.name === i.name && ui.surname === i.surname && ui.event === i.event && ui.year === i.year
+      })
+
+      if (foundElement >= 0) updatedIncomes[foundElement].cash += i.cash;
+      else updatedIncomes.push(i);
+    });
+
     const updatedOutcomes = [...currentDbOutcomes, ...Object.values(outcomesToSend)];
+
     await axios.put('/incomes.json', updatedIncomes);
     await axios.put('/outcomes.json', updatedOutcomes);
     history.push('/');
@@ -79,7 +90,7 @@ const SortedIncome = (props) => {
             MenuProps: { disableScrollLock: true }
           }}
         >
-          {[null, ...Object.keys(registry)].map((item) => (
+          {[...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
         <MenuItem key={item} value={item}>{item}</MenuItem>
       ))}
         </TextField>

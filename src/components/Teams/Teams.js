@@ -5,77 +5,55 @@ import axios from "../../axios-income";
 import ListContainer from "../ListContainer/ListContainer";
 import ListEl from "../ListEl/ListEl";
 
+import { useSelector } from "react-redux";
+
+import { TextField, MenuItem } from '@material-ui/core';
+
 import classes from "./Teams.module.css";
 
 const Teams = () => {
-  const [teams, getTeams] = useState([]);
+  const registry = useSelector(state => state.income.registry);
+  const dbIncomes = useSelector(state => state.income.dbIncomes);
+  const codes = useSelector(state => state.income.codes);
+
+  const [currentTeam, setCurrentTeam] = useState(6673);
+  const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
   const [incomes, getIncomes] = useState({});
+  const [incomesByCode, setIncomeByCode] = useState([]);
 
-  const getTeamsFromServer = async () => {
-    try {
-      const teams = await axios.get("/listOfTeams.json");
-      await getTeams(teams.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
-    getTeamsFromServer();
-  }, []);
+    setCurrentTeamRegistry(registry[currentTeam]);
+    const incomesToDisplay = dbIncomes.filter(income => income.team === currentTeam);
+    setIncomeByCode(incomesToDisplay);
+  },[currentTeam, registry]);
 
-  const getIncomesFromServer = async () => {
-    const team = document.getElementById("teams").value;
+  const members = (<ListContainer title={currentTeam}>
+    {currentTeamRegistry && currentTeamRegistry.map((person, index) => (
+      <ListEl
+        key={index}
+        cash={index + 1}
+        title={`${person.name} ${person.surname}`}
+      />
+    ))}
+  </ListContainer>);
 
-    try {
-      const incomes = await axios.get(`/teams/${team}.json`);
-      await getIncomes(incomes.data);
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(incomes);
-  };
-
-  let select;
-  if (teams.length) {
-    select = teams.map((team, index) => (
-      <option key={index} value={team}>
-        {team}
-      </option>
-    ));
-  }
-
-  let members;
-  if (incomes.hasOwnProperty("members")) {
-    members = incomes.members.map((member, index) => (
-      <li key={index} className={classes.ListEl}>
-        <span>{index + 1}</span>
-        <span>{member.name}</span>
-        <span>{member.surname}</span>
-      </li>
-    ));
-  }
-
-  let incomesByCode;
-  if (incomes) {
-    let fixedIncomes = [];
-    for (let income in incomes) {
-      fixedIncomes.push({ code: income, incomes: [...incomes[income]] });
-    }
-    incomesByCode = fixedIncomes.map((income, index) =>
-      income.code !== "members" ? 
-      (income.code !== "nonAssigned" ? (
-        <ListContainer key={index} title={income.code}>
-          {income.incomes.map((person, index) => (
-            <ListEl
-              key={index}
-              cash={person.value}
-              title={`${person.name} ${person.surname}`}
-            />
-          ))}
-        </ListContainer>
-      ): (
-        <ListContainer key={index} title={income.code}>
-          {income.incomes.map((person, index) => (
+    const list = codes && codes.map((code, index) => {
+      if (code !== "nonAssigned") {
+        return (
+          <ListContainer key={index} title={code}>
+            {incomesByCode && incomesByCode.map((person, index) => (
+              <ListEl
+                key={index}
+                cash={person.value}
+                title={`${person.name} ${person.surname}`}
+              />
+            ))}
+          </ListContainer>
+        ) 
+      } else {
+        return (
+        <ListContainer key={index} title={code}>
+          {incomesByCode && incomesByCode.map((person, index) => (
             <ListEl
               key={index}
               cash={person.cash}
@@ -83,18 +61,32 @@ const Teams = () => {
             />
           ))}
         </ListContainer>
-      )) : null
-    );
-  }
+      )}
+
+    })
+
 
   return (
     <div>
       <header>
-        <label htmlFor="teams">Wybierz drużynę:</label>
-        <select name="teams" id="teams">
-          {select}
-        </select>
-        <button onClick={getIncomesFromServer}>Pobierz dane</button>
+        <TextField
+        style={{width: '80%', marginTop: '16px'}}
+          label="Wybierz drużynę"
+          value={currentTeam}
+          onChange={(e) => setCurrentTeam(e.target.value)}
+          placeholder="Wybierz kod z listy"
+          select={true}
+          size="small"
+          variant="outlined"
+          Smargin="normal"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {[...Object.keys(registry)].map((item) => (
+        <MenuItem key={item} value={item}>{item}</MenuItem>
+      ))}
+        </TextField>
       </header>
 
       <main className={classes.Main}>
@@ -104,7 +96,7 @@ const Teams = () => {
         </aside>
         <section className={classes.Section}>
           <h3>Stan wpłat zgodnie z kodami:</h3>
-          <div className={classes.IncomeWrapper}>{incomesByCode}</div>
+          <div className={classes.IncomeWrapper}>{list}</div>
         </section>
       </main>
     </div>

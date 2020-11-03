@@ -8,31 +8,59 @@ import Code from "./Code/Code";
 
 import { getInfo } from '../../helpers/getInfo';
 
+
+import ListEl from "../ListEl/ListEl";
+import ListContainer from "../ListContainer/ListContainer";
+
+import { TextField, MenuItem } from '@material-ui/core';
+
 import classes from "./Codes.module.css";
 
-const Codes = (props) => {
-  const accounts = useSelector(state => state.income.accountList);
-  const accountState = useSelector(state => state.income.accountList).find(a => a.code === props.code);
+const Codes = () => {
+  const dbIncomes = useSelector(state => state.income.dbIncomes);
   const codes = useSelector(state => state.income.codes);
-  // const [infoAboutIncomes, setInfoAboutIncome] = useState(null);
-  const [isLoading, setLoadingStatus] = useState(false);
 
-  console.log(props.codesMenu);
+  const [ currentCode, setCurrentCode ] = useState(codes[0])
 
-  let spinner;
-  if (isLoading) spinner = <Spinner />;
-
+  const children = currentCode === 'Brak kodu' 
+  ? dbIncomes.filter(i => !i.event).map((income, index) => {
+      return <ListEl key={index} title={income.title} cash={income.cash} />
+    })
+  : dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
+    return <ListEl key={index} title={income.title} cash={income.cash} />
+  })
 
   return (
     <section className="Section">
       <header>
-        <nav className="Nav">
-          <Navigation list={props.codesMenu} />
-        </nav>
+
+        <TextField 
+          style={{width: '80%', marginTop: '16px'}}
+          value={currentCode}
+          onChange={(e) => setCurrentCode(e.target.value)}
+          placeholder="Wybierz kod z listy"
+          select={true}
+          size="small"
+          variant="outlined"
+          Smargin="normal"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {[...codes, 'Brak kodu'].map((item) => (
+        <MenuItem key={item} value={item}>{item}</MenuItem>
+      ))}
+        </TextField>
         <h2>Pokaż listę po kodzie</h2>
-        {spinner}
+
       </header>
-      <main className={classes.Main}>{props.routing}</main>
+      <main className={classes.Main}>
+      <ListContainer
+              title={currentCode}
+            >
+              {children}
+            </ListContainer>
+        </main>
     </section>
   );
 };

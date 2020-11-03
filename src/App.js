@@ -21,22 +21,31 @@ import NonAssignedIncome from "./containers/Transfers/components/NonAssignedInco
 import ImportIncome from "./containers/Transfers/components/ImportIncome/ImportIncome";
 import Team from './components/Team/Team';
 
+import * as actions from './store/actions/index';
+import store from './store/store';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { getTeamsWithAccountState, getCodes, getRegistry } from '../src/containers/DashBoard/api-handlers/account.handler';
 
 const App = () => {
   const accounts = useSelector(state => state.income.accountList);
   const codes = useSelector(state => state.income.codes);
-  const initIncome = useSelector(state => state.income.initIncome)
+  const dbIncomes = useSelector(state => state.income.dbIncomes)
   const teams = useSelector(state => state.income.teams)
+//TODO registry, dbincomes and outcomes dependency
+  const loadingStatus = useSelector(state => state.ui.loading);
 
   useEffect(() => {
+    // store.dispatch(actions.loadingStart);
     const downloadData = async () => {
       await getTeamsWithAccountState();
       await getCodes();
       await getRegistry()
     }
     downloadData();
-  },[])
+    store.dispatch(actions.loadingEnd());
+  },[]);
 
   const  navigation = [
     { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
@@ -85,7 +94,7 @@ if (codes) {
   });
 }
 
-if (initIncome) {
+if (dbIncomes) {
   if (teams) {
     teamMenuForSortedIncome = teams.map(team => {
       return { link: `/transfers/sorted/${team.id}`, title: `${team.id}` };
@@ -105,13 +114,15 @@ if (initIncome) {
 
   return (
       <div className="App">
-          <div className="GridArea">
+          {loadingStatus 
+          ? <div className="loader"><CircularProgress/></div>
+          : <div className="GridArea">
        <BrowserRouter>
           <nav className="Nav">
             <Navigation list={navigation} navigation="main" />
           </nav>
         <div>
-        
+         
           <Switch>
             <Route exact path="/transfers" render={() => <ImportIncome />} />
             <Route exact path="/transfers/imported" render={() => <NonAssignedIncome />} />
@@ -136,7 +147,7 @@ if (initIncome) {
           Projekt i wykonanie: <strong>Łukasz Hendrysiak</strong>
         </h3>
       </footer>
-    </div>
+    </div>}
     </div>
 
     );
