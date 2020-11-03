@@ -15,6 +15,13 @@ export const fetchCodes = codes => {
     }
 }
 
+export const fetchCodesWithTeams = codes => {
+    return {
+        type: actionTypes.FETCH_CODES_TEAMS,
+        codes
+    }
+}
+
 export const fetchAccountState = (incomes, outcomes) => {
     return {
         type: actionTypes.SET_ACCOUNT_STATE,

@@ -14,7 +14,7 @@ const Event = props => {
   let incomes = 0;
  
   if(accountState){
-  accountState.code !== 'nonAssigned' 
+  accountState.code !== 'unAssigned' 
     ? accountState.income.forEach((element) => (element.persons.forEach(p => {
       incomes += p.value
     })))

@@ -14,21 +14,27 @@ import ListContainer from "../../../../components/ListContainer/ListContainer";
 
 const SortedIncome = (props) => {
   
-    const codes = useSelector(state => state.income.codes);
+    const dbCodes = useSelector(state => state.income.codes);
 
     const init  = useSelector(state => state.income.initIncome);
 
-    const [ currentTeam, setCurrentTeam ] = useState(6673);
-    const [ displayedIncome, setDisplayedIncome ] = useState([]);
-
+    
     const incomesToSend  = useSelector(state => state.income.sortedIncomes);
     const outcomesToSend  = useSelector(state => state.income.sortedOutcomes);
     const registry = useSelector(state => state.income.registry);
     const currentDbIncomes = useSelector(state => state.income.dbIncomes);
     const currentDbOutcomes = useSelector(state => state.income.dbOutcomes);
+    
+    const [ currentTeam, setCurrentTeam ] = useState(6673);
+    const [ displayedIncome, setDisplayedIncome ] = useState([]);
+    const [codes, setCodes] = useState([]);
 
     const history = useHistory();
 
+    useEffect(() => {
+      const codesToSed = dbCodes.map(code => code.code)
+      setCodes(codesToSed);
+    },[dbCodes])
 
     useEffect(() => {
       if (incomesToSend && Object.values(incomesToSend).length > 0) {
@@ -57,7 +63,7 @@ const SortedIncome = (props) => {
 
 
   const sendingHandler = async () => {
-    const updatedIncomes = [...currentDbIncomes];
+    const updatedIncomes = currentDbIncomes ? [...currentDbIncomes] : [];
     Object.values(incomesToSend).forEach(i => {
       const foundElement = updatedIncomes.findIndex(ui => {
         return ui.team === i.team && ui.name === i.name && ui.surname === i.surname && ui.event === i.event && ui.year === i.year
@@ -67,7 +73,7 @@ const SortedIncome = (props) => {
       else updatedIncomes.push(i);
     });
 
-    const updatedOutcomes = [...currentDbOutcomes, ...Object.values(outcomesToSend)];
+    const updatedOutcomes = currentDbOutcomes ? [...currentDbOutcomes, ...Object.values(outcomesToSend)] : [...Object.values(outcomesToSend)];
 
     await axios.put('/incomes.json', updatedIncomes);
     await axios.put('/outcomes.json', updatedOutcomes);
@@ -101,7 +107,7 @@ const SortedIncome = (props) => {
             const children = displayedIncome.map((income, index) => {
             if (income.event === event) {
               return <ListEl key={index} title={income.title} cash={income.cash} />
-            } else if (event === 'nonAssigned' && (
+            } else if (event === 'unAssigned' && (
               !income.hasOwnProperty('event') ||
               !income.hasOwnProperty('year') ||
               !income.hasOwnProperty('team') ||

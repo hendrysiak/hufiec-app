@@ -14,7 +14,7 @@ import classes from "./Teams.module.css";
 const Teams = () => {
   const registry = useSelector(state => state.income.registry);
   const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes);
+  const codes = useSelector(state => state.income.codes).map(code => code.code);
 
   const [currentTeam, setCurrentTeam] = useState(6673);
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
@@ -38,7 +38,7 @@ const Teams = () => {
   </ListContainer>);
 
     const list = codes && codes.map((code, index) => {
-      if (code !== "nonAssigned") {
+      if (code !== "unAssigned") {
         return (
           <ListContainer key={index} title={code}>
             {incomesByCode && incomesByCode.map((person, index) => (

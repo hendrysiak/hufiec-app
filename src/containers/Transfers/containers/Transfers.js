@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import SortedIncome from "../components/SortedIncome/SortedIncome";
-import NonAssignedIncome from "../components/NonAssignedIncome/NonAssignedIncome";
+import unAssignedIncome from "../components/unAssignedIncome/unAssignedIncome";
 import ImportIncome from "../components/ImportIncome/ImportIncome";
 import Navigation from "../../../components/Navigation/Navigation";
 
@@ -25,7 +25,7 @@ const Transfers = () => {
         <main>
             {/* <Route path="/transfers" ><Redirect to="/transfers/import"/></Route>
             <Route path="/transfers/import" render={() => <ImportIncome />} />
-            <Route path="/transfers/imported" render={() => <NonAssignedIncome />} />
+            <Route path="/transfers/imported" render={() => <unAssignedIncome />} />
             <Route path="/transfers/sorted" render={() => <SortedIncome />} /> */}
         </main>
       </section>

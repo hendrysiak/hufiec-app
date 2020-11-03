@@ -18,7 +18,7 @@ import Event from "../components/Event/Event";
 
 const EventBilling = (props) => {
   const accounts = useSelector(state => state.income.accountList);
-  const codes = useSelector(state => state.income.codes);
+  const codes = useSelector(state => state.income.codes).map(code => code.code);
 
   const [isLoading, setLoadingStatus] = useState(false);
 

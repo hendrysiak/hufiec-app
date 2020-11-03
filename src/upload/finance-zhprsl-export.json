@@ -2,7 +2,7 @@
   "codes" : {
     "6676" : [ "BK-01" ],
     "12427" : [ "BK-03" ],
-    "general" : [ "CMOK", "SC", "ZH-01", "ZH-02", "nonAssigned" ]
+    "general" : [ "CMOK", "SC", "ZH-01", "ZH-02", "unAssigned" ]
   },
   "listOfTeams" : [ 6673, 6676, 6682, 6688, 6689, 6692, 6693, 6697, 6698, 6699, 6700, 6701, 6704, 6706, 6707, 6711, 6713, 6717, 6722, 6723, 6705, 12427, 14149, 15439, 15446, 15946, 15947, 15948, 16439, 17203, 110202, 11600, "pozostałe" ],
   "teams" : {
@@ -486,7 +486,7 @@
         "name" : "MARTYNA",
         "surname" : "CHYBOWSKA"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "15.0",
         "title" : "2019 - Lena Czekajska -6673-Cmok"
       }, {
@@ -1130,7 +1130,7 @@
         "name" : "MARCIN",
         "surname" : "STĘPIŃSKI"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "15.0",
         "title" : "2019-Patryk Mazur-6697-cmok"
       }, {
@@ -1493,7 +1493,7 @@
         "name" : "Szymon",
         "surname" : "Lasota"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "30.0",
         "title" : "2019-Victoria Brożek-6701-cmok"
       }, {
@@ -2151,7 +2151,7 @@
         "name" : "MAJA",
         "surname" : "NIKIEL"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "30.0",
         "title" : "2019-Szymon Iwanow-6707-RD-03"
       }, {
@@ -2554,7 +2554,7 @@
         "name" : "Beata",
         "surname" : "Szymańska"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "30.0",
         "title" : "2019-Marta Cekała-6717-cmok"
       }, {
@@ -2942,7 +2942,7 @@
         "name" : "REMIGIUSZ",
         "surname" : "SARNOWSKI"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "20.0",
         "title" : "2019-Zuzanna Szabla-11600-S.C"
       }, {
@@ -3319,7 +3319,7 @@
         "name" : "Zuzanna",
         "surname" : "Smyla"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "30.0",
         "title" : "2019-Zuzanna Sawicka-14149-CMOG"
       }, {
@@ -3773,7 +3773,7 @@
         "name" : "Liliana",
         "surname" : "Chmielowska"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "10.0",
         "title" : "Magdalena Brol.41-706.RudaŚląska.ul.Ligocka 48.składkaczłonkowska 2019.kod16439-sc"
       }, {
@@ -3861,7 +3861,7 @@
         "name" : "Dominika",
         "surname" : "Jałowiecka"
       } ],
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "200.0",
         "title" : "2020-KLAUDIUSZ PALUCH-17203-OH-01"
       }, {
@@ -3924,7 +3924,7 @@
       } ]
     },
     "pozostałe" : {
-      "nonAssigned" : [ {
+      "unAssigned" : [ {
         "cash" : "255.0",
         "title" : "2019-Michał Porada-1111-PCZ opłataza okres 07.2019 - 12.2019  45.00/3m-ce i 40.00/3 m-ce"
       }, {

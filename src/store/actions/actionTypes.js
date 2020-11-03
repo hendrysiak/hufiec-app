@@ -1,5 +1,6 @@
 export const FETCH_FILE = 'FETCH_FILE';
 export const FETCH_CODES = 'FETCH_CODES';
+export const FETCH_CODES_TEAMS = 'FETCH_CODES_TEAMS';
 export const FETCH_FILE_FAILED = 'FETCH_FILE_FAILED';
 export const SORT_INCOME = 'SORT_INCOME';
 export const EDIT_INCOME = 'EDIT_INCOME';

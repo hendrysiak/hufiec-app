@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 import store from "../../../../store/store";
 
-const NonAssignedIncome = () => {
+const UnAssignedIncome = () => {
 
   const initIncome = useSelector(state => state.income.initIncome)
   const registry = useSelector(state => state.income.registry)
@@ -97,4 +97,4 @@ const NonAssignedIncome = () => {
 //   };
 // };
 
-export default NonAssignedIncome;
+export default UnAssignedIncome;

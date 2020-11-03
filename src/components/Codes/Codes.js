@@ -18,7 +18,7 @@ import classes from "./Codes.module.css";
 
 const Codes = () => {
   const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes);
+  const codes = useSelector(state => state.income.codes).map(code => code.code);
 
   const [ currentCode, setCurrentCode ] = useState(codes[0])
 

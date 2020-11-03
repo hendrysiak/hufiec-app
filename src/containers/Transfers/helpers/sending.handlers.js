@@ -38,10 +38,10 @@ export const sendingDataHandler = async (id, axios, incomes) => {
         ).accounts
     ];
     console.log(incomesToSort);
-    const nonAssigned = await [
-      ...incomes.find(item => item.code === "nonAssigned").incomeByCode
+    const unAssigned = await [
+      ...incomes.find(item => item.code === "unAssigned").incomeByCode
     ];
-    accounts["nonAssigned"] = [...nonAssigned];
+    accounts["unAssigned"] = [...unAssigned];
 
     if (id !== "pozostałe") {
       for (let i of incomesToSort) {
@@ -75,7 +75,7 @@ export const sendingDataHandler = async (id, axios, incomes) => {
                     });
               }
               else if (matchInfo && !someVerify) {
-                accounts["nonAssigned"].push(income);
+                accounts["unAssigned"].push(income);
               }
             }
           });
@@ -92,7 +92,7 @@ export const sendingDataHandler = async (id, axios, incomes) => {
               } else if (
                 !matchInfo
               ) {
-                accounts["nonAssigned"].push(income);
+                accounts["unAssigned"].push(income);
 
               }
             });

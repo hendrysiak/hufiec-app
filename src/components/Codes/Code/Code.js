@@ -11,7 +11,7 @@ const Code = props => {
 
   let incomes;
   if (accountState) {
-    accountState.code !== 'nonAssigned'
+    accountState.code !== 'unAssigned'
     
     ? incomes = accountState.income.map((element, index) => (
       <ListContainer key={index} title={element.team}>

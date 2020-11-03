@@ -2,34 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "../../axios-income";
 import ListContainer from "../ListContainer/ListContainer";
 
+import { useSelector } from "react-redux";
+
 const AddCode = () => {
-  const [codes, setCodes] = useState([]);
-
-  const setCodesFromServer = async () => {
-    try {
-      const codes = await axios.get("/codes.json");
-      let codesToSave = [];
-      for (let team in codes.data) {
-        codesToSave.push({ team, codes: codes.data[team] });
-      }
-      await setCodes(codesToSave);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    setCodesFromServer();
-  }, []);
+  const codes = useSelector(state => state.income.codes);
 
   let listOfCode;
-  if (codes.length) {
-    listOfCode = codes.map((element, index) => (
+  if (codes && codes.length > 0) {
+    listOfCode = codes.map((code, index) => (
       <ListContainer
         key={index}
-        title={element.team !== "general" ? element.team : "Kody ogólne"}
+        title={code.code}
       >
-        {element.codes.map((code, i) => (
+        {code.teams && code.teams.map((code, i) => (
           <li key={i}>{code}</li>
         ))}
       </ListContainer>
@@ -37,6 +22,7 @@ const AddCode = () => {
   }
 
   const saveCode = event => {
+    console.log(event.target.value);
     event.preventDefault();
     const id = event.target.dataset.id;
     const dataForm = document.getElementById(`${id}`);
@@ -50,24 +36,25 @@ const AddCode = () => {
       index > -1
         ? codesToEdit[index].codes.push(`${code}`)
         : codesToEdit.push({ team, codes: [`${code}`] });
-      setCodes(codesToEdit);
+      // setCodes(codesToEdit);
     } else {
       let code = newInfo[0][1];
       let index = codesToEdit.findIndex(item => item.team === "general");
       codesToEdit[index].codes.push(`${code}`);
-      setCodes(codesToEdit);
+      // setCodes(codesToEdit);
     }
   };
 
   const sendCode = async () => {
-    try {
-      const newCodes = {};
-      codes.forEach(team => (newCodes[team.team] = team.codes));
-      console.log(newCodes);
-      await axios.patch("/codes.json", newCodes);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log("Sending!");
+    // try {
+    //   const newCodes = {};
+    //   codes.forEach(team => (newCodes[team.team] = team.codes));
+    //   console.log(newCodes);
+    //   await axios.patch("/codes.json", newCodes);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (
