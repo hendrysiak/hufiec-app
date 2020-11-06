@@ -17,33 +17,16 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Event from "../components/Event/Event";
 
 const EventBilling = (props) => {
-  const accounts = useSelector(state => state.income.accountList);
-  const codes = useSelector(state => state.income.codes).map(code => code.code);
+  const codes = useSelector(state => state.income.codes);
+  const dbOutcomes = useSelector(state => state.income.dbOutcomes);
 
   const [isLoading, setLoadingStatus] = useState(false);
+  const [currentCodes, setCurrentCodes] = useState(codes);
 
-console.log(props);
-
-let spinner;
-if (isLoading) spinner = <Spinner />;
-// let codesMenu = [];
-// if (codes) {
-//   codesMenu = codes.map(code => {
-//     return { link: `/add-billing/${code}`, title: `${code}` };
-//   });
-// }
-// let routing;
-// if (accounts.length) {
-//   routing = accounts.map((item, index) => {
-//     return (
-//       <Route
-//         key={index}
-//         path={`/add-billing/${item.code}`}
-//         component={() => <Event income={item} />}
-//       />
-//     );
-//   });
-// }
+  useEffect(() => {
+    const onlyCodes = codes.map(code => code.code)
+    setCurrentCodes(onlyCodes);
+  }, [codes]);
 
     return (
       <section className="Section">
@@ -52,9 +35,8 @@ if (isLoading) spinner = <Spinner />;
           <Navigation list={props.codesMenu} />
         </nav>
         <h2>Dodaj rozliczenie do kodu</h2>
-        {spinner}
       </header>
-      <main className={classes.Main}>{props.routing}</main>
+      <main className={classes.Main}>{}</main>
       </section>
     );
 }

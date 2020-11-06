@@ -1,9 +1,12 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../../store/actions/index";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import classes from "./ImportIncome.module.css";
 import { Link, useHistory } from "react-router-dom";
+
+import { TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import store from "../../../../store/store";
 
@@ -11,46 +14,37 @@ const ImportIncome = () => {
 
   const history = useHistory();
 
+  const [dataUrl, setDataUrl] = useState('');
 
 
   const setUrl = event => {
     event.preventDefault();
-    console.log(event.target.children[1].value);
-    store.dispatch(actions.fetchIncome(event.target.children[1].value));
+    // store.dispatch(actions.fetchIncome(event.target.children[1].value));
+    store.dispatch(actions.fetchIncome(dataUrl));
     history.push('/transfers/imported')
   };
 
-    // let spinner;
-    // if (this.props.loading) {
-    //   spinner = <Spinner />;
-    // }
+
     return (
       <section className="Section">
-            <form className={classes.Form} onSubmit={event => setUrl(event)}>
+          <form className={classes.Form} onSubmit={event => setUrl(event)}>
           <h2>Wstaw URL z importem XML</h2>
-          <input type="text" className={classes.Input} />
-          {/* <Link to="/transfers/imported"> */}
-          <button type="submit" className={classes.Button}>
-            Importuj
-          </button>
-          {/* </Link> */}
+          <TextField 
+          style={{width: '90%', margin: '16px 0'}}
+          value={dataUrl}
+          onChange={(e) => setDataUrl(e.target.value)}
+          placeholder="Wstaw URL z importem XML"
+          select={false}
+          size="small"
+          variant="outlined"
+          Smargin="normal"
+          label="Wstaw URL z importem XML"
+        />
+          <Button variant="contained" color="primary" onClick={(e) => setUrl(e)}>Importuj</Button>
         </form>
-        {/* {spinner} */}
       </section>
     );
 
 };
 
-const mapStateToProps = state => {
-  return {
-    loading: state.income.loading
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchIncome: url => dispatch(actions.fetchIncome(url))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ImportIncome);
+export default ImportIncome;

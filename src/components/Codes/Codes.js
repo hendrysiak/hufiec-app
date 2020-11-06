@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Route } from "react-router-dom";
-import axios from "../../axios-income";
-import Spinner from "../UI/Spinner/Spinner";
-import Navigation from "../Navigation/Navigation";
-import Code from "./Code/Code";
-
-import { getInfo } from '../../helpers/getInfo';
-
 
 import ListEl from "../ListEl/ListEl";
 import ListContainer from "../ListContainer/ListContainer";

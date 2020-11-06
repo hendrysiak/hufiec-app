@@ -2,18 +2,55 @@ import React, { useState, useEffect } from "react";
 import axios from "../../axios-income";
 import ListContainer from "../ListContainer/ListContainer";
 
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import { TextField, MenuItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
 import { useSelector } from "react-redux";
 
 const AddCode = () => {
   const codes = useSelector(state => state.income.codes);
+  const registry = useSelector(state => state.income.registry);
+
+  const [currentCodes, setCurrentCodes] = useState(codes);
+  const [generalCode, setGeneralCode] = useState();
+  const [currentTeam, setCurrentTeam] = useState("Kod ogólny");
+
+  useEffect(() => {
+    setCurrentCodes(codes);
+  }, [codes]);
+
+  
+  const addTeam = (code) => {
+    if (!currentTeam || currentTeam === "Kod ogólny") {
+      return alert("Nie wybrano drużyny!")
+    }
+
+    const updatedCodes = currentCodes.map(c => {
+      if (c.code === code.code) {
+        console.log('Fire event');
+        const currentCodesTeam = [...c.teams];
+        if (!currentCodesTeam.includes(currentTeam)) currentCodesTeam.push(Number(currentTeam));
+        return { ...c, teams: currentCodesTeam }
+      } else return { ...c }
+    });
+    
+    setCurrentCodes(updatedCodes);
+  }
 
   let listOfCode;
-  if (codes && codes.length > 0) {
-    listOfCode = codes.map((code, index) => (
+  if (currentCodes && currentCodes.length > 0) {
+    listOfCode = currentCodes.map((code, index) => (
       <ListContainer
         key={index}
         title={code.code}
       >
+        <Tooltip title="Dodaj drużynę" aria-label="add-team">
+          <IconButton><AddIcon onClick={() => addTeam(code)}/></IconButton>
+      </Tooltip>
         {code.teams && code.teams.map((code, i) => (
           <li key={i}>{code}</li>
         ))}
@@ -21,71 +58,61 @@ const AddCode = () => {
     ));
   }
 
-  const saveCode = event => {
-    console.log(event.target.value);
-    event.preventDefault();
-    const id = event.target.dataset.id;
-    const dataForm = document.getElementById(`${id}`);
-    const info = new FormData(dataForm);
-    const newInfo = [...info];
-    const codesToEdit = [...codes];
-    if (newInfo.length > 1) {
-      let team = newInfo[1][1];
-      let code = newInfo[0][1];
-      let index = codesToEdit.findIndex(item => item.team === `${team}`);
-      index > -1
-        ? codesToEdit[index].codes.push(`${code}`)
-        : codesToEdit.push({ team, codes: [`${code}`] });
-      // setCodes(codesToEdit);
-    } else {
-      let code = newInfo[0][1];
-      let index = codesToEdit.findIndex(item => item.team === "general");
-      codesToEdit[index].codes.push(`${code}`);
-      // setCodes(codesToEdit);
-    }
+  const saveCode = () => {
+    const newCode = { code: generalCode, teams: currentTeam === "Kod ogólny" ? null : [currentTeam]}
+    const updatedCodes = [...currentCodes];
+    updatedCodes.push(newCode);
+    setCurrentCodes(updatedCodes);
   };
 
   const sendCode = async () => {
-    console.log("Sending!");
-    // try {
-    //   const newCodes = {};
-    //   codes.forEach(team => (newCodes[team.team] = team.codes));
-    //   console.log(newCodes);
-    //   await axios.patch("/codes.json", newCodes);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    if (!window.confirm('Czy jesteś pewien/pewna, że chcesz zapisac kody?')) return;
+    try {
+      await axios.put("/codes.json", currentCodes);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div>
-      <form id="general">
-        Dodaj kod ogólny
-        <label htmlFor="general">
-          <input type="text" name="general" placeholder="Wpisz kod ogólny" />
-        </label>
-        <button data-id="general" onClick={event => saveCode(event)}>
-          Dodaj
-        </button>
-      </form>
-      <form id="teams">
-        Dodaj kod do drużyny
-        <label htmlFor="teams">
-          <input type="text" name="teams-code" placeholder="Wpisz kod ogólny" />
-          <input
-            type="text"
-            name="teams-id"
-            placeholder="Wpisz drużynę, dla której przypisano kod"
-          />
-        </label>
-        <button data-id="teams" onClick={event => saveCode(event)}>
-          Dodaj
-        </button>
+    <div style={{ overflowY: "scroll", height: "100%" }}>
+      <form id="general" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <h2>Dodaj kod</h2>
+        <TextField 
+          style={{width: '40%', margin: '16px 0'}}
+          value={generalCode}
+          onChange={(e) => setGeneralCode(e.target.value)}
+          select={false}
+          size="small"
+          variant="outlined"
+          Smargin="normal"
+          label="Wprowadź pełny kod"
+        />
+        <TextField
+          style={{width: '40%', margin: '16px 0'}}
+          label="Wybierz drużynę"
+          value={currentTeam}
+          onChange={(e) => setCurrentTeam(e.target.value)}
+          placeholder="Wybierz kod z listy"
+          select={true}
+          size="small"
+          variant="outlined"
+          Smargin="normal"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {registry && ["Kod ogólny", ...Object.keys(registry)].map((item) => (
+        <MenuItem key={item} value={item}>{item}</MenuItem>
+      ))}
+        </TextField>
+        <Button variant="contained" color="primary" onClick={() => saveCode()}>Zapisz kod tymczasowo</Button>
       </form>
       <section>
         <h2>Przypisane kody</h2>
         {listOfCode}
-        <button onClick={sendCode}>Zapisz kody do bazy</button>
+        <Button variant="contained" color="primary" onClick={() => sendCode()}>Zapisz kody do bazy</Button>
+        {/* <button onClick={sendCode}>Zapisz kody do bazy</button> */}
       </section>
     </div>
   );

@@ -14,18 +14,23 @@ import classes from "./Teams.module.css";
 const Teams = () => {
   const registry = useSelector(state => state.income.registry);
   const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes).map(code => code.code);
+  const codes = useSelector(state => state.income.codes);
 
   const [currentTeam, setCurrentTeam] = useState(6673);
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
-  const [incomes, getIncomes] = useState({});
+  const [filteredCodes, setFilteredCodes] = useState([]);
   const [incomesByCode, setIncomeByCode] = useState([]);
 
   useEffect(() => {
-    setCurrentTeamRegistry(registry[currentTeam]);
-    const incomesToDisplay = dbIncomes.filter(income => income.team === currentTeam);
+    registry && setCurrentTeamRegistry(registry[currentTeam]);
+    const incomesToDisplay = dbIncomes && dbIncomes.filter(income => income.team === currentTeam);
     setIncomeByCode(incomesToDisplay);
   },[currentTeam, registry]);
+
+  useEffect(() => {
+    const filteredCodes = codes && codes.map(code => code.code);
+    setFilteredCodes(filteredCodes);
+  },[codes]);
 
   const members = (<ListContainer title={currentTeam}>
     {currentTeamRegistry && currentTeamRegistry.map((person, index) => (
@@ -37,7 +42,7 @@ const Teams = () => {
     ))}
   </ListContainer>);
 
-    const list = codes && codes.map((code, index) => {
+    const list = filteredCodes && filteredCodes.map((code, index) => {
       if (code !== "unAssigned") {
         return (
           <ListContainer key={index} title={code}>
@@ -83,7 +88,7 @@ const Teams = () => {
             MenuProps: { disableScrollLock: true }
           }}
         >
-          {[...Object.keys(registry)].map((item) => (
+          {registry && [...Object.keys(registry)].map((item) => (
         <MenuItem key={item} value={item}>{item}</MenuItem>
       ))}
         </TextField>

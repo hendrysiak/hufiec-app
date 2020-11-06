@@ -8,6 +8,7 @@ import store from "../../../../store/store";
 
 import { sortingIncome } from '../../../../helpers/sorting.helper';
 import { TextField, MenuItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import ListEl from "../../../../components/ListEl/ListEl";
 import ListContainer from "../../../../components/ListContainer/ListContainer";
@@ -83,7 +84,8 @@ const SortedIncome = (props) => {
 
     return (
       <section className="Section">
-        <button onClick={sendingHandler}>Wyślij dane na serwer</button>
+        <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
+        {/* <button onClick={sendingHandler}>Wyślij dane na serwer</button> */}
         <TextField 
           value={currentTeam}
           onChange={(e) => setCurrentTeam(e.target.value)}

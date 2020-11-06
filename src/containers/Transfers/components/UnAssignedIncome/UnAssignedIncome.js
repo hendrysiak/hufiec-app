@@ -8,6 +8,8 @@ import * as actions from "../../../../store/actions/index";
 
 import { useHistory } from "react-router-dom";
 
+import Button from '@material-ui/core/Button';
+
 import store from "../../../../store/store";
 
 const UnAssignedIncome = () => {
@@ -71,9 +73,11 @@ const UnAssignedIncome = () => {
 
     return (
       <section className="Section">
-        <div>
-          <button onClick={() => updateIncome()}>Zaktualizuj przelewy</button>
-          <button onClick={() => verifyTeams()}>Posortuj przelewy</button>
+        <div style={{marginTop: "16px"}}>
+        <Button variant="contained" color="primary" onClick={() => updateIncome()}>Zaktualizuj przelewy</Button>
+        <Button variant="contained" color="secondary" onClick={() => verifyTeams()}>Posortuj przelewy</Button>
+          {/* <button onClick={() => updateIncome()}>Zaktualizuj przelewy</button>
+          <button onClick={() => verifyTeams()}>Posortuj przelewy</button> */}
           <h2>Przelewy zaimportowane:</h2>
         </div>
         <ListContainer>{listOfIncome}</ListContainer>
@@ -81,20 +85,5 @@ const UnAssignedIncome = () => {
     );
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     init: state.income.initIncome,
-//     teams: state.income.teams
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onFetchIncome: url => dispatch(actions.fetchIncome(url)),
-//     onSortIncome: (actualTeams, actualIncome) =>
-//       dispatch(actions.sortingIncome(actualTeams, actualIncome)),
-//     onEditIncome: income => dispatch(actions.editingIncome(income))
-//   };
-// };
 
 export default UnAssignedIncome;

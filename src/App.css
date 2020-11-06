@@ -10,7 +10,7 @@
 .GridArea {
     height: 100vh;
     display: grid;
-    grid-template: "nav section  "95vh "nav footer  "5vh / 1fr 6fr
+    grid-template: "nav section  "100vh / 1fr 6fr
 }
 
 .Nav {
