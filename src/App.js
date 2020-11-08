@@ -7,15 +7,8 @@ import { useSelector } from "react-redux";
 
 import Navigation from "./components/Navigation/Navigation";
 import Spinner from "./components/UI/Spinner/Spinner";
-// import Codes from "./components/Codes/Codes";
-// import AddCode from "./components/AddCode/AddCode";
-// import Teams from "./components/Teams/Teams";
-// import ForCoders from './components/ForCoders/ForCoders';
-// import EventBilling from './containers/EventBilling/containers/EventBilling';
-
-// import SortedIncome from "./containers/Transfers/components/SortedIncome/SortedIncome";
-// import UnAssignedIncome from "./containers/Transfers/components/UnAssignedIncome/UnAssignedIncome";
-// import ImportIncome from "./containers/Transfers/components/ImportIncome/ImportIncome";
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 import * as actions from './store/actions/index';
 import store from './store/store';
@@ -33,21 +26,22 @@ const App = () => {
     const downloadData = async () => {
       await getTeamsWithAccountState();
       await getCodes();
-      await getRegistry()
+      await getRegistry();
     }
     downloadData();
     store.dispatch(actions.loadingEnd());
   },[]);
 
   const Codes = React.lazy(() => import( "./components/Codes/Codes"));
-const AddCode = React.lazy(() => import( "./components/AddCode/AddCode"));
-const Teams = React.lazy(() => import( "./components/Teams/Teams"));
-const ForCoders = React.lazy(() => import( './components/ForCoders/ForCoders'));
-const EventBilling = React.lazy(() => import( './containers/EventBilling/containers/EventBilling'));
-const EventApproval = React.lazy(() => import( './containers/EventApproval/EventApproval'));
-const SortedIncome = React.lazy(() => import( "./containers/Transfers/components/SortedIncome/SortedIncome"));
-const UnAssignedIncome = React.lazy(() => import( "./containers/Transfers/components/UnAssignedIncome/UnAssignedIncome"));
-const ImportIncome = React.lazy(() => import( "./containers/Transfers/components/ImportIncome/ImportIncome"));
+  const AddCode = React.lazy(() => import( "./components/AddCode/AddCode"));
+  const Teams = React.lazy(() => import( "./components/Teams/Teams"));
+  const Team = React.lazy(() => import( "./components/Team/Team"));
+  const ForCoders = React.lazy(() => import( './components/ForCoders/ForCoders'));
+  const EventBilling = React.lazy(() => import( './containers/EventBilling/EventBilling'));
+  const EventApproval = React.lazy(() => import( './containers/EventApproval/EventApproval'));
+  const SortedIncome = React.lazy(() => import( "./containers/Transfers/components/SortedIncome/SortedIncome"));
+  const UnAssignedIncome = React.lazy(() => import( "./containers/Transfers/components/UnAssignedIncome/UnAssignedIncome"));
+  const ImportIncome = React.lazy(() => import( "./containers/Transfers/components/ImportIncome/ImportIncome"));
 
   const  navigation = [
     { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
@@ -56,14 +50,21 @@ const ImportIncome = React.lazy(() => import( "./containers/Transfers/components
     { link: "/add-code", title: "DODAJ KOD" },
     { link: "/add-approval", title: "DODAJ ZATWIERDZENIE" },
     { link: "/add-billing", title: "DODAJ ROZLICZENIE" },
+    { link: "/income-editor", title: "EDYTUJ PRZYCHODY" },
+    { link: "/outcome-editor", title: "EDYTUJ KOSZTY" },
     { link: "/show-base", title: "POKAŻ BAZĘ" }
   ]
 
   const routes = (
     <BrowserRouter>
+        <Container maxWidth="xl" style={{height: "100vh"}}>
+          <Grid container spacing={3} alignItems="stretch" alignContent="stretch" style={{height: "100%"}}>
+            <Grid item xs={12} md={8} lg={2} style={{maxHeight: "100vh"}}>
           <nav className="Nav">
-            <Navigation list={navigation} navigation="main" />
+            <Navigation list={navigation} navigation="main" alignItems="stretch"  alignContent="stretch"/>
           </nav>
+          </Grid>
+          <Grid item xs={12} md={8} lg={10} style={{maxHeight: "100vh", overflowY:"scroll"}}> 
         <div>
          
           <Switch>
@@ -74,6 +75,7 @@ const ImportIncome = React.lazy(() => import( "./containers/Transfers/components
             <Route exact path="/codes" render={() => <Codes />} />
             <Route exact path="/add-code" render={() => <AddCode/>} />
             <Route exact path="/teams" render={() => <Teams />} />
+            {/* <Route exact path="/:teamId" render={() => <Team />} /> */}
             <Route exact path="/add-approval" render={() => <EventApproval />} />
             <Route exact path="/add-billing" render={() => <EventBilling />} />
             <Route exact path="/for-coders" render={() => <ForCoders/>} />
@@ -81,6 +83,9 @@ const ImportIncome = React.lazy(() => import( "./containers/Transfers/components
           </Switch>
           
       </div>
+      </Grid>
+      </Grid>
+      </Container>
     </BrowserRouter>
   );
 
@@ -88,10 +93,9 @@ const ImportIncome = React.lazy(() => import( "./containers/Transfers/components
     <div className="App">
           {loadingStatus 
           ? <div className="loader"><CircularProgress/></div>
-          : (<div className="GridArea">
+          : (<div>
               <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
             </div>)}
-          <div className="Background"></div>
     </div>
     );
 

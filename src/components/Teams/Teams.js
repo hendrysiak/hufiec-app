@@ -4,10 +4,17 @@ import axios from "../../axios-income";
 
 import ListContainer from "../ListContainer/ListContainer";
 import ListEl from "../ListEl/ListEl";
+import MembersTable from '../MembersTable/MembersTable'
 
 import { useSelector } from "react-redux";
 
 import { TextField, MenuItem } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
 
 import classes from "./Teams.module.css";
 
@@ -32,16 +39,7 @@ const Teams = () => {
     setFilteredCodes(filteredCodes);
   },[codes]);
 
-  const members = (<ListContainer title={currentTeam}>
-    {currentTeamRegistry && currentTeamRegistry.map((person, index) => (
-      <ListEl
-        key={index}
-        cash={index + 1}
-        title={`${person.name} ${person.surname}`}
-      />
-    ))}
-  </ListContainer>);
-
+//TODO refactor display
     const list = filteredCodes && filteredCodes.map((code, index) => {
       if (code !== "unAssigned") {
         return (
@@ -58,13 +56,13 @@ const Teams = () => {
       } else {
         return (
         <ListContainer key={index} title={code}>
-          {incomesByCode && incomesByCode.map((person, index) => (
-            <ListEl
+          {incomesByCode && incomesByCode.map((income, index) => {
+            if (income.event === code) return <ListEl
               key={index}
-              cash={person.cash}
-              title={person.title}
+              cash={income.cash}
+              title={income.title}
             />
-          ))}
+      })}
         </ListContainer>
       )}
 
@@ -94,14 +92,15 @@ const Teams = () => {
         </TextField>
       </header>
 
-      <main className={classes.Main}>
+      <main className={classes.Main} >
         <aside className={classes.Aside}>
-          <h3>Lista członków drużyny (stan z SEH):</h3>
-          <ul className={classes.ListContainer}>{members}</ul>
+        <MembersTable members={currentTeamRegistry}/>
+          {/* <h3>Lista członków drużyny (stan z SEH):</h3>
+          <ul className={classes.ListContainer}>{members}</ul> */}
         </aside>
         <section className={classes.Section}>
           <h3>Stan wpłat zgodnie z kodami:</h3>
-          <div className={classes.IncomeWrapper}>{list}</div>
+          <div>{list}</div>
         </section>
       </main>
     </div>

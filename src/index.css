@@ -18,7 +18,7 @@ code {
 
 .Nav {
     background-color: rgba(74, 123, 38, 100%);
-    grid-area: nav
+    height: 100%;
 }
 
 .Section {

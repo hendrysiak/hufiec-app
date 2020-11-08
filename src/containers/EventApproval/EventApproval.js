@@ -11,6 +11,9 @@ import Button from '@material-ui/core/Button';
 
 import axios from "../../axios-income";
 
+import store from '../../store/store';
+import { fetchCodes } from '../../store/actions/income';
+
 const EventApproval = (props) => {
   const codes = useSelector(state => state.income.codes);
 
@@ -79,6 +82,7 @@ const EventApproval = (props) => {
         else return { ...c }
       })
       axios.put('codes.json', newCodes)
+      store.dispatch(fetchCodes(codes.data))
     }
   };
 

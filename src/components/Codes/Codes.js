@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import ListEl from "../ListEl/ListEl";
@@ -10,15 +10,25 @@ import classes from "./Codes.module.css";
 
 const Codes = () => {
   const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes).map(code => code.code);
+  const codes = useSelector(state => state.income.codes);
 
-  const [ currentCode, setCurrentCode ] = useState(codes[0])
+  const [usedCodes, setUsedCodes] = useState(codes);
+  const [ currentCode, setCurrentCode ] = useState()
+
+  useEffect(() => {
+    if (codes) {
+      const codesToUse = codes.map(code => code.code);
+      setCurrentCode(codesToUse[0]);
+      setUsedCodes(codesToUse);
+    }
+  }, [codes]);
+
 
   const children = currentCode === 'Brak kodu' 
-  ? dbIncomes.filter(i => !i.event).map((income, index) => {
+  ? dbIncomes && dbIncomes.filter(i => !i.event).map((income, index) => {
       return <ListEl key={index} title={income.title} cash={income.cash} />
     })
-  : dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
+  : dbIncomes && dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
     return <ListEl key={index} title={income.title} cash={income.cash} />
   })
 
@@ -39,7 +49,7 @@ const Codes = () => {
             MenuProps: { disableScrollLock: true }
           }}
         >
-          {[...codes, 'Brak kodu'].map((item) => (
+          {usedCodes && [...usedCodes, 'Brak kodu'].map((item) => (
         <MenuItem key={item} value={item}>{item}</MenuItem>
       ))}
         </TextField>
