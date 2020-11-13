@@ -16,6 +16,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
+import { getTeamsWithAccountState } from '../../containers/DashBoard/api-handlers/account.handler';
+
+import TableEditor from '../TableEditor/TableEditor';
+
 import classes from "./Teams.module.css";
 
 const Teams = () => {
@@ -27,10 +31,17 @@ const Teams = () => {
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
   const [filteredCodes, setFilteredCodes] = useState([]);
   const [incomesByCode, setIncomeByCode] = useState([]);
+  const [incomesInDb, setIncomesInDb] = useState([])
+
+  const [changesToSave, setChangesToSave] = useState(false);
+
+  useEffect(() => {
+    dbIncomes && setIncomesInDb(dbIncomes);
+  },[dbIncomes])
 
   useEffect(() => {
     registry && setCurrentTeamRegistry(registry[currentTeam]);
-    const incomesToDisplay = dbIncomes && dbIncomes.filter(income => income.team === currentTeam);
+    const incomesToDisplay = incomesInDb && incomesInDb.filter(income => income.team === currentTeam);
     setIncomeByCode(incomesToDisplay);
   },[currentTeam, registry]);
 
@@ -39,35 +50,27 @@ const Teams = () => {
     setFilteredCodes(filteredCodes);
   },[codes]);
 
-//TODO refactor display
-    const list = filteredCodes && filteredCodes.map((code, index) => {
-      if (code !== "unAssigned") {
-        return (
-          <ListContainer key={index} title={code}>
-            {incomesByCode && incomesByCode.map((person, index) => (
-              <ListEl
-                key={index}
-                cash={person.value}
-                title={`${person.name} ${person.surname}`}
-              />
-            ))}
-          </ListContainer>
-        ) 
-      } else {
-        return (
-        <ListContainer key={index} title={code}>
-          {incomesByCode && incomesByCode.map((income, index) => {
-            if (income.event === code) return <ListEl
-              key={index}
-              cash={income.cash}
-              title={income.title}
-            />
-      })}
-        </ListContainer>
-      )}
+  const saveIncome = async () => {
+    await axios.put('/incomes.json', incomesInDb);
+    await getTeamsWithAccountState();
+    setChangesToSave(false);
+  }
 
-    })
+    const editIncome = (index, data, value) => {
+      const incomeToEdit = [...incomesByCode];
+      const updatedDb = [...incomesInDb];
 
+      incomeToEdit[index][data] = value;
+      const newIndex = updatedDb.findIndex(i => 
+        i.title === incomeToEdit[index].title
+        && i.cash === incomeToEdit[index].cash
+        )
+      updatedDb[newIndex][data] = value;
+
+      setIncomesInDb(updatedDb);
+      setIncomeByCode(incomeToEdit);
+      setChangesToSave(true);
+    }
 
   return (
     <div>
@@ -81,7 +84,7 @@ const Teams = () => {
           select={true}
           size="small"
           variant="outlined"
-          Smargin="normal"
+          margin="normal"
           SelectProps={{
             MenuProps: { disableScrollLock: true }
           }}
@@ -93,14 +96,14 @@ const Teams = () => {
       </header>
 
       <main className={classes.Main} >
-        <aside className={classes.Aside}>
-        <MembersTable members={currentTeamRegistry}/>
-          {/* <h3>Lista członków drużyny (stan z SEH):</h3>
-          <ul className={classes.ListContainer}>{members}</ul> */}
-        </aside>
         <section className={classes.Section}>
-          <h3>Stan wpłat zgodnie z kodami:</h3>
-          <div>{list}</div>
+          <TableEditor 
+            data={incomesByCode} 
+            onChange={editIncome}
+            info='income'
+            save={changesToSave}
+            saveHandler={saveIncome}
+          />
         </section>
       </main>
     </div>

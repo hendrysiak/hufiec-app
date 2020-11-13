@@ -176,7 +176,7 @@ const EventBilling = (props) => {
                   select={true}
                   size="small"
                   variant="outlined"
-                  Smargin="normal"
+                  margin="normal"
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
                   }}

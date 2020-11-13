@@ -4,6 +4,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    position: relative;
 }
 
 code {
@@ -18,7 +19,17 @@ code {
 
 .Nav {
     background-color: rgba(74, 123, 38, 100%);
-    height: 100%;
+    height: 95vh;
+    width: 20%;
+    position: fixed;
+    transition-duration: .5s;
+}
+.Nav__menu {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    align-self: flex-start;
+    transform: translateX(-1300%);
 }
 
 .Section {

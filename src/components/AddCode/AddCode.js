@@ -85,7 +85,7 @@ const AddCode = () => {
           select={false}
           size="small"
           variant="outlined"
-          Smargin="normal"
+          margin="normal"
           label="Wprowadź pełny kod"
         />
         <TextField
@@ -97,7 +97,7 @@ const AddCode = () => {
           select={true}
           size="small"
           variant="outlined"
-          Smargin="normal"
+          margin="normal"
           SelectProps={{
             MenuProps: { disableScrollLock: true }
           }}

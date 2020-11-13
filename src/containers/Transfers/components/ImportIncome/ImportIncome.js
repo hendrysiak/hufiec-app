@@ -37,7 +37,7 @@ const ImportIncome = () => {
           select={false}
           size="small"
           variant="outlined"
-          Smargin="normal"
+          margin="normal"
           label="Wstaw URL z importem XML"
         />
           <Button variant="contained" color="primary" onClick={(e) => setUrl(e)}>Importuj</Button>

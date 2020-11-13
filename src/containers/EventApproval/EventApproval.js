@@ -99,7 +99,7 @@ const EventApproval = (props) => {
           select={true}
           size="small"
           variant="outlined"
-          Smargin="normal"
+          margin="normal"
           SelectProps={{
             MenuProps: { disableScrollLock: true }
           }}
@@ -169,7 +169,7 @@ const EventApproval = (props) => {
       </Tooltip>
         </section>
       </main>
-      <Button variant="contained" color="primary" onClick={() => sendApproval()}>Zapisz zatwierdzenie</Button>
+      <Button variant="contained" color="primary" style={{maxWidth: '200px', margin: '0 auto'}} onClick={() => sendApproval()}>Zapisz zatwierdzenie</Button>
       </section>
     );
 }

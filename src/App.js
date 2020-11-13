@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import { Route } from "react-router-dom";
@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Navigation from "./components/Navigation/Navigation";
-import Spinner from "./components/UI/Spinner/Spinner";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
@@ -17,9 +16,37 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { getTeamsWithAccountState, getCodes, getRegistry } from '../src/containers/DashBoard/api-handlers/account.handler';
 
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import IconButton from '@material-ui/core/IconButton';
+
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import CodeIcon from '@material-ui/icons/Code';
+import GroupIcon from '@material-ui/icons/Group';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import EditIcon from '@material-ui/icons/Edit';
+
 const App = () => {
 //TODO registry, dbincomes and outcomes dependency
   const loadingStatus = useSelector(state => state.ui.loading);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const menu = useRef()
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('click', (event) => {
+      if (event.currentTarget !== menu) handleClose();
+    })
+  },[])
 
   useEffect(() => {
     // store.dispatch(actions.loadingStart);
@@ -35,36 +62,31 @@ const App = () => {
   const Codes = React.lazy(() => import( "./components/Codes/Codes"));
   const AddCode = React.lazy(() => import( "./components/AddCode/AddCode"));
   const Teams = React.lazy(() => import( "./components/Teams/Teams"));
-  const Team = React.lazy(() => import( "./components/Team/Team"));
   const ForCoders = React.lazy(() => import( './components/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import( './containers/EventBilling/EventBilling'));
   const EventApproval = React.lazy(() => import( './containers/EventApproval/EventApproval'));
   const SortedIncome = React.lazy(() => import( "./containers/Transfers/components/SortedIncome/SortedIncome"));
   const UnAssignedIncome = React.lazy(() => import( "./containers/Transfers/components/UnAssignedIncome/UnAssignedIncome"));
   const ImportIncome = React.lazy(() => import( "./containers/Transfers/components/ImportIncome/ImportIncome"));
+  const Edit = React.lazy(() => import( "./components/Edit/Edit"));
 
   const  navigation = [
-    { link: "/transfers", title: "PRZELEWY - OBSŁUGA" },
-    { link: "/codes", title: "FILTRUJ PO KODZIE" },
-    { link: "/teams", title: "FILTRUJ PO DRUŻYNIE" },
-    { link: "/add-code", title: "DODAJ KOD" },
-    { link: "/add-approval", title: "DODAJ ZATWIERDZENIE" },
-    { link: "/add-billing", title: "DODAJ ROZLICZENIE" },
-    { link: "/income-editor", title: "EDYTUJ PRZYCHODY" },
-    { link: "/outcome-editor", title: "EDYTUJ KOSZTY" },
-    { link: "/show-base", title: "POKAŻ BAZĘ" }
+    { link: "/transfers", title: "PRZELEWY - OBSŁUGA", icon: <AttachMoneyIcon fontSize="small" /> },
+    { link: "/codes", title: "FILTRUJ PO KODZIE", icon: <CodeIcon fontSize="small" /> },
+    { link: "/teams", title: "FILTRUJ PO DRUŻYNIE", icon: <GroupIcon fontSize="small" /> },
+    { link: "/add-code", title: "DODAJ KOD", icon: <AddBoxIcon fontSize="small" /> },
+    { link: "/add-approval", title: "DODAJ ZATWIERDZENIE", icon: <PlaylistAddIcon fontSize="small" /> },
+    { link: "/add-billing", title: "DODAJ ROZLICZENIE", icon: <PlaylistAddCheckIcon fontSize="small" /> },
+    { link: "/editor", title: "EDYTUJ PRZYCHODY/KOSZTY", icon: <EditIcon fontSize="small" />  },
   ]
 
   const routes = (
     <BrowserRouter>
-        <Container maxWidth="xl" style={{height: "100vh"}}>
-          <Grid container spacing={3} alignItems="stretch" alignContent="stretch" style={{height: "100%"}}>
-            <Grid item xs={12} md={8} lg={2} style={{maxHeight: "100vh"}}>
-          <nav className="Nav">
-            <Navigation list={navigation} navigation="main" alignItems="stretch"  alignContent="stretch"/>
-          </nav>
-          </Grid>
-          <Grid item xs={12} md={8} lg={10} style={{maxHeight: "100vh", overflowY:"scroll"}}> 
+        <Container maxWidth="xl" style={{overflowY: "auto", minHeight: '90vh'}}>
+          <Grid container spacing={3} alignItems="stretch" alignContent="stretch">
+
+
+          <Grid item xs={12} md={8} lg={12}> 
         <div>
          
           <Switch>
@@ -79,6 +101,7 @@ const App = () => {
             <Route exact path="/add-approval" render={() => <EventApproval />} />
             <Route exact path="/add-billing" render={() => <EventBilling />} />
             <Route exact path="/for-coders" render={() => <ForCoders/>} />
+            <Route exact path="/editor" render={() => <Edit />} />
             {/* <Route exact path={`/transfers/sorted/:teamId`} render={(rp) => <Team teamNum={rp.match.params.title} />}/> */}
           </Switch>
           
@@ -91,6 +114,23 @@ const App = () => {
 
   return (
     <div className="App">
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        className="Nav__menu"
+        
+      >
+        <MoreVertIcon />
+      </IconButton>
+      <Navigation
+         list={navigation}
+         anchorEl={anchorEl}
+         open={open}
+         onClose={handleClose}
+         ref={menu}
+         />
           {loadingStatus 
           ? <div className="loader"><CircularProgress/></div>
           : (<div>
