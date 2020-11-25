@@ -7,6 +7,7 @@ import React, {useEffect, useState} from 'react'
 4. Use this component in application
 */
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Modal from '@material-ui/core/Modal';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,14 +15,38 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
 
 import { TextField, MenuItem } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Button from '@material-ui/core/Button';
 
+import EditorModal from './EditorModal';
+
 const TableEditor = (props) => {
+  const [modalVisible, setModalVisible] = useState();
+  const [editedValue, setEditedValue] = useState({});
+
+  const openModal = (index, position) => {
+    console.log(position)
+    setEditedValue({index, position});
+    console.log(editedValue)
+    setModalVisible(true);
+  }
+
   return (
     <div>
+      <EditorModal 
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        info={props.info}
+        position={editedValue.position}
+        index={editedValue.index}
+        onChange={props.onChange}
+        additionalData={props.additionalData}
+      />
     {props.save && <>
       <Alert severity="warning">Niezapisane zmiany zostaną utracone!</Alert>
       <Button variant="contained" color="primary" onClick={() => props.saveHandler()}>Zapisz zmiany do bazy</Button>
@@ -32,6 +57,7 @@ const TableEditor = (props) => {
   {props.data ? <Table size="medium">
     <TableHead>
       <TableRow>
+      <TableCell>Edytuj</TableCell>
         <TableCell>LP</TableCell>
         <TableCell>Tytuł</TableCell>
         <TableCell>Kwota</TableCell>
@@ -52,100 +78,32 @@ const TableEditor = (props) => {
           data-founding={position.foundingSource} 
           data-category={position.outcomeCategory}
         >
+          <TableCell><IconButton onClick={() => openModal(index, position)}><EditIcon/></IconButton></TableCell>
           <TableCell>{index + 1}</TableCell>
           <TableCell>{position.title}</TableCell>
           <TableCell>
             {position.cash}
             </TableCell>
             {props.info !== 'income' && <TableCell>
-          <TextField
-              size='medium'
-              value={position.bilingNr}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'bilingNr', e.target.value)}
-            />
+              {position.bilingNr}
             </TableCell>}
           <TableCell data-info='team'>
-          <TextField
-              size='medium'
-              value={position.team}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'team', e.target.value)}
-              select={true}
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
-              }}
-            >
-              {props.additionalData.teams.map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-          </TextField>
+          {position.team}
             </TableCell>
-
             {props.info !== 'outcome' && <TableCell>
-          <TextField
-              size='medium'
-              value={position.name}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'name', e.target.value)}
-            />
+          {position.name}
             </TableCell>}
           {props.info !== 'outcome' &&  <TableCell>
-          <TextField
-              size='medium'
-              value={position.surname}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'surname', e.target.value)}
-            />
+          {position.surname}
             </TableCell>}
           <TableCell>
-          <TextField
-              size='medium'
-              value={position.event}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'event', e.target.value)}
-              select={true}
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
-              }}
-            >
-              {props.additionalData.codes.map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-          </TextField>
+          {position.event}
             </TableCell>
-
             {props.info !== 'income' && <TableCell>
-          <TextField
-              size='medium'
-              value={position.foundingSource}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'foundingSource', e.target.value)}
-              select={true}
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
-              }}
-            >
-              {props.additionalData.foundingSources.map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-          </TextField>
+         {position.foundingSource}
             </TableCell>}
             {props.info !== 'income' && <TableCell>
-          <TextField
-              size='medium'
-              value={position.outcomeCategory}
-              margin='dense'
-              onChange={(e) => props.onChange(index, 'outcomeCategory', e.target.value)}
-              select={true}
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
-              }}
-            >
-              {props.additionalData.outcomeCategory.map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-          </TextField>
+          {position.outcomeCategory}
             </TableCell>}
         </TableRow>
       ))}

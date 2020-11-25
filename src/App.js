@@ -26,6 +26,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import EditIcon from '@material-ui/icons/Edit';
+import TableChartIcon from '@material-ui/icons/TableChart';
 
 const App = () => {
 //TODO registry, dbincomes and outcomes dependency
@@ -59,6 +60,7 @@ const App = () => {
     store.dispatch(actions.loadingEnd());
   },[]);
 
+  const DashBoard = React.lazy(() => import( "./containers/DashBoard/Dashboard"));
   const Codes = React.lazy(() => import( "./components/Codes/Codes"));
   const AddCode = React.lazy(() => import( "./components/AddCode/AddCode"));
   const Teams = React.lazy(() => import( "./components/Teams/Teams"));
@@ -71,6 +73,7 @@ const App = () => {
   const Edit = React.lazy(() => import( "./components/Edit/Edit"));
 
   const  navigation = [
+    { link: "/", title: "STRONA GŁÓWNA", icon: <TableChartIcon fontSize="small" /> },
     { link: "/transfers", title: "PRZELEWY - OBSŁUGA", icon: <AttachMoneyIcon fontSize="small" /> },
     { link: "/codes", title: "FILTRUJ PO KODZIE", icon: <CodeIcon fontSize="small" /> },
     { link: "/teams", title: "FILTRUJ PO DRUŻYNIE", icon: <GroupIcon fontSize="small" /> },
@@ -82,7 +85,7 @@ const App = () => {
 
   const routes = (
     <BrowserRouter>
-        <Container maxWidth="xl" style={{overflowY: "auto", minHeight: '90vh'}}>
+        <Container maxWidth="xl" style={{height: '100%'}}>
           <Grid container spacing={3} alignItems="stretch" alignContent="stretch">
 
 
@@ -90,6 +93,7 @@ const App = () => {
         <div>
          
           <Switch>
+            <Route exact path="/" render={() => <DashBoard />} />
             <Route exact path="/transfers" render={() => <ImportIncome />} />
             <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
             <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
@@ -114,6 +118,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className="Nav">
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -124,6 +129,7 @@ const App = () => {
       >
         <MoreVertIcon />
       </IconButton>
+      </div>
       <Navigation
          list={navigation}
          anchorEl={anchorEl}

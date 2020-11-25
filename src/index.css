@@ -17,7 +17,7 @@ code {
     grid-template: "nav section  "95vh "nav footer  "5vh / 1fr 6fr
 }
 
-.Nav {
+/* .Nav {
     background-color: rgba(74, 123, 38, 100%);
     height: 95vh;
     width: 20%;
@@ -30,7 +30,7 @@ code {
     left: 0px;
     align-self: flex-start;
     transform: translateX(-1300%);
-}
+} */
 
 .Section {
     grid-area: section;
@@ -75,9 +75,10 @@ code {
 }
 
 .loader {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
 }
