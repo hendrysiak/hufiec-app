@@ -14,7 +14,12 @@ import store from './store/store';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { getTeamsWithAccountState, getCodes, getRegistry } from '../src/containers/DashBoard/api-handlers/account.handler';
+import { 
+  getTeamsWithAccountState, 
+  getCodes, 
+  getRegistry, 
+  getImportDates 
+} from '../src/containers/DashBoard/api-handlers/account.handler';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
@@ -27,6 +32,12 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import EditIcon from '@material-ui/icons/Edit';
 import TableChartIcon from '@material-ui/icons/TableChart';
+
+import DateFnsUtils from '@date-io/date-fns';
+
+import {
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const App = () => {
 //TODO registry, dbincomes and outcomes dependency
@@ -55,6 +66,7 @@ const App = () => {
       await getTeamsWithAccountState();
       await getCodes();
       await getRegistry();
+      await getImportDates();
     }
     downloadData();
     store.dispatch(actions.loadingEnd());
@@ -117,6 +129,7 @@ const App = () => {
   );
 
   return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <div className="App">
       <div className="Nav">
       <IconButton
@@ -143,6 +156,7 @@ const App = () => {
               <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
             </div>)}
     </div>
+    </MuiPickersUtilsProvider>
     );
 
 }

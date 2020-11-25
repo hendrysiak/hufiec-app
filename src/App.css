@@ -41,3 +41,7 @@ main {
     height: 60vh; 
     margin: 100px auto auto auto;
 }
+
+.MuiOutlinedInput-root {
+    max-height: 40px;
+}

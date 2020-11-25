@@ -37,6 +37,13 @@ export const fetchRegistry = registry => {
     }
 }
 
+export const fetchImportDates = importDates => {
+    return {
+        type: actionTypes.SET_IMPORT_DATES,
+        importDates
+    }
+}
+
 export const fetchIncomeFailed = error => {
     return {
         type: actionTypes.FETCH_FILE_FAILED,

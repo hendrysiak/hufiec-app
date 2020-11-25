@@ -25,6 +25,7 @@ const SortedIncome = (props) => {
     const registry = useSelector(state => state.income.registry);
     const currentDbIncomes = useSelector(state => state.income.dbIncomes);
     const currentDbOutcomes = useSelector(state => state.income.dbOutcomes);
+    const importDates = useSelector(state => state.income.importDates);
     
     const [ currentTeam, setCurrentTeam ] = useState(6673);
     const [ displayedIncome, setDisplayedIncome ] = useState([]);
@@ -76,6 +77,11 @@ const SortedIncome = (props) => {
 
     const updatedOutcomes = currentDbOutcomes ? [...currentDbOutcomes, ...Object.values(outcomesToSend)] : [...Object.values(outcomesToSend)];
 
+    const date = new Date();
+    const updatedDate = date.toLocaleString().split(',')[0];
+    const updatedImportDates = [...importDates].push(updatedDate);
+    
+    await axios.put('/importDates.json', updatedImportDates);
     await axios.put('/incomes.json', updatedIncomes);
     await axios.put('/outcomes.json', updatedOutcomes);
     history.push('/');

@@ -1,6 +1,6 @@
 
 
-export const sortingTransferToIncomesAndOutomes = (incomes) => {
+export const sortingTransferToIncomesAndOutcomes = (incomes) => {
   const sortedIncomes = incomes.filter(income => Number(income.cash) > 0);
   const sortedOutcomes = incomes.filter(income => Number(income.cash) < 0);
 
@@ -92,19 +92,38 @@ export const matchingIncomeByYear = (incomes) => {
     return updatedIncome;
   })
   return matchedIncomesByYear;
+};
+
+const setDateOfImport = (data) => {
+  const date = new Date();
+  const updatedDate = date.toLocaleString().split(',')[0];
+  const updatedData = data.map(d => {
+    return {...d, importDate: updatedDate }
+  })
+    
+  return updatedData
+};
+
+const setInfoAboutSourceOfOutcome = (outomes) => {
+  const updatedData = outomes.map(o => {
+    return {...o, financeMethod: 'transfer'}
+  })
+
+  return updatedData;
 }
 
 export const sortingIncome = (incomesToSort, teams, codes) => {
-  const { incomes, outcomes } = sortingTransferToIncomesAndOutomes(incomesToSort);
+  const { incomes, outcomes } = sortingTransferToIncomesAndOutcomes(incomesToSort);
 
   const byTeam = sortingIncomesByTeams(teams, incomes);
   const byCode = sortingIncomesByCode(codes, byTeam);
   const byMembers = matchingIncomesToTeamMember(teams, byCode);
   const byYear = matchingIncomeByYear(byMembers)
 
-  return {
-    sortedIncomes: byYear,
-    sortedOutcomes: outcomes
-  }
+  const outcomesWithDate = setDateOfImport(outcomes);
 
+  return {
+    sortedIncomes: setDateOfImport(byYear),
+    sortedOutcomes: setInfoAboutSourceOfOutcome(outcomesWithDate)
+  }
 }

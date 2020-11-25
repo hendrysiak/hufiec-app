@@ -30,13 +30,13 @@ const Dashboard = () => {
   const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setAccountState(organizationStateVerification())
-      setLoading(false);
-    }, 3000);
-  }, [])
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setAccountState(organizationStateVerification())
+  //     setLoading(false);
+  //   }, 3000);
+  // }, [])
    
     return (
       <>
@@ -46,10 +46,10 @@ const Dashboard = () => {
         <h1>Aplikacja Hufcowa - v. 0.1</h1>
         <Paper>
           <h2>Stan hufca:</h2>
-            <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
+            {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
             <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
             <hr/>
-            <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p>
+            <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
         </Paper>
       </div>
         }

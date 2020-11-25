@@ -2,19 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import axios from "../../axios-income";
 
-import ListContainer from "../ListContainer/ListContainer";
-import ListEl from "../ListEl/ListEl";
-import MembersTable from '../MembersTable/MembersTable'
+import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector } from "react-redux";
 
 import { TextField, MenuItem } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import { getTeamsWithAccountState } from '../../containers/DashBoard/api-handlers/account.handler';
 
@@ -25,6 +18,7 @@ const Edit = () => {
   const dbIncomes = useSelector(state => state.income.dbIncomes);
   const dbOutcomes = useSelector(state => state.income.dbOutcomes);
   const codes = useSelector(state => state.income.codes);
+  const importDates = useSelector(state => state.income.importDates);
 
   const [editedData, setEditedData] = useState('income');
 
@@ -33,6 +27,8 @@ const Edit = () => {
 
   const [foundingSources, setFoundingSources] = useState([]);
   const [outcomeCategory, setOutcomeCategory] = useState([]);
+
+  const [selectedDate, setSelectedDate] = useState(new Date())
 
   //filters
   const [event, setEvent] = useState('');
@@ -66,15 +62,17 @@ const Edit = () => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
+      if (i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== '' && i.team !== team) return false;
       if (event !== '' && i.event !== event) return false;
       return true;
     })
     setDisplayedIncome(filteredIncomes);
-  },[event, team]);
+  },[event, team, selectedDate]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
+      if (i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== '' && i.team !== team) return false;
       if (event !== '' && i.event !== event) return false;
       if (founding !== '' && i.foundingSource !== founding) return false;
@@ -82,8 +80,41 @@ const Edit = () => {
       return true;
     })
     setDisplayedOutcome(filteredOutcomes);
-  },[event, team, founding, category]);
+  },[event, team, founding, category, selectedDate]);
 
+  const useStyles = makeStyles((theme) => ({
+    dayWithDotContainer: {
+        position: 'relative'
+    },
+    dayWithDot: {
+        position: 'absolute',
+        height: 0,
+        width: 0,
+        border: '2px solid',
+        borderRadius: 4,
+        borderColor: theme.palette.primary.main,
+        right: '50%',
+        transform: 'translateX(1px)',
+        top: '80%'
+    }
+}))
+
+const classes = useStyles()
+
+const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) => {
+  if (importDates && importDates.includes(date.toLocaleString().split(',')[0])) {
+      return (<div className={classes.dayWithDotContainer}>
+          {dayComponent}
+          <div className={classes.dayWithDot}/>
+      </div>)
+  }
+
+  return dayComponent    
+}
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
   const editedDataHandler = (value) => {
     const editedData = value === 'Przychody' ? 'income' : 'outcome';
@@ -293,6 +324,21 @@ const Edit = () => {
       ))}
         </TextField>
         {editedData === 'income' ? filtersToIncomes : filtersToOutcomes}
+        <KeyboardDatePicker
+          disableToolbar
+          disableFuture={true}
+          inputVariant="outlined"
+          format="dd/MM/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Wybierz datę importu"
+          renderDay={renderDayInPicker}
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
       </header>
 
       <main>

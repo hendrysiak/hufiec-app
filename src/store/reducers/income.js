@@ -11,6 +11,7 @@ const initialState = {
     dbIncomes: null,
     dbOutcomes: null,
     codes: null,
+    importDates: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +68,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 sortedOutcomes: { ...updatedOutcomes } 
+            }
+        case actionTypes.SET_IMPORT_DATES:
+            return {
+                ...state,
+                importDates: action.importDates
             }
         default:
             return state;
