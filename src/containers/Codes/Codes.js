@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import ListEl from "../ListEl/ListEl";
-import ListContainer from "../ListContainer/ListContainer";
+import ListEl from "../../components/ListEl/ListEl";
+import ListContainer from "../../components/ListContainer/ListContainer";
 
 import { TextField, MenuItem } from '@material-ui/core';
+
+import Navigation from '../../shared/Navigation';
 
 import classes from "./Codes.module.css";
 
@@ -33,6 +35,8 @@ const Codes = () => {
   })
 
   return (
+    <>
+    <Navigation />
     <section className="Section">
       <header>
 
@@ -64,6 +68,7 @@ const Codes = () => {
             </ListContainer>
         </main>
     </section>
+    </>
   );
 };
 

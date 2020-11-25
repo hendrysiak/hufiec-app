@@ -14,6 +14,9 @@ import axios from "../../axios-income";
 import store from '../../store/store';
 import { fetchCodes } from '../../store/actions/income';
 
+
+import Navigation from '../../shared/Navigation';
+
 const EventApproval = (props) => {
   const codes = useSelector(state => state.income.codes);
 
@@ -87,6 +90,8 @@ const EventApproval = (props) => {
   };
 
     return (
+      <>
+      <Navigation />
       <section className="Section">
       <header>
         <h2>Zatwierdź imprezę finansowo</h2>
@@ -171,6 +176,7 @@ const EventApproval = (props) => {
       </main>
       <Button variant="contained" color="primary" style={{maxWidth: '200px', margin: '0 auto'}} onClick={() => sendApproval()}>Zapisz zatwierdzenie</Button>
       </section>
+      </>
     );
 }
 

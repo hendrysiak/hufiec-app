@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../axios-income";
-import ListContainer from "../ListContainer/ListContainer";
+import ListContainer from "../../components/ListContainer/ListContainer";
 
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,6 +10,8 @@ import { TextField, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
 import { useSelector } from "react-redux";
+
+import Navigation from '../../shared/Navigation';
 
 const AddCode = () => {
   const codes = useSelector(state => state.income.codes);
@@ -75,6 +77,8 @@ const AddCode = () => {
   };
 
   return (
+    <>
+    <Navigation />
     <div style={{ overflowY: "scroll", height: "100%" }}>
       <form id="general" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         <h2>Dodaj kod</h2>
@@ -115,6 +119,7 @@ const AddCode = () => {
         {/* <button onClick={sendCode}>Zapisz kody do bazy</button> */}
       </section>
     </div>
+  </>
   );
 };
 

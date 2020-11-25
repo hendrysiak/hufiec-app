@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../../../store/actions/index";
-import Spinner from "../../../../components/UI/Spinner/Spinner";
+import * as actions from "../../store/actions/index";
 import classes from "./ImportIncome.module.css";
 import { Link, useHistory } from "react-router-dom";
 
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import store from "../../../../store/store";
+import Navigation from '../../shared/Navigation';
+
+import store from "../../store/store";
 
 const ImportIncome = () => {
 
@@ -26,6 +26,8 @@ const ImportIncome = () => {
 
 
     return (
+      <>
+      <Navigation />
       <section className="Section">
           <form className={classes.Form} onSubmit={event => setUrl(event)}>
           <h2>Wstaw URL z importem XML</h2>
@@ -43,6 +45,7 @@ const ImportIncome = () => {
           <Button variant="contained" color="primary" onClick={(e) => setUrl(e)}>Importuj</Button>
         </form>
       </section>
+      </>
     );
 
 };

@@ -1,6 +1,6 @@
-import { setSendingTeam } from '../../../store/actions/ui';
+import { setSendingTeam } from '../store/actions/ui';
 
-import store from '../../../store/store';
+import store from '../store/store';
 
 const outcomeHandler = async () => {
 

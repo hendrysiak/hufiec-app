@@ -39,6 +39,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import EventOutcomes from './components/EventOutcomes';
 
+import Navigation from '../../shared/Navigation';
 
 const EventBilling = (props) => {
   const codes = useSelector(state => state.income.codes);
@@ -155,6 +156,8 @@ const EventBilling = (props) => {
   
 
     return (
+      <>
+      <Navigation />
       <section className="Section">
       <header>
 
@@ -207,6 +210,7 @@ const EventBilling = (props) => {
         </Container>
       </main>
       </section>
+      </>
     );
 }
 

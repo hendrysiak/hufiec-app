@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import ListEl from "../../../../components/ListEl/ListEl";
-import ListContainer from "../../../../components/ListContainer/ListContainer";
+import ListEl from "../../components/ListEl/ListEl";
+import ListContainer from "../../components/ListContainer/ListContainer";
 
-import * as actions from "../../../../store/actions/index";
+import * as actions from "../../store/actions/index";
 
 import { useHistory } from "react-router-dom";
 
 import Button from '@material-ui/core/Button';
 
-import store from "../../../../store/store";
+import store from "../../store/store";
+
+import Navigation from '../../shared/Navigation';
 
 const UnAssignedIncome = () => {
 
@@ -72,6 +74,8 @@ const UnAssignedIncome = () => {
     }
 
     return (
+      <>
+      <Navigation />
       <section className="Section">
         <div style={{marginTop: "16px"}}>
         <Button variant="contained" color="primary" onClick={() => updateIncome()}>Zaktualizuj przelewy</Button>
@@ -82,6 +86,7 @@ const UnAssignedIncome = () => {
         </div>
         <ListContainer>{listOfIncome}</ListContainer>
       </section>
+      </>
     );
 }
 

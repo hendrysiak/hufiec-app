@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "../../axios-income";
 
-import ListContainer from "../ListContainer/ListContainer";
-import ListEl from "../ListEl/ListEl";
-import MembersTable from '../MembersTable/MembersTable'
+import MembersTable from '../../components/MembersTable/MembersTable'
 
 import { useSelector } from "react-redux";
 
@@ -18,9 +16,11 @@ import Typography from '@material-ui/core/Typography';
 
 import { getTeamsWithAccountState } from '../../containers/DashBoard/api-handlers/account.handler';
 
-import TableEditor from '../TableEditor/TableEditor';
+import TableEditor from '../../components/TableEditor/TableEditor';
 
 import classes from "./Teams.module.css";
+
+import Navigation from '../../shared/Navigation';
 
 const Teams = () => {
   const registry = useSelector(state => state.income.registry);
@@ -74,6 +74,7 @@ const Teams = () => {
 
   return (
     <div>
+      <Navigation />
       <header>
         <TextField
         style={{width: '80%', marginTop: '16px'}}

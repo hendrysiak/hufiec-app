@@ -9,9 +9,11 @@ import { useSelector } from "react-redux";
 import { TextField, MenuItem } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import { getTeamsWithAccountState } from '../../containers/DashBoard/api-handlers/account.handler';
+import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
 
-import TableEditor from '../TableEditor/TableEditor';
+import TableEditor from '../../components/TableEditor/TableEditor';
+
+import Navigation from '../../shared/Navigation';
 
 const Edit = () => {
   const registry = useSelector(state => state.income.registry);
@@ -303,6 +305,8 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   );
 
   return (
+    <>
+    <Navigation />
     <div>
       <header>
         <TextField
@@ -363,6 +367,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
         </section>
       </main>
     </div>
+    </>
   );
 };
 

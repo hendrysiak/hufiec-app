@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axios from "../../../../axios-income";
+import axios from "../../axios-income";
 
-import * as actions from "../../../../store/actions/index";
-import store from "../../../../store/store";
+import * as actions from "../../store/actions/index";
+import store from "../../store/store";
 
-import { sortingIncome } from '../../../../helpers/sorting.helper';
+import { sortingIncome } from '../../helpers/sorting.helper';
 import { TextField, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import ListEl from "../../../../components/ListEl/ListEl";
-import ListContainer from "../../../../components/ListContainer/ListContainer";
+import ListEl from "../../components/ListEl/ListEl";
+import ListContainer from "../../components/ListContainer/ListContainer";
 
 const SortedIncome = (props) => {
   
