@@ -44,6 +44,8 @@ const Edit = () => {
 
   const [changesToSave, setChangesToSave] = useState(false);
 
+  const [addingNewPosition, setAddingNewPosition] = useState(false);
+
   useEffect(() => {
     const downloadData = async () => {
       const foundingSources = await axios.get('/foundingSources.json');
@@ -70,7 +72,7 @@ const Edit = () => {
       return true;
     })
     setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate]);
+  },[event, team, selectedDate, dbIncomes]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
@@ -82,7 +84,7 @@ const Edit = () => {
       return true;
     })
     setDisplayedOutcome(filteredOutcomes);
-  },[event, team, founding, category, selectedDate]);
+  },[event, team, founding, category, selectedDate, dbOutcomes]);
 
   const useStyles = makeStyles((theme) => ({
     dayWithDotContainer: {
@@ -187,10 +189,58 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
       };
     }
 
+  const addNewPosition = (info, data) => {
+    const currentDate = new Date();
+
+    if (info === 'income') {
+      const incomeToEdit = [...displayedIncome];
+      const updatedDb = [...incomesInDb];
+      const newIncome = {
+        cash: data.cash,
+        event: data.event,
+        importDate: currentDate.toLocaleString().split(',')[0],
+        bilingNr: data.bilingNr,
+        foundingSource: data.foundingSource,
+        outcomeCategory: data.outcomeCategory,
+        team: data.team,
+        title: "Przychód dodany ręcznie",
+        year: currentDate.getFullYear(),
+        financeMethod: data.financeMethod
+      }
+
+      incomeToEdit.push(newIncome);
+      updatedDb.push(newIncome);
+
+      setIncomesInDb(updatedDb);
+      setDisplayedIncome(incomeToEdit);
+      setChangesToSave(true);
+    } else {
+      const outcomeToEdit = [...displayedOutcome];
+      const updatedDb = [...outcomesInDb];
+      const newOutcome = {
+        cash: data.cash,
+        event: data.event,
+        importDate: currentDate.toLocaleString().split(',')[0],
+        name: data.name,
+        surname: data.surname,
+        team: data.team,
+        title: "Przychód dodany ręcznie",
+        year: currentDate.getFullYear()
+      }
+
+      outcomeToEdit.push(newOutcome);
+      updatedDb.push(newOutcome);
+
+      setOutcomesInDb(updatedDb);
+      setDisplayedOutcome(outcomeToEdit);
+      setChangesToSave(true);
+    }
+  };
+
   const filtersToIncomes = (
     <>
     <TextField
-    style={{width: '30%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po drużynie"
       value={team}
       onChange={(e) => setTeam(e.target.value)}
@@ -208,7 +258,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   ))}
     </TextField>
     <TextField
-    style={{width: '30%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po wydarzeniu"
       value={event}
       onChange={(e) => setEvent(e.target.value)}
@@ -230,7 +280,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   const filtersToOutcomes = (
     <>
     <TextField
-    style={{width: '20%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po drużynie"
       value={team}
       onChange={(e) => setTeam('team', e.target.value)}
@@ -248,7 +298,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   ))}
     </TextField>
     <TextField
-    style={{width: '20%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po wydarzeniu"
       value={event}
       onChange={(e) => setEvent(e.target.value)}
@@ -266,7 +316,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   ))}
     </TextField>
     <TextField
-    style={{width: '20%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po finansowaniu"
       value={event}
       onChange={(e) => setFounding(e.target.value)}
@@ -284,7 +334,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
   ))}
     </TextField>
     <TextField
-    style={{width: '20%', marginTop: '16px'}}
+    style={{marginTop: '16px'}}
       label="Po kategorii"
       value={event}
       onChange={(e) => setCategory(e.target.value)}
@@ -310,7 +360,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
     <div>
       <header>
         <TextField
-        style={{width: '81%', marginTop: '16px'}}
+        style={{width: '80%', marginTop: '16px'}}
           label="Co edytujesz?"
           value={editedData === 'income' ? 'Przychody' : 'Koszty'}
           onChange={(e) => editedDataHandler(e.target.value)}
@@ -327,6 +377,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
         <MenuItem key={item} value={item}>{item}</MenuItem>
       ))}
         </TextField>
+        <div class="filters">
         {editedData === 'income' ? filtersToIncomes : filtersToOutcomes}
         <KeyboardDatePicker
           disableToolbar
@@ -343,6 +394,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
             'aria-label': 'change date',
           }}
         />
+        </div>
       </header>
 
       <main>
@@ -363,6 +415,8 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
             currentEvent={event}
             currentCategory={category}
             currentFounding={founding}
+            add={addingNewPosition}
+            setAddingNewPosition={setAddingNewPosition}
           />
         </section>
       </main>

@@ -37,15 +37,33 @@ const EditorModal = (props) => {
           <TableCell>Wydarzenie</TableCell>
           {props.info !== 'income' && <TableCell>Źródło finansowania</TableCell>}
           {props.info !== 'income' && <TableCell>Kategoria kosztów</TableCell>}
+          {props.info !== 'income' && <TableCell>Źródło wpływu</TableCell>}
         </TableRow>
       </TableHead>
       <TableBody>
       <TableRow>
       <TableCell>{props.index + 1}</TableCell>
-      <TableCell>{props.position.title}</TableCell>
-      <TableCell>
-        {props.position.cash}
-        </TableCell>
+      {!props.add 
+        ? (<><TableCell>{props.position.title}</TableCell>
+          <TableCell>{props.position.cash}</TableCell></>)
+        : (<><TableCell>
+          <TextField
+            size='medium'
+            value={props.position.title}
+            margin='dense'
+            onChange={(e) => props.onChange(props.index, 'title', e.target.value)}
+          />
+          </TableCell>
+          <TableCell>
+          <TextField
+            size='medium'
+            value={props.position.cash}
+            margin='dense'
+            onChange={(e) => props.onChange(props.index, 'cash', e.target.value)}
+          />
+          </TableCell>
+          </>)
+      }
         {props.info !== 'income' && <TableCell>
       <TextField
           size='medium'
@@ -136,10 +154,29 @@ const EditorModal = (props) => {
       ))}
       </TextField>
         </TableCell>}
+        {props.info !== 'income' && <TableCell>
+      <TextField
+          size='medium'
+          value={props.position.financeMethod}
+          margin='dense'
+          onChange={(e) => props.onChange(props.index, 'financeMethod', e.target.value)}
+          select={true}
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {['transfer', 'cash'].map((item) => (
+        <MenuItem key={item} value={item}>{item}</MenuItem>
+      ))}
+      </TextField>
+        </TableCell>}
     </TableRow>
       </TableBody>
     </Table>
-    <Button variant="contained" color="primary" onClick={() => props.setModalVisible(false)}>Zakończ edycję</Button>
+    <Button variant="contained" color="primary" onClick={() => {
+      props.setModalVisible(false);
+      if (props.add) props.setAddingNewPosition(false)
+      }}>{props.add ? 'Dodaj nową pozycję' : 'Zakończ edycję'}</Button>
     </div>
     </Paper>
           

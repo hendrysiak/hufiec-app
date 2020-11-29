@@ -1,13 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState } from 'react'
 
-/* TODO Use MUI Table and TextInput to implement outcome editor 
-1. Method to render data with name, surname, event, invoice number, value, founding system and category
-2. Methods to edit
-3. Method to filter diplaying info.
-4. Use this component in application
-*/
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Modal from '@material-ui/core/Modal';
+
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,11 +11,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 
-import { TextField, MenuItem } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Button from '@material-ui/core/Button';
 
@@ -29,15 +23,20 @@ const TableEditor = (props) => {
   const [modalVisible, setModalVisible] = useState();
   const [editedValue, setEditedValue] = useState({});
 
-  const openModal = (index, position) => {
-    console.log(position)
+  const openModal = (index, position, edit) => {
     setEditedValue({index, position});
-    console.log(editedValue)
     setModalVisible(true);
+
+    if (edit) props.setAddingNewPosition(true);
   }
 
   return (
     <div>
+      <div class="table__add">
+      <Tooltip title={`Dodaj ${props.info === 'income' ? 'przychód' : 'koszt'}`} aria-label="add-position">
+          <IconButton><AddIcon onClick={() => openModal(-1, {}, true)}/></IconButton>
+      </Tooltip>
+      </div>
       <EditorModal 
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -46,6 +45,8 @@ const TableEditor = (props) => {
         index={editedValue.index}
         onChange={props.onChange}
         additionalData={props.additionalData}
+        add={props.add}
+        setAddingNewPosition={props.setAddingNewPosition}
       />
     {props.save && <>
       <Alert severity="warning">Niezapisane zmiany zostaną utracone!</Alert>
@@ -57,7 +58,7 @@ const TableEditor = (props) => {
   {props.data ? <Table size="medium">
     <TableHead>
       <TableRow>
-      <TableCell>Edytuj</TableCell>
+      {!props.disabled && <TableCell>Edytuj</TableCell>}
         <TableCell>LP</TableCell>
         <TableCell>Tytuł</TableCell>
         <TableCell>Kwota</TableCell>
@@ -78,7 +79,7 @@ const TableEditor = (props) => {
           data-founding={position.foundingSource} 
           data-category={position.outcomeCategory}
         >
-          <TableCell><IconButton onClick={() => openModal(index, position)}><EditIcon/></IconButton></TableCell>
+          {!props.disabled && <TableCell><IconButton onClick={() => openModal(index, position)}><EditIcon/></IconButton></TableCell>}
           <TableCell>{index + 1}</TableCell>
           <TableCell>{position.title}</TableCell>
           <TableCell>

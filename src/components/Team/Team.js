@@ -32,18 +32,13 @@ const Team = () => {
   const [incomesByCode, setIncomeByCode] = useState([]);
 
   const location = useLocation();
-  const currentTeam = location.pathname.slice(1, location.pathname.length);
-  console.log(currentTeam);
-
-  useEffect(() => {
-    document.querySelector(".Nav").style.display = "none";
-  },[]);
+  const currentTeam = location.pathname.split('/')[2];
 
   useEffect(() => {
     // const registry = store.getState().income.registry;
     // console.log(registry);
-    const teamtReistry = registry && registry[currentTeam];
-    teamtReistry && setCurrentTeamRegistry(registry[currentTeam]);
+    const teamtRegistry = registry && registry[currentTeam];
+    teamtRegistry && setCurrentTeamRegistry(registry[currentTeam]);
     const incomesToDisplay = dbIncomes && dbIncomes.filter(income => income.team === currentTeam);
     setIncomeByCode(incomesToDisplay);
   },[registry]);

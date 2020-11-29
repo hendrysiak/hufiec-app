@@ -45,3 +45,20 @@ main {
 .MuiOutlinedInput-root {
     max-height: 40px;
 }
+
+.filters {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    align-items: stretch;
+}
+
+.filters > div {
+    flex-basis: 50%;
+}
+
+.table__add {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}

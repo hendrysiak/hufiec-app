@@ -46,6 +46,7 @@ const App = () => {
   const Codes = React.lazy(() => import( "./containers/Codes/Codes"));
   const AddCode = React.lazy(() => import( "./containers/AddCode/AddCode"));
   const Teams = React.lazy(() => import( "./containers/Teams/Teams"));
+  const Team = React.lazy(() => import( "./components/Team/Team"));
   const ForCoders = React.lazy(() => import( './containers/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import( './containers/EventBilling/EventBilling'));
   const EventApproval = React.lazy(() => import( './containers/EventApproval/EventApproval'));
@@ -58,7 +59,7 @@ const App = () => {
     <BrowserRouter>
         <Container maxWidth="xl" style={{height: '100%'}}>
           <Grid container spacing={3} alignItems="stretch" alignContent="stretch">
-          <Grid item xs={12} md={8} lg={12}> 
+          <Grid item xs={12} md={12} lg={12}> 
         <div>
           <Switch>
             <Route exact path="/" render={() => <DashBoard />} />
@@ -74,7 +75,7 @@ const App = () => {
             <Route exact path="/add-billing" render={() => <EventBilling />} />
             <Route exact path="/for-coders" render={() => <ForCoders/>} />
             <Route exact path="/editor" render={() => <Edit />} />
-            {/* <Route exact path={`/transfers/sorted/:teamId`} render={(rp) => <Team teamNum={rp.match.params.title} />}/> */}
+            <Route exact path={`/info/:teamId`} render={(rp) => <Team teamNum={rp.match.params.title} />}/>
           </Switch>
       </div>
       </Grid>
@@ -85,13 +86,13 @@ const App = () => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    <div className="App">
-          {loadingStatus 
+      <div className="App">
+        {loadingStatus 
           ? <div className="loader"><CircularProgress/></div>
-          : (<div>
-              <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
-            </div>)}
-    </div>
+           : (<div>
+            <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
+             </div>)}
+      </div>
     </MuiPickersUtilsProvider>
     );
 
