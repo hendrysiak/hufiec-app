@@ -15,6 +15,9 @@ import TableEditor from '../../components/TableEditor/TableEditor';
 
 import Navigation from '../../shared/Navigation';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 const Edit = () => {
   const registry = useSelector(state => state.income.registry);
   const dbIncomes = useSelector(state => state.income.dbIncomes);
@@ -48,6 +51,8 @@ const Edit = () => {
 
   const [editedImportDates, setEditedImportDates] = useState([]);
 
+  const [useDate, setUseDate] = useState(true);
+
   useEffect(() => {
     const downloadData = async () => {
       const foundingSources = await axios.get('/foundingSources.json');
@@ -68,17 +73,17 @@ const Edit = () => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== '' && i.team !== team) return false;
       if (event !== '' && i.event !== event) return false;
       return true;
     })
     setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate, dbIncomes]);
+  },[event, team, selectedDate, dbIncomes, useDate]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== '' && i.team !== team) return false;
       if (event !== '' && i.event !== event) return false;
       if (founding !== '' && i.foundingSource !== founding) return false;
@@ -86,7 +91,7 @@ const Edit = () => {
       return true;
     })
     setDisplayedOutcome(filteredOutcomes);
-  },[event, team, founding, category, selectedDate, dbOutcomes]);
+  },[event, team, founding, category, selectedDate, dbOutcomes, useDate]);
 
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
@@ -247,10 +252,8 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
     console.log(editedImportDates)
       
     const newImportDate = [...editedImportDates];
-    console.log(newImportDate)
     newImportDate.push(currentDate.toLocaleString().split(',')[0]);
     setEditedImportDates(newImportDate);
-    console.log(editedImportDates)
   };
 
   const filtersToIncomes = (
@@ -410,6 +413,15 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
             'aria-label': 'change date',
           }}
         />
+      <FormControlLabel
+        control={<Checkbox 
+          checked={useDate} 
+          onChange={(e) => setUseDate(e.target.checked)} 
+          name="checkedA" 
+          color="primary"
+          />}
+        label="Sortuj po dacie"
+      />
         </div>
       </header>
 
