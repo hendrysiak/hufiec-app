@@ -46,6 +46,8 @@ const Edit = () => {
 
   const [addingNewPosition, setAddingNewPosition] = useState(false);
 
+  const [editedImportDates, setEditedImportDates] = useState([]);
+
   useEffect(() => {
     const downloadData = async () => {
       const foundingSources = await axios.get('/foundingSources.json');
@@ -85,6 +87,10 @@ const Edit = () => {
     })
     setDisplayedOutcome(filteredOutcomes);
   },[event, team, founding, category, selectedDate, dbOutcomes]);
+
+  useEffect(() => {
+    importDates && setEditedImportDates(importDates);
+  },[importDates])
 
   const useStyles = makeStyles((theme) => ({
     dayWithDotContainer: {
@@ -127,12 +133,14 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
 
   const saveIncome = async () => {
     await axios.put('/incomes.json', incomesInDb);
+    await axios.put('/importDates.json', editedImportDates);
     await getTeamsWithAccountState();
     setChangesToSave(false);
   }
 
   const saveOutcome = async () => {
     await axios.put('/outcomes.json', outcomesInDb);
+    await axios.put('/importDates.json', editedImportDates);
     await getTeamsWithAccountState();
     setChangesToSave(false);
   }
@@ -199,13 +207,11 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
         cash: data.cash,
         event: data.event,
         importDate: currentDate.toLocaleString().split(',')[0],
-        bilingNr: data.bilingNr,
-        foundingSource: data.foundingSource,
-        outcomeCategory: data.outcomeCategory,
+        name: data.name,
+        surname: data.surname,
         team: data.team,
         title: "Przychód dodany ręcznie",
-        year: currentDate.getFullYear(),
-        financeMethod: data.financeMethod
+        year: currentDate.getFullYear()
       }
 
       incomeToEdit.push(newIncome);
@@ -221,11 +227,13 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
         cash: data.cash,
         event: data.event,
         importDate: currentDate.toLocaleString().split(',')[0],
-        name: data.name,
-        surname: data.surname,
+        bilingNr: data.bilingNr,
+        foundingSource: data.foundingSource,
+        outcomeCategory: data.outcomeCategory,
         team: data.team,
-        title: "Przychód dodany ręcznie",
-        year: currentDate.getFullYear()
+        title: "Koszt dodany ręcznie",
+        year: currentDate.getFullYear(),
+        financeMethod: data.financeMethod
       }
 
       outcomeToEdit.push(newOutcome);
@@ -235,6 +243,14 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
       setDisplayedOutcome(outcomeToEdit);
       setChangesToSave(true);
     }
+
+    console.log(editedImportDates)
+      
+    const newImportDate = [...editedImportDates];
+    console.log(newImportDate)
+    newImportDate.push(currentDate.toLocaleString().split(',')[0]);
+    setEditedImportDates(newImportDate);
+    console.log(editedImportDates)
   };
 
   const filtersToIncomes = (
@@ -417,6 +433,7 @@ const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) 
             currentFounding={founding}
             add={addingNewPosition}
             setAddingNewPosition={setAddingNewPosition}
+            addNewPosition={addNewPosition}
           />
         </section>
       </main>

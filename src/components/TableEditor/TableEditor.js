@@ -18,16 +18,21 @@ import { Alert } from '@material-ui/lab';
 import Button from '@material-ui/core/Button';
 
 import EditorModal from './EditorModal';
+import AddPositionModal from './AddPositionModal';
 
 const TableEditor = (props) => {
-  const [modalVisible, setModalVisible] = useState();
+  const [modalEditVisible, setModalEditVisible] = useState(false);
+  const [modalAddVisible, setModalAddVisible] = useState(false);
   const [editedValue, setEditedValue] = useState({});
 
   const openModal = (index, position, edit) => {
-    setEditedValue({index, position});
-    setModalVisible(true);
-
-    if (edit) props.setAddingNewPosition(true);
+    if (edit) {
+      props.setAddingNewPosition(true)
+      setModalAddVisible(true);
+    } else {
+      setEditedValue({index, position});
+      setModalEditVisible(true);
+    }
   }
 
   return (
@@ -38,8 +43,8 @@ const TableEditor = (props) => {
       </Tooltip>
       </div>
       <EditorModal 
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
+        modalVisible={modalEditVisible}
+        setModalVisible={setModalEditVisible}
         info={props.info}
         position={editedValue.position}
         index={editedValue.index}
@@ -47,6 +52,15 @@ const TableEditor = (props) => {
         additionalData={props.additionalData}
         add={props.add}
         setAddingNewPosition={props.setAddingNewPosition}
+      />
+      <AddPositionModal 
+        modalVisible={modalAddVisible}
+        setModalVisible={setModalAddVisible}
+        additionalData={props.additionalData}
+        add={props.add}
+        info={props.info}
+        setAddingNewPosition={props.setAddingNewPosition}
+        addNewPosition={props.addNewPosition}
       />
     {props.save && <>
       <Alert severity="warning">Niezapisane zmiany zostaną utracone!</Alert>

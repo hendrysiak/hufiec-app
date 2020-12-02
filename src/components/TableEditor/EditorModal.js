@@ -175,8 +175,7 @@ const EditorModal = (props) => {
     </Table>
     <Button variant="contained" color="primary" onClick={() => {
       props.setModalVisible(false);
-      if (props.add) props.setAddingNewPosition(false)
-      }}>{props.add ? 'Dodaj nową pozycję' : 'Zakończ edycję'}</Button>
+      }}>Zakończ edycję</Button>
     </div>
     </Paper>
           
