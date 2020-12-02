@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 
 import * as actions from './store/actions/index';
 import store from './store/store';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { 
