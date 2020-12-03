@@ -31,7 +31,8 @@
     "test:watch": "react-scripts test --env=jsdom",
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
-    "lint:css": "stylelint './src/**/*.ts'"
+    "lint:css": "stylelint './src/**/*.ts'",
+    "lint": "eslint --fix src/**/*.ts src/**/*.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
