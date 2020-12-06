@@ -11,14 +11,13 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from '../../axios-income';
-import MembersTable from '../../components/MembersTable/MembersTable';
-
 
 import TableEditor from '../../components/TableEditor/TableEditor';
 
 
 import Navigation from '../../shared/Navigation';
 import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
+import MembersTable from '../Team/MembersTable/MembersTable';
 
 import classes from './Teams.module.css';
 

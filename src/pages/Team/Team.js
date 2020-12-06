@@ -17,10 +17,11 @@ import axios from '../../axios-income';
 
 import ListContainer from '../../components/ListContainer/ListContainer';
 import ListEl from '../../components/ListEl/ListEl';
-import MembersTable from '../../components/MembersTable/MembersTable';
-
 
 import store from '../../store/store';
+
+import MembersTable from './MembersTable/MembersTable';
+
 
 const Team = () => {
   const dbIncomes = useSelector(state => state.income.dbIncomes);
