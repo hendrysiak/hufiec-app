@@ -1,10 +1,4 @@
-import React, { useState, useEffect } from "react";
 
-import axios from "../../axios-income";
-
-import MembersTable from '../../components/MembersTable/MembersTable'
-
-import { useSelector } from "react-redux";
 
 import { TextField, MenuItem } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -13,14 +7,20 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import { getTeamsWithAccountState } from '../../containers/DashBoard/api-handlers/account.handler';
+import axios from '../../axios-income';
+import MembersTable from '../../components/MembersTable/MembersTable';
+
 
 import TableEditor from '../../components/TableEditor/TableEditor';
 
-import classes from "./Teams.module.css";
 
 import Navigation from '../../shared/Navigation';
+import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
+
+import classes from './Teams.module.css';
 
 const Teams = () => {
   const registry = useSelector(state => state.income.registry);
@@ -31,13 +31,13 @@ const Teams = () => {
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
   const [filteredCodes, setFilteredCodes] = useState([]);
   const [incomesByCode, setIncomeByCode] = useState([]);
-  const [incomesInDb, setIncomesInDb] = useState([])
+  const [incomesInDb, setIncomesInDb] = useState([]);
 
   const [changesToSave, setChangesToSave] = useState(false);
 
   useEffect(() => {
     dbIncomes && setIncomesInDb(dbIncomes);
-  },[dbIncomes])
+  },[dbIncomes]);
 
   useEffect(() => {
     registry && setCurrentTeamRegistry(registry[currentTeam]);
@@ -54,30 +54,30 @@ const Teams = () => {
     await axios.put('/incomes.json', incomesInDb);
     await getTeamsWithAccountState();
     setChangesToSave(false);
-  }
+  };
 
-    const editIncome = (index, data, value) => {
-      const incomeToEdit = [...incomesByCode];
-      const updatedDb = [...incomesInDb];
+  const editIncome = (index, data, value) => {
+    const incomeToEdit = [...incomesByCode];
+    const updatedDb = [...incomesInDb];
 
-      incomeToEdit[index][data] = value;
-      const newIndex = updatedDb.findIndex(i => 
-        i.title === incomeToEdit[index].title
+    incomeToEdit[index][data] = value;
+    const newIndex = updatedDb.findIndex(i => 
+      i.title === incomeToEdit[index].title
         && i.cash === incomeToEdit[index].cash
-        )
-      updatedDb[newIndex][data] = value;
+    );
+    updatedDb[newIndex][data] = value;
 
-      setIncomesInDb(updatedDb);
-      setIncomeByCode(incomeToEdit);
-      setChangesToSave(true);
-    }
+    setIncomesInDb(updatedDb);
+    setIncomeByCode(incomeToEdit);
+    setChangesToSave(true);
+  };
 
   return (
     <div>
       <Navigation />
       <header>
         <TextField
-        style={{width: '80%', marginTop: '16px'}}
+          style={{ width: '80%', marginTop: '16px' }}
           label="Wybierz drużynę"
           value={currentTeam}
           onChange={(e) => setCurrentTeam(e.target.value)}
@@ -91,8 +91,8 @@ const Teams = () => {
           }}
         >
           {registry && [...Object.keys(registry)].map((item) => (
-        <MenuItem key={item} value={item}>{item}</MenuItem>
-      ))}
+            <MenuItem key={item} value={item}>{item}</MenuItem>
+          ))}
         </TextField>
       </header>
 
@@ -101,7 +101,7 @@ const Teams = () => {
           <TableEditor 
             data={incomesByCode} 
             onChange={editIncome}
-            info='income'
+            info="income"
             save={changesToSave}
             saveHandler={saveIncome}
           />

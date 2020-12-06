@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-
-import clsx from 'clsx';
-
-import axios from "../../axios-income";
-import { makeStyles } from '@material-ui/core/styles';
-
-import ListContainer from "../ListContainer/ListContainer";
-import ListEl from "../ListEl/ListEl";
-import MembersTable from '../MembersTable/MembersTable'
-
-import { useSelector } from "react-redux";
-
 import { TextField, MenuItem } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
+
+
+import { useSelector } from 'react-redux';
 
 import {
   useLocation
-} from "react-router-dom";
+} from 'react-router-dom';
+
+import axios from '../../axios-income';
+
+import ListContainer from '../../components/ListContainer/ListContainer';
+import ListEl from '../../components/ListEl/ListEl';
+import MembersTable from '../../components/MembersTable/MembersTable';
+
 
 import store from '../../store/store';
 
@@ -46,7 +46,7 @@ const Team = () => {
 
   useEffect(() => {
     const currentIncomes = store.getState().income.dbIncomes;
-    const filteredIncomes = currentIncomes && currentIncomes.filter(income => income.team === currentTeam)
+    const filteredIncomes = currentIncomes && currentIncomes.filter(income => income.team === currentTeam);
     setIncomeByCode(filteredIncomes);
   },[]);
 
@@ -73,49 +73,49 @@ const Team = () => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   //TODO filter income with no name, event, cash or another info
-    const list = filteredCodes && filteredCodes.map((code, index) => {
-      if (code !== "unAssigned") {
-        return (
-          <ListContainer key={index} title={code}>
-            {incomesByCode && incomesByCode.map((person, index) => (
-              <ListEl
-                key={index}
-                cash={person.cash}
-                title={`${person.name} ${person.surname}`}
-              />
-            ))}
-          </ListContainer>
-        ) 
-      } else {
-        return (
-        <Paper className={fixedHeightPaper}>
+  const list = filteredCodes && filteredCodes.map((code, index) => {
+    if (code !== 'unAssigned') {
+      return (
         <ListContainer key={index} title={code}>
           {incomesByCode && incomesByCode.map((person, index) => (
             <ListEl
               key={index}
               cash={person.cash}
-              title={person.title}
+              title={`${person.name} ${person.surname}`}
             />
           ))}
         </ListContainer>
+      ); 
+    } else {
+      return (
+        <Paper className={fixedHeightPaper}>
+          <ListContainer key={index} title={code}>
+            {incomesByCode && incomesByCode.map((person, index) => (
+              <ListEl
+                key={index}
+                cash={person.cash}
+                title={person.title}
+              />
+            ))}
+          </ListContainer>
         </Paper>
-      )}
+      );}
 
-    })
+  });
 
 
   return (
     <div>
-    <Container maxWidth="xl">
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={4}>
+      <Container maxWidth="xl">
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={8} lg={4}>
             <MembersTable members={currentTeamRegistry}/>
-            </Grid>
-            <Grid item xs={12} md={4} lg={8}>
+          </Grid>
+          <Grid item xs={12} md={4} lg={8}>
             <h3>Stan wpłat zgodnie z kodami:</h3>
-          <div>{list}</div>
-            </Grid>
-            </Grid>
+            <div>{list}</div>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   );
