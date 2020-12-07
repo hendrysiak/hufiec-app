@@ -6,7 +6,7 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    background-color: #8a8a8a;
+    background-color: #F4EEEB;
     width: 100%;
     min-height: 100vh;
 }
@@ -22,12 +22,12 @@
     width: 10vw;
     top: 0px;
     left: 0px;
-    background-color: rgba(92, 56, 150, 1);
+    background-color: rgba(54, 33, 94, 1);
     box-shadow: #8a8a8a;
 }
 
 .nav__active {
-    background-color: rgba(54, 33, 94, 1);
+    background-color:rgba(92, 56, 150, 1);
 }
 
 main {
