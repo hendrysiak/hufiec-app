@@ -135,10 +135,12 @@ export const sortingIncome = (
   sortedIncomes: IncomesWithImportDate[];
   sortedOutcomes: OutcomesWithFinanceMethod[];
 } => {
+  const updatedCodes = Object.values(codes).flat();
+
   const { incomes, outcomes } = sortingTransferToIncomesAndOutcomes(incomesToSort);
 
   const byTeam = sortingIncomesByTeams(teams, incomes);
-  const byCode = sortingIncomesByCode(codes, byTeam);
+  const byCode = sortingIncomesByCode(updatedCodes, byTeam);
   const byMembers = matchingIncomesToTeamMember(teams, byCode);
   const byYear = matchingIncomeByYear(byMembers);
 

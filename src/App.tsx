@@ -35,7 +35,7 @@ const App = (): JSX.Element => {
       await getImportDates();
     };
     downloadData();
-    store.dispatch(actions.loadingEnd());
+    store.dispatch(actions.reduxLoadingEnd());
   },[]);
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));

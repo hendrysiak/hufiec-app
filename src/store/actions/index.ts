@@ -8,8 +8,8 @@ export {
   from './income';
 
 export {
-  loadingEnd,
-  loadingStart,
-  setSendingTeam
+  reduxLoadingEnd,
+  reduxLoadingStart,
+  reduxSetSendingTeam
 }
   from './ui';
