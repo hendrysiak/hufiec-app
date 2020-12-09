@@ -24,13 +24,15 @@ export const sortingTransferToIncomesAndOutcomes = (
     incomes: sortedIncomes.map(income => {
       return {
         cash: Number(income.cash),
-        title: income.title
+        title: income.title,
+        dateOfBook: income.dateOfBook
       };
     }),
     outcomes: sortedOutcomes.map(outcome => {
       return {
         cash: Number(outcome.cash),
-        title: outcome.title
+        title: outcome.title,
+        dateOfBook: outcome.dateOfBook
       };
     })
   };

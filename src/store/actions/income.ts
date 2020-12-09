@@ -58,11 +58,12 @@ export const fetchIncome = (url: string) => {
       const result = await axios.get(url);
       const resultArray = result.data.Document.BkToCstmrAcctRpt.Rpt.Ntry;
       const resultInfo: any[] = [];
-      resultArray.forEach((result: { CdtDbtInd: string; Amt: { __text: any; }; NtryDtls: { TxDtls: { RmtInf: { Ustrd: any; }; }; }; }) => {
+      resultArray.forEach((result: { CdtDbtInd: string; Amt: { __text: any; }; BookgDt: {DtTm: string; }; NtryDtls: { TxDtls: { RmtInf: { Ustrd: any; }; }; }; }) => {
         resultInfo.push({
           cash: result.CdtDbtInd === 'DBIT' ?
             `-${result.Amt.__text}` : result.Amt.__text,
-          title: result.NtryDtls.TxDtls.RmtInf.Ustrd
+          title: result.NtryDtls.TxDtls.RmtInf.Ustrd,
+          dateOfBook: result.BookgDt.DtTm
         });
       });
       dispatch(setIncome(resultInfo));
