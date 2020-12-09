@@ -80,7 +80,7 @@ export const sortedIncome = (sortedIncome: any) => {
   };
 };
 
-export const editingIncome = (income: never[]) => {
+export const editingIncome = (income: any) => {
   return {
     type: ActionTypes.EDIT_INCOME,
     income

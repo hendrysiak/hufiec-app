@@ -8,11 +8,11 @@ export interface LoadingStart {
   type: ActionTypes.LOADING_START;
 };
 
-export interface SetSendingTeam {
-  type: ActionTypes.FETCH_FILE;
-  team: string;
-};
-
 export interface SetIncome {
   type: ActionTypes
 }
+
+export type ActionType = 
+| LoadingEnd
+| LoadingStart
+| SetIncome

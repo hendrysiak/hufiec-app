@@ -10,6 +10,5 @@ export {
 export {
   reduxLoadingEnd,
   reduxLoadingStart,
-  reduxSetSendingTeam
 }
   from './ui';

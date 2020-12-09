@@ -1,6 +1,8 @@
 import { ActionTypes } from 'store/actions/action.enum';
 
-const initialState = {
+import { IncomeState } from 'store/models/income.state.model';
+
+const initialState: IncomeState = {
   error: null,
   initIncome: null,
   registry: null,
@@ -13,7 +15,7 @@ const initialState = {
   importDates: null
 };
 
-const reducer = (state = initialState, action: { type: any; income: any; codes: any; error: any; incomes: any; outcomes: any; registry: any; editIncome: any; importDates: any; }) => {
+const reducer = (state = initialState, action: any): IncomeState => {
   switch (action.type) {
 
     case ActionTypes.FETCH_FILE:

@@ -1,4 +1,5 @@
 import { ActionTypes } from 'store/actions/action.enum';
+import { ActionType } from 'store/actions/action.types';
 import { UIState } from 'store/models/ui.state.model';
 
 
@@ -7,7 +8,7 @@ const initialState: UIState = {
   sendingTeam: null,
 };
 
-const reducer = (state = initialState, action: any): UIState => {
+const reducer = (state = initialState, action: ActionType): UIState => {
   switch (action.type) {
     case ActionTypes.LOADING_START:
       return {
@@ -18,11 +19,6 @@ const reducer = (state = initialState, action: any): UIState => {
       return {
         ...state,
         loading: false
-      };
-    case ActionTypes.SENDING_TEAM:
-      return {
-        ...state,
-        sendingTeam: action.sendingTeam
       };
     default:
       return state;
