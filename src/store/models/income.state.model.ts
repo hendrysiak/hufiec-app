@@ -1,4 +1,4 @@
-import { Codes } from 'models/codes.models';
+import { ApprovedEvent } from 'models/codes.models';
 
 import { 
   IncomesBankModel, 
@@ -18,6 +18,6 @@ export interface IncomeState {
   sortedOutcomes: OutcomesBankModel[] | null,
   dbIncomes: IncomesWithImportDate[] | null,
   dbOutcomes: OutcomesWithFinanceMethod[] | null,
-  codes: Codes | null,
+  codes: ApprovedEvent[] | null,
   importDates: string[] | null;
 };

@@ -54,8 +54,8 @@ const SortedIncome = (props) => {
 
     const { sortedIncomes, sortedOutcomes } = sortingIncome(init, registry, codes);
 
-    store.dispatch(actions.assignIncomesToAccount(sortedIncomes));
-    store.dispatch(actions.assignOutcomesToAccount(sortedOutcomes));
+    store.dispatch(actions.reduxAssignIncomesToAccount(sortedIncomes));
+    store.dispatch(actions.reduxAssignOutcomesToAccount(sortedOutcomes));
   };
 
   useEffect(() => {

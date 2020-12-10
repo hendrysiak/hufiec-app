@@ -45,7 +45,7 @@ const UnAssignedIncome = (): JSX.Element => {
   };
 
   const updateIncome = () => {
-    currentIncome && store.dispatch(actions.editingIncome(currentIncome));
+    currentIncome && store.dispatch(actions.reduxEditIncome(currentIncome));
   };
 
 

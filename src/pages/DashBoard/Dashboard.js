@@ -1,13 +1,14 @@
-import React, { Component, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
+import React, { Component, useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 
-import { connect, useSelector } from "react-redux";
 
+import Navigation from '../../shared/Navigation';
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 // import classes from "./Dashboard.module.css";
 
@@ -25,7 +26,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { organizationStateVerification } from './helpers/dashboard.helpers';
 
-import Navigation from '../../shared/Navigation';
 
 const Dashboard = () => {
 
@@ -40,24 +40,24 @@ const Dashboard = () => {
   //   }, 3000);
   // }, [])
    
-    return (
-      <>
+  return (
+    <>
       <Navigation />
       {isLoading 
         ? <div className="loader"><CircularProgress/></div>
         : <div>
-        <h1>Aplikacja Hufcowa - v. 0.1</h1>
-        <Paper>
-          <h2>Stan hufca:</h2>
+          <h1>Aplikacja Hufcowa - v. 0.1</h1>
+          <Paper>
+            <h2>Stan hufca:</h2>
             {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
             <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
             <hr/>
             <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
-        </Paper>
-      </div>
-        }
-        </>
-    );
+          </Paper>
+        </div>
+      }
+    </>
+  );
   
 };
 

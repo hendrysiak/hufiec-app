@@ -1,8 +1,7 @@
-export type Code = {
+export type Event = {
   code: string;
   teams?: string[];
 };
-
-export interface Codes {
-  [key: string]: Code[];
-}
+export interface ApprovedEvent extends Event {
+  approvalInfo?: string;
+};

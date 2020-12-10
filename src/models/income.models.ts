@@ -34,4 +34,20 @@ export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
   financeMethod: FinanceMethod
 };
 
+export interface IncomePurpose {
+  cash: string;
+  source: string;
+};
 
+export interface IncomePurposeDB {
+  cash: number;
+  purpose: string;
+};
+export interface OutcomePurpose {
+  cash: string;
+  purpose: string;
+};
+export interface OutcomePurposeDB {
+  cash: number;
+  purpose: string;
+};

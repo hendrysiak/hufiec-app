@@ -1,9 +1,7 @@
 export {
-  fetchIncome,
-  editingIncome,
-  assignIncome,
-  assignIncomesToAccount,
-  assignOutcomesToAccount
+  reduxEditIncome,
+  reduxAssignIncomesToAccount,
+  reduxAssignOutcomesToAccount
 }
   from './income';
 
