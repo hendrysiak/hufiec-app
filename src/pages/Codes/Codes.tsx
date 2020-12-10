@@ -4,17 +4,17 @@ import { useSelector } from 'react-redux';
 
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
-
-import Navigation from '../../shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
+import { RootState } from 'store/models/rootstate.model';
 
 import classes from './Codes.module.css';
 
-const Codes = () => {
-  const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes);
+const Codes = (): JSX.Element => {
+  const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  const codes = useSelector((state: RootState) => state.income.codes);
 
-  const [usedCodes, setUsedCodes] = useState(codes);
-  const [ currentCode, setCurrentCode ] = useState();
+  const [ usedCodes, setUsedCodes ] = useState<string[]>([]);
+  const [ currentCode, setCurrentCode ] = useState<string>('');
 
   useEffect(() => {
     if (codes) {
@@ -27,10 +27,10 @@ const Codes = () => {
 
   const children = currentCode === 'Brak kodu' 
     ? dbIncomes && dbIncomes.filter(i => !i.event).map((income, index) => {
-      return <ListEl key={index} title={income.title} cash={income.cash} />;
+      return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
     })
     : dbIncomes && dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
-      return <ListEl key={index} title={income.title} cash={income.cash} />;
+      return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
     });
 
   return (

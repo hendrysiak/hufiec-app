@@ -4,8 +4,8 @@ import React, { Component, useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
+import Navigation from 'shared/Navigation/Navigation';
 
-import Navigation from '../../shared/Navigation';
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 

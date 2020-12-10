@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { IncomesWithImportDate } from 'models/income.models';
-import Navigation from 'shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
 import TableEditor from 'shared/TableEditor/TableEditor';
 import { RootState } from 'store/models/rootstate.model';
 

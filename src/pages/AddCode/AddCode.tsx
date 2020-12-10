@@ -12,7 +12,7 @@ import axios from 'axios-income';
 import { Event } from 'models/codes.models';
 import ListContainer from 'shared/ListContainer/ListContainer';
 
-import Navigation from 'shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 const AddCode = (): JSX.Element => {

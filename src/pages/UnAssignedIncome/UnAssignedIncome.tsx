@@ -9,12 +9,12 @@ import { IncomesBankModel } from 'models/income.models';
 
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
+
+import Navigation from 'shared/Navigation/Navigation';
+import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 
-import Navigation from '../../shared/Navigation';
-import * as actions from '../../store/actions/index';
-
-import store from '../../store/store';
+import store from 'store/store';
 
 const UnAssignedIncome = (): JSX.Element => {
 
