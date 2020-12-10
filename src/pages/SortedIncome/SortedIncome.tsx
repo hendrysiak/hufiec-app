@@ -5,16 +5,18 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+
+import axios from 'axios-income';
 import { IncomesWithImportDate } from 'models/income.models';
+
+import ListContainer from 'shared/ListContainer/ListContainer';
+import ListEl from 'shared/ListEl/ListEl';
+
+import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
+import store from 'store/store';
 
-import axios from '../../axios-income';
-
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListEl from '../../components/ListEl/ListEl';
 import { sortingIncome } from '../../helpers/sorting.helper';
-import * as actions from '../../store/actions/index';
-import store from '../../store/store';
 
 
 const SortedIncome = (): JSX.Element => {

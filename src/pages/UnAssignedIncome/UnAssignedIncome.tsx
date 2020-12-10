@@ -6,17 +6,15 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { IncomesBankModel } from 'models/income.models';
-import { RootState } from 'store/models/rootstate.model';
 
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListEl from '../../components/ListEl/ListEl';
+import ListContainer from 'shared/ListContainer/ListContainer';
+import ListEl from 'shared/ListEl/ListEl';
+import { RootState } from 'store/models/rootstate.model';
 
 import Navigation from '../../shared/Navigation';
 import * as actions from '../../store/actions/index';
 
-
 import store from '../../store/store';
-
 
 const UnAssignedIncome = (): JSX.Element => {
 

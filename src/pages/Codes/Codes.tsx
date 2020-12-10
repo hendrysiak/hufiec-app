@@ -2,9 +2,8 @@ import { TextField, MenuItem } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListEl from '../../components/ListEl/ListEl';
-
+import ListContainer from 'shared/ListContainer/ListContainer';
+import ListEl from 'shared/ListEl/ListEl';
 
 import Navigation from '../../shared/Navigation';
 

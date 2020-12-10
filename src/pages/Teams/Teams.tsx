@@ -5,14 +5,12 @@ import { TextField, MenuItem } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import axios from 'axios-income';
 import { IncomesWithImportDate } from 'models/income.models';
+import Navigation from 'shared/Navigation';
+import TableEditor from 'shared/TableEditor/TableEditor';
 import { RootState } from 'store/models/rootstate.model';
 
-import axios from '../../axios-income';
-
-import TableEditor from '../../components/TableEditor/TableEditor';
-
-import Navigation from '../../shared/Navigation';
 import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
 
 import classes from './Teams.module.css';

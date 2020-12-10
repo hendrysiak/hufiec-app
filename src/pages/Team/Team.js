@@ -4,8 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import ListEl from 'components/ListEl/ListEl';
 import React, { useState, useEffect } from 'react';
-
 
 import { useSelector } from 'react-redux';
 
@@ -13,12 +13,11 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import axios from '../../axios-income';
+import axios from 'axios-income';
 
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListEl from '../../components/ListEl/ListEl';
+import ListContainer from 'shared/ListContainer/ListContainer';
 
-import store from '../../store/store';
+import store from 'store/store';
 
 import MembersTable from './MembersTable/MembersTable';
 

@@ -9,8 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
-import ListContainer from 'components/ListContainer/ListContainer';
 import { Event } from 'models/codes.models';
+import ListContainer from 'shared/ListContainer/ListContainer';
 
 import Navigation from 'shared/Navigation';
 import { RootState } from 'store/models/rootstate.model';
