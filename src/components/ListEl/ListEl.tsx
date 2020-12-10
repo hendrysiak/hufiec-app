@@ -6,7 +6,7 @@ interface Props {
   cash: number;
   error: boolean;
   title: string;
-  clicked: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  clicked?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const ListEl = (props: Props): JSX.Element => {

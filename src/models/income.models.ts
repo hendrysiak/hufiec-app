@@ -1,6 +1,10 @@
 import { FinanceMethod } from './global.enum';
 
-export interface IncomesBankModel {
+interface IObjectKeys {
+  [key: string]: string | number | null;
+}
+
+export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: string;
@@ -22,7 +26,7 @@ export interface IncomesWithImportDate extends IncomesWithYear {
   importDate: string | null;
 }
 //////////////////////////////////
-export interface OutcomesBankModel {
+export interface OutcomesBankModel extends IObjectKeys{
   cash: number;
   title: string;
   dateOfBook: string;

@@ -24,10 +24,10 @@ import store from '../../store/store';
 // import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
 // import EventBilling from "../EventBilling/containers/EventBilling";
 
-import { organizationStateVerification } from './helpers/dashboard.helpers';
+// import { organizationStateVerification } from './helpers/dashboard.helpers';
 
 
-const Dashboard = () => {
+const Dashboard = (): JSX.Element => {
 
   const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);

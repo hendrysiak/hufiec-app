@@ -1,36 +1,32 @@
 
 
 import { TextField, MenuItem } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
+import { IncomesWithImportDate } from 'models/income.models';
+import { RootState } from 'store/models/rootstate.model';
 
 import axios from '../../axios-income';
 
 import TableEditor from '../../components/TableEditor/TableEditor';
 
-
 import Navigation from '../../shared/Navigation';
 import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
-import MembersTable from '../Team/MembersTable/MembersTable';
 
 import classes from './Teams.module.css';
 
-const Teams = () => {
-  const registry = useSelector(state => state.income.registry);
-  const dbIncomes = useSelector(state => state.income.dbIncomes);
-  const codes = useSelector(state => state.income.codes);
+const Teams = (): JSX.Element => {
+  const registry = useSelector((state: RootState) => state.income.registry);
+  const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  // const codes = useSelector((state: RootState) => state.income.codes);
 
-  const [currentTeam, setCurrentTeam] = useState(6673);
-  const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
-  const [filteredCodes, setFilteredCodes] = useState([]);
-  const [incomesByCode, setIncomeByCode] = useState([]);
-  const [incomesInDb, setIncomesInDb] = useState([]);
+  const [currentTeam, setCurrentTeam] = useState<string>('6673');
+  // const [currentTeamRegistry, setCurrentTeamRegistry] = useState([]);
+  // const [filteredCodes, setFilteredCodes] = useState<string[]>([]);
+  const [incomesByCode, setIncomeByCode] = useState<IncomesWithImportDate[]>([]);
+  const [incomesInDb, setIncomesInDb] = useState<IncomesWithImportDate[]>([]);
 
   const [changesToSave, setChangesToSave] = useState(false);
 
@@ -39,15 +35,15 @@ const Teams = () => {
   },[dbIncomes]);
 
   useEffect(() => {
-    registry && setCurrentTeamRegistry(registry[currentTeam]);
+    // registry && setCurrentTeamRegistry(registry[currentTeam]);
     const incomesToDisplay = incomesInDb && incomesInDb.filter(income => income.team === currentTeam);
     setIncomeByCode(incomesToDisplay);
   },[currentTeam, registry]);
 
-  useEffect(() => {
-    const filteredCodes = codes && codes.map(code => code.code);
-    setFilteredCodes(filteredCodes);
-  },[codes]);
+  // useEffect(() => {
+  //   const filteredCodes = codes && codes.map(code => code.code);
+  //   filteredCodes && setFilteredCodes(filteredCodes);
+  // },[codes]);
 
   const saveIncome = async () => {
     await axios.put('/incomes.json', incomesInDb);
@@ -55,7 +51,7 @@ const Teams = () => {
     setChangesToSave(false);
   };
 
-  const editIncome = (index, data, value) => {
+  const editIncome = (index: number, data: string, value: string) => {
     const incomeToEdit = [...incomesByCode];
     const updatedDb = [...incomesInDb];
 

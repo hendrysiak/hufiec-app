@@ -1,8 +1,12 @@
 import { TextField, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { IncomesWithImportDate } from 'models/income.models';
+import { RootState } from 'store/models/rootstate.model';
 
 import axios from '../../axios-income';
 
@@ -13,35 +17,37 @@ import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
 
-const SortedIncome = (props) => {
+const SortedIncome = (): JSX.Element => {
   
-  const dbCodes = useSelector(state => state.income.codes);
+  const dbCodes = useSelector((state: RootState) => state.income.codes);
 
-  const init = useSelector(state => state.income.initIncome);
+  const init = useSelector((state: RootState) => state.income.initIncome);
 
     
-  const incomesToSend = useSelector(state => state.income.sortedIncomes);
-  const outcomesToSend = useSelector(state => state.income.sortedOutcomes);
-  const registry = useSelector(state => state.income.registry);
-  const currentDbIncomes = useSelector(state => state.income.dbIncomes);
-  const currentDbOutcomes = useSelector(state => state.income.dbOutcomes);
-  const importDates = useSelector(state => state.income.importDates);
+  const incomesToSend = useSelector((state: RootState) => state.income.sortedIncomes);
+  const outcomesToSend = useSelector((state: RootState) => state.income.sortedOutcomes);
+  const registry = useSelector((state: RootState) => state.income.registry);
+  const currentDbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  const currentDbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
+  const importDates = useSelector((state: RootState) => state.income.importDates);
     
-  const [ currentTeam, setCurrentTeam ] = useState(6673);
-  const [ displayedIncome, setDisplayedIncome ] = useState([]);
-  const [codes, setCodes] = useState([]);
+  const [ currentTeam, setCurrentTeam ] = useState('6673');
+  const [ displayedIncome, setDisplayedIncome ] = useState<IncomesWithImportDate[]>([]);
+  const [codes, setCodes] = useState<string[]>([]);
 
   const history = useHistory();
 
   useEffect(() => {
-    const codesToSed = dbCodes.map(code => code.code);
-    setCodes(codesToSed);
+    if (dbCodes) {
+      const codesToSend = dbCodes.map(code => code.code);
+      setCodes(codesToSend);
+    }
   },[dbCodes]);
 
   useEffect(() => {
     if (incomesToSend && Object.values(incomesToSend).length > 0) {
       let sortedIncome;
-      if (currentTeam === 'Błędne dopasowanie do jednostki') 
+      if (!currentTeam) 
         sortedIncome = Object.values(incomesToSend).filter(income => !income.team);
       else sortedIncome = Object.values(incomesToSend).filter(income => income.team === currentTeam);
       setDisplayedIncome(sortedIncome);
@@ -50,42 +56,54 @@ const SortedIncome = (props) => {
 
   
   const assignIncome = () => {
+    if (codes && init && registry) {
+      const { sortedIncomes, sortedOutcomes } = sortingIncome(init, registry, codes);
 
-
-    const { sortedIncomes, sortedOutcomes } = sortingIncome(init, registry, codes);
-
-    store.dispatch(actions.reduxAssignIncomesToAccount(sortedIncomes));
-    store.dispatch(actions.reduxAssignOutcomesToAccount(sortedOutcomes));
+      store.dispatch(actions.reduxAssignIncomesToAccount(sortedIncomes));
+      store.dispatch(actions.reduxAssignOutcomesToAccount(sortedOutcomes));
+    }
   };
 
   useEffect(() => {
-    if (codes && init && registry) assignIncome();
+    assignIncome();
   }, [codes, init, registry]); 
-
 
   const sendingHandler = async () => {
     const updatedIncomes = currentDbIncomes ? [...currentDbIncomes] : [];
-    Object.values(incomesToSend).forEach(i => {
-      const foundElement = updatedIncomes.findIndex(ui => {
-        return ui.team === i.team && ui.name === i.name && ui.surname === i.surname && ui.event === i.event && ui.year === i.year;
+    if (incomesToSend) {
+      Object.values(incomesToSend).forEach(i => {
+        const foundElement = updatedIncomes.findIndex(ui => {
+          return ui.team === i.team 
+          && ui.name === i.name 
+          && ui.surname === i.surname 
+          && ui.event === i.event 
+          && ui.year === i.year;
+        });
+  
+        if (foundElement >= 0) updatedIncomes[foundElement].cash += i.cash;
+        else updatedIncomes.push(i);
       });
 
-      if (foundElement >= 0) updatedIncomes[foundElement].cash += i.cash;
-      else updatedIncomes.push(i);
-    });
+      await axios.put('/incomes.json', updatedIncomes);
+    }
 
-    const updatedOutcomes = currentDbOutcomes ? [...currentDbOutcomes, ...Object.values(outcomesToSend)] : [...Object.values(outcomesToSend)];
+    if (outcomesToSend) {
+      const updatedOutcomes = currentDbOutcomes 
+        ? [...currentDbOutcomes, ...Object.values(outcomesToSend)] 
+        : [...Object.values(outcomesToSend)];
+
+      await axios.put('/outcomes.json', updatedOutcomes);
+    };
 
     const date = new Date();
     const updatedDate = date.toLocaleString().split(',')[0];
-    const updatedImportDates = [...importDates].push(updatedDate);
+    if (importDates) {
+      const updatedImportDates = [...importDates].push(updatedDate);
+      await axios.put('/importDates.json', updatedImportDates);
+    };
     
-    await axios.put('/importDates.json', updatedImportDates);
-    await axios.put('/incomes.json', updatedIncomes);
-    await axios.put('/outcomes.json', updatedOutcomes);
     history.push('/');
   };
-
 
   return (
     <section className="Section">
@@ -103,7 +121,7 @@ const SortedIncome = (props) => {
           MenuProps: { disableScrollLock: true }
         }}
       >
-        {[...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
+        {registry && [...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
@@ -113,7 +131,7 @@ const SortedIncome = (props) => {
           const event = item;
           const children = displayedIncome.map((income, index) => {
             if (income.event === event) {
-              return <ListEl key={index} title={income.title} cash={income.cash} />;
+              return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
             } else if (event === 'unAssigned' && (
               !income.hasOwnProperty('event') ||
               !income.hasOwnProperty('year') ||
@@ -121,7 +139,7 @@ const SortedIncome = (props) => {
               !income.hasOwnProperty('name') ||
               !income.hasOwnProperty('surname')
             )) {
-              return <ListEl key={index} title={income.title} cash={income.cash} />;
+              return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
             }
           });
           return (<ListContainer
