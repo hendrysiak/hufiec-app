@@ -1,4 +1,5 @@
 import { ActionTypes } from 'store/actions/action.enum';
+import { ActionType } from 'store/actions/action.types';
 
 import { IncomeState } from 'store/models/income.state.model';
 
@@ -15,9 +16,8 @@ const initialState: IncomeState = {
   importDates: null
 };
 
-const reducer = (state = initialState, action: any): IncomeState => {
+const reducer = (state = initialState, action: ActionType): IncomeState => {
   switch (action.type) {
-
     case ActionTypes.FETCH_FILE:
       return {
         ...state,
@@ -28,11 +28,7 @@ const reducer = (state = initialState, action: any): IncomeState => {
         ...state,
         codes: action.codes
       };
-    case ActionTypes.FETCH_FILE_FAILED:
-      return {
-        ...state,
-        error: action.error
-      };
+
     case ActionTypes.SET_ACCOUNT_STATE: {
       return {
         ...state,
@@ -47,16 +43,10 @@ const reducer = (state = initialState, action: any): IncomeState => {
       };
     }
     case ActionTypes.EDIT_INCOME:
-      const editingIncomes = action.editIncome;
+      const editingIncomes = action.income;
       return {
         ...state,
         initIncome: [...editingIncomes]
-      };
-    case ActionTypes.ASSIGN_INCOME_BY_CODE:
-      const assignedIncome = action.income;
-      return {
-        ...state,
-        assignedIncome
       };
     case ActionTypes.ASSIGN_INCOME_TO_ACCOUNT:
       const updatedIncomes = action.incomes;

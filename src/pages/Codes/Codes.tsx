@@ -60,11 +60,11 @@ const Codes = (): JSX.Element => {
 
         </header>
         <main className={classes.Main}>
-          <ListContainer
+          {children && <ListContainer
             title={currentCode}
           >
             {children}
-          </ListContainer>
+          </ListContainer>}
         </main>
       </section>
     </>

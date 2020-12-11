@@ -17,32 +17,32 @@ import { NavLink } from 'react-router-dom';
 import classes from './Navigation.module.css';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-const Navigation = props => (
-  <Paper className={classes.root}>
-    <Menu
-      anchorEl={props.anchorEl}
-      keepMounted
-      open={props.open}
-      onClose={props.handleClose}
-    >
-      <MenuList>
-        {props.list && props.list.map((item, index) => (
-          <Link
-            key={index}
-            href={item.link}
-            exact
-          >
-            <MenuItem>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <Typography variant="inherit">{item.title}</Typography>
-            </MenuItem>
-          </Link>
-        )) }
-      </MenuList>
-    </Menu>
-  </Paper>
+const Navigation = (): JSX.Element => (<></>
+  // <Paper className={classes.root}>
+  //   <Menu
+  //     anchorEl={props.anchorEl}
+  //     keepMounted
+  //     open={props.open}
+  //     onClose={props.handleClose}
+  //   >
+  //     <MenuList>
+  //       {props.list && props.list.map((item, index) => (
+  //         <Link
+  //           key={index}
+  //           href={item.link}
+  //           exact
+  //         >
+  //           <MenuItem>
+  //             <ListItemIcon>
+  //               {item.icon}
+  //             </ListItemIcon>
+  //             <Typography variant="inherit">{item.title}</Typography>
+  //           </MenuItem>
+  //         </Link>
+  //       )) }
+  //     </MenuList>
+  //   </Menu>
+  // </Paper>
 );
 
 export default Navigation;

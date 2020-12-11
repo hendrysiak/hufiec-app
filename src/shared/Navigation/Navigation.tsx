@@ -14,7 +14,7 @@ import React, { useEffect, useRef } from 'react';
 
 import NavigationItems from './NavigationItems/NavigationItems';
 
-const Navigation = () => {
+const Navigation = (): JSX.Element => {
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // const open = Boolean(anchorEl);
   // const menu = useRef();

@@ -89,7 +89,7 @@ const UnAssignedIncome = (): JSX.Element => {
           <button onClick={() => verifyTeams()}>Posortuj przelewy</button> */}
           <h2>Przelewy zaimportowane:</h2>
         </div>
-        <ListContainer>{listOfIncome}</ListContainer>
+        {listOfIncome && <ListContainer>{listOfIncome}</ListContainer>}
       </section>
     </>
   );

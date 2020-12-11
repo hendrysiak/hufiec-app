@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+
 
 import incomeReducer from './reducers/income';
 import uiReducer from './reducers/ui';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   income: incomeReducer,
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;
