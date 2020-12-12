@@ -1,4 +1,4 @@
-import { FinanceMethod } from './global.enum';
+import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
 
 interface IObjectKeys {
   [key: string]: string | number | null;
@@ -37,6 +37,11 @@ export interface OutcomesWithImportDate extends OutcomesBankModel{
 export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
   financeMethod: FinanceMethod
 };
+
+export interface OutcomesWithData extends OutcomesWithFinanceMethod {
+  outcomeCategory: OutcomeCategory;
+  foundingSources: FoundingSources;
+}
 
 export interface IncomePurpose {
   cash: string;

@@ -9,10 +9,28 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
 import React, { useEffect, useState } from 'react';
 
+import { FoundingSources, OutcomeCategory } from 'models/global.enum';
+import { OutcomesWithFinanceMethod, IncomesWithImportDate } from 'models/income.models';
 
-const AddPositionModal = (props) => {
+type Props = {
+  modalVisible: boolean;
+  setModalVisible: (infoAboutVisibility: boolean) => void;
+  additionalData: {
+    foundingSources: FoundingSources[];
+    outcomeCategory: OutcomeCategory[];
+    teams: string[];
+    codes: string[];
+  }
+  info: string;
+  add: boolean;
+  setAddingNewPosition: (info: boolean) => void;
+  addNewPosition: (info: string, data: OutcomesWithFinanceMethod | IncomesWithImportDate) => void;
+};
+
+const AddPositionModal = (props: Props): JSX.Element => {
   const [cash, setCash] = useState(0);  
   const [bilingNr, setBilingNr] = useState('');
   const [team, setTeam] = useState('');
@@ -24,6 +42,7 @@ const AddPositionModal = (props) => {
   const [financeMethod, setFinanceMethod] = useState('');
 
   const addNewPosition = () => {
+    const currentDate = new Date();
     const data = {
       cash,   
       bilingNr, 
@@ -33,12 +52,16 @@ const AddPositionModal = (props) => {
       event, 
       foundingSource, 
       outcomeCategory, 
-      financeMethod
+      financeMethod,
+      importDate: currentDate.toLocaleString().split(',')[0], 
+      year: currentDate.getFullYear(), 
+      title: 'Pozycja dodana ręcznie', 
+      dateOfBook: currentDate.toLocaleString().split(',')[0]
     };
 
     props.addNewPosition(props.info, data);
-    setCash('');  
-    setBilingNr(0);
+    setCash(0);  
+    setBilingNr('');
     setTeam('');
     setName('');
     setSurname('');
@@ -75,7 +98,7 @@ const AddPositionModal = (props) => {
                   size="medium"
                   value={cash}
                   margin="dense"
-                  onChange={(e) => setCash(e.target.value)}
+                  onChange={(e) => setCash(Number(e.target.value))}
                 />
               </TableCell>
               {props.info !== 'income' && <TableCell>

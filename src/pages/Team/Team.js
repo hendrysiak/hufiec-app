@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import ListEl from 'components/ListEl/ListEl';
+
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import {
 import axios from 'axios-income';
 
 import ListContainer from 'shared/ListContainer/ListContainer';
+import ListEl from 'shared/ListEl/ListEl';
 
 import store from 'store/store';
 

@@ -1,6 +1,5 @@
 import { TextField, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 
 
@@ -10,15 +9,33 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import EditIcon from '@material-ui/icons/Edit';
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
+
+import { FoundingSources, OutcomeCategory } from 'models/global.enum';
+import { OutcomesWithFinanceMethod, IncomesWithImportDate } from 'models/income.models';
+
+type Props = {
+  modalVisible: boolean;
+  setModalVisible: (infoAboutVisibility: boolean) => void;
+  additionalData: {
+    foundingSources: FoundingSources[];
+    outcomeCategory: OutcomeCategory[];
+    teams: string[];
+    codes: string[];
+  }
+  info: string;
+  add: boolean;
+  setAddingNewPosition: (info: boolean) => void;
+  position?: IncomesWithImportDate | OutcomesWithFinanceMethod;
+  index?: number;
+  onChange: (index: number, data: string, value: string) => void;
+};
+
+const EditorModal = (props: Props): JSX.Element => {
 
 
-const EditorModal = (props) => {
-
-
-  const modalBody = props.position ? (<Modal 
+  const modalBody = props.position && props.index ? (<Modal 
     open={props.modalVisible}  
     onClose={() => props.setModalVisible(false)}
   >
@@ -51,7 +68,7 @@ const EditorModal = (props) => {
                     size="medium"
                     value={props.position.title}
                     margin="dense"
-                    onChange={(e) => props.onChange(props.index, 'title', e.target.value)}
+                    onChange={(e) => props.onChange(props.index || -1, 'title', e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -59,7 +76,7 @@ const EditorModal = (props) => {
                     size="medium"
                     value={props.position.cash}
                     margin="dense"
-                    onChange={(e) => props.onChange(props.index, 'cash', e.target.value)}
+                    onChange={(e) => props.onChange(props.index || -1, 'cash', e.target.value)}
                   />
                 </TableCell>
                 </>)
@@ -69,7 +86,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.bilingNr}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'bilingNr', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'bilingNr', e.target.value)}
                 />
               </TableCell>}
               <TableCell data-info="team">
@@ -77,7 +94,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.team}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'team', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'team', e.target.value)}
                   select={true}
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
@@ -94,7 +111,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.name}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'name', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'name', e.target.value)}
                 />
               </TableCell>}
               {props.info !== 'outcome' && <TableCell>
@@ -102,7 +119,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.surname}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'surname', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'surname', e.target.value)}
                 />
               </TableCell>}
               <TableCell>
@@ -110,7 +127,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.event}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'event', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'event', e.target.value)}
                   select={true}
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
@@ -127,7 +144,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.foundingSource}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'foundingSource', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'foundingSource', e.target.value)}
                   select={true}
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
@@ -143,7 +160,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.outcomeCategory}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'outcomeCategory', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'outcomeCategory', e.target.value)}
                   select={true}
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
@@ -159,7 +176,7 @@ const EditorModal = (props) => {
                   size="medium"
                   value={props.position.financeMethod}
                   margin="dense"
-                  onChange={(e) => props.onChange(props.index, 'financeMethod', e.target.value)}
+                  onChange={(e) => props.onChange(props.index || -1, 'financeMethod', e.target.value)}
                   select={true}
                   SelectProps={{
                     MenuProps: { disableScrollLock: true }
@@ -178,7 +195,6 @@ const EditorModal = (props) => {
         }}>Zakończ edycję</Button>
       </div>
     </Paper>
-          
   </Modal>) : <></>;
 
   return (<>{modalBody}</>);

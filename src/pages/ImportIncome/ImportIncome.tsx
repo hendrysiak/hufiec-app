@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import React, { MouseEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Navigation from 'shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
 
 
 import { setIncomeInRedux } from './helpers/setReduxData.helper';

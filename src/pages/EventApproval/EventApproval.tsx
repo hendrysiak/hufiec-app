@@ -13,7 +13,7 @@ import { ApprovedEvent, Event } from 'models/codes.models';
 import { BudgetEntry } from 'models/global.enum';
 import { IncomePurpose, OutcomePurpose } from 'models/income.models';
 
-import Navigation from 'shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
 import { reduxGetCodes } from 'store/actions/income';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';

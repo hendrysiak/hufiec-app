@@ -37,7 +37,6 @@ const Navigation = (): JSX.Element => {
     { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
     { link: '/codes', title: 'FILTRUJ PO KODZIE', icon: <CodeIcon fontSize="small" /> },
-    { link: '/teams', title: 'FILTRUJ PO DRUŻYNIE', icon: <GroupIcon fontSize="small" /> },
     { link: '/add-code', title: 'DODAJ KOD', icon: <AddBoxIcon fontSize="small" /> },
     { link: '/add-approval', title: 'DODAJ ZATWIERDZENIE', icon: <PlaylistAddIcon fontSize="small" /> },
     { link: '/add-billing', title: 'DODAJ ROZLICZENIE', icon: <PlaylistAddCheckIcon fontSize="small" /> },
