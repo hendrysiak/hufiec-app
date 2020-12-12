@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from '../../axios-income';
+import axios from 'axios-income';
 import axiosStandard from 'axios';
 import jsonData from './tosend.json'
 
 
-import Navigation from '../../shared/Navigation';
+import Navigation from 'shared/Navigation/Navigation';
 
 const ForCoders = () => {
 

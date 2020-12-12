@@ -1,45 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { TextField, MenuItem } from '@material-ui/core';
 
-import axios from "../../axios-income";
 
-import * as actions from "../../store/actions/index";
-import store from "../../store/store";
-
-import classes from "./EventBilling.module.css";
-
-
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-// import { mainListItems, secondaryListItems } from './listItems';
-import EventInfo from "./components/EventInfo";
+import List from '@material-ui/core/List';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
 
-import AddIcon from '@material-ui/icons/Add';
+// import { mainListItems, secondaryListItems } from './listItems';
+
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Route, Redirect } from 'react-router-dom';
+
+
+import Navigation from 'shared/Navigation/Navigation';
+
+import axios from 'axios-income';
+import * as actions from 'store/actions/index';
+import store from 'store/store';
+
+import EventInfo from './components/EventInfo';
 
 import EventOutcomes from './components/EventOutcomes';
-
-import Navigation from '../../shared/Navigation';
+import classes from './EventBilling.module.css';
 
 const EventBilling = (props) => {
   const codes = useSelector(state => state.income.codes);
@@ -59,7 +60,7 @@ const EventBilling = (props) => {
       const filteredCodes = codes.filter(c => {
         if (c.approvalInfo) return true;
         else return false;
-      })
+      });
       setCurrentCode(filteredCodes[0]);
       setUsedCodes(filteredCodes);
     }
@@ -155,23 +156,23 @@ const EventBilling = (props) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   
 
-    return (
-      <>
+  return (
+    <>
       <Navigation />
       <section className="Section">
-      <header>
+        <header>
 
-      </header>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="xl" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              {/* <Paper className={fixedHeightPaper}> */}
-              <h2>Dodaj rozliczenie do kodu</h2>
+        </header>
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="xl" className={classes.container}>
+            <Grid container spacing={3}>
+              {/* Chart */}
+              <Grid item xs={12} md={8} lg={9}>
+                {/* <Paper className={fixedHeightPaper}> */}
+                <h2>Dodaj rozliczenie do kodu</h2>
                 <TextField
-                  style={{width: '40%'}}
+                  style={{ width: '40%' }}
                   label="Wybierz kod imprezy do rozliczenia"
                   value={currentCode}
                   onChange={(e) => setCurrentCode(e.target.value)}
@@ -185,34 +186,34 @@ const EventBilling = (props) => {
                   }}
                 >
                   {usedCodes && [...usedCodes.map(code => code.code)].map((item) => (
-                <MenuItem key={item} value={item}>{item}</MenuItem>
-              ))}
+                    <MenuItem key={item} value={item}>{item}</MenuItem>
+                  ))}
                 </TextField>
-              {/* </Paper> */}
+                {/* </Paper> */}
+              </Grid>
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                {/* <Paper className={fixedHeightPaper}> */}
+                <EventInfo title={currentCode || 'Wybierz imprezę'} cash={5000}/>
+                {/* </Paper> */}
+              </Grid>
+              {/* Recent Orders */}
+              <Grid item xs={11}>
+                <EventOutcomes/>
+              </Grid>
+              <Grid item xs={1}>
+                <Tooltip title="Dodaj wydatek do imprezy"><IconButton><AddIcon onClick={() => console.log('Dodaję')}/></IconButton></Tooltip>
+              </Grid>
             </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              {/* <Paper className={fixedHeightPaper}> */}
-                <EventInfo title={currentCode || "Wybierz imprezę"} cash={5000}/>
-              {/* </Paper> */}
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={11}>
-              <EventOutcomes/>
-            </Grid>
-            <Grid item xs={1}>
-            <Tooltip title="Dodaj wydatek do imprezy"><IconButton><AddIcon onClick={() => console.log("Dodaję")}/></IconButton></Tooltip>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            {/* <Copyright /> */}
-          </Box>
-        </Container>
-      </main>
+            <Box pt={4}>
+              {/* <Copyright /> */}
+            </Box>
+          </Container>
+        </main>
       </section>
-      </>
-    );
-}
+    </>
+  );
+};
 
 
 export default EventBilling;
