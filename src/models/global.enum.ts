@@ -16,7 +16,8 @@ export enum OutcomeCategory {
   Tickets = 'bilety',
   Board = 'wyżywienie',
   Maintenance = 'konserwacja',
-  Media = 'media'
+  Media = 'media',
+  Fee = 'składki'
 };
 
 export enum FoundingSources {
