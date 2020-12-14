@@ -1,37 +1,27 @@
 
-import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import CloseIcon from '@material-ui/icons/Close';
 import CodeIcon from '@material-ui/icons/Code';
 import EditIcon from '@material-ui/icons/Edit';
-import GroupIcon from '@material-ui/icons/Group';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import LaunchIcon from '@material-ui/icons/Launch';
 
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
-import NavigationItems from './NavigationItems/NavigationItems';
+import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
 const Navigation = (): JSX.Element => {
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
-  // const menu = useRef();
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // useEffect(() => {
-  //   document.body.addEventListener('click', (event) => {
-  //     if (event.currentTarget !== menu) handleClose();
-  //   })
-  // },[])
+  useEffect(() => {
+    document.body.addEventListener('click', (event: MouseEvent): void => {
+      const target = event.target as HTMLElement;
+      if (target && !target.classList.contains('nav')) setIsOpen(false);
+    });
+  },[]);
 
   const navigation = [
     { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
@@ -45,25 +35,20 @@ const Navigation = (): JSX.Element => {
 
   return (
     <>
-      <div className="nav">
-        {/* <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-          className="Nav__menu"
-  
-        >
-          <MoreVertIcon />
-        </IconButton> */}
+      <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
+        <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
+          {isOpen ? <CloseIcon/> : <LaunchIcon/>}
+        </div>
+        {navigation.map((nEl, index: number) => (
+          <NavigationItem 
+            key={index}
+            link={nEl.link}
+            exact
+          >
+            <>{nEl.icon}<span>{`${nEl.title}`}</span></>
+          </NavigationItem>))}
       </div>
-      {/* <NavigationItems
-        list={navigation}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        ref={menu}
-      /> */}
+
     </>
   );
 

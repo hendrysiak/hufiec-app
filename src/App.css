@@ -19,11 +19,29 @@
 .nav {
     position: fixed;
     height: 100%;
-    width: 10vw;
+    width: 15vw;
     top: 0px;
-    left: 0px;
+    transform: translateX(-100%);
     background-color: rgba(54, 33, 94, 1);
-    box-shadow: #8a8a8a;
+    box-shadow: 4px 5px #8d8d8d;
+    transition-duration: .5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.nav--active {
+    transform: translateX(0%);
+}
+.nav__open {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    color:white;
+    background-color: rgba(54, 33, 94, 1);
+    top: 0px;
+    right: -10%;
+    cursor: pointer;
+    box-shadow: 2px 2px #8d8d8d;
 }
 
 .nav__active {

@@ -13,23 +13,37 @@
     display: block;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     color: white;
     border-bottom: 4px solid transparent;
+    padding: 16px;
+    text-align: center;
+}
+
+.NavigationItem a svg {
+    width: 30px;
+    height: 30px;
+    margin: 16px;
+    flex-basis: 20%;
+}
+
+.NavigationItem a span {
+    text-align: center;
+    flex-basis: 80%;
 }
 
 .NavigationItem a:hover,
 .NavigationItem a:active,
 .NavigationItem a.active {
-    background-color: darkgreen;
-    border-bottom: 4px solid yellow;
+    /* background-color: darkgreen; */
+    background-color:rgba(92, 56, 150, 1);
     color: white;
 }
 
 .NavigationItemsHeader .NavigationItem a:hover,
 .NavigationItemsHeader .NavigationItem a:active,
 .NavigationItemsHeader .NavigationItem a.active {
-    background-color: rgba(74, 123, 38, 100%);
-    border-bottom: 4px solid grey;
+    /* background-color: rgba(74, 123, 38, 100%); */
+    background-color:rgba(92, 56, 150, 1);
     color: white;
 }
