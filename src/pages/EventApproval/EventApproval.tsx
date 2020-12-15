@@ -1,6 +1,7 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -26,6 +27,9 @@ const EventApproval = (): JSX.Element => {
   const [currentCode, setCurrentCode] = useState<string>();
   const [usedCodes, setUsedCodes] = useState<ApprovedEvent[]>();
 
+  const eventSummary 
+    = newIncomes.reduce((a,b) => a + Number(b.cash), 0) 
+    - newOutcomes.reduce((a,b) => a + Number(b.cash), 0);
 
   useEffect(() => {
     if (codes) {
@@ -73,6 +77,8 @@ const EventApproval = (): JSX.Element => {
   };
 
   const sendApproval = async () => {
+    if (eventSummary < 0) return alert('Wydatki nie mogą być większe od przychodów!');
+    if (eventSummary > 0) return alert('Impreza powinna być zbilansowana do 0!');
     if (!currentCode) return alert('Nie wybrano kodu!');
     if (window.confirm('Jesteś pewien, że wysyłasz zatwierdzenie? Chwilowo nie mozna go później edytować :)')) {
       const incomes = newIncomes.map(i => {
@@ -97,6 +103,8 @@ const EventApproval = (): JSX.Element => {
         const codesAfterUpdate = await axios.put('codes.json', newCodes);
         store.dispatch(reduxGetCodes(codesAfterUpdate.data));
       };
+      setNewIncomes([]);
+      setNewOutcomes([]);
     }
   };
 
@@ -104,6 +112,14 @@ const EventApproval = (): JSX.Element => {
     <>
       <Navigation />
       <section className="Section">
+        <Paper className="event-approbal__paper">
+          <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            Stan finansowy imprezy:
+          </Typography>
+          {eventSummary >= 0 
+            ? <span style={{ color: 'green' }}>{`${eventSummary}`}</span> 
+            : <span style={{ color: 'red' }}>{`${eventSummary}`}</span>}
+        </Paper>
         <header>
           <h2>Zatwierdź imprezę finansowo</h2>
           <TextField
@@ -154,7 +170,7 @@ const EventApproval = (): JSX.Element => {
                           (e) => editIncomeOrOutcome(
                             newIncomes, 
                             index, 
-                            { purpose: e.target.value }, 
+                            { source: e.target.value }, 
                             BudgetEntry.Income
                           )}
                         style={{ width: '600px' }}

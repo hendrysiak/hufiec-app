@@ -39,7 +39,7 @@
     color:white;
     background-color: rgba(54, 33, 94, 1);
     top: 0px;
-    right: -10%;
+    right: -9%;
     cursor: pointer;
     box-shadow: 2px 2px #8d8d8d;
 }
@@ -92,4 +92,12 @@ main {
     position: absolute;
     top: 50px;
     right: 50px;
+}
+
+.event-approbal__paper {
+    width: 20vw;
+    height: 10vh;
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
 }
