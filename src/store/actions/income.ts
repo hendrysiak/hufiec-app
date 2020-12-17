@@ -1,5 +1,5 @@
 import { ApprovedEvent } from 'models/codes.models';
-import { IncomesBankModel, IncomesWithImportDate, OutcomesWithFinanceMethod } from 'models/income.models';
+import { IncomesBankModel, IncomesWithImportDate, OutcomesWithEvent, OutcomesWithFinanceMethod } from 'models/income.models';
 import { Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
@@ -29,7 +29,7 @@ export const reduxGetCodesWithTeams = (codes: ApprovedEvent[]): GetCodesWithTeam
 
 export const reduxGetAccountState = (
   incomes: IncomesWithImportDate[], 
-  outcomes: OutcomesWithFinanceMethod[]
+  outcomes: OutcomesWithEvent[]
 ): GetAccountState => {
 
   return {

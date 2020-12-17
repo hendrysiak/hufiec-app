@@ -1,5 +1,5 @@
 import { ApprovedEvent } from 'models/codes.models';
-import { IncomesBankModel, IncomesWithImportDate, OutcomesWithFinanceMethod } from 'models/income.models';
+import { IncomesBankModel, IncomesWithImportDate, OutcomesWithEvent, OutcomesWithFinanceMethod } from 'models/income.models';
 import { Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
@@ -30,7 +30,7 @@ export interface GetCodesWithTeams {
 export interface GetAccountState {
   type: ActionTypes.SET_ACCOUNT_STATE;
   incomes: IncomesWithImportDate[];
-  outcomes: OutcomesWithFinanceMethod[];
+  outcomes: OutcomesWithEvent[];
 };
 
 export interface GetRegistry {

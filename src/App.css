@@ -101,3 +101,26 @@ main {
     top: 2vh;
     right: 2vw;
 }
+
+.biling__modal--add-outcome {
+    margin: 20vh auto auto auto;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.biling__modal--add-outcome > button {
+    margin: 16px;
+}
+
+.biling__modal--account {
+    width: 60%;
+    height: 60%;
+    margin: 20vh auto auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

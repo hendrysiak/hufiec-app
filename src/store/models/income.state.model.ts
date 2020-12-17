@@ -3,6 +3,7 @@ import { ApprovedEvent } from 'models/codes.models';
 import { 
   IncomesBankModel, 
   IncomesWithImportDate,  
+  OutcomesWithEvent,  
   OutcomesWithFinanceMethod 
 } from 'models/income.models';
 
@@ -16,7 +17,7 @@ export interface IncomeState {
   sortedIncomes: IncomesWithImportDate[] | null,
   sortedOutcomes: OutcomesWithFinanceMethod[] | null,
   dbIncomes: IncomesWithImportDate[] | null,
-  dbOutcomes: OutcomesWithFinanceMethod[] | null,
+  dbOutcomes: OutcomesWithEvent[] | null,
   codes: ApprovedEvent[] | null,
   importDates: string[] | null;
 };

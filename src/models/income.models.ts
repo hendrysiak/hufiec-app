@@ -41,6 +41,12 @@ export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
 export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   outcomeCategory: OutcomeCategory;
   foundingSources: FoundingSources;
+  team: string;
+}
+
+export interface OutcomesWithEvent extends OutcomesWithData {
+  event: string | null;
+  bilingNr: string | null;
 }
 
 export interface IncomePurpose {
