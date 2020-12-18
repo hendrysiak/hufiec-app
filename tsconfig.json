@@ -22,7 +22,7 @@
     "jsx": "react",
     "baseUrl": "src",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src",

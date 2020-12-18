@@ -33,7 +33,7 @@ const Edit = () => {
   const [foundingSources, setFoundingSources] = useState([]);
   const [outcomeCategory, setOutcomeCategory] = useState([]);
 
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(new Date('2020-11-25'));
 
   //filters
   const [event, setEvent] = useState('');
@@ -42,8 +42,8 @@ const Edit = () => {
   const [category, setCategory] = useState('');
 
 
-  const [incomesInDb, setIncomesInDb] = useState([])
-  const [outcomesInDb, setOutcomesInDb] = useState([])
+  const [incomesInDb, setIncomesInDb] = useState([]);
+  const [outcomesInDb, setOutcomesInDb] = useState([]);
 
   const [changesToSave, setChangesToSave] = useState(false);
 
@@ -60,9 +60,9 @@ const Edit = () => {
 
       setFoundingSources(foundingSources.data);
       setOutcomeCategory(outcomeCategory.data);
-    }
+    };
     downloadData();
-  },[])
+  },[]);
 
   useEffect(() => {
     dbIncomes && setIncomesInDb(dbIncomes);
@@ -89,43 +89,43 @@ const Edit = () => {
       if (founding !== '' && i.foundingSource !== founding) return false;
       if (category !== '' && i.outcomeCategory !== event) return false;
       return true;
-    })
+    });
     setDisplayedOutcome(filteredOutcomes);
   },[event, team, founding, category, selectedDate, dbOutcomes, useDate]);
 
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
-  },[importDates])
+  },[importDates]);
 
   const useStyles = makeStyles((theme) => ({
     dayWithDotContainer: {
-        position: 'relative'
+      position: 'relative'
     },
     dayWithDot: {
-        position: 'absolute',
-        height: 0,
-        width: 0,
-        border: '2px solid',
-        borderRadius: 4,
-        borderColor: theme.palette.primary.main,
-        right: '50%',
-        transform: 'translateX(1px)',
-        top: '80%'
+      position: 'absolute',
+      height: 0,
+      width: 0,
+      border: '2px solid',
+      borderRadius: 4,
+      borderColor: theme.palette.primary.main,
+      right: '50%',
+      transform: 'translateX(1px)',
+      top: '80%'
     }
-}))
+}));
 
-const classes = useStyles()
+  const classes = useStyles();
 
-const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) => {
-  if (importDates && importDates.includes(date.toLocaleString().split(',')[0])) {
+  const renderDayInPicker = (date, selectedDate, dayInCurrentMonth, dayComponent) => {
+    if (importDates && importDates.includes(date.toLocaleString().split(',')[0])) {
       return (<div className={classes.dayWithDotContainer}>
-          {dayComponent}
-          <div className={classes.dayWithDot}/>
-      </div>)
-  }
+        {dayComponent}
+        <div className={classes.dayWithDot}/>
+      </div>);
+    }
 
-  return dayComponent    
-}
+    return dayComponent    ;
+  }
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
