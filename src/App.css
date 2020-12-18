@@ -6,7 +6,7 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    background-color: #8a8a8a;
+    background-color: #F4EEEB;
     width: 100%;
     min-height: 100vh;
 }
@@ -19,15 +19,34 @@
 .nav {
     position: fixed;
     height: 100%;
-    width: 10vw;
+    width: 15vw;
+    min-width: 300px;
     top: 0px;
-    left: 0px;
-    background-color: rgba(92, 56, 150, 1);
-    box-shadow: #8a8a8a;
+    transform: translateX(-100%);
+    background-color: rgba(54, 33, 94, 1);
+    box-shadow: 4px 5px #8d8d8d;
+    transition-duration: .5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.nav--active {
+    transform: translateX(0%);
+}
+.nav__open {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    color:white;
+    background-color: rgba(54, 33, 94, 1);
+    top: 0px;
+    right: -9%;
+    cursor: pointer;
+    box-shadow: 2px 2px #8d8d8d;
 }
 
 .nav__active {
-    background-color: rgba(54, 33, 94, 1);
+    background-color:rgba(92, 56, 150, 1);
 }
 
 main {
@@ -74,4 +93,35 @@ main {
     position: absolute;
     top: 50px;
     right: 50px;
+}
+
+.event-approbal__paper {
+    width: 20vw;
+    height: 10vh;
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+}
+
+.biling__modal--add-outcome {
+    margin: 20vh auto auto auto;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.biling__modal--add-outcome > button {
+    margin: 16px;
+}
+
+.biling__modal--account {
+    width: 60%;
+    height: 60%;
+    margin: 20vh auto auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

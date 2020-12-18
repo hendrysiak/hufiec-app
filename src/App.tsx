@@ -35,13 +35,12 @@ const App = (): JSX.Element => {
       await getImportDates();
     };
     downloadData();
-    store.dispatch(actions.loadingEnd());
+    store.dispatch(actions.reduxLoadingEnd());
   },[]);
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
   const AddCode = React.lazy(() => import( './pages/AddCode/AddCode'));
-  const Teams = React.lazy(() => import( './pages/Teams/Teams'));
   const Team = React.lazy(() => import( './pages/Team/Team'));
   const ForCoders = React.lazy(() => import( './pages/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import( './pages/EventBilling/EventBilling'));
@@ -61,7 +60,6 @@ const App = (): JSX.Element => {
       {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
       <Route exact path="/codes" render={() => <Codes />} />
       <Route exact path="/add-code" render={() => <AddCode/>} />
-      <Route exact path="/teams" render={() => <Teams />} />
       {/* <Route exact path="/:teamId" render={() => <Team />} /> */}
       <Route exact path="/add-approval" render={() => <EventApproval />} />
       <Route exact path="/add-billing" render={() => <EventBilling />} />

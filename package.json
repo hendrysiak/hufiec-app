@@ -22,6 +22,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
+<<<<<<< HEAD
+=======
+    "redux-devtools-extension": "^2.13.8",
+>>>>>>> master
     "redux-thunk": "^2.3.0",
     "typescript": "~4.0.2"
   },
@@ -81,6 +85,7 @@
     "babel-preset-react-app": "^9.1.2",
     "babel-preset-react-optimize": "^1.0.1",
     "cross-env": "^7.0.2",
+    "css-loader": "^3.5.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-typescript": "^9.0.0",
@@ -91,7 +96,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.0",
-    "css-loader": "^3.5.0",
     "husky": "3.0.8",
     "lint-staged": "^10.2.11",
     "prettier": "^2.1.1",

@@ -1,9 +1,0 @@
-.StatusInfo {
-    padding: 10px;
-    position: fixed;
-    background-color: rgb(207, 207, 66);
-    color: black;
-    right: 2vw;
-    bottom: 5vh;
-    z-index: 1;
-}

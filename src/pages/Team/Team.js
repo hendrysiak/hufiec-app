@@ -8,9 +8,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
 
-// const cla
+import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -18,14 +17,14 @@ import {
   useLocation
 } from 'react-router-dom';
 
+
 import Tooltips from 'components/Tooltips/Tooltips';
+import axios from 'axios-income';
 
-import axios from '../../axios-income';
+import ListContainer from 'shared/ListContainer/ListContainer';
+import ListEl from 'shared/ListEl/ListEl';
 
-import ListContainer from '../../components/ListContainer/ListContainer';
-import ListEl from '../../components/ListEl/ListEl';
-
-import store from '../../store/store';
+import store from 'store/store';
 
 import MembersTable from './MembersTable/MembersTable';
 

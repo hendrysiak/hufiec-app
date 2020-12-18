@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         {props.cash}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        wszystkich wpływów
+        do rozliczenia
       </Typography>
       <div>
         <Link color="primary" href="/codes">
