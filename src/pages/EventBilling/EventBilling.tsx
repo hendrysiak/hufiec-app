@@ -113,7 +113,7 @@ const EventBilling = (): JSX.Element => {
       importDate: new Date().toLocaleString().split(',')[0],
       financeMethod: FinanceMethod.Cash,
       foundingSources: FoundingSources.Other,
-      outcomeCategory: OutcomeCategory.Materials
+      outcomeCategory: OutcomeCategory.Materials,
     };
 
     setUsedOutcomes([...usedOutcomes, newCachOutcome]);
@@ -132,6 +132,10 @@ const EventBilling = (): JSX.Element => {
     outcomeToUpdate.splice(index, 1);
 
     setUsedOutcomes(outcomeToUpdate);
+  };
+
+  const handleSaveOutcome = () => {
+    console.log(usedOutcomes);
   };
 
   const cashToDisplay 
@@ -240,6 +244,7 @@ const EventBilling = (): JSX.Element => {
                   editedIndex={editedIndex}
                   onEdit={setEditedIndex}
                   onDelete={handleDeleteOutcome}
+                  saveHandler={handleSaveOutcome}
                 />
               </Grid>
               <Grid item xs={1}>

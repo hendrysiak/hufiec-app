@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from '@material-ui/core';
+import { Button, IconButton, Tooltip } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,6 +14,7 @@ import { OutcomesWithEvent } from 'models/income.models';
 
 
 import EditableRow from './EditableRow';
+import { Alert } from '@material-ui/lab';
 
 type Props = {
   editedIndex: number;
@@ -22,6 +23,7 @@ type Props = {
   onClose: () => void;
   onEdit: (index: number) => void;
   onDelete: (index: number) => void;
+  saveHandler: () => void;
 }
 
 const EventOutcomes = (props: Props): JSX.Element => {
@@ -30,6 +32,8 @@ const EventOutcomes = (props: Props): JSX.Element => {
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
         {'Rozliczenie imprezy'}
       </Typography>
+      {/* <Alert severity="warning">Masz niezapisane w bazie zmiany</Alert> */}
+
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -97,6 +101,7 @@ const EventOutcomes = (props: Props): JSX.Element => {
           ))}
         </TableBody>
       </Table>
+      <Button variant="contained" color="primary" onClick={() => props.saveHandler()}>Zapisz zmiany do bazy</Button>
     </>
   );
 };

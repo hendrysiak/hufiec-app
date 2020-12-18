@@ -25,6 +25,9 @@ export interface IncomesWithYear extends IncomesWithPerson {
 export interface IncomesWithImportDate extends IncomesWithYear {
   importDate: string | null;
 }
+export interface IncomesDb extends IncomesWithImportDate {
+  id: string | null;
+}
 //////////////////////////////////
 export interface OutcomesBankModel extends IObjectKeys{
   cash: number;
@@ -47,6 +50,10 @@ export interface OutcomesWithData extends OutcomesWithFinanceMethod {
 export interface OutcomesWithEvent extends OutcomesWithData {
   event: string | null;
   bilingNr: string | null;
+}
+
+export interface OutcomesDb extends OutcomesWithEvent {
+  id: string | null;
 }
 
 export interface IncomePurpose {

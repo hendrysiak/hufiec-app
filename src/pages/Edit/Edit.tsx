@@ -227,7 +227,7 @@ const Edit = (): JSX.Element => {
         team: data.team as string,
         title: 'Przychód dodany ręcznie',
         year: currentDate.getFullYear(),
-        dateOfBook: data.dateOfBook
+        dateOfBook: data.dateOfBook,
       };
 
       incomeToEdit.push(newIncome);

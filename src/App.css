@@ -20,6 +20,7 @@
     position: fixed;
     height: 100%;
     width: 15vw;
+    min-width: 300px;
     top: 0px;
     transform: translateX(-100%);
     background-color: rgba(54, 33, 94, 1);
