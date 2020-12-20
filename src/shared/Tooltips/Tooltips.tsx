@@ -1,37 +1,28 @@
 import React from 'react';
 
+import { Person } from 'models/registry.models';
 import Form from 'shared/Form/Form';
 import TeamFinanses from 'shared/TeamFinanses/TeamFinanses';
 import TeamPage from 'shared/TeamPage/TeamPage';
-import './style.css';
+
+import classes from './Tooltips.module.css';
 
 
-interface IMember {
-  id: number | string, 
-  lp: number | string,
-  name: string,
-  surname: string,
-  cash: number,
-  event: string,
-  importDate: string,
-  team: string,
-  title: string,
-  year: number,
-}
 interface IProps {
-  icon: string,
-  members: IMember[];
-  // payment: IMember[],
-  incomes: number,
+  icon?: string,
+  members: Person[];
+  incomes: number | null,
+  currentTeam: string;
 }
 
-const Tooltips = ({ members, incomes }: IProps) => {
+const Tooltips = ({ members, incomes, currentTeam }: IProps) => {
+  console.log(incomes);
   return (
     <>
-      <div className="tooltips">
-        <TeamPage members={members} icon="M"/>
-        <Form title="WYŚLIJ ZGŁOSZENIE" icon="F"/>
-        <TeamFinanses incomes={incomes} icon="K"/>
+      <div className={classes.tooltips}>
+        <TeamPage members={members}/>
+        <Form title="WYŚLIJ ZGŁOSZENIE"/>
+        <TeamFinanses incomes={incomes} currentTeam={currentTeam}/>
       </div>
     </>
   );

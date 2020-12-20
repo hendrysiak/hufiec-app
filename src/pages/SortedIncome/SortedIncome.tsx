@@ -31,8 +31,8 @@ const SortedIncome = (): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
     
-  const [ currentTeam, setCurrentTeam ] = useState('6673');
-  const [ displayedIncome, setDisplayedIncome ] = useState<IncomesWithImportDate[]>([]);
+  const [currentTeam, setCurrentTeam] = useState('6673');
+  const [displayedIncome, setDisplayedIncome] = useState<IncomesWithImportDate[]>([]);
   const [codes, setCodes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 

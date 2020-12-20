@@ -1,9 +1,10 @@
 import Modal from '@material-ui/core/Modal';
-import './style.css';
+import MailIcon from '@material-ui/icons/Mail';
 import React, { useState } from 'react';
 
+import classes from './Form.module.css';
 
-const Form = ({title, icon}: {title: string, icon: string}): JSX.Element => {
+const Form = ({title }: {title: string }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -16,9 +17,7 @@ const Form = ({title, icon}: {title: string, icon: string}): JSX.Element => {
 
   return (
     <>
-      <button type="button" onClick={handleOpen}>
-        {icon}
-      </button>
+      <MailIcon onClick={handleOpen} style={{fontSize: 26, color: 'white', cursor: 'pointer'}}/>
       <Modal
         open={isOpen}
         onClose={handleClose}
@@ -26,11 +25,11 @@ const Form = ({title, icon}: {title: string, icon: string}): JSX.Element => {
         aria-describedby="simple-modal-description"
       >
         <>
-          <form className="errorReport">
+          <form className={`${classes.positionModal}`}>
             <h1>{title}</h1>
-            <label htmlFor="input"><input id="input" type="text" placeholder="WPISZ TEMAT"/></label>
-            <textarea name="report" cols={30} rows={10} placeholder="WPISZ TREŚĆ ZGŁOSZENIA"></textarea>
-            <button>Wyślij</button>
+            <label className={classes.label} htmlFor="input"><input className={classes.input} id="input" type="text" placeholder="WPISZ TEMAT"/></label>
+            <textarea className={classes.textarea} name="report" cols={30} rows={10} placeholder="WPISZ TREŚĆ ZGŁOSZENIA"></textarea>
+            <button className={classes.button}>Wyślij</button>
           </form>
         </>
       </Modal>

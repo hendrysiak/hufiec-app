@@ -14,3 +14,19 @@
   width: 100%;
   display: flex;
 }
+
+
+.loadingInfo {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+}
+
+.datePicker {
+  width: 30%;
+}
+
