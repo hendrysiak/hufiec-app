@@ -29,6 +29,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 2;
+
 }
 .nav--active {
     transform: translateX(0%);
@@ -38,7 +40,7 @@
     height: 30px;
     position: absolute;
     color:white;
-    background-color: rgba(54, 33, 94, 1);
+    background-color: rgba(54, 33, 94, 100%);
     top: 0px;
     right: -9%;
     cursor: pointer;
@@ -46,7 +48,7 @@
 }
 
 .nav__active {
-    background-color:rgba(92, 56, 150, 1);
+    background-color:rgba(92, 56, 150, 100%);
 }
 
 main {
