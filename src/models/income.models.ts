@@ -1,8 +1,5 @@
 import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
-
-interface IObjectKeys {
-  [key: string]: string | number | null;
-}
+import { IObjectKeys } from './object.helper.model';
 
 export interface IncomesBankModel extends IObjectKeys {
   cash: number;
@@ -25,8 +22,8 @@ export interface IncomesWithYear extends IncomesWithPerson {
 export interface IncomesWithImportDate extends IncomesWithYear {
   importDate: string | null;
 }
-export interface IncomesDb extends IncomesWithImportDate {
-  id: string | null;
+export interface IncomeDb extends IncomesWithImportDate {
+  id: string;
 }
 //////////////////////////////////
 export interface OutcomesBankModel extends IObjectKeys{
@@ -52,8 +49,8 @@ export interface OutcomesWithEvent extends OutcomesWithData {
   bilingNr: string | null;
 }
 
-export interface OutcomesDb extends OutcomesWithEvent {
-  id: string | null;
+export interface OutcomeDb extends OutcomesWithEvent {
+  id: string;
 }
 
 export interface IncomePurpose {

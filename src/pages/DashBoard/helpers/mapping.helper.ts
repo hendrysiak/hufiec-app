@@ -1,8 +1,8 @@
-import { IncomesDb, OutcomesDb } from 'models/income.models';
+import { IncomeDb, OutcomeDb } from 'models/income.models';
 
 export const mappingDbEntriesToRedux = (
-  object: Record<string, IncomesDb | OutcomesDb>
-): (IncomesDb | OutcomesDb)[] => {
+  object: Record<string, IncomeDb | OutcomeDb>
+): (IncomeDb | OutcomeDb)[] => {
 
   const output = [];
 

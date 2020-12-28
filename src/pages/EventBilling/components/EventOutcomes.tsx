@@ -7,23 +7,20 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
+import { Alert } from '@material-ui/lab';
 import React from 'react';
 
-
-import { OutcomesWithEvent } from 'models/income.models';
-
+import { OutcomeDb } from 'models/income.models';
 
 import EditableRow from './EditableRow';
-import { Alert } from '@material-ui/lab';
 
 type Props = {
   editedIndex: number;
-  rows: OutcomesWithEvent[];
+  rows: OutcomeDb[];
   onChange: (index: number, data: { key: string, value: string | number }) => void;
   onClose: () => void;
   onEdit: (index: number) => void;
-  onDelete: (index: number) => void;
-  saveHandler: () => void;
+  onDelete: (id: string) => void;
 }
 
 const EventOutcomes = (props: Props): JSX.Element => {
@@ -67,7 +64,7 @@ const EventOutcomes = (props: Props): JSX.Element => {
                 <TableCell>
                   <Tooltip title="Usuń koszt" aria-label="add-team">
                     <IconButton>
-                      <DeleteForeverIcon onClick={() => props.onDelete(index)}/>
+                      <DeleteForeverIcon onClick={() => props.onDelete(row.id)}/>
                     </IconButton>
                   </Tooltip>
                 </TableCell>
@@ -91,7 +88,7 @@ const EventOutcomes = (props: Props): JSX.Element => {
                 <TableCell>
                   <Tooltip title="Usuń koszt" aria-label="add-team">
                     <IconButton>
-                      <DeleteForeverIcon onClick={() => props.onDelete(index)}/>
+                      <DeleteForeverIcon onClick={() => props.onDelete(row.id)}/>
                     </IconButton>
                   </Tooltip>
                 </TableCell>
@@ -101,7 +98,6 @@ const EventOutcomes = (props: Props): JSX.Element => {
           ))}
         </TableBody>
       </Table>
-      <Button variant="contained" color="primary" onClick={() => props.saveHandler()}>Zapisz zmiany do bazy</Button>
     </>
   );
 };
