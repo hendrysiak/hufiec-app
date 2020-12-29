@@ -18,7 +18,7 @@ type Props = {
   editedIndex: number;
   rows: OutcomeDb[];
   onChange: (index: number, data: { key: string, value: string | number }) => void;
-  onClose: () => void;
+  onClose: (index: number) => void;
   onEdit: (index: number) => void;
   onDelete: (id: string) => void;
 }

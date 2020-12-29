@@ -96,10 +96,6 @@ const EventBilling = (): JSX.Element => {
     setModalToAddOutcomeVisibility(false);
   };
 
-  const handleClose = () => {
-    setEditedIndex(-1);
-  };
-
   const handleAddCashOutcomeToBiling = (): void => {
     const newCashOutcome: OutcomesWithEvent = {
       bilingNr: null,
@@ -119,10 +115,14 @@ const EventBilling = (): JSX.Element => {
 
   const handleEditOutcome = (index: number, data: { key: string, value: string | number }) => {
     const outcomeToUpdate = [...usedOutcomes];
-    editOutcome(outcomeToUpdate[index]);
     outcomeToUpdate[index][data.key] = data.value;
-
+    
     setUsedOutcomes(outcomeToUpdate);
+  };
+
+  const handleClose = (index: number): void => {
+    editOutcome(usedOutcomes[index]);
+    setEditedIndex(-1);
   };
 
   const handleDeleteOutcome = (id: string) => {

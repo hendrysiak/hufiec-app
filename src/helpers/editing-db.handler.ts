@@ -5,7 +5,7 @@ import store from 'store/store';
 
 export const editOutcome = async (data: OutcomeDb): Promise<void> => {
   const { id, ...rest } = data;
-  await axios.put(`/outcomes/${id}`, rest);
+  await axios.put(`/outcomes/${id}.json`, rest);
   store.dispatch(reduxEditDbOutcome(data));
 };
 
@@ -25,7 +25,7 @@ export const deleteOutcome = async (id: string): Promise<void> => {
 
 export const editIncome = async (data: IncomeDb): Promise<void> => {
   const { id, ...rest } = data;
-  await axios.put(`/incomes/${id}`, rest);
+  await axios.put(`/incomes/${id}.json`, rest);
   store.dispatch(reduxEditDbIncome(data));
 };
 

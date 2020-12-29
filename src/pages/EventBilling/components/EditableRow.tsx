@@ -16,7 +16,7 @@ interface Props {
   title: string | null;
   cash: number | null;
   onChange: (index: number, data: { key: string, value: string | number }) => void;
-  onClose: () => void;
+  onClose: (index: number) => void;
 }
 
 const EditableRow = (props: Props): JSX.Element => {
@@ -26,7 +26,7 @@ const EditableRow = (props: Props): JSX.Element => {
     <>
       <TableCell>
         <Tooltip title="Dodaj drużynę" aria-label="add-team">
-          <IconButton><CloseIcon onClick={() => props.onClose()}/></IconButton>
+          <IconButton><CloseIcon onClick={() => props.onClose(props.index)}/></IconButton>
         </Tooltip>
       </TableCell>
       <TableCell>{props.index + 1}</TableCell>
