@@ -18,11 +18,9 @@ import { Alert } from '@material-ui/lab';
 
 import React, { useState } from 'react';
 
-import { Event } from 'models/codes.models';
 import { FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomesWithImportDate, OutcomesWithFinanceMethod } from 'models/income.models';
 
-import { Registry } from 'models/registry.models';
 
 import AddPositionModal from './AddPositionModal';
 import EditorModal from './EditorModal';

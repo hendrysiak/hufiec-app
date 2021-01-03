@@ -25,7 +25,7 @@ const Form = ({title }: {title: string }): JSX.Element => {
         aria-describedby="simple-modal-description"
       >
         <>
-          <form className={`${classes.positionModal}`}>
+          <form className={classes.positionModal}>
             <h1>{title}</h1>
             <label className={classes.label} htmlFor="input"><input className={classes.input} id="input" type="text" placeholder="WPISZ TEMAT"/></label>
             <textarea className={classes.textarea} name="report" cols={30} rows={10} placeholder="WPISZ TREŚĆ ZGŁOSZENIA"></textarea>

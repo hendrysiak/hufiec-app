@@ -1,5 +1,4 @@
 import Modal from '@material-ui/core/Modal';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState} from 'react';
@@ -9,18 +8,18 @@ import { Person } from 'models/registry.models';
 
 import classes from './TeamPage.module.css';
 
-interface Rows extends Person {
-  id?: string | number;
-  lp?: string | number;
+interface IRows extends Person {
+  id: string | number;
+  lp: string | number;
 }
 
-interface Props {
-  members: Rows[];
+interface IProps {
+  members: Person[];
 }
 
-const TeamPage = ({ members } : Props): JSX.Element => {
+const TeamPage = ({ members } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
-  const [rows, setRows] = useState<any>([]);
+  const [rows, setRows] = useState<IRows[]>();
   const columns = [
     { field: 'lp', headerName: 'LP', width: 80, },
     { field: 'name', headerName: 'First name', width: 150 },
@@ -36,14 +35,14 @@ const TeamPage = ({ members } : Props): JSX.Element => {
   };
 
   useEffect(() => {
-    const helper = members ? (members.map((el, index) => {
+    const rows = members ? (members.map((el, index) => {
       return ({
         ...el,
         lp: index + 1,
         id: index,
       });
     })) : ([]);
-    setRows(helper);
+    setRows(rows);
   },[members]);
 
 
@@ -57,8 +56,8 @@ const TeamPage = ({ members } : Props): JSX.Element => {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.positionModal} style={{ height: 670, width: 500, backgroundColor: 'white' }}>
-          {rows.length ? (
-            <DataGrid rows={rows} columns={columns} pageSize={10} />
+          {rows?.length ? (
+            <DataGrid rows={rows} columns={columns} pageSize={10} /> 
           ) : (
             <div>wczytywanie drużyny</div>
           )

@@ -49,6 +49,7 @@ const App = (): JSX.Element => {
   const UnAssignedIncome = React.lazy(() => import( './pages/UnAssignedIncome/UnAssignedIncome'));
   const ImportIncome = React.lazy(() => import( './pages/ImportIncome/ImportIncome'));
   const Edit = React.lazy(() => import( './pages/Edit/Edit'));
+  // const EditTeam = React.lazy(() => import( './pages/EditTeam/EditTeam'));
 
   const routes = <BrowserRouter>
 
@@ -66,6 +67,7 @@ const App = (): JSX.Element => {
       <Route exact path="/for-coders" render={() => <ForCoders/>} />
       <Route exact path="/editor" render={() => <Edit />} />
       <Route exact path={`/info/:teamId`} render={() => <Team />}/>
+      {/* <Route exact path={`/edit-team`} render={() => <EditTeam />}/> */}
     </Switch>
   </BrowserRouter>;
 

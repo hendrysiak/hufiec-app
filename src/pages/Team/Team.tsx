@@ -47,12 +47,11 @@ const Team = (): JSX.Element => {
   };
 
   useEffect(() => {
-    
     const teamtRegistry = registry && registry[currentTeam];
-    teamtRegistry && registry && setCurrentTeamRegistry(registry[currentTeam]);
-    const incomesToDisplay = dbIncomes && dbIncomes.filter(income => income.team === currentTeam);
-    setIncomeByCode(incomesToDisplay);
-  },[registry]);
+    teamtRegistry && registry && registry[currentTeam] && setCurrentTeamRegistry(registry[currentTeam]);
+    const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
+    incomesToDisplay && setIncomeByCode(incomesToDisplay);
+  },[registry, dbIncomes, currentTeam]);
 
   useEffect(() => {
     const helper = incomesByCode?.length ? (incomesByCode.map((el, index) => {
@@ -84,8 +83,26 @@ const Team = (): JSX.Element => {
     const filteredIncomes = rows && rows.filter(i => {
       if (useDate && selectedDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
-      if (event !== '' && event !== 'unAssigned' && !(i.name && i.surname && i.event && i.importDate && i.team && i.title && i.year && i.cash)) return false;
-      if (event !== '' && event === 'unAssigned' && i.name && i.surname && i.event && i.importDate && i.team && i.title && i.year && i.cash) return false;
+      if (event !== '' 
+          && event !== 'unAssigned' 
+          && !(i.name 
+              && i.surname 
+              && i.event 
+              && i.importDate 
+              && i.team 
+              && i.title 
+              && i.year 
+              && i.cash)) return false;
+      if (event !== '' 
+          && event === 'unAssigned' 
+          && i.name 
+          && i.surname 
+          && i.event 
+          && i.importDate 
+          && i.team 
+          && i.title 
+          && i.year 
+          && i.cash) return false;
       return true;
     });
     setDisplayedIncome(filteredIncomes);
@@ -111,7 +128,10 @@ const Team = (): JSX.Element => {
 
   const classes = useStyles();
 
-  const renderDayInPicker = (date: MaterialUiPickersDate, selectedDate: unknown, dayInCurrentMonth: unknown, dayComponent: JSX.Element) => {
+  const renderDayInPicker = (date: MaterialUiPickersDate, 
+    selectedDate: unknown, 
+    dayInCurrentMonth: unknown, 
+    dayComponent: JSX.Element) => {
     if (importDates && date && importDates.includes(date.toLocaleString().split(',')[0])) {
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}

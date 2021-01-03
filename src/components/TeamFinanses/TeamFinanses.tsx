@@ -14,18 +14,7 @@ import axios from 'axios-income';
 
 import classes from './TeamFinanses.module.css';
 
-interface IMember {
-  id: number | string;
-  lp: number | string;
-  name: string;
-  surname: string;
-  cash: number;
-  event: string;
-  importDate: string;
-  team: string;
-  title: string;
-  year: number;
-}
+
 interface Props {
   incomes: number | null;
   currentTeam: string;
@@ -44,9 +33,9 @@ const TeamFinanses = ({ incomes, currentTeam } : Props): JSX.Element => {
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  function createData(name: string, estate: number, expenses: number) {
+  const createData = (name: string, estate: number, expenses: number) => {
     return { name, estate, expenses};
-  }
+  };
    
   const rows = [
     createData('1%', onePercent, 99999999999999),

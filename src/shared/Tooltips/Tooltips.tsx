@@ -1,8 +1,9 @@
 import React from 'react';
 
+import Form from 'components/Form/Form';
+
+import TeamFinanses from 'components/TeamFinanses/TeamFinanses';
 import { Person } from 'models/registry.models';
-import Form from 'shared/Form/Form';
-import TeamFinanses from 'shared/TeamFinanses/TeamFinanses';
 import TeamPage from 'shared/TeamPage/TeamPage';
 
 import classes from './Tooltips.module.css';
@@ -16,7 +17,6 @@ interface IProps {
 }
 
 const Tooltips = ({ members, incomes, currentTeam }: IProps) => {
-  console.log(incomes);
   return (
     <>
       <div className={classes.tooltips}>
