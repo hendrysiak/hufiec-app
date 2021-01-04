@@ -5,31 +5,26 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 
 import List from '@material-ui/core/List';
 import Modal from '@material-ui/core/Modal';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import AddIcon from '@material-ui/icons/Add';
 
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-
 import axios from 'axios-income';
 import { ApprovedEvent } from 'models/codes.models';
-import { FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
+import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomePurpose, IncomeDb, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
 import Navigation from 'shared/Navigation/Navigation';
 
+import TableEditor from 'shared/TableEditor/TableEditor';
 import { RootState } from 'store/models/rootstate.model';
 
 import { addOutcome, deleteOutcome, editOutcome } from '../../helpers/editing-db.handler';
 
 import EventInfo from './components/EventInfo';
 
-import EventOutcomes from './components/EventOutcomes';
 import classes from './EventBilling.module.css';
 
 const EventBilling = (): JSX.Element => {
@@ -106,7 +101,7 @@ const EventBilling = (): JSX.Element => {
       dateOfBook: new Date().toLocaleString().split(',')[0],
       importDate: new Date().toLocaleString().split(',')[0],
       financeMethod: FinanceMethod.Cash,
-      foundingSources: FoundingSources.Other,
+      foundingSource: FoundingSources.Other,
       outcomeCategory: OutcomeCategory.Materials,
     };
 
@@ -234,18 +229,19 @@ const EventBilling = (): JSX.Element => {
                 {/* </Paper> */}
               </Grid>
               {/* Recent Orders */}
-              <Grid item xs={11}>
-                <EventOutcomes 
+              <Grid item xs={12}>
+                <TableEditor 
+                  editable={false}
+                  title={'Rozliczenie imprezy'}
+                  info={BudgetEntry.Outcome}
                   rows={usedOutcomes}
                   onChange={handleEditOutcome}
                   onClose={handleClose}
                   editedIndex={editedIndex}
                   onEdit={setEditedIndex}
                   onDelete={handleDeleteOutcome}
+                  onAdd={() => setModalToAddOutcomeVisibility(true)}
                 />
-              </Grid>
-              <Grid item xs={1}>
-                <Tooltip title="Dodaj wydatek do imprezy"><IconButton><AddIcon onClick={() => setModalToAddOutcomeVisibility(true)}/></IconButton></Tooltip>
               </Grid>
             </Grid>
             <Box pt={4}>

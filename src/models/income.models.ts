@@ -40,7 +40,7 @@ export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
 
 export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   outcomeCategory: OutcomeCategory;
-  foundingSources: FoundingSources;
+  foundingSource: FoundingSources;
   team: string;
 }
 
