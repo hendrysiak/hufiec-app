@@ -1,4 +1,4 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, Theme } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,7 @@ import {
 
 import { IncomesDb, IncomesWithImportDate } from 'models/income.models';
 import { Person } from 'models/registry.models';
-import Tooltips from 'shared/Tooltips/Tooltips';
+import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
@@ -24,7 +24,6 @@ const Team = (): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
-  // const [editedData, setEditedData] = useState<string>('income');
   const [displayedIncome, setDisplayedIncome] = useState<IncomesDb[]>([]);
   
   const [event, setEvent] = useState<string>('');
@@ -47,8 +46,8 @@ const Team = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const teamtRegistry = registry && registry[currentTeam];
-    teamtRegistry && registry && registry[currentTeam] && setCurrentTeamRegistry(registry[currentTeam]);
+    const teamRegistry = registry && registry[currentTeam];
+    teamRegistry && setCurrentTeamRegistry(teamRegistry);
     const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
   },[registry, dbIncomes, currentTeam]);
@@ -65,7 +64,7 @@ const Team = (): JSX.Element => {
     const sum = incomesByCode && incomesByCode
       .filter(income => income.event === 'SC')
       .reduce((sum: number, income) => sum + income.cash ,0); 
-
+      
     setIncomesSC(sum);
   },[incomesByCode]);
 
@@ -109,7 +108,7 @@ const Team = (): JSX.Element => {
 
   },[event, selectedDate, incomesByCode, useDate, rows]);
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
       position: 'relative'
     },
@@ -152,7 +151,7 @@ const Team = (): JSX.Element => {
               style={{ marginTop: '16px' }}
               label="Po wydarzeniu"
               value={event}
-              onChange={(e) => setEvent(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
               // placeholder="Wybierz kod z listy"
               select={true}
               size="small"

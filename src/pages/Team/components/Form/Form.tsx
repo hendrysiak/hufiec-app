@@ -18,7 +18,7 @@ const Form = ({title }: {title: string }): JSX.Element => {
 
   return (
     <>
-      <MailIcon onClick={handleOpen} style={{fontSize: 26, color: 'white', cursor: 'pointer'}}/>
+      <MailIcon onClick={handleOpen} />
       <Modal
         open={isOpen}
         onClose={handleClose}

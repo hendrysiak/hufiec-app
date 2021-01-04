@@ -48,7 +48,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
 
   return (
     <>
-      <AssignmentIcon onClick={handleOpen} style={{fontSize: 26, color: 'white', cursor: 'pointer'}}/>
+      <AssignmentIcon onClick={handleOpen}/>
       <Modal
         open={isOpen}
         onClose={handleClose}

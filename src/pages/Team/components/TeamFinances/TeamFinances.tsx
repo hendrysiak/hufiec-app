@@ -12,7 +12,7 @@ import React, {useEffect } from 'react';
 
 import axios from 'axios-income';
 
-import classes from './TeamFinanses.module.css';
+import classes from './TeamFinances.module.css';
 
 
 interface Props {
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TeamFinanses = ({ incomes, currentTeam } : Props): JSX.Element => {
+const TeamFinances = ({ incomes, currentTeam } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
   const classe = useStyles();
@@ -38,8 +38,8 @@ const TeamFinanses = ({ incomes, currentTeam } : Props): JSX.Element => {
   };
    
   const rows = [
-    createData('1%', onePercent, 99999999999999),
-    createData('SKŁADKI', (incomes ? incomes / 5 : 0), 999999999999999),
+    createData('1%', onePercent, 99),
+    createData('SKŁADKI', (incomes ? incomes / 5 : 0), 99),
   ];
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const TeamFinanses = ({ incomes, currentTeam } : Props): JSX.Element => {
 
   return (
     <>
-      <AttachMoneyIcon onClick={handleOpen} style={{fontSize: 26, color: 'white', cursor: 'pointer'}}/>
+      <AttachMoneyIcon onClick={handleOpen} />
       <Modal
         open={isOpen}
         onClose={handleClose}
@@ -101,4 +101,4 @@ const TeamFinanses = ({ incomes, currentTeam } : Props): JSX.Element => {
   );
 };
 
-export default TeamFinanses;
+export default TeamFinances;
