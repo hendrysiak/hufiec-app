@@ -1,0 +1,32 @@
+.container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.filters {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+}
+
+
+.loadingInfo {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+}
+
+.datePicker {
+  width: 30%;
+}
+
