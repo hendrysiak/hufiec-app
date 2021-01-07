@@ -16,7 +16,7 @@ import TableEditor from 'shared/TableEditor/TableEditor';
 
 import { RootState } from 'store/models/rootstate.model';
 
-import { getTeamsWithAccountState } from '../DashBoard/api-handlers/account.handler';
+import { getAccountState } from '../DashBoard/api-handlers/account.handler';
 
 const Edit = (): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
@@ -144,14 +144,14 @@ const Edit = (): JSX.Element => {
   const saveIncome = async () => {
     await axios.put('/incomes.json', incomesInDb);
     await axios.put('/importDates.json', editedImportDates);
-    await getTeamsWithAccountState();
+    await getAccountState();
     setChangesToSave(false);
   };
 
   const saveOutcome = async () => {
     await axios.put('/outcomes.json', outcomesInDb);
     await axios.put('/importDates.json', editedImportDates);
-    await getTeamsWithAccountState();
+    await getAccountState();
     setChangesToSave(false);
   };
 

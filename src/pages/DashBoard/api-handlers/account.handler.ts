@@ -1,5 +1,5 @@
 import axios from 'axios-income';
-import { IncomesDb, OutcomesDb } from 'models/income.models';
+import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { 
   reduxGetAccountState, 
   reduxGetCodes, 
@@ -11,7 +11,7 @@ import store from 'store/store';
 
 import { mappingDbEntriesToRedux } from '../helpers/mapping.helper';
 
-export const getTeamsWithAccountState = async (): Promise<void> => {
+export const getAccountState = async (): Promise<void> => {
   const incomes = await axios.get('/incomes.json');
   const outcomes = await axios.get('/outcomes.json');
 
@@ -20,8 +20,8 @@ export const getTeamsWithAccountState = async (): Promise<void> => {
   
   
   store.dispatch(reduxGetAccountState(
-    incomesToHandler as IncomesDb[], 
-    outcomesToHandler as OutcomesDb[]
+    incomesToHandler as IncomeDb[], 
+    outcomesToHandler as OutcomeDb[]
   ));
 };
 

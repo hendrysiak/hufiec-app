@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { 
-  getTeamsWithAccountState, 
+  getAccountState, 
   getCodes, 
   getRegistry, 
   getImportDates 
@@ -29,7 +29,7 @@ const App = (): JSX.Element => {
   useEffect(() => {
     // store.dispatch(actions.loadingStart);
     const downloadData = async () => {
-      await getTeamsWithAccountState();
+      await getAccountState();
       await getCodes();
       await getRegistry();
       await getImportDates();

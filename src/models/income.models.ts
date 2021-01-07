@@ -1,46 +1,47 @@
 import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
-
-interface IObjectKeys {
-  [key: string]: string | number | null;
-}
+import { IObjectKeys } from './object.helper.model';
 
 export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: string;
 };
+
 export interface IncomesWithTeam extends IncomesBankModel {
   team: string | null;
 }
+
 export interface IncomesWithEvent extends IncomesWithTeam {
   event: string | null;
 }
+
 export interface IncomesWithPerson extends IncomesWithEvent {
   name: string | null;
   surname: string | null;
 }
+
 export interface IncomesWithYear extends IncomesWithPerson {
   year: number | null;
 }
+
 export interface IncomesWithImportDate extends IncomesWithYear {
   importDate: string | null;
 }
-export interface IncomesDb extends IncomesWithImportDate {
-  id: string | number;
-}
-// export interface IncomesDbRows extends IncomesWithImportDate {
-//   id: string | number;
-// }
 
-//////////////////////////////////
+export interface IncomeDb extends IncomesWithImportDate {
+  id: string;
+}
+
 export interface OutcomesBankModel extends IObjectKeys{
   cash: number;
   title: string;
   dateOfBook: string;
 };
+
 export interface OutcomesWithImportDate extends OutcomesBankModel{
   importDate: string | null;
 };
+
 export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
   financeMethod: FinanceMethod
 };
@@ -56,8 +57,8 @@ export interface OutcomesWithEvent extends OutcomesWithData {
   bilingNr: string | null;
 }
 
-export interface OutcomesDb extends OutcomesWithEvent {
-  id: string | null;
+export interface OutcomeDb extends OutcomesWithEvent {
+  id: string;
 }
 
 export interface IncomePurpose {

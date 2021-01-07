@@ -1,9 +1,9 @@
 import { ApprovedEvent } from 'models/codes.models';
-import { IncomesBankModel, IncomesWithImportDate, OutcomesWithEvent, OutcomesWithFinanceMethod } from 'models/income.models';
+import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
 import { Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
-import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount } from './action.types';
+import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome } from './action.types';
 
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {
@@ -28,8 +28,8 @@ export const reduxGetCodesWithTeams = (codes: ApprovedEvent[]): GetCodesWithTeam
 };
 
 export const reduxGetAccountState = (
-  incomes: IncomesWithImportDate[], 
-  outcomes: OutcomesWithEvent[]
+  incomes: IncomeDb[], 
+  outcomes: OutcomeDb[]
 ): GetAccountState => {
 
   return {
@@ -57,6 +57,48 @@ export const reduxEditIncome = (income: IncomesBankModel[]): EditIncome => {
   return {
     type: ActionTypes.EDIT_INCOME,
     income
+  };
+};
+
+export const reduxEditDbIncome = (income: IncomeDb): EditDbIncome => {
+  return {
+    type: ActionTypes.EDIT_DB_INCOME,
+    income
+  };
+};
+
+export const reduxEditDbOutcome = (outcome: OutcomeDb): EditDbOutcome => {
+  return {
+    type: ActionTypes.EDIT_DB_OUTCOME,
+    outcome
+  };
+};
+
+export const reduxAddDbIncome = (income: IncomeDb): AddDbIncome => {
+  return {
+    type: ActionTypes.ADD_DB_INCOME,
+    income
+  };
+};
+
+export const reduxAddDbOutcome = (outcome: OutcomeDb): AddDbOutcome => {
+  return {
+    type: ActionTypes.ADD_DB_OUTCOME,
+    outcome
+  };
+};
+
+export const reduxDeleteDbIncome = (id: string): DeleteDbIncome => {
+  return {
+    type: ActionTypes.DELETE_DB_INCOME,
+    id
+  };
+};
+
+export const reduxDeleteDbOutcome = (id: string): DeleteDbOutcome => {
+  return {
+    type: ActionTypes.DELETE_DB_OUTCOME,
+    id
   };
 };
 
