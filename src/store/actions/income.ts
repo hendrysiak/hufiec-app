@@ -1,9 +1,9 @@
 import { ApprovedEvent } from 'models/codes.models';
 import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
-import { Registry } from 'models/registry.models';
+import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
-import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome } from './action.types';
+import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember } from './action.types';
 
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {
@@ -112,5 +112,23 @@ export const reduxAssignOutcomesToAccount = (outcomes: OutcomesWithFinanceMethod
   return {
     type: ActionTypes.ASSIGN_OUTCOME_TO_ACCOUNT,
     outcomes
+  };
+};
+export const reduxAddMember = (member: APIPerson): AddMember => {
+  return {
+    type: ActionTypes.ADD_MEMBER,
+    member
+  };
+};
+export const reduxEditMember = (member: APIPerson): EditMember => {
+  return {
+    type: ActionTypes.EDIT_MEMBER,
+    member
+  };
+};
+export const reduxDeleteMember = (member: APIPerson): DeleteMember => {
+  return {
+    type: ActionTypes.DELETE_MEMBER,
+    member
   };
 };

@@ -1,6 +1,6 @@
 import { ApprovedEvent } from 'models/codes.models';
 import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
-import { Registry } from 'models/registry.models';
+import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
 
@@ -88,6 +88,21 @@ export interface AssignOutcomesToAccount {
   outcomes: OutcomesWithFinanceMethod[];
 };
 
+export interface AddMember {
+  type: ActionTypes.ADD_MEMBER;
+  member: APIPerson;
+}
+
+export interface EditMember {
+  type: ActionTypes.EDIT_MEMBER;
+  member: APIPerson;
+}
+
+export interface DeleteMember {
+  type: ActionTypes.DELETE_MEMBER;
+  member: APIPerson;
+}
+
 export type ActionType = 
 | LoadingEnd
 | LoadingStart
@@ -106,3 +121,6 @@ export type ActionType =
 | DeleteDbOutcome
 | AssignIncomesToAccount 
 | AssignOutcomesToAccount
+| AddMember
+| EditMember
+| DeleteMember

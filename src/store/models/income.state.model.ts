@@ -13,7 +13,7 @@ import { Registry } from 'models/registry.models';
 export interface IncomeState {
   error: boolean | null,
   initIncome: IncomesBankModel[] | null,
-  registry: Registry | null,
+  registry: Registry,
   assignedIncome: null,
   sortedIncomes: IncomesWithImportDate[] | null,
   sortedOutcomes: OutcomesWithFinanceMethod[] | null,

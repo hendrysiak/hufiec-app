@@ -1,3 +1,4 @@
+import { APIPerson } from 'models/registry.models';
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
 
@@ -6,7 +7,7 @@ import { IncomeState } from 'store/models/income.state.model';
 const initialState: IncomeState = {
   error: null,
   initIncome: null,
-  registry: null,
+  registry: {},
   assignedIncome: null,
   sortedIncomes: null,
   sortedOutcomes: null,
@@ -77,7 +78,6 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
       };
 
     case ActionTypes.ADD_DB_OUTCOME:
-      console.log('Dodaję');
       return {
         ...state,
         dbOutcomes: [...state.dbOutcomes, action.outcome]
@@ -120,6 +120,46 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
         ...state,
         importDates: action.importDates
       };
+
+    case ActionTypes.ADD_MEMBER:
+      if (action.member.team) {
+        const teamAfterAdd = [...state.registry[action.member.team]];
+        return {
+          ...state,
+          registry: { ...state.registry, [action.member.team]: [...teamAfterAdd, action.member] }
+        };
+
+      } else throw Error('Błąd z drużyną');
+
+    case ActionTypes.EDIT_MEMBER:
+      if (action.member.team) {
+        const teamAfterEdit = [...state.registry[action.member.team]];
+        const indexOfUpdatedMember 
+          = teamAfterEdit.findIndex((m: APIPerson) => m.id === action.member.id);
+
+        if (indexOfUpdatedMember) teamAfterEdit[indexOfUpdatedMember] = { ...action.member };
+
+        return {
+          ...state,
+          registry: { ...state.registry, [action.member.team]: [...teamAfterEdit] }
+        };
+
+      } else throw Error('Błąd z drużyną');
+
+    case ActionTypes.DELETE_MEMBER:
+      if (action.member.team) {
+        const teamAfterDelete = [...state.registry[action.member.team]];
+        const indexOfDeletedMember 
+          = teamAfterDelete.findIndex((m: APIPerson) => m.id === action.member.id);
+        
+        return {
+          ...state,
+          registry: { 
+            ...state.registry, 
+            [action.member.team]: [...teamAfterDelete.splice(indexOfDeletedMember, 1)] }
+        };
+
+      } else throw Error('Błąd z drużyną');
 
     default:
       return state;
