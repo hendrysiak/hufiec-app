@@ -1,8 +1,10 @@
-export type Person = {
+import { IObjectKeys } from './object.helper.model';
+
+export interface Person extends IObjectKeys {
   name: string;
   surname: string;
   dateOfAdd?: string;
-  dateOfDelete?: string;
+  dateOfDelete?: string | null;
   team?: string;
 };
 

@@ -70,8 +70,6 @@ export const deleteTeamMember = async (team: string, person: APIPerson): Promise
   const mappedPerson = { ...person, team };
 
   axios.delete(`/registry/${team}/${person.id}.json`); 
-  
+
   store.dispatch(reduxDeleteMember(mappedPerson));
 };
-
-

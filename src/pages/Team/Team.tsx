@@ -11,7 +11,7 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import { IncomesDb, IncomesWithImportDate } from 'models/income.models';
+import { IncomeDb, IncomesWithImportDate } from 'models/income.models';
 import { Person } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { RootState } from 'store/models/rootstate.model';
@@ -24,18 +24,18 @@ const Team = (): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
-  const [displayedIncome, setDisplayedIncome] = useState<IncomesDb[]>([]);
+  const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<Person[]>([]);
-  const [incomesByCode, setIncomeByCode] = useState<IncomesWithImportDate[] | null>([]); 
+  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
   
   const [incomesSC, setIncomesSC] = useState<number | null>(null);
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[2];
 
-  const [rows, setRows] = useState<IncomesDb[]>([]);
+  const [rows, setRows] = useState<IncomeDb[]>([]);
 
   const [useDate, setUseDate] = useState<boolean>(true);
 
@@ -53,14 +53,13 @@ const Team = (): JSX.Element => {
   },[registry, dbIncomes, currentTeam]);
 
   useEffect(() => {
-    const helper = incomesByCode?.length ? (incomesByCode.map((el, index) => {
+    const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
       return ({
         ...el,
         lp: index + 1,
-        id: index,
       });
     })) : ([]);
-    setRows(helper);
+    setRows(row);
     const sum = incomesByCode && incomesByCode
       .filter(income => income.event === 'SC')
       .reduce((sum: number, income) => sum + income.cash ,0); 
