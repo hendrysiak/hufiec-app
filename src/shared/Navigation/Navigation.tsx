@@ -31,6 +31,7 @@ const Navigation = (): JSX.Element => {
     { link: '/add-approval', title: 'DODAJ ZATWIERDZENIE', icon: <PlaylistAddIcon fontSize="small" /> },
     { link: '/add-billing', title: 'DODAJ ROZLICZENIE', icon: <PlaylistAddCheckIcon fontSize="small" /> },
     { link: '/editor', title: 'EDYTUJ PRZYCHODY/KOSZTY', icon: <EditIcon fontSize="small" /> },
+    { link: '/edit-team', title: 'EDYTUJ DRUŻYNĘ', icon: <EditIcon fontSize="small" /> },
   ];
 
   return (
