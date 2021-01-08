@@ -3,50 +3,63 @@ import TableCell from '@material-ui/core/TableCell';
 import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 
-import { FoundingSources, OutcomeCategory } from 'models/global.enum';
+import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import store from 'store/store';
 
 interface Props {
-  bilingNr: string | null;
+  editable: boolean;
+  info: BudgetEntry;
+  bilingNr?: string | null;
   index: number;
-  foundingSources: FoundingSources;
-  outcomeCategory: OutcomeCategory;
+  foundingSources?: FoundingSources;
+  outcomeCategory?: OutcomeCategory;
+  name?: string | null;
+  surname?: string | null;
   team: string | null;
   event: string | null;
   title: string | null;
   cash: number | null;
   onChange: (index: number, data: { key: string, value: string | number }) => void;
-  onClose: () => void;
+  onClose: (index: number) => void;
 }
 
 const EditableRow = (props: Props): JSX.Element => {
   const teams = store.getState().income.registry;
-  
+  const codes = store.getState().income.codes?.map(c => c.code);
+
   return (
     <>
       <TableCell>
-        <Tooltip title="Dodaj drużynę" aria-label="add-team">
-          <IconButton><CloseIcon onClick={() => props.onClose()}/></IconButton>
+        <Tooltip title="Zakończ edycję" aria-label="add-team">
+          <IconButton><CloseIcon onClick={() => props.onClose(props.index)}/></IconButton>
         </Tooltip>
       </TableCell>
       <TableCell>{props.index + 1}</TableCell>
-      <TableCell>
+      {props.info === BudgetEntry.Outcome && <TableCell>
         <TextField
           size="medium"
           value={props.bilingNr}
           margin="dense"
           onChange={(e) => props.onChange(props.index, { key: 'bilingNr', value: e.target.value })}
         />
-      </TableCell>
+      </TableCell>}
       <TableCell>
         <TextField
           size="small"
           value={props.cash}
           margin="dense"
-          onChange={(e) => props.onChange(props.index, { key: 'cash', value: -Number(e.target.value) })}
+          onChange={
+            (e) => props.onChange(
+              props.index, 
+              { 
+                key: 'cash', 
+                value: props.info === BudgetEntry.Outcome 
+                  ? -Number(e.target.value) 
+                  : Number(e.target.value) 
+              })}
         />
       </TableCell>
-      <TableCell>
+      {props.info === BudgetEntry.Outcome && <TableCell>
         <TextField
           value={props.foundingSources}
           onChange={(e) => props.onChange(props.index, { key: 'foundingSources', value: e.target.value })}
@@ -61,8 +74,8 @@ const EditableRow = (props: Props): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
-      </TableCell>
-      <TableCell>
+      </TableCell>}
+      {props.info === BudgetEntry.Outcome && <TableCell>
         <TextField
           value={props.outcomeCategory}
           onChange={(e) => props.onChange(props.index, { key: 'outcomeCategory', value: e.target.value })}
@@ -77,7 +90,25 @@ const EditableRow = (props: Props): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
-      </TableCell>
+      </TableCell>}
+      {props.info === BudgetEntry.Income && <TableCell>
+        <TextField
+          value={props.name}
+          onChange={(e) => props.onChange(props.index, { key: 'name', value: e.target.value })}
+          select={true}
+          size="medium"
+          margin="dense"
+        />
+      </TableCell>}
+      {props.info === BudgetEntry.Income && <TableCell>
+        <TextField
+          value={props.surname}
+          onChange={(e) => props.onChange(props.index, { key: 'surname', value: e.target.value })}
+          select={true}
+          size="medium"
+          margin="dense"
+        />
+      </TableCell>}
       <TableCell>
         <TextField
           value={props.team}
@@ -93,8 +124,24 @@ const EditableRow = (props: Props): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
+
       </TableCell>
-      <TableCell>{props.event}</TableCell>
+      {props.editable 
+        ? <TextField
+          value={props.event}
+          onChange={(e) => props.onChange(props.index, { key: 'event', value: e.target.value })}
+          select={true}
+          size="medium"
+          margin="dense"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {codes && codes.map((item) => (
+            <MenuItem key={item} value={item}>{item}</MenuItem>
+          ))}
+        </TextField>
+        : <TableCell>{props.event}</TableCell>}
       <TableCell align="right">{props.title}</TableCell>
     </>
   );

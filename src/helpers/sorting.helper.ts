@@ -25,14 +25,14 @@ export const sortingTransferToIncomesAndOutcomes = (
       return {
         cash: Number(income.cash),
         title: income.title,
-        dateOfBook: income.dateOfBook
+        dateOfBook: new Date(income.dateOfBook).toLocaleString().split(',')[0]
       };
     }),
     outcomes: sortedOutcomes.map(outcome => {
       return {
         cash: Number(outcome.cash),
         title: outcome.title,
-        dateOfBook: outcome.dateOfBook
+        dateOfBook: new Date(outcome.dateOfBook).toLocaleString().split(',')[0]
       };
     })
   };
@@ -63,7 +63,7 @@ export const sortingIncomesByCode = (codes: string[], incomes: IncomesWithTeam[]
     let updatedIncome = income as IncomesWithEvent;
 
     codes.forEach(code => {
-      const regex = new RegExp(`${code}`, 'm'); 
+      const regex = new RegExp(`${code}`, 'mi'); 
       if (regex.test(income.title)) updatedIncome = { ...income, event: code };
     });
     return updatedIncome;

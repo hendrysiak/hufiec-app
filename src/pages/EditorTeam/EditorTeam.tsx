@@ -15,13 +15,15 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
-import { Person } from 'models/registry.models';
+
 
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 
 import { useSelector } from 'react-redux';
+
+import { Person } from 'models/registry.models';
 
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
@@ -53,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 interface IPerson extends Person {
   id: number;
   lp: number;
-  isEditMode?: any;
+  isEditMode?: string | number | null | undefined;
 }
 
 interface IProps {
@@ -90,33 +92,20 @@ const EditorTeam = (): JSX.Element => {
   const [previous, setPrevious] = React.useState<any>({});
   const classes = useStyles();
 
-  // const onToggleEditMode = (id: number) => {
-  //   setRows(state => {
-  //     return rows?.map((row: any) => {
-  //       if (row.id === id) {
-  //         return { ...row, isEditMode: !row.isEditMode };
-  //       }
-  //       return row;
-  //     });
-  //   });
-  // };
+
   const onToggleEditMode = (id: number) => {
     rows && setRows((state: any) => {
-      return rows.map((row: any) => {
+      return rows.map((row: { id: number; isEditMode: any; }) => {
         if (row.id === id) {
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
       });
     });
-
-    // const helperRows = rows ? rows.map()
-
-    // setRows(rows)
   };
 
 
-  const onChange = (e: any, row: any) => {
+  const onChange = (e: { target: { getAttribute: (arg0: string) => string; value: any; name: string; }; }, row: { id: number; }) => {
     if (e.target.getAttribute('name') === 'lp') return;
     if (!previous[row.id]) {
       setPrevious((state: any) => ({ ...state, [row.id]: row }));
@@ -124,7 +113,7 @@ const EditorTeam = (): JSX.Element => {
     const value = e.target.value;
     const name = e.target.name;
     const { id } = row;
-    const newRows = rows.map((row: any) => {
+    const newRows = rows.map((row: { id: number; }) => {
       if (row.id === id) {
         return { ...row, [name]: value };
       }
@@ -134,14 +123,14 @@ const EditorTeam = (): JSX.Element => {
   };
 
   const onRevert = (id: number) => {
-    const newRows = rows.map((row: any) => {
+    const newRows = rows.map((row: { id: number; } ) => {
       if (row.id === id) {
         return previous[id] ? previous[id] : row;
       }
       return row;
     });
     setRows(newRows);
-    setPrevious((state: any) => {
+    setPrevious((state: any[]) => {
       delete state[id];
       return state;
     });
@@ -149,7 +138,7 @@ const EditorTeam = (): JSX.Element => {
   };
 
   const handleDelete = (id: number) => {
-    const memberToDelete = rows.filter((el: any) => el.id === id)[0];
+    const memberToDelete = rows.filter((el: { id: number; }) => el.id === id)[0];
     if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
   };
 
@@ -159,7 +148,7 @@ const EditorTeam = (): JSX.Element => {
         return (
           {
             lp: index + 1,
-            id: index,
+            // id: index,
             ...member
           }
         );
@@ -232,7 +221,7 @@ const EditorTeam = (): JSX.Element => {
                   </IconButton>
                 )}
               </TableCell>
-              <CustomTableCell {...{ row, name: 'lp', onChange}} />
+              <CustomTableCell {...{ row, name: 'lp', onChange }} />
               <CustomTableCell {...{ row, name: 'name', onChange }} />
               <CustomTableCell {...{ row, name: 'surname', onChange }} />
               <TableCell className={classes.selectTableCell}>

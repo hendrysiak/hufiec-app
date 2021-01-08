@@ -1,0 +1,7 @@
+.tooltips {
+  display: flex;
+  width: 140px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+}

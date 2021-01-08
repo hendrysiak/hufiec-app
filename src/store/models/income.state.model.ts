@@ -3,7 +3,8 @@ import { ApprovedEvent } from 'models/codes.models';
 import { 
   IncomesBankModel, 
   IncomesWithImportDate,  
-  OutcomesWithEvent,  
+  IncomeDb,
+  OutcomeDb,  
   OutcomesWithFinanceMethod 
 } from 'models/income.models';
 
@@ -12,12 +13,12 @@ import { Registry } from 'models/registry.models';
 export interface IncomeState {
   error: boolean | null,
   initIncome: IncomesBankModel[] | null,
-  registry: Registry | null,
+  registry: Registry,
   assignedIncome: null,
   sortedIncomes: IncomesWithImportDate[] | null,
   sortedOutcomes: OutcomesWithFinanceMethod[] | null,
-  dbIncomes: IncomesWithImportDate[] | null,
-  dbOutcomes: OutcomesWithEvent[] | null,
+  dbIncomes: IncomeDb[],
+  dbOutcomes: OutcomeDb[],
   codes: ApprovedEvent[] | null,
   importDates: string[] | null;
 };

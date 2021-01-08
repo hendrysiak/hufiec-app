@@ -1,6 +1,6 @@
 import { ApprovedEvent } from 'models/codes.models';
-import { IncomesBankModel, IncomesWithImportDate, OutcomesWithEvent, OutcomesWithFinanceMethod } from 'models/income.models';
-import { Registry } from 'models/registry.models';
+import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
+import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
 
@@ -29,8 +29,8 @@ export interface GetCodesWithTeams {
 
 export interface GetAccountState {
   type: ActionTypes.SET_ACCOUNT_STATE;
-  incomes: IncomesWithImportDate[];
-  outcomes: OutcomesWithEvent[];
+  incomes: IncomeDb[];
+  outcomes: OutcomeDb[];
 };
 
 export interface GetRegistry {
@@ -49,6 +49,36 @@ export interface EditIncome {
   income: IncomesBankModel[];
 };
 
+export interface EditDbIncome {
+  type: ActionTypes.EDIT_DB_INCOME;
+  income: IncomeDb;
+};
+
+export interface EditDbOutcome {
+  type: ActionTypes.EDIT_DB_OUTCOME;
+  outcome: OutcomeDb;
+};
+
+export interface AddDbIncome {
+  type: ActionTypes.ADD_DB_INCOME;
+  income: IncomeDb;
+};
+
+export interface AddDbOutcome {
+  type: ActionTypes.ADD_DB_OUTCOME;
+  outcome: OutcomeDb;
+};
+
+export interface DeleteDbIncome {
+  type: ActionTypes.DELETE_DB_INCOME;
+  id: string;
+};
+
+export interface DeleteDbOutcome {
+  type: ActionTypes.DELETE_DB_OUTCOME;
+  id: string;
+};
+
 export interface AssignIncomesToAccount {
   type: ActionTypes.ASSIGN_INCOME_TO_ACCOUNT;
   incomes: IncomesWithImportDate[];
@@ -57,6 +87,21 @@ export interface AssignOutcomesToAccount {
   type: ActionTypes.ASSIGN_OUTCOME_TO_ACCOUNT;
   outcomes: OutcomesWithFinanceMethod[];
 };
+
+export interface AddMember {
+  type: ActionTypes.ADD_MEMBER;
+  member: APIPerson;
+}
+
+export interface EditMember {
+  type: ActionTypes.EDIT_MEMBER;
+  member: APIPerson;
+}
+
+export interface DeleteMember {
+  type: ActionTypes.DELETE_MEMBER;
+  member: APIPerson;
+}
 
 export type ActionType = 
 | LoadingEnd
@@ -68,5 +113,14 @@ export type ActionType =
 | GetRegistry
 | GetImportDates 
 | EditIncome 
+| EditDbIncome
+| EditDbOutcome
+| AddDbIncome
+| AddDbOutcome
+| DeleteDbIncome
+| DeleteDbOutcome
 | AssignIncomesToAccount 
 | AssignOutcomesToAccount
+| AddMember
+| EditMember
+| DeleteMember

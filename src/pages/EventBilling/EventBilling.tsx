@@ -5,52 +5,45 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 
 import List from '@material-ui/core/List';
 import Modal from '@material-ui/core/Modal';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import AddIcon from '@material-ui/icons/Add';
 
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-
 import axios from 'axios-income';
 import { ApprovedEvent } from 'models/codes.models';
-import { FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
-import { IncomePurpose, IncomesWithImportDate, OutcomesWithEvent } from 'models/income.models';
+import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
+import { IncomePurpose, IncomeDb, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
 import Navigation from 'shared/Navigation/Navigation';
 
+import TableEditor from 'shared/TableEditor/TableEditor';
 import { RootState } from 'store/models/rootstate.model';
-import store from 'store/store';
+
+import { addOutcome, deleteOutcome, editOutcome } from '../../helpers/editing-db.handler';
 
 import EventInfo from './components/EventInfo';
 
-import EventOutcomes from './components/EventOutcomes';
 import classes from './EventBilling.module.css';
 
 const EventBilling = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
+  const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
 
   const [usedCodes, setUsedCodes] = useState<ApprovedEvent[] | null>(codes);
-  const [usedOutcomes, setUsedOutcomes] = useState<OutcomesWithEvent[]>([]);
+  const [usedOutcomes, setUsedOutcomes] = useState<OutcomeDb[]>([]);
 
-  const [cashToBiling, setCachToBiling] = useState<number>(0);
+  const [cashToBiling, setCashToBiling] = useState<number>(0);
 
-  // const [editedOutcomes, setEditedOutcomes] = useState([]);
   const [currentCode, setCurrentCode] = useState<string>();
-  const [incomesByCode, setIncomesByCode] = useState<IncomesWithImportDate[]>();
-  // const [currentOutcome, setCurrentOutcome] = useState();
   
-  // const [newOutcomes, setNewOutcomes] = useState([]);
   const [modalToAddOutcomeVisible, setModalToAddOutcomeVisibility] = useState<boolean>(false);
 
   //Add outcome from account handlers - to move to another component
   const [modalToAddAccountOutcome, setModalToAddAccountOutcomeVisibility] = useState<boolean>(false);
-  const [choosedOutcomes, setChoosedOutcomes] = useState<OutcomesWithEvent[]>([]);
+  const [choosedOutcomes, setChoosedOutcomes] = useState<OutcomeDb[]>([]);
   const [editedIndex, setEditedIndex] = useState(-1);
 
   useEffect(() => {
@@ -66,7 +59,7 @@ const EventBilling = (): JSX.Element => {
           const currentEventApprovalCash 
           = approvalInfo.data.incomes.reduce((sum: number, element: IncomePurpose) => sum + element.cash, 0);
 
-          setCachToBiling(currentEventApprovalCash);
+          setCashToBiling(currentEventApprovalCash);
         };
         getApprovalinfo();
         setCurrentCode(filteredCodes[0].code);
@@ -78,7 +71,7 @@ const EventBilling = (): JSX.Element => {
   useEffect(() => {
     const currentEventOutcomesFromDB = dbOutcomes?.filter(o => o.event && o.event === currentCode);
     currentEventOutcomesFromDB && setUsedOutcomes(currentEventOutcomesFromDB);
-  }, [dbOutcomes]); 
+  }, [dbOutcomes, currentCode]); 
 
   const handleChoosingOutcomes = (title: string): void => {
     const copiedOutcomes = [...choosedOutcomes];
@@ -93,17 +86,13 @@ const EventBilling = (): JSX.Element => {
       return { ...co, event: currentCode || null };
     });
 
-    setUsedOutcomes([...usedOutcomes, ...accountOutcome]);
+    accountOutcome.forEach(ao => editOutcome(ao));
     setModalToAddAccountOutcomeVisibility(false);
     setModalToAddOutcomeVisibility(false);
   };
 
-  const handleClose = () => {
-    setEditedIndex(-1);
-  };
-
-  const handleAddCachOutcomeToBiling = (): void => {
-    const newCachOutcome: OutcomesWithEvent = {
+  const handleAddCashOutcomeToBiling = (): void => {
+    const newCashOutcome: OutcomesWithEvent = {
       bilingNr: null,
       cash: 0,
       event: currentCode || null,
@@ -112,35 +101,37 @@ const EventBilling = (): JSX.Element => {
       dateOfBook: new Date().toLocaleString().split(',')[0],
       importDate: new Date().toLocaleString().split(',')[0],
       financeMethod: FinanceMethod.Cash,
-      foundingSources: FoundingSources.Other,
+      foundingSource: FoundingSources.Other,
       outcomeCategory: OutcomeCategory.Materials,
     };
 
-    setUsedOutcomes([...usedOutcomes, newCachOutcome]);
-    setModalToAddOutcomeVisibility(false);
+    addOutcome(newCashOutcome);
   };
 
   const handleEditOutcome = (index: number, data: { key: string, value: string | number }) => {
     const outcomeToUpdate = [...usedOutcomes];
     outcomeToUpdate[index][data.key] = data.value;
-
+    
     setUsedOutcomes(outcomeToUpdate);
   };
 
-  const handleDeleteOutcome = (index: number) => {
-    const outcomeToUpdate = [...usedOutcomes];
-    outcomeToUpdate.splice(index, 1);
-
-    setUsedOutcomes(outcomeToUpdate);
+  const handleClose = (index: number): void => {
+    editOutcome(usedOutcomes[index]);
+    setEditedIndex(-1);
   };
 
-  const handleSaveOutcome = () => {
-    console.log(usedOutcomes);
+  const handleDeleteOutcome = (id: string) => {
+    deleteOutcome(id);
   };
 
-  const cashToDisplay 
+  const approvalCash 
   = cashToBiling 
-  - usedOutcomes.reduce((sum: number, uo: OutcomesWithEvent) => sum - uo.cash, 0);
+  - usedOutcomes.reduce((sum: number, uo: OutcomeDb) => sum - uo.cash, 0);
+
+  const incomesCach = dbIncomes 
+    ? dbIncomes
+      .filter(i => i.event === currentCode)
+      .reduce((sum: number, income: IncomeDb) => sum + income.cash, 0) : 0;
 
   const outcomesOptions = dbOutcomes && [...dbOutcomes
     .filter(dbO => dbO.event !== currentCode)
@@ -157,7 +148,7 @@ const EventBilling = (): JSX.Element => {
         onClose={() => setModalToAddOutcomeVisibility(false)}>
         <div className="biling__modal--add-outcome">
           <Button variant="contained" color="primary" onClick={() => setModalToAddAccountOutcomeVisibility(true)}>Dodaj koszt z konta</Button>
-          <Button variant="contained" color="primary" onClick={() => handleAddCachOutcomeToBiling()}>Dodaj koszt gotówkowy</Button>
+          <Button variant="contained" color="primary" onClick={() => handleAddCashOutcomeToBiling()}>Dodaj koszt gotówkowy</Button>
         </div>
       </Modal>
       <Modal 
@@ -169,7 +160,7 @@ const EventBilling = (): JSX.Element => {
           </Typography>
           <TextField
             style={{ width: '40%' }}
-            label="Wybierz kod imprezy do rozliczenia"
+            label="Wybierz koszt"
             value={currentCode}
             onChange={(e) => handleChoosingOutcomes(e.target.value)}
             placeholder="Wybierz przelewy z listy"
@@ -232,23 +223,25 @@ const EventBilling = (): JSX.Element => {
                 {/* <Paper className={fixedHeightPaper}> */}
                 <EventInfo 
                   title={currentCode || 'Wybierz imprezę'} 
-                  cash={cashToDisplay}/>
+                  cashToBiling={approvalCash}
+                  cashFromIncomes={incomesCach}
+                />
                 {/* </Paper> */}
               </Grid>
               {/* Recent Orders */}
-              <Grid item xs={11}>
-                <EventOutcomes 
+              <Grid item xs={12}>
+                <TableEditor 
+                  editable={false}
+                  title={'Rozliczenie imprezy'}
+                  info={BudgetEntry.Outcome}
                   rows={usedOutcomes}
                   onChange={handleEditOutcome}
                   onClose={handleClose}
                   editedIndex={editedIndex}
                   onEdit={setEditedIndex}
                   onDelete={handleDeleteOutcome}
-                  saveHandler={handleSaveOutcome}
+                  onAdd={() => setModalToAddOutcomeVisibility(true)}
                 />
-              </Grid>
-              <Grid item xs={1}>
-                <Tooltip title="Dodaj wydatek do imprezy"><IconButton><AddIcon onClick={() => setModalToAddOutcomeVisibility(true)}/></IconButton></Tooltip>
               </Grid>
             </Grid>
             <Box pt={4}>
