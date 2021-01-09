@@ -4,7 +4,6 @@ import { TextField, MenuItem } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,12 +17,11 @@ import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
 
 
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 
 
 import { useSelector } from 'react-redux';
 
-import { Person } from 'models/registry.models';
+import { APIPerson } from 'models/registry.models';
 
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
@@ -52,21 +50,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-interface IPerson extends Person {
-  id: number;
-  lp: number;
-  isEditMode?: string | number | null | undefined;
+interface IPerson extends APIPerson{
+  lp?: number;
+  isEditMode?: boolean;
 }
 
 interface IProps {
-  row: IPerson;
-  name: any;
+  row: IPerson
+  name: string;
   onChange: any;
 }
 
 const CustomTableCell = ({ row, name, onChange }: IProps) => {
-  console.log(row);
-  console.log(name, ' ##########################' );
   const classes = useStyles();
   const { isEditMode } = row;
   return (
@@ -87,15 +82,15 @@ const CustomTableCell = ({ row, name, onChange }: IProps) => {
 
 const EditorTeam = (): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
-  const [rows, setRows] = useState<any>();
+  const [rows, setRows] = useState<IPerson[] | undefined>();
   const [team, setTeam] = useState<string>('');
-  const [previous, setPrevious] = React.useState<any>({});
+  const [previous, setPrevious] = useState<any>({});
   const classes = useStyles();
 
 
-  const onToggleEditMode = (id: number) => {
-    rows && setRows((state: any) => {
-      return rows.map((row: { id: number; isEditMode: any; }) => {
+  const onToggleEditMode = (id: string) => {
+    rows && setRows(() => {
+      return rows.map((row) => { 
         if (row.id === id) {
           return { ...row, isEditMode: !row.isEditMode };
         }
@@ -105,7 +100,7 @@ const EditorTeam = (): JSX.Element => {
   };
 
 
-  const onChange = (e: { target: { getAttribute: (arg0: string) => string; value: any; name: string; }; }, row: { id: number; }) => {
+  const onChange = (e: { target: { getAttribute: (arg0: string) => string; value: any; name: string; }; }, row: { id: string; }) => {
     if (e.target.getAttribute('name') === 'lp') return;
     if (!previous[row.id]) {
       setPrevious((state: any) => ({ ...state, [row.id]: row }));
@@ -113,33 +108,40 @@ const EditorTeam = (): JSX.Element => {
     const value = e.target.value;
     const name = e.target.name;
     const { id } = row;
-    const newRows = rows.map((row: { id: number; }) => {
-      if (row.id === id) {
-        return { ...row, [name]: value };
-      }
-      return row;
-    });
-    setRows(newRows);
+    if (rows) {
+      const newRows = rows.map(row => {
+        if (row.id === id) {
+          return { ...row, [name]: value };
+        }
+        return row;
+      });
+      console.log(newRows);
+      setRows(newRows);
+    }
   };
 
-  const onRevert = (id: number) => {
-    const newRows = rows.map((row: { id: number; } ) => {
-      if (row.id === id) {
-        return previous[id] ? previous[id] : row;
-      }
-      return row;
-    });
-    setRows(newRows);
-    setPrevious((state: any[]) => {
+  const onRevert = (id: string) => {
+    if (rows) { // if
+      const newRows = rows.map((row: { id: string; } ) => {
+        if (row.id === id) {
+          return previous[id] ? previous[id] : row;
+        }
+        return row;
+      });
+      setRows(newRows);
+    }
+    setPrevious((state: any) => {
       delete state[id];
       return state;
     });
     onToggleEditMode(id);
   };
 
-  const handleDelete = (id: number) => {
-    const memberToDelete = rows.filter((el: { id: number; }) => el.id === id)[0];
-    if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
+  const handleDelete = (id: string) => {
+    if (rows) {
+      const memberToDelete = rows.filter((el: { id: string; }) => el.id === id)[0];
+      if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
+    };
   };
 
   useEffect(() => {
@@ -148,7 +150,6 @@ const EditorTeam = (): JSX.Element => {
         return (
           {
             lp: index + 1,
-            // id: index,
             ...member
           }
         );
@@ -221,6 +222,7 @@ const EditorTeam = (): JSX.Element => {
                   </IconButton>
                 )}
               </TableCell>
+              {console.log(row)}
               <CustomTableCell {...{ row, name: 'lp', onChange }} />
               <CustomTableCell {...{ row, name: 'name', onChange }} />
               <CustomTableCell {...{ row, name: 'surname', onChange }} />
