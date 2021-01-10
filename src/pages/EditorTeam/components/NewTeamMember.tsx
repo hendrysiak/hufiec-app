@@ -6,10 +6,10 @@ import { addTeamMember } from 'helpers/editing-db.handler';
 import classes from '../EditorTeam.module.css';
 
 
-const NewTeamMember = (team: {team:string}) => {
+const NewTeamMember = (team: { team:string }) => {
   const [input, setInput] = useState<{name: string, surname: string}>({ name: '', surname: '' });
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput({
       ...input,
       [e.currentTarget.name]: e.currentTarget.value

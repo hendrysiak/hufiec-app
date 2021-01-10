@@ -87,8 +87,12 @@ const EditorTeam: FC = () => {
   const [previous, setPrevious] = useState<any>({});
   const classes = useStyles();
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
-  const [actualValue, setActualValue] = useState<IPerson>({name: '', surname:'', id: ''});
-  const [prevValue, setPrevValue] = useState<IPerson>({name: '', surname: '', id: ''});
+  const [actualValue, setActualValue] = useState<IPerson>(
+    {name: '', surname:'', id: ''}
+  );
+  const [prevValue, setPrevValue] = useState<IPerson>(
+    {name: '', surname: '', id: ''}
+  );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
 
 
@@ -119,7 +123,7 @@ const EditorTeam: FC = () => {
   };
 
   const onToggleEditMode = (id: string) => {
-    if (activeEdit && rows && rows.find(el => prevValue.id !== id)) {
+    if (activeEdit && rows && prevValue.id !== id) {
       alert(`Jesteś w trakcie edycji innej osoby.`);
       return;
     };
