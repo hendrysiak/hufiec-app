@@ -1,9 +1,6 @@
-
-
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, Modal, Input } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,9 +12,7 @@ import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
 
-
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, FC } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -26,7 +21,11 @@ import { APIPerson } from 'models/registry.models';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
+import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
+
+import NewTeamMember from './components/NewTeamMember';
 import styles from './EditorTeam.module.css';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -61,6 +60,7 @@ interface IProps {
   onChange: any;
 }
 
+
 const CustomTableCell = ({ row, name, onChange }: IProps) => {
   const classes = useStyles();
   const { isEditMode } = row;
@@ -80,25 +80,65 @@ const CustomTableCell = ({ row, name, onChange }: IProps) => {
   );
 };
 
-const EditorTeam = (): JSX.Element => {
+const EditorTeam: FC = () => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [rows, setRows] = useState<IPerson[] | undefined>();
   const [team, setTeam] = useState<string>('');
   const [previous, setPrevious] = useState<any>({});
   const classes = useStyles();
+  const [openNewMember, setOpenNewMember] = useState<boolean>(false);
+  const [actualValue, setActualValue] = useState<IPerson>({name: '', surname:'', id: ''});
+  const [prevValue, setPrevValue] = useState<IPerson>({name: '', surname: '', id: ''});
+  const [activeEdit, setActiveEdit] = useState<boolean>(false);
 
+
+  const handleOpenNewMember = () => {
+    setOpenNewMember(true);
+  };
+
+  const handleCloseNewMember = () => {
+    setOpenNewMember(false);
+  };
+
+  const handleAcceptChange = (id: string) => {
+    rows && rows.map(el => {
+      if (el.id === id && (prevValue.name !== actualValue.name || prevValue.surname !== actualValue.surname )) {
+        editTeamMember(team, actualValue);
+
+        setPrevValue((prev) => (
+          {
+            ...prev,
+            name: actualValue.name,
+            surname: actualValue.surname
+          }
+        ));
+      }
+      return el;
+    });
+    onToggleEditMode(id);
+  };
 
   const onToggleEditMode = (id: string) => {
+    if (activeEdit && rows && rows.find(el => prevValue.id !== id)) {
+      alert(`Jesteś w trakcie edycji innej osoby.`);
+      return;
+    };
+    setActiveEdit(!activeEdit);
+    rows && rows.find(el => {
+      if (el.id === id) {
+        setActualValue(el);
+      };
+    });
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
+          setPrevValue(row);
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
       });
     });
   };
-
 
   const onChange = (e: { target: { getAttribute: (arg0: string) => string; value: any; name: string; }; }, row: { id: string; }) => {
     if (e.target.getAttribute('name') === 'lp') return;
@@ -111,36 +151,40 @@ const EditorTeam = (): JSX.Element => {
     if (rows) {
       const newRows = rows.map(row => {
         if (row.id === id) {
+          setActualValue((prev: any) => {
+            return { ...prev, [name]: value };
+          });
           return { ...row, [name]: value };
         }
         return row;
       });
-      console.log(newRows);
       setRows(newRows);
     }
+
   };
 
   const onRevert = (id: string) => {
+
     if (rows) { // if
-      const newRows = rows.map((row: { id: string; } ) => {
+      const newRows = rows.map((row ) => {
         if (row.id === id) {
-          return previous[id] ? previous[id] : row;
+          setActualValue(prevValue);
+          return {
+            ...row,
+            name: prevValue.name,
+            surname: prevValue.surname
+          };
         }
         return row;
       });
       setRows(newRows);
     }
-    setPrevious((state: any) => {
-      delete state[id];
-      return state;
-    });
-    onToggleEditMode(id);
   };
 
   const handleDelete = (id: string) => {
     if (rows) {
       const memberToDelete = rows.filter((el: { id: string; }) => el.id === id)[0];
-      if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
+      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(team, memberToDelete);
     };
   };
 
@@ -155,7 +199,7 @@ const EditorTeam = (): JSX.Element => {
         );
       })) : ([]);
     setRows(rows);
-  },[team]);
+  },[team, registry]);
 
   return (
     <>
@@ -179,9 +223,18 @@ const EditorTeam = (): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
-        <Button className={styles.button} variant="contained" color="primary" disabled={team ? false : true}>
+        <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={team ? false : true}>
              NOWY CZŁONEK
         </Button>
+        <Modal
+          open={openNewMember}
+          onClose={handleCloseNewMember}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <NewTeamMember team={team}/>
+        </Modal>
+        
       </div>
       <Table className={classes.table} aria-label="caption table">
         <caption>A barbone structure table example with a caption</caption>
@@ -202,7 +255,7 @@ const EditorTeam = (): JSX.Element => {
                   <>
                     <IconButton
                       aria-label="done"
-                      onClick={() => onToggleEditMode(row.id)}
+                      onClick={(e) => handleAcceptChange(row.id)}
                     >
                       <DoneIcon />
                     </IconButton>
@@ -222,7 +275,6 @@ const EditorTeam = (): JSX.Element => {
                   </IconButton>
                 )}
               </TableCell>
-              {console.log(row)}
               <CustomTableCell {...{ row, name: 'lp', onChange }} />
               <CustomTableCell {...{ row, name: 'name', onChange }} />
               <CustomTableCell {...{ row, name: 'surname', onChange }} />

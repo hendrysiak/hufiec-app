@@ -148,15 +148,13 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
     case ActionTypes.DELETE_MEMBER:
       if (action.member.team) {
-        const teamAfterDelete = [...state.registry[action.member.team]];
-        const indexOfDeletedMember 
-          = teamAfterDelete.findIndex((m: APIPerson) => m.id === action.member.id);
-        
+        const teamBeforeDelete = [...state.registry[action.member.team]];
+        const teamAfterDelete = teamBeforeDelete.filter(m => m.id !== action.member.id);
         return {
           ...state,
           registry: { 
             ...state.registry, 
-            [action.member.team]: [...teamAfterDelete.splice(indexOfDeletedMember, 1)] }
+            [action.member.team]: [...teamAfterDelete] }
         };
 
       } else throw Error('Błąd z drużyną');

@@ -11,7 +11,7 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import { IncomeDb, IncomesWithImportDate } from 'models/income.models';
+import { IncomeDb } from 'models/income.models';
 import { Person } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { RootState } from 'store/models/rootstate.model';
