@@ -1,0 +1,12 @@
+.oneRow {
+  margin: 15px 0 40px 15px;
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+p {
+  margin: 0 0 5px 0;
+}
