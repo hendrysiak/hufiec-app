@@ -148,8 +148,7 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
     case ActionTypes.DELETE_MEMBER:
       if (action.member.team) {
-        const teamBeforeDelete = [...state.registry[action.member.team]];
-        const teamAfterDelete = teamBeforeDelete.filter(m => m.id !== action.member.id);
+        const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
         return {
           ...state,
           registry: { 
