@@ -1,12 +1,12 @@
 import { Button, Input } from '@material-ui/core';
-
 import React, { useState } from 'react';
 
 import { updateOnePercent } from 'helpers/editing-db.handler';
 
 import classes from '../AddPercent.module.css';
 
-const OneTeam = ({team, amount}: {team: string, amount: number}) => {
+
+const OneTeam = ({ team, amount }: {team: string, amount: number}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [currentAmount, setCurrentAmount] = useState<number | undefined>();
 
@@ -17,7 +17,6 @@ const OneTeam = ({team, amount}: {team: string, amount: number}) => {
   const handleSendNewValue = async () => {
     try {
       const getNewAmount = await updateOnePercent(team, Number(inputValue).toFixed(2));
-      console.log(getNewAmount);
       setCurrentAmount(getNewAmount);
       setInputValue('');
     } catch (err) {

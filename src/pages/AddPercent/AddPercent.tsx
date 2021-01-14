@@ -1,18 +1,12 @@
-import { Button } from '@material-ui/core';
-import Input from '@material-ui/core/Input';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
-
-import { updateOnePercent } from 'helpers/editing-db.handler';
 import { Amount } from 'models/income.models';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import classes from './AddPercent.module.css';
 import OneTeam from './OneTeam/OneTeam';
-
 
 
 const AddPercent: FC = () => {
