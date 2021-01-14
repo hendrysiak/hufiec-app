@@ -27,7 +27,7 @@ const OneTeam = ({ team, amount }: {team: string, amount: number}) => {
   return (
     <div className={classes.oneRow}>
       <p>DRUŻYNA <span className={classes.bold}>{team}</span> - OBECNIE: {currentAmount !== undefined ? currentAmount : amount} zł</p>
-      <label htmlFor=""> Nowa kwota: <Input type="string" placeholder="kwota" onChange={handleInput} value={inputValue}/></label> 
+      <label htmlFor=""> Nowa kwota: <Input type="number" placeholder="kwota" onChange={handleInput} value={inputValue}/></label> 
       <Button onClick={() => handleSendNewValue()} variant="contained" color="primary">ZAPISZ</Button>
     </div>
   );
