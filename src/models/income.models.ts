@@ -78,3 +78,7 @@ export interface OutcomePurposeDB {
   cash: number;
   purpose: string;
 };
+
+export interface Amount {
+  [key: string]: number
+}
