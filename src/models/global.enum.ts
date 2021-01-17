@@ -29,3 +29,19 @@ export enum FoundingSources {
   Other = 'inne'
 };
 
+// TODO: implement checking route
+
+export enum Routing {
+  Approval = 'approval.json',
+  Codes = 'codes.json',
+  FoundingSources = 'foundingSources.json',
+  ImportDates = 'importDates.json',
+  Incomes = 'incomes.json',
+  OnePercen = 'onePercent.json',
+  OutcomeCategory = 'outcomeCategory.json',
+  Outcomes = 'outcomes.json',
+  Registry = 'registry.json',
+  Teams = 'teams.json',
+  Tickes = 'ticket.json',
+}
+
