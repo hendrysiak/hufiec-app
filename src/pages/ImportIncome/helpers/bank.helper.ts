@@ -10,7 +10,7 @@ export const sortBilingFromING = (jsonBiling: INGBiling): IncomesBankModel[] => 
       cash: Number(result.CdtDbtInd === INGOperationType.Debit ?
         `-${result.Amt.__text}` : result.Amt.__text),
       title: result.NtryDtls.TxDtls.RmtInf.Ustrd,
-      dateOfBook: result.BookgDt.DtTm
+      dateOfBook: new Date(result.BookgDt.DtTm)
     });
   });
 

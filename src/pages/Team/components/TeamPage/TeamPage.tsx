@@ -1,20 +1,22 @@
 import Modal from '@material-ui/core/Modal';
 import { DataGrid } from '@material-ui/data-grid';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 
-import { Person } from 'models/registry.models';
+import { APIPerson } from 'models/registry.models';
+
+import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import classes from './TeamPage.module.css';
 
-interface IRows extends Person {
-  id: string | number;
+interface IRows extends APIPerson {
   lp: string | number;
+  fee: number;
 }
 
 interface IProps {
-  members: Person[];
+  members: APIPerson[];
 }
 
 const TeamPage = ({ members } : IProps): JSX.Element => {
@@ -22,8 +24,9 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
   const [rows, setRows] = useState<IRows[]>();
   const columns = [
     { field: 'lp', headerName: 'LP', width: 80, },
-    { field: 'name', headerName: 'First name', width: 150 },
-    { field: 'surname', headerName: 'Surname', width: 150 }
+    { field: 'name', headerName: 'Imię', width: 150 },
+    { field: 'surname', headerName: 'Nazwisko', width: 150 },
+    { field: 'fee', headerName: 'Stan składek', width: 150 }
   ];
 
   const handleOpen = () => {
@@ -39,7 +42,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
       return ({
         ...el,
         lp: index + 1,
-        id: index,
+        fee: countingMemberFee(el)
       });
     })) : ([]);
     setRows(rows);

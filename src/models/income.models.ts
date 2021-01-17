@@ -4,7 +4,7 @@ import { IObjectKeys } from './object.helper.model';
 export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
-  dateOfBook: string;
+  dateOfBook: Date;
 };
 
 export interface IncomesWithTeam extends IncomesBankModel {
@@ -25,7 +25,7 @@ export interface IncomesWithYear extends IncomesWithPerson {
 }
 
 export interface IncomesWithImportDate extends IncomesWithYear {
-  importDate: string | null;
+  importDate: Date;
 }
 
 export interface IncomeDb extends IncomesWithImportDate {
@@ -35,11 +35,11 @@ export interface IncomeDb extends IncomesWithImportDate {
 export interface OutcomesBankModel extends IObjectKeys{
   cash: number;
   title: string;
-  dateOfBook: string;
+  dateOfBook: Date;
 };
 
 export interface OutcomesWithImportDate extends OutcomesBankModel{
-  importDate: string | null;
+  importDate: Date;
 };
 
 export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {

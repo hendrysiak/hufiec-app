@@ -46,7 +46,7 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       return true;
@@ -56,7 +56,7 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -102,13 +102,13 @@ const Edit = (): JSX.Element => {
       const newIncome: IncomesWithImportDate = {
         cash: 0,
         event: null,
-        importDate: currentDate.toLocaleString().split(',')[0],
+        importDate: currentDate,
         name: null,
         surname: null,
         team: '',
         title: 'Przychód dodany ręcznie',
         year: currentDate.getFullYear(),
-        dateOfBook: currentDate.toLocaleString().split(',')[0],
+        dateOfBook: currentDate,
       };
 
       addIncome(newIncome);
@@ -116,7 +116,7 @@ const Edit = (): JSX.Element => {
       const newOutcome: OutcomesWithEvent = {
         cash: 0,
         event: null,
-        importDate: currentDate.toLocaleString().split(',')[0],
+        importDate: currentDate,
         bilingNr: null,
         foundingSource: FoundingSources.Other,
         outcomeCategory: OutcomeCategory.Fee,
@@ -124,7 +124,7 @@ const Edit = (): JSX.Element => {
         title: 'Koszt dodany ręcznie',
         year: currentDate.getFullYear(),
         financeMethod: FinanceMethod.Cash,
-        dateOfBook: currentDate.toLocaleString().split(',')[0]
+        dateOfBook: currentDate
       };
 
       addOutcome(newOutcome);
@@ -157,7 +157,7 @@ const Edit = (): JSX.Element => {
       <div>
         <header>
           <TextField
-            style={{ width: '80%', marginTop: '16px' }}
+            style={{ width: '79%', marginTop: '16px' }}
             label="Co edytujesz?"
             value={editedData === 'income' ? 'Przychody' : 'Koszty'}
             onChange={(e) => editedDataHandler(e.target.value)}

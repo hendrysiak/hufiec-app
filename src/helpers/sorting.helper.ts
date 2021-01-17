@@ -25,14 +25,14 @@ export const sortingTransferToIncomesAndOutcomes = (
       return {
         cash: Number(income.cash),
         title: income.title,
-        dateOfBook: new Date(income.dateOfBook).toLocaleString().split(',')[0]
+        dateOfBook: new Date(income.dateOfBook)
       };
     }),
     outcomes: sortedOutcomes.map(outcome => {
       return {
         cash: Number(outcome.cash),
         title: outcome.title,
-        dateOfBook: new Date(outcome.dateOfBook).toLocaleString().split(',')[0]
+        dateOfBook: new Date(outcome.dateOfBook)
       };
     })
   };

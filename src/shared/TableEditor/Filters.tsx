@@ -11,6 +11,8 @@ import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enu
 
 import { RootState } from 'store/models/rootstate.model';
 
+import './style.css';
+
 type Props = {
   editedData: BudgetEntry;
   selectedDate: MaterialUiPickersDate | null;
@@ -58,7 +60,10 @@ const Filters = (props: Props): JSX.Element => {
     dayInCurrentMonth: unknown, 
     dayComponent: JSX.Element) => {
 
-    if (importDates && date && importDates.includes(date.toLocaleString().split(',')[0])) {
+    const mappedImportDates = importDates?.map(id => new Date(id).toLocaleString());
+
+    if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleString())) {
+      
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}
         <div className={classes.dayWithDot}/>
