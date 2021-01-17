@@ -18,7 +18,7 @@ interface IProps {
   currentTeam: string;
 }
 
-const Tooltips = ({ members, incomes, currentTeam }: IProps) => {
+const Tooltips = ({ members, incomes, currentTeam }: IProps): JSX.Element => {
   return (
     <>
       <div className={classes.tooltips}>
@@ -29,7 +29,7 @@ const Tooltips = ({ members, incomes, currentTeam }: IProps) => {
         </Tooltip>
         <Tooltip title="Wyślij zgłoszenie">
           <IconButton aria-label="support">
-            <Form title="WYŚLIJ ZGŁOSZENIE"/>
+            <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Stan konta drużyny">
