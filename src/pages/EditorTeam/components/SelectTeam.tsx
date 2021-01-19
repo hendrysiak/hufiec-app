@@ -24,7 +24,6 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
   const handleOpenNewMember = () => {
     setOpenNewMember(true);
   };
-
   const handleCloseNewMember = () => {
     setOpenNewMember(false);
   };

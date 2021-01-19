@@ -1,7 +1,4 @@
-import { TextField, MenuItem, Modal, Input } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,21 +8,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
-
 import React, { useState, useEffect, FC } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import { APIPerson } from 'models/registry.models';
-
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
 
-import NewTeamMember from './components/NewTeamMember';
 import SelectTeam from './components/SelectTeam';
-import styles from './EditorTeam.module.css';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
 
@@ -132,7 +125,7 @@ const EditorTeam: FC = () => {
   const handleChangeSelect = (value: string) => {
     setTeam(value);
   };
-  
+
   useEffect(() => {
     const rows = registry && registry[team] ? (
       registry[team].map((member, index) => {
