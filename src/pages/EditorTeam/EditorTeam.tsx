@@ -117,7 +117,8 @@ const EditorTeam: FC = () => {
 
   const handleDelete = (id: string) => {
     if (rows) {
-      const memberToDelete = rows.filter((el: { id: string; }) => el.id === id)[0];
+      const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
+      memberToDelete.dateOfDelete = new Date();
       if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(team, memberToDelete);
     };
   };

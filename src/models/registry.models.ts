@@ -4,7 +4,7 @@ export interface Person extends IObjectKeys {
   name: string;
   surname: string;
   dateOfAdd?: string;
-  dateOfDelete?: string | null;
+  dateOfDelete?: Date | null;
   team?: string;
 };
 
