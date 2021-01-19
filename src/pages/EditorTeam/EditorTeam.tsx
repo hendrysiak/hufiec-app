@@ -130,10 +130,9 @@ const EditorTeam: FC = () => {
   };
 
   const handleChangeSelect = (value: string) => {
-    console.log(value);
     setTeam(value);
   };
-
+  
   useEffect(() => {
     const rows = registry && registry[team] ? (
       registry[team].map((member, index) => {
