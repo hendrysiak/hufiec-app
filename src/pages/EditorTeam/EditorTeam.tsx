@@ -33,10 +33,10 @@ const EditorTeam: FC = () => {
   const [team, setTeam] = useState<string>('');
   const classes = useStyles();
   const [actualValue, setActualValue] = useState<IPerson>(
-    { name: '', surname:'', id: '' }
+    { name: '', surname:'', id: '', dateOfAdd: '' }
   );
   const [prevValue, setPrevValue] = useState<IPerson>(
-    { name: '', surname: '', id: '' }
+    { name: '', surname: '', id: '', dateOfAdd: '' }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
 

@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+.filters > div {
+  margin: auto 8px;
+}
+
 .header {
   width: 100%;
   display: flex;

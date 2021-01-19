@@ -1,12 +1,18 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, MenuItem, TextField } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import MailIcon from '@material-ui/icons/Mail';
+
 import React, { useState } from 'react';
+
+import axios from 'axios-income';
 
 import classes from './Form.module.css';
 
-const Form = ({title }: {title: string }): JSX.Element => {
+const Form = ({ title, currentTeam }: {title: string; currentTeam: string }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [messageTitle, setMessageTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [mail, setMail] = useState<string>('');
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -15,6 +21,22 @@ const Form = ({title }: {title: string }): JSX.Element => {
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const sendHandler = async () => {
+    setIsOpen(false);
+    await axios.post('/ticket.json', { title: messageTitle, content, mail, team: currentTeam });
+    setMessageTitle('');
+    setContent('');
+    setMail('');
+  };
+
+  const topics = [
+    'Błąd w przelewie - aplikacja źle zczytała przelew',
+    'Błąd w aplikacji - coś nie działa prawidłowo',
+    'Wyjaśnienie przelewu - nie rozumiem wprowadzonej pozycji',
+    'Zmiana stanu drużyny - chcę dodać lub usunąć członków jednostki',
+    'Stan konta - chcę wyjaśnień dotyczacych stanu konta'
+  ];
 
   return (
     <>
@@ -28,33 +50,41 @@ const Form = ({title }: {title: string }): JSX.Element => {
         <>
           <form className={classes.positionModal}>
             <h1>{title}</h1>
-            {/* <label className={classes.label} htmlFor="input"><input className={classes.input} id="input" type="text" placeholder="WPISZ TEMAT"/></label> */}
-            {/* <textarea className={classes.textarea} name="report" cols={30} rows={10} placeholder="WPISZ TREŚĆ ZGŁOSZENIA"></textarea> */}
-            {/* <TextField
-              id="standard-multiline-flexible"
-              label="Multiline"
-              multiline
-              rowsMax={4}
-            />
+            <TextField 
+              style={{ width: '80%' }} 
+              id="standard-basic" 
+              label="WPISZ TEMAT" 
+              value={messageTitle}
+              onChange={(e) => setMessageTitle(e.target.value)}
+              required
+              select
+              SelectProps={{
+                MenuProps: { disableScrollLock: true }
+              }}
+            >
+              {topics.map((item) => (
+                <MenuItem key={item} value={item}>{item}</MenuItem>
+              ))}
+            </TextField>
             <TextField
-              id="standard-textarea"
-              label="Multiline Placeholder"
-              placeholder="Placeholder"
-              multiline
-            /> */}
-            <TextField style={{width: '80%'}} id="standard-basic" label="WPISZ TEMAT" required />
-            <TextField
-              style={{width: '80%'}}
+              style={{ width: '80%' }}
               fullWidth
               id="standard-multiline-static"
               label="WPISZ WIADOMOŚĆ"
               multiline
               rows={10}
               required
-              // defaultValue="Default Value"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
-            <Button style={{margin: '10px 0 10px 0'}} variant="contained" color="primary">WYŚLIJ</Button>
-            {/* <button className={classes.button}>Wyślij</button> */}
+            <TextField 
+              style={{ width: '80%' }} 
+              id="standard-basic" 
+              label="JEŚLI CHCESZ ODPOWIEDŹ, WPISZ MAILA" 
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
+            />
+            <Button style={{ margin: '10px 0 10px 0' }} variant="contained" color="primary" onClick={() => sendHandler()}>WYŚLIJ</Button>
           </form>
         </>
       </Modal>

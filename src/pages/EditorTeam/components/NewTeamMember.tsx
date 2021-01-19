@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 
 import { addTeamMember } from 'helpers/editing-db.handler';
 
+import { Person } from 'models/registry.models';
+
 import classes from '../EditorTeam.module.css';
 
-const NewTeamMember = (team: { team:string }) => {
-  const [input, setInput] = useState<{name: string, surname: string}>({ name: '', surname: '' });
+
+const NewTeamMember = ({team}: {team: string}) => {
+  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: '' });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput({
@@ -15,7 +18,7 @@ const NewTeamMember = (team: { team:string }) => {
     });
   };
   const handleAddTeamMemebr = () => {
-    if (team.team.length && input.name.length && input.surname.length) addTeamMember(team.team, input);
+    if (team && team.length && input.name.length && input.surname.length) addTeamMember(team, input);
   };
 
   return (

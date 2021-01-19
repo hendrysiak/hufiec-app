@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom';
 
 import { IncomeDb } from 'models/income.models';
-import { Person } from 'models/registry.models';
+import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { RootState } from 'store/models/rootstate.model';
 
@@ -27,7 +27,7 @@ const Team = (): JSX.Element => {
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   
   const [event, setEvent] = useState<string>('');
-  const [currentTeamRegistry, setCurrentTeamRegistry] = useState<Person[]>([]);
+  const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
   
   const [incomesSC, setIncomesSC] = useState<number | null>(null);
@@ -79,7 +79,7 @@ const Team = (): JSX.Element => {
 
   useEffect(() => {
     const filteredIncomes = rows && rows.filter(i => {
-      if (useDate && selectedDate && i.importDate !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== '' 
           && event !== 'unAssigned' 
@@ -147,7 +147,6 @@ const Team = (): JSX.Element => {
           <div className="filters">
             <TextField
               className="testowa"
-              style={{ marginTop: '16px' }}
               label="Po wydarzeniu"
               value={event}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}

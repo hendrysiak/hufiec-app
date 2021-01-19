@@ -1,8 +1,9 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
+
 
 import React, { useState, useEffect } from 'react';
 
@@ -10,7 +11,6 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { Event } from 'models/codes.models';
-import ListContainer from 'shared/ListContainer/ListContainer';
 
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
@@ -48,19 +48,41 @@ const AddCode = (): JSX.Element => {
 
   let listOfCode;
   if (currentCodes && currentCodes.length > 0) {
-    listOfCode = currentCodes.map((code, index) => (
-      <ListContainer
-        key={index}
-        title={code.code}
-      >
-        <Tooltip title="Dodaj drużynę" aria-label="add-team">
+    const rows = currentCodes.map((code, index) => {
+      return {
+        id: index,
+        lp: index + 1,
+        code: code.code,
+        teams: code.teams ? code.teams.join(', ') : '',
+        add:      <Tooltip title="Dodaj drużynę" aria-label="add-team">
           <IconButton><AddIcon onClick={() => addTeam(code)}/></IconButton>
         </Tooltip>
-        {code.teams && code.teams.map((code, i) => (
-          <li key={i}>{code}</li>
+      };
+    });
+    listOfCode = <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>LP</TableCell>
+          <TableCell>KOD</TableCell>
+          <TableCell>DRUŻYNY PRZYPISANE DO KODU</TableCell>
+          <TableCell>DODAJ DRUŻYNĘ</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row.code}>
+            <TableCell>
+              {row.lp}
+            </TableCell>
+            <TableCell>
+              {row.code}
+            </TableCell>
+            <TableCell>{row.teams}</TableCell>
+            <TableCell>{row.add}</TableCell>
+          </TableRow>
         ))}
-      </ListContainer>
-    ));
+      </TableBody>
+    </Table>;
   }
 
   const saveCode = (): void => {
@@ -119,7 +141,6 @@ const AddCode = (): JSX.Element => {
           <h2>Przypisane kody</h2>
           {listOfCode}
           <Button variant="contained" color="primary" onClick={() => sendCode()}>Zapisz kody do bazy</Button>
-          {/* <button onClick={sendCode}>Zapisz kody do bazy</button> */}
         </section>
       </div>
     </>
