@@ -3,7 +3,7 @@ import { IObjectKeys } from './object.helper.model';
 export interface Person extends IObjectKeys {
   name: string;
   surname: string;
-  dateOfAdd: string;
+  dateOfAdd: Date | null;
   dateOfDelete?: Date | null;
   team?: string;
 };

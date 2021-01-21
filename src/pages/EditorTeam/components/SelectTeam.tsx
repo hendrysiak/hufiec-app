@@ -17,7 +17,6 @@ interface SelectTeam {
 }
 
 const SelectTeam = ({onChange, team}: SelectTeam) => {
-  // const [stateTeam, setTeam] = useState<string>('');
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 

@@ -9,7 +9,7 @@ const feeByYear: Record<number, number> = {
 
 const countAmountOfFee = (person: APIPerson): number => {
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : new Date();
-  const dateOfAdd = new Date(person.dateOfAdd);
+  const dateOfAdd = person.dateOfAdd ? person.dateOfAdd : new Date();
   const quarterOfEnd = Math.floor((new Date(lastDate).getMonth() + 3) / 3);
   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
   
@@ -45,6 +45,5 @@ export const countingMemberFee = (person: APIPerson): number => {
   const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + currentIncome.cash, 0);
   const neededFee = countAmountOfFee(person);
 
-  // console.log(neededFee);
   return allFeeIncomesValue - neededFee;
 };

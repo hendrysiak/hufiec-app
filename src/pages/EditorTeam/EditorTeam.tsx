@@ -33,18 +33,17 @@ const EditorTeam: FC = () => {
   const [team, setTeam] = useState<string>('');
   const classes = useStyles();
   const [actualValue, setActualValue] = useState<IPerson>(
-    { name: '', surname:'', id: '', dateOfAdd: '' }
+    { name: '', surname:'', id: '', dateOfAdd: null }
   );
   const [prevValue, setPrevValue] = useState<IPerson>(
-    { name: '', surname: '', id: '', dateOfAdd: '' }
+    { name: '', surname: '', id: '', dateOfAdd: null }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
 
   const handleAcceptChange = (id: string) => {
     rows && rows.map(el => {
       if (el.id === id && (prevValue.name !== actualValue.name || prevValue.surname !== actualValue.surname )) {
-        // editTeamMember(team, actualValue);
-        console.log(team, actualValue)
+        editTeamMember(team, actualValue);
         setPrevValue((prev) => (
           {
             ...prev,

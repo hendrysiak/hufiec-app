@@ -9,7 +9,7 @@ import classes from '../EditorTeam.module.css';
 
 
 const NewTeamMember = ({team}: {team: string}) => {
-  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: '' });
+  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput({
@@ -19,7 +19,6 @@ const NewTeamMember = ({team}: {team: string}) => {
   };
   const handleAddTeamMemebr = () => {
     if (team && team.length && input.name.length && input.surname.length) addTeamMember(team, input);
-    console.log(team, input);
   };
 
   return (
