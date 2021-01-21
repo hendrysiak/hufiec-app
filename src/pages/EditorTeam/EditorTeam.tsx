@@ -43,7 +43,8 @@ const EditorTeam: FC = () => {
   const handleAcceptChange = (id: string) => {
     rows && rows.map(el => {
       if (el.id === id && (prevValue.name !== actualValue.name || prevValue.surname !== actualValue.surname )) {
-        editTeamMember(team, actualValue);
+        // editTeamMember(team, actualValue);
+        console.log(team, actualValue)
         setPrevValue((prev) => (
           {
             ...prev,

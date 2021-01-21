@@ -46,7 +46,6 @@ export const deleteIncome = async (id: string): Promise<void> => {
 
 export const addTeamMember = async (team: string, person: { name: string, surname: string}): Promise<void> => {
   const extendedPerson: Person = { ...person, dateOfAdd: new Date().toLocaleString().split(',')[0], team };
-
   const response = await axios.post(`/registry/${team}.json`, extendedPerson); 
 
   store.dispatch(reduxAddMember({ ...extendedPerson, id: response.data.name }));

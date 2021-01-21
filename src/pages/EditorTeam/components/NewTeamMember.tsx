@@ -19,6 +19,7 @@ const NewTeamMember = ({team}: {team: string}) => {
   };
   const handleAddTeamMemebr = () => {
     if (team && team.length && input.name.length && input.surname.length) addTeamMember(team, input);
+    console.log(team, input);
   };
 
   return (
