@@ -12,6 +12,8 @@ import React, { useState, useEffect, FC } from 'react';
 
 import { useSelector } from 'react-redux';
 
+import { Rows } from 'models/global.enum';
+
 import { APIPerson } from 'models/registry.models';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
@@ -80,7 +82,7 @@ const EditorTeam: FC = () => {
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, row: IPerson) => {
-    if (e.target.getAttribute('name') === 'lp') return;
+    if (e.target.getAttribute(Rows.Name) === Rows.Lp) return;
     const value = e.target.value;
     const name = e.target.name;
     const { id } = row;
@@ -116,11 +118,11 @@ const EditorTeam: FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    if (rows) {
-      const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
-      memberToDelete.dateOfDelete = new Date();
-      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(team, memberToDelete);
-    };
+    // if (rows) {
+    //   const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
+    //   memberToDelete.dateOfDelete = new Date();
+    //   if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(team, memberToDelete);
+    // };
   };
 
   const handleChangeSelect = (value: string) => {
@@ -182,9 +184,9 @@ const EditorTeam: FC = () => {
                   </IconButton>
                 )}
               </TableCell>
-              <CustomTableCell {...{ row, name: 'lp', onChange }} />
-              <CustomTableCell {...{ row, name: 'name', onChange }} />
-              <CustomTableCell {...{ row, name: 'surname', onChange }} />
+              <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
+              <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
+              <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
               <TableCell className={classes.selectTableCell}>
                 <IconButton
                   aria-label="delete"
