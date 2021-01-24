@@ -1,5 +1,4 @@
 import './App.css';
-
 import DateFnsUtils from '@date-io/date-fns';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -49,6 +48,7 @@ const App = (): JSX.Element => {
   const UnAssignedIncome = React.lazy(() => import( './pages/UnAssignedIncome/UnAssignedIncome'));
   const ImportIncome = React.lazy(() => import( './pages/ImportIncome/ImportIncome'));
   const Edit = React.lazy(() => import( './pages/Edit/Edit'));
+  const Login = React.lazy(() => import('./pages/Login/Login'));
   // const EditTeam = React.lazy(() => import( './pages/EditTeam/EditTeam'));
 
   const routes = <BrowserRouter>
@@ -68,6 +68,7 @@ const App = (): JSX.Element => {
       <Route exact path="/editor" render={() => <Edit />} />
       <Route exact path={`/info/:teamId`} render={() => <Team />}/>
       {/* <Route exact path={`/edit-team`} render={() => <EditTeam />}/> */}
+      <Route exact path="/login" render={() => <Login />} />
     </Switch>
   </BrowserRouter>;
 
