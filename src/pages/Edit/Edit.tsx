@@ -32,6 +32,8 @@ const Edit = (): JSX.Element => {
   const [team, setTeam] = useState('Brak');
   const [founding, setFounding] = useState('Brak');
   const [category, setCategory] = useState<OutcomeCategory | string>('Brak');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
 
   const [editedImportDates, setEditedImportDates] = useState<string[]>([]);
 
@@ -49,10 +51,12 @@ const Edit = (): JSX.Element => {
       if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
+      if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
+      if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
     filteredIncomes && setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate, dbIncomes, useDate, editedData]);
+  },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
@@ -151,6 +155,10 @@ const Edit = (): JSX.Element => {
         setFounding={setFounding}
         team={team}
         setTeam={setTeam}
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}
         useDate={useDate}
         setUseDate={setUseDate}
       />
