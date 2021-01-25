@@ -1,16 +1,41 @@
 import { Button, Checkbox, FormControl, FormControlLabel, Input, InputBase, InputLabel, Paper, TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router';
+// import { useHistory } from "react-router-dom";
+
+import { reduxIsAuthenticated } from 'store/actions/authorization';
 
 import classes from './Login.module.css';
+import { Authorization } from '../../store/actions/action.types';
 
 const Login = () => {
+  const history = useHistory();
   const [formReset, setFormReset] = useState<boolean>(false);
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
 
   const handleRemindBtn = () => {
     console.log(email, 'email wysyłanie zapytania');
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      const token = true;
+      if (token) dispatch(reduxIsAuthenticated(true));
+      return history.push('/');
+    },2000);
+  },[]);
+
+  const checkLogin = (login: string, password: string) => {
+    if (login === 'aaa' && password === 'bbb') {
+      dispatch(reduxIsAuthenticated(true));
+      // return <Redirect to="/"/>;
+      return history.push('/');
+    }
   };
 
   const onSubmit = (e: any) => {
@@ -19,8 +44,9 @@ const Login = () => {
     //   /^\S+@\S+\.\S+$/.test(email) ? alert('odbierz e-mail') : alert('popraw e-mail');
     //   return;
     // }
-    if (!formReset) console.log('funkcja przyjmująca login hasło');
-  }
+    if (!formReset) checkLogin(login, password);
+  };
+  
   return (
 
     <>

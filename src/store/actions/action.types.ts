@@ -103,6 +103,11 @@ export interface DeleteMember {
   member: APIPerson;
 }
 
+export interface Authorization {
+  type: ActionTypes.AUTHORIZATION;
+  isAuthentication: boolean | null;
+}
+
 export type ActionType = 
 | LoadingEnd
 | LoadingStart
@@ -124,3 +129,4 @@ export type ActionType =
 | AddMember
 | EditMember
 | DeleteMember
+| Authorization

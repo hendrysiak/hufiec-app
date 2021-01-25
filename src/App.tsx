@@ -7,8 +7,10 @@ import {
 } from '@material-ui/pickers';
 
 import React, { Suspense, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { reduxIsAuthenticated } from 'store/actions/authorization';
 
 import { 
   getAccountState, 
@@ -17,6 +19,7 @@ import {
   getImportDates 
 } from './pages/DashBoard/api-handlers/account.handler';
 
+import { Authorization } from './store/actions/action.types';
 import * as actions from './store/actions/index';
 import store from './store/store';
 
@@ -24,6 +27,10 @@ import store from './store/store';
 const App = (): JSX.Element => {
 //TODO temporary "any" fix
   const loadingStatus = useSelector((state: any) => state.ui.loading);
+  const isAuth = useSelector((state: any) => state.authorization);
+  const dispatch = useDispatch();
+  console.log(isAuth);
+  const history = useHistory();
 
   useEffect(() => {
     // store.dispatch(actions.loadingStart);
@@ -36,6 +43,7 @@ const App = (): JSX.Element => {
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
   },[]);
+
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
@@ -50,38 +58,44 @@ const App = (): JSX.Element => {
   const Edit = React.lazy(() => import( './pages/Edit/Edit'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
   // const EditTeam = React.lazy(() => import( './pages/EditTeam/EditTeam'));
-
-  const routes = <BrowserRouter>
-
-    <Switch>
-      <Route exact path="/" render={() => <DashBoard />} />
-      <Route exact path="/transfers" render={() => <ImportIncome />} />
-      <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
-      <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
-      {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-      <Route exact path="/codes" render={() => <Codes />} />
-      <Route exact path="/add-code" render={() => <AddCode/>} />
-      {/* <Route exact path="/:teamId" render={() => <Team />} /> */}
-      <Route exact path="/add-approval" render={() => <EventApproval />} />
-      <Route exact path="/add-billing" render={() => <EventBilling />} />
-      <Route exact path="/for-coders" render={() => <ForCoders/>} />
-      <Route exact path="/editor" render={() => <Edit />} />
-      <Route exact path={`/info/:teamId`} render={() => <Team />}/>
-      {/* <Route exact path={`/edit-team`} render={() => <EditTeam />}/> */}
-      <Route exact path="/login" render={() => <Login />} />
-    </Switch>
-  </BrowserRouter>;
+  const routes = isAuth.isAuthorization ? 
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" render={() => <DashBoard/>} />
+        <Route exact path="/transfers" render={() => <ImportIncome />} />
+        <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
+        <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
+        {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
+        <Route exact path="/codes" render={() => <Codes />} />
+        <Route exact path="/add-code" render={() => <AddCode/>} />
+        {/* <Route exact path="/:teamId" render={() => <Team />} /> */}
+        <Route exact path="/add-approval" render={() => <EventApproval />} />
+        <Route exact path="/add-billing" render={() => <EventBilling />} />
+        <Route exact path="/for-coders" render={() => <ForCoders/>} />
+        <Route exact path="/editor" render={() => <Edit />} />
+        <Route exact path={`/info/:teamId`} render={() => <Team />}/>
+        {/* <Route exact path={`/edit-team`} render={() => <EditTeam />}/> */}
+      </Switch>
+    </BrowserRouter> : 
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/login" render={() => <Login />} />
+      </Switch>
+      <Redirect to="/login"/>
+    </BrowserRouter>;
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div className="app">
-        {loadingStatus 
-          ? <div className="loader"><CircularProgress/></div>
-          : (<div>
-            <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
-          </div>)}
-      </div>
-    </MuiPickersUtilsProvider>
+    <>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className="app">
+          {loadingStatus 
+            ? <div className="loader"><CircularProgress/></div>
+            : (<div>
+              <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
+            </div>)}
+        </div>
+      </MuiPickersUtilsProvider>
+    </>
   );
 
 };

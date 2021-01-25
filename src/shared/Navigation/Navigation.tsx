@@ -10,11 +10,14 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
 const Navigation = (): JSX.Element => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
+  console.log(isAuth);
 
   useEffect(() => {
     document.body.addEventListener('click', (event: MouseEvent): void => {
@@ -23,7 +26,7 @@ const Navigation = (): JSX.Element => {
     });
   },[]);
 
-  const navigation = [
+  const navigation = isAuth ? [
     { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
     { link: '/codes', title: 'FILTRUJ PO KODZIE', icon: <CodeIcon fontSize="small" /> },
@@ -32,6 +35,8 @@ const Navigation = (): JSX.Element => {
     { link: '/add-billing', title: 'DODAJ ROZLICZENIE', icon: <PlaylistAddCheckIcon fontSize="small" /> },
     { link: '/editor', title: 'EDYTUJ PRZYCHODY/KOSZTY', icon: <EditIcon fontSize="small" /> },
     { link: '/edit-team', title: 'EDYTUJ DRUŻYNĘ', icon: <EditIcon fontSize="small" /> },
+  ] : [
+    { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
   ];
 
   return (
