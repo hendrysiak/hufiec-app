@@ -73,3 +73,8 @@ export const deleteTeamMember = async (team: string, person: APIPerson): Promise
 
   store.dispatch(reduxDeleteMember(mappedPerson));
 };
+
+export const updateOnePercent = async (team : string, value: string) => {
+  const newValue = await axios.put(`/onePercent/${team}.json` , value);
+  return newValue.data * 1;
+}
