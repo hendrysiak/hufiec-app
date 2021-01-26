@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
+import { useDebounce } from 'helpers/hooks/useDebounce';
 
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 
@@ -13,12 +15,17 @@ import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 
+
 type Props = {
   editedData: BudgetEntry;
   selectedDate: MaterialUiPickersDate | null;
   setSelectedDate: (date: MaterialUiPickersDate) => void;
   team: string;
   setTeam: (team: string) => void;
+  name: string;
+  setName: (team: string) => void;
+  surname: string;
+  setSurname: (team: string) => void;
   event: string;
   setEvent: (event: string) => void;
   founding: FoundingSources | string;
@@ -34,6 +41,30 @@ const Filters = (props: Props): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
 
   const codes = useSelector((state: RootState) => state.income.codes);
+
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
+
+  // const handleSetname = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+  //   props.setName(name);
+  // };
+
+  // const handleSetsurname = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+  //   props.setSurname(surname);
+  // };
+
+  const debouncedName = useDebounce(name, 500);
+  const debouncedSurname = useDebounce(name, 500);
+
+  useEffect(() => {
+    props.setName(name);
+  }, [debouncedName]);
+
+  useEffect(() => {
+    props.setSurname(surname);
+  }, [debouncedSurname]);
   
   const useStyles = makeStyles((theme) => ({
     dayWithDotContainer: {
@@ -115,6 +146,28 @@ const Filters = (props: Props): JSX.Element => {
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
+      <TextField
+        style={{ marginTop: '16px' }}
+        label="Po imieniu"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Wpisz imię"
+        size="small"
+        variant="outlined"
+        margin="normal"
+      />
+
+      <TextField
+        style={{ marginTop: '16px' }}
+        label="Po nazwisku"
+        value={surname}
+        onChange={(e) => setSurname(e.target.value)}
+        placeholder="Wpisz nazwisko"
+        size="small"
+        variant="outlined"
+        margin="normal"
+
+      />
     </>
   );
   const filtersToOutcomes = (

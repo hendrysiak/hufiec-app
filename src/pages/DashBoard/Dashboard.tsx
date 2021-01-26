@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
+import { Decrypt, Encrypt } from 'helpers/password.helper';
 
 import React, { Component, useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
@@ -34,14 +35,6 @@ const Dashboard = (): JSX.Element => {
   const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setAccountState(organizationStateVerification())
-  //     setLoading(false);
-  //   }, 3000);
-  // }, [])
-   
   return (
     <>
       <Navigation />
