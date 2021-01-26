@@ -96,6 +96,7 @@ export interface AddMember {
 export interface EditMember {
   type: ActionTypes.EDIT_MEMBER;
   member: APIPerson;
+  team: string;
 }
 
 export interface DeleteMember {
