@@ -29,7 +29,6 @@ const App = (): JSX.Element => {
   const loadingStatus = useSelector((state: any) => state.ui.loading);
   const isAuth = useSelector((state: any) => state.authorization);
   const dispatch = useDispatch();
-  console.log(isAuth);
   const history = useHistory();
 
   useEffect(() => {
@@ -61,7 +60,7 @@ const App = (): JSX.Element => {
   const routes = isAuth.isAuthorization ? 
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <DashBoard/>} />
+        Route exact path="/" render={() => <DashBoard/>} /> {moderator}
         <Route exact path="/transfers" render={() => <ImportIncome />} />
         <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
         <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
@@ -70,10 +69,10 @@ const App = (): JSX.Element => {
         <Route exact path="/add-code" render={() => <AddCode/>} />
         {/* <Route exact path="/:teamId" render={() => <Team />} /> */}
         <Route exact path="/add-approval" render={() => <EventApproval />} />
-        <Route exact path="/add-billing" render={() => <EventBilling />} />
-        <Route exact path="/for-coders" render={() => <ForCoders/>} />
-        <Route exact path="/editor" render={() => <Edit />} />
-        <Route exact path={`/info/:teamId`} render={() => <Team />}/>
+        <Route exact path="/add-billing" render={() => <EventBilling />} /> {moderator}
+        <Route exact path="/for-coders" render={() => <ForCoders/>} /> {admin}
+        <Route exact path="/editor" render={() => <Edit />} /> {admin}
+        <Route exact path={`/info/:teamId`} render={() => <Team />}/> {lider}
         {/* <Route exact path={`/edit-team`} render={() => <EditTeam />}/> */}
       </Switch>
     </BrowserRouter> : 
