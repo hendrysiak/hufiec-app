@@ -45,8 +45,7 @@ export const deleteIncome = async (id: string): Promise<void> => {
 };
 
 export const addTeamMember = async (team: string, person: { name: string, surname: string}): Promise<void> => {
-  const extendedPerson: Person = { ...person, dateOfAdd: new Date().toLocaleString().split(',')[0], team };
-
+  const extendedPerson: Person = { ...person, dateOfAdd: new Date(), team };
   const response = await axios.post(`/registry/${team}.json`, extendedPerson); 
 
   store.dispatch(reduxAddMember({ ...extendedPerson, id: response.data.name }));
@@ -59,10 +58,9 @@ export const editTeamMember = async (team: string, person: APIPerson): Promise<v
     dateOfAdd: person.dateOfAdd,
     dateOfDelete: person.dateOfDelete
   };
-
   await axios.put(`/registry/${team}/${person.id}.json`, { ...reducedMember }); 
 
-  store.dispatch(reduxEditMember(person));
+  store.dispatch(reduxEditMember(person, team));
 };
 
 export const deleteTeamMember = async (team: string, person: APIPerson): Promise<void> => {
@@ -72,4 +70,10 @@ export const deleteTeamMember = async (team: string, person: APIPerson): Promise
   axios.delete(`/registry/${team}/${person.id}.json`); 
 
   store.dispatch(reduxDeleteMember(mappedPerson));
+};
+
+
+export const updateOnePercent = async (team : string, value: string) => {
+  const newValue = await axios.put(`/onePercent/${team}.json` , value);
+  return newValue.data * 1;
 };

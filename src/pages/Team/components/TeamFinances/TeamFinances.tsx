@@ -45,6 +45,7 @@ const TeamFinances = ({ incomes, currentTeam } : Props): JSX.Element => {
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get(`/onePercent/${currentTeam}.json`);
+      console.log(result);
       setOnePercent(result.data);
     };
     getData();

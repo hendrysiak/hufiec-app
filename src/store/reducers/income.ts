@@ -132,31 +132,33 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
       } else throw Error('Błąd z drużyną');
 
     case ActionTypes.EDIT_MEMBER:
-      if (action.member.team) {
-        const teamAfterEdit = [...state.registry[action.member.team]];
-        const indexOfUpdatedMember 
-          = teamAfterEdit.findIndex((m: APIPerson) => m.id === action.member.id);
+      if (action.team) {
+        const teamBeforeEdit = [...state.registry[action.team]];
 
-        if (indexOfUpdatedMember) teamAfterEdit[indexOfUpdatedMember] = { ...action.member };
-
+        const teamAfterEdit = teamBeforeEdit.map(el => {
+          if (el.id === action.member.id) {
+            return ({
+              ...action.member
+            });
+          }
+          return el;
+        });
+        
         return {
           ...state,
-          registry: { ...state.registry, [action.member.team]: [...teamAfterEdit] }
+          registry: { ...state.registry, [action.team]: [...teamAfterEdit] }
         };
 
       } else throw Error('Błąd z drużyną');
 
     case ActionTypes.DELETE_MEMBER:
       if (action.member.team) {
-        const teamAfterDelete = [...state.registry[action.member.team]];
-        const indexOfDeletedMember 
-          = teamAfterDelete.findIndex((m: APIPerson) => m.id === action.member.id);
-        
+        const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
         return {
           ...state,
           registry: { 
             ...state.registry, 
-            [action.member.team]: [...teamAfterDelete.splice(indexOfDeletedMember, 1)] }
+            [action.member.team]: [...teamAfterDelete] }
         };
 
       } else throw Error('Błąd z drużyną');

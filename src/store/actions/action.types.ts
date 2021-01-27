@@ -96,6 +96,7 @@ export interface AddMember {
 export interface EditMember {
   type: ActionTypes.EDIT_MEMBER;
   member: APIPerson;
+  team: string;
 }
 
 export interface DeleteMember {
@@ -107,6 +108,13 @@ export interface Authorization {
   type: ActionTypes.AUTHORIZATION;
   isAuthentication: boolean | null;
 }
+
+export interface SetRoles {
+  type: ActionTypes.SET_ROLES;
+  roles: string[];
+}
+
+
 
 export type ActionType = 
 | LoadingEnd
@@ -130,3 +138,4 @@ export type ActionType =
 | EditMember
 | DeleteMember
 | Authorization
+| SetRoles

@@ -2,11 +2,13 @@ import { Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 
-import React, { Component, useEffect, useState } from 'react';
-import { connect, useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import Navigation from 'shared/Navigation/Navigation';
+import { reduxIsAuthenticated } from 'store/actions/authorization';
 
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
@@ -30,18 +32,19 @@ import store from '../../store/store';
 
 
 const Dashboard = (): JSX.Element => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
 
   const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setAccountState(organizationStateVerification())
-  //     setLoading(false);
-  //   }, 3000);
-  // }, [])
-   
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    token && !isAuth && dispatch(reduxIsAuthenticated(true));
+  //   return history.push('/');
+  },[]);
+
   return (
     <>
       <Navigation />

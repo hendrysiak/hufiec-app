@@ -45,3 +45,8 @@ export enum Routing {
   Tickes = 'ticket.json',
 }
 
+export enum Rows {
+  Lp = 'lp',
+  Name = 'name',
+  Surname = 'surname'
+}

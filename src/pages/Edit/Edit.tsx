@@ -3,7 +3,7 @@ import { TextField, MenuItem } from '@material-ui/core';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState, useEffect } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { addIncome, addOutcome, deleteIncome, deleteOutcome, editIncome, editOutcome } from 'helpers/editing-db.handler';
@@ -14,6 +14,8 @@ import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
 
 import { RootState } from 'store/models/rootstate.model';
+import { Authorization } from '../../store/actions/action.types';
+import { reduxIsAuthenticated } from 'store/actions/authorization';
 
 const Edit = (): JSX.Element => {
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
@@ -32,12 +34,21 @@ const Edit = (): JSX.Element => {
   const [team, setTeam] = useState('Brak');
   const [founding, setFounding] = useState('Brak');
   const [category, setCategory] = useState<OutcomeCategory | string>('Brak');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
 
   const [editedImportDates, setEditedImportDates] = useState<string[]>([]);
 
   const [editedIndex, setEditedIndex] = useState(-1);
 
   const [useDate, setUseDate] = useState(true);
+
+  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    token && !isAuth && dispatch(reduxIsAuthenticated(true));
+  },[])
 
   useEffect(() => {
     dbIncomes && setDisplayedIncome(dbIncomes);
@@ -49,10 +60,12 @@ const Edit = (): JSX.Element => {
       if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
+      if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
+      if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
     filteredIncomes && setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate, dbIncomes, useDate, editedData]);
+  },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
@@ -151,6 +164,10 @@ const Edit = (): JSX.Element => {
         setFounding={setFounding}
         team={team}
         setTeam={setTeam}
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}
         useDate={useDate}
         setUseDate={setUseDate}
       />

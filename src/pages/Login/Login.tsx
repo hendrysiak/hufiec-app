@@ -8,6 +8,7 @@ import { reduxIsAuthenticated } from 'store/actions/authorization';
 
 import classes from './Login.module.css';
 import { Authorization } from '../../store/actions/action.types';
+import { Decrypt, Encrypt, getAccount } from 'helpers/password.helper';
 
 const Login = () => {
   const history = useHistory();
@@ -23,28 +24,28 @@ const Login = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      const token = true;
-      if (token) dispatch(reduxIsAuthenticated(true));
-      return history.push('/');
-    },2000);
+    // console.log(history);
+    const token = localStorage.getItem('token');
+    if (token) dispatch(reduxIsAuthenticated(true));
   },[]);
 
-  const checkLogin = (login: string, password: string) => {
-    if (login === 'aaa' && password === 'bbb') {
+  const checkLogin = async (login: string, password: string) => {
+    const accountData = await getAccount(login);
+    if (accountData.password === Encrypt(password)) {
+      console.log(accountData);
       dispatch(reduxIsAuthenticated(true));
-      // return <Redirect to="/"/>;
+      localStorage.setItem('token', 'true');
       return history.push('/');
     }
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
+    if (!formReset) checkLogin(login, password);
     // if (formReset) {
     //   /^\S+@\S+\.\S+$/.test(email) ? alert('odbierz e-mail') : alert('popraw e-mail');
     //   return;
     // }
-    if (!formReset) checkLogin(login, password);
   };
   
   return (
@@ -52,7 +53,7 @@ const Login = () => {
     <>
       <Paper className={classes.form} component="form" onSubmit={onSubmit}>
         <Input type="text/submit" className={classes.input} id="standard-basic" placeholder="Login" disabled={formReset} onChange={(e) => setLogin(e.target.value)}/>
-        <Input type="test/submit" className={classes.input} id="standard-basic" placeholder="Hasło" disabled={formReset} onChange={(e) => setPassword(e.target.value)}/>
+        <Input type="password" className={classes.input} id="standard-basic" placeholder="Hasło" disabled={formReset} onChange={(e) => setPassword(e.target.value)}/>
         <Button type="submit" className={classes.btn} variant="contained" color="primary" disabled={formReset}>
           ZALOGUJ
         </Button>
