@@ -9,7 +9,7 @@ const feeByYear: Record<number, number> = {
 
 const countAmountOfFee = (person: APIPerson): number => {
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : new Date();
-  const dateOfAdd = person.dateOfAdd ? person.dateOfAdd : new Date();
+  const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
   const quarterOfEnd = Math.floor((new Date(lastDate).getMonth() + 3) / 3);
   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
   

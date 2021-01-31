@@ -114,8 +114,6 @@ export interface SetRoles {
   roles: string[];
 }
 
-
-
 export type ActionType = 
 | LoadingEnd
 | LoadingStart

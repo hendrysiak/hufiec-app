@@ -5,6 +5,7 @@ import { IAuthorization } from 'store/models/authorization.model.state';
 
 const initialState: IAuthorization = {
   isAuthorization: null,
+  roles: null,
 };
 
 const reducer = (state = initialState, action: ActionType): IAuthorization => {
@@ -13,6 +14,11 @@ const reducer = (state = initialState, action: ActionType): IAuthorization => {
       return {
         ...state,
         isAuthorization: action.isAuthentication
+      };
+    case ActionTypes.SET_ROLES:
+      return {
+        ...state,
+        roles: action.roles
       };
     default:
       return state;

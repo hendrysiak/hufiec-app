@@ -12,18 +12,19 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { useLocation } from 'react-router-dom';
 
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
 const Navigation = (): JSX.Element => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     document.body.addEventListener('click', (event: MouseEvent): void => {
       const target = event.target as HTMLElement;
       if (target && !target.classList.contains('nav')) setIsOpen(false);
     });
+    !localStorage.getItem('token') && history.push('/login');
   },[]);
 
   const navigation = [
