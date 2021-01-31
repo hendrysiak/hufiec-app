@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Navigation from 'shared/Navigation/Navigation';
-import { reduxIsAuthenticated } from 'store/actions/authorization';
+import { reduxIsAuthenticated } from 'store/actions/user';
 
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
@@ -32,17 +32,15 @@ import store from '../../store/store';
 
 
 const Dashboard = (): JSX.Element => {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
+  const isAuth = useSelector((state: any) => state.user.isAuthorization);
 
-  const [accountState, setAccountState] = useState({});
+  // const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && dispatch(reduxIsAuthenticated(true));
-  //   return history.push('/');
   },[]);
 
   return (

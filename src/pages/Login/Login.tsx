@@ -8,60 +8,57 @@ import {
   InputLabel,
   Paper,
   TextField,
-} from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+} from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 // import { useHistory } from "react-router-dom";
 
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 
-import { Encrypt, getAccount } from "helpers/password.helper";
-import { reduxIsAuthenticated } from "store/actions/authorization";
+import { Decrypt, DecryptCookie, Encrypt, EncryptCookie, getAccount } from 'helpers/password.helper';
+import {
+  reduxIsAuthenticated,
+  reduxSetRoles,
+} from 'store/actions/user';
 
-import { Authorization } from "../../store/actions/action.types";
+import { Authorization } from '../../store/actions/action.types';
 
-import classes from "./Login.module.css";
-import { reduxSetRoles } from "../../store/actions/authorization";
+import classes from './Login.module.css';
 
 const Login = () => {
   const history = useHistory();
   const [formReset, setFormReset] = useState<boolean>(false);
-  const [login, setLogin] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [login, setLogin] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  // const [email, setEmail] = useState<string>('');
   const dispatch = useDispatch();
   const cookies = new Cookies();
-  const isAuth = useSelector(
-    (state: any) => state.authorization.isAuthorization
-  );
+  // const isAuth = useSelector(
+  //   (state: any) => state.user.isAuthorization
+  // );
 
-  const handleRemindBtn = () => {
-    console.log(email, "email wysyłanie zapytania");
-  };
+  // const handleRemindBtn = () => {
+  //   console.log(email, 'email wysyłanie zapytania');
+  // };
 
-  useEffect(() => {
-    // console.log(history);
-    const token = localStorage.getItem("token");
-    if (token) dispatch(reduxIsAuthenticated(true));
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) dispatch(reduxIsAuthenticated(true));
+  // }, []);
 
   const checkLogin = async (login: string, password: string) => {
     const accountData = await getAccount(login);
-    if (accountData.password === Encrypt(password)) {
-      console.log(accountData.roles);
-      dispatch(reduxIsAuthenticated(true));
+    if (password === Decrypt(accountData.password)) {
       dispatch(reduxSetRoles(accountData.roles));
-      localStorage.setItem("token", "true");
-      cookies.set("token", "token", { path: "/", maxAge: 10 });
-      return history.push("/");
+      cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 20});
+      return history.push('/addpercent');
     }
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement | HTMLDivElement>) => {
     e.preventDefault();
     if (!formReset) checkLogin(login, password);
-
     // if (formReset) {
     //   /^\S+@\S+\.\S+$/.test(email) ? alert('odbierz e-mail') : alert('popraw e-mail');
     //   return;

@@ -14,8 +14,7 @@ import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
 
 import { RootState } from 'store/models/rootstate.model';
-import { Authorization } from '../../store/actions/action.types';
-import { reduxIsAuthenticated } from 'store/actions/authorization';
+import { reduxIsAuthenticated } from 'store/actions/user';
 
 const Edit = (): JSX.Element => {
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
@@ -43,7 +42,7 @@ const Edit = (): JSX.Element => {
 
   const [useDate, setUseDate] = useState(true);
 
-  const isAuth = useSelector((state: any) => state.authorization.isAuthorization);
+  const isAuth = useSelector((state: any) => state.user.isAuthorization);
   const dispatch = useDispatch()
   useEffect(() => {
     const token = localStorage.getItem('token');

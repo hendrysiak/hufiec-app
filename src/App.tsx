@@ -5,14 +5,19 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 
-import React, { Suspense, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { Suspense, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { BrowserRouter, 
-        Redirect, 
-        Route, 
-        Switch } from 'react-router-dom';
+  Redirect, 
+  Route, 
+  Switch } from 'react-router-dom';
 
-import Login from 'pages/Login/Login';
+import Cookies from 'universal-cookie';
+
+import { Decrypt, DecryptCookie, EncryptCookie, getAccount } from 'helpers/password.helper';
+// import Login from 'pages/Login/Login';
+import { reduxSetRoles } from 'store/actions/user';
 
 import { 
   getAccountState, 
@@ -28,7 +33,13 @@ import store from './store/store';
 const App = (): JSX.Element => {
 //TODO temporary "any" fix
   const loadingStatus = useSelector((state: any) => state.ui.loading);
-  const isAuth = useSelector((state: any) => state.authorization);
+  const isAuth = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const [roles, setRoles] = useState<string[] | null>(null);
+  const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
+  console.log(isAuth);
+  const history = useHistory();
 
   useEffect(() => {
     const downloadData = async () => {
@@ -39,8 +50,22 @@ const App = (): JSX.Element => {
     };
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
-  },[]);
 
+    const dataLogin = DecryptCookie(cookies.get('token'));
+    const checkLogin = async (login: string, password: string) => {
+      const accountData = await getAccount(login);
+      if (Decrypt(password) === Decrypt(accountData.password)) {
+        dispatch(reduxSetRoles(accountData.roles));
+        setRoles(accountData.roles);
+        setRedirectToLogin(true);
+        return;
+      }
+      return 0;
+    };
+    dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
+    !dataLogin && setRedirectToLogin(true);
+
+  },[]);
 
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
@@ -56,29 +81,29 @@ const App = (): JSX.Element => {
   const Edit = React.lazy(() => import( './pages/Edit/Edit'));
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
-
+  const Login = React.lazy(() => import('./pages/Login/Login'));
   const routes = 
-  <BrowserRouter>
-    <Switch>
-      <Route exact path="/" render={() => <DashBoard />} />
-      {isAuth && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
-      <Route exact path="/transfers" render={() => <ImportIncome />} />
-      <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
-      <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
-      {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-      <Route exact path="/codes" render={() => <Codes />} />
-      <Route exact path="/add-code" render={() => <AddCode/>} />
-      <Route exact path="/add-approval" render={() => <EventApproval />} />
-      <Route exact path="/add-billing" render={() => <EventBilling />} />
-      <Route exact path="/for-coders" render={() => <ForCoders/>} />
-      <Route exact path="/editor" render={() => <Edit />} />
-      <Route exact path="/info/:teamId" render={() => <Team />}/>
-      {isAuth && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
-      <Route exact path="/login" render={() => <Login />} />
-
-    </Switch>
-    {!localStorage.getItem('token') && <Redirect to="/login"/>}
-  </BrowserRouter>;
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" render={() => <DashBoard />} />
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
+        {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/info/:teamId" render={() => <Team />}/>}
+        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
+        <Route exact path="/login" render={() => <Login />} />
+      </Switch>
+      {redirectToLogin && !roles && <Redirect exact to="/login"/>}
+      
+    </BrowserRouter>;
 
   return (
     <>

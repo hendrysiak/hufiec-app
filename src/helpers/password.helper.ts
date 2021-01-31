@@ -34,3 +34,15 @@ export const getAccount = async (login: string) => {
   const result = await axios.get(`/users/${login}.json`);
   return result.data;
 };
+
+export const EncryptCookie = (login: string, password: string) => {
+  return Encrypt(login) + '.' + Encrypt(password);
+}
+
+export const DecryptCookie = (cookie: string) => {
+  if (!cookie) return;
+  const login = cookie.split('.')[0];
+  const password = cookie.split('.')[1];
+  return { login, password };
+};
+

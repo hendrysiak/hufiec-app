@@ -4,14 +4,14 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 
-import authorizationReducer from './reducers/authorization';
+import userReducer from './reducers/user';
 import incomeReducer from './reducers/income';
 import uiReducer from './reducers/ui';
 
 const rootReducer = combineReducers({
   income: incomeReducer,
   ui: uiReducer,
-  authorization: authorizationReducer,
+  user: userReducer,
 });
 
 const store = createStore(
