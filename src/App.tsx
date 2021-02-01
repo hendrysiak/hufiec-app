@@ -7,7 +7,6 @@ import {
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 import { BrowserRouter, 
   Redirect, 
   Route, 
@@ -15,8 +14,7 @@ import { BrowserRouter,
 
 import Cookies from 'universal-cookie';
 
-import { Decrypt, DecryptCookie, EncryptCookie, getAccount } from 'helpers/password.helper';
-// import Login from 'pages/Login/Login';
+import { Decrypt, DecryptCookie, getAccount } from 'helpers/password.helper';
 import { reduxSetRoles } from 'store/actions/user';
 
 import { 
@@ -37,9 +35,8 @@ const App = (): JSX.Element => {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [roles, setRoles] = useState<string[] | null>(null);
+  const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
-  console.log(isAuth);
-  const history = useHistory();
 
   useEffect(() => {
     const downloadData = async () => {
@@ -54,13 +51,14 @@ const App = (): JSX.Element => {
     const dataLogin = DecryptCookie(cookies.get('token'));
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
-      if (Decrypt(password) === Decrypt(accountData.password)) {
+      if (password === accountData.password) {
         dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
-        setRedirectToLogin(true);
+        // setRedirectToLogin(true);
+        setTeam('6673') // TODO <- team number enter to TEST
         return;
-      }
-      return 0;
+      } else setRedirectToLogin(true);
+      return;
     };
     dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
     !dataLogin && setRedirectToLogin(true);
@@ -82,6 +80,9 @@ const App = (): JSX.Element => {
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
+
+
+  //TODO jeśli jest lider, ma w api informacje z jakiej jednoski pochodzi - z bazy danych, przypisywane w redux i przekierowywanie tylko i wylacznie na jego TEAM.
   const routes = 
     <BrowserRouter>
       <Switch>
@@ -97,10 +98,11 @@ const App = (): JSX.Element => {
         {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
         {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/info/:teamId" render={() => <Team />}/>}
+        {isAuth.roles && (isAuth.roles.includes('admin') || isAuth.roles.includes('leader')) && <Route exact path="/info/:teamId" render={() => <Team />}/>}
         {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
       </Switch>
+      {team && <Redirect exact to={`/info/${team}`}/>}
       {redirectToLogin && !roles && <Redirect exact to="/login"/>}
       
     </BrowserRouter>;

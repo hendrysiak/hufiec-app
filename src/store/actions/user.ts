@@ -1,5 +1,5 @@
 import { ActionTypes } from './action.enum';
-import { Authorization, SetRoles } from './action.types';
+import { Authorization, SetRoles, SetTeam } from './action.types';
 
 
 export const reduxIsAuthenticated = (isAuthentication: boolean): Authorization => {
@@ -13,5 +13,11 @@ export const reduxSetRoles = (roles: string[]): SetRoles => {
   return {
     type: ActionTypes.SET_ROLES,
     roles
+  };
+};
+export const reduxSetTeam = (team: string): SetTeam => {
+  return {
+    type: ActionTypes.SET_TEAM,
+    team
   };
 };

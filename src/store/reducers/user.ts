@@ -6,6 +6,7 @@ import { IUser } from 'store/models/user.model.state';
 const initialState: IUser = {
   isAuthorization: null,
   roles: null,
+  team: null,
 };
 
 const reducer = (state = initialState, action: ActionType): IUser => {
@@ -19,6 +20,11 @@ const reducer = (state = initialState, action: ActionType): IUser => {
       return {
         ...state,
         roles: action.roles
+      };
+    case ActionTypes.SET_TEAM:
+      return {
+        ...state,
+        team: action.team
       };
     default:
       return state;

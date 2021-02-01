@@ -4,9 +4,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 
-import userReducer from './reducers/user';
 import incomeReducer from './reducers/income';
 import uiReducer from './reducers/ui';
+import userReducer from './reducers/user';
 
 const rootReducer = combineReducers({
   income: incomeReducer,

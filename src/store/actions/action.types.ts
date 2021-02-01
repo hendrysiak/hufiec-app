@@ -113,6 +113,10 @@ export interface SetRoles {
   type: ActionTypes.SET_ROLES;
   roles: string[];
 }
+export interface SetTeam {
+  type: ActionTypes.SET_TEAM;
+  team: string;
+}
 
 export type ActionType = 
 | LoadingEnd
@@ -137,3 +141,4 @@ export type ActionType =
 | DeleteMember
 | Authorization
 | SetRoles
+| SetTeam
