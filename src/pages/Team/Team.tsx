@@ -11,6 +11,8 @@ import {
   useLocation
 } from 'react-router-dom';
 
+import { useDebounce } from 'helpers/hooks/useDebounce';
+
 import { IncomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
@@ -40,6 +42,12 @@ const Team = (): JSX.Element => {
   const [useDate, setUseDate] = useState<boolean>(true);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
+
+  const debouncedName = useDebounce(name, 500);
+  const debouncedSurname = useDebounce(surname, 500);
 
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
@@ -101,11 +109,13 @@ const Team = (): JSX.Element => {
           && i.title 
           && i.year 
           && i.cash) return false;
+      if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
+      if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
     setDisplayedIncome(filteredIncomes);
 
-  },[event, selectedDate, incomesByCode, useDate, rows]);
+  },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
@@ -164,6 +174,26 @@ const Team = (): JSX.Element => {
                 item ? <MenuItem key={item} value={item}>{item}</MenuItem> : null
               ))}
             </TextField>
+            <TextField
+              label="Po imieniu"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Wpisz imię"
+              size="small"
+              variant="outlined"
+              margin="normal"
+            />
+
+            <TextField
+              label="Po nazwisku"
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+              placeholder="Wpisz nazwisko"
+              size="small"
+              variant="outlined"
+              margin="normal"
+
+            />
             <KeyboardDatePicker
               className="datePicker"
               disableToolbar
