@@ -2,6 +2,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 
+import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Form from 'pages/Team/components/Form/Form';
 
@@ -10,15 +11,15 @@ import TeamPage from 'pages/Team/components/TeamPage/TeamPage';
 
 import classes from './Tooltips.module.css';
 
-
 interface IProps {
   icon?: string,
   members: APIPerson[];
-  incomes: number | null,
+  incomes: IncomeDb[];
+  outcomes: OutcomeDb[];
   currentTeam: string;
 }
 
-const Tooltips = ({ members, incomes, currentTeam }: IProps): JSX.Element => {
+const Tooltips = ({ members, incomes, outcomes, currentTeam }: IProps): JSX.Element => {
   return (
     <>
       <div className={classes.tooltips}>
@@ -34,7 +35,7 @@ const Tooltips = ({ members, incomes, currentTeam }: IProps): JSX.Element => {
         </Tooltip>
         <Tooltip title="Stan konta drużyny">
           <IconButton aria-label="account-state">
-            <TeamFinances incomes={incomes} currentTeam={currentTeam}/>
+            <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam}/>
           </IconButton>
         </Tooltip>
       </div>

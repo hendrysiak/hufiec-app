@@ -13,7 +13,7 @@ import {
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
 
-import { IncomeDb } from 'models/income.models';
+import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { RootState } from 'store/models/rootstate.model';
@@ -23,6 +23,7 @@ import './style.css';
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
@@ -30,7 +31,8 @@ const Team = (): JSX.Element => {
   
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
-  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
+  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
+  const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
   
   const [incomesSC, setIncomesSC] = useState<number | null>(null);
 
@@ -57,8 +59,10 @@ const Team = (): JSX.Element => {
     const teamRegistry = registry && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(teamRegistry);
     const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
+    const outcomesToDisplay = dbOutcomes && currentTeam && dbOutcomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
-  },[registry, dbIncomes, currentTeam]);
+    outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
+  },[registry, dbIncomes, dbOutcomes, currentTeam]);
 
   useEffect(() => {
     const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
@@ -221,7 +225,7 @@ const Team = (): JSX.Element => {
               label="Sortuj po dacie"
             />
           </div>
-          <Tooltips members={currentTeamRegistry} incomes={incomesSC} currentTeam={currentTeam}/>
+          <Tooltips members={currentTeamRegistry} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam}/>
         </div>
         <h1>Drużyna: {currentTeam}</h1>
         <div style={{ width: 1500 }}>

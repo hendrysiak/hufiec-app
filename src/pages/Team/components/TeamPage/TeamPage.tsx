@@ -58,7 +58,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div className={classes.positionModal} style={{ height: 670, width: 500, backgroundColor: 'white' }}>
+        <div className={classes.positionModal} >
           {rows?.length ? (
             <DataGrid rows={rows} columns={columns} pageSize={10} /> 
           ) : (
