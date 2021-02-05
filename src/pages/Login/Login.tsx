@@ -42,15 +42,15 @@ const Login = () => {
     if (password === Decrypt(accountData.password)) {
       dispatch(reduxSetRoles(accountData.roles));
       dispatch(reduxSetTeam('6673'));
-      cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 20});
+      cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 200});
       // if(accountData.team) return history.push(`/info${accountData.team}`);
 
       //TODO - this only to test ->
-      const team = '6673';
-      if (team) return history.push(`/info/${team}`);
+      // const team = '6673';
+      // if (team) return history.push(`/info/${team}`);
       //
 
-      return history.push('/addpercent');
+      return history.push('/');
     }
   };
 

@@ -55,7 +55,7 @@ const App = (): JSX.Element => {
         dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
         // setRedirectToLogin(true);
-        setTeam('6673') // TODO <- team number enter to TEST
+        // setTeam('6673') // TODO <- team number enter to TEST
         return;
       } else setRedirectToLogin(true);
       return;

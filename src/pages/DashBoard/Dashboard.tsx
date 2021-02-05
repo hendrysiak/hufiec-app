@@ -1,17 +1,19 @@
-import { Button } from '@material-ui/core';
+import { AppBar, Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+
+import axios from 'axios-income';
 
 import Navigation from 'shared/Navigation/Navigation';
 import { reduxIsAuthenticated } from 'store/actions/user';
 
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
+
+import classes from './Dashboard.module.css';
 
 
 // import classes from "./Dashboard.module.css";
@@ -31,9 +33,16 @@ import store from '../../store/store';
 // import { organizationStateVerification } from './helpers/dashboard.helpers';
 
 
-const Dashboard = (): JSX.Element => {
+const Dashboard = (): any => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state: any) => state.user.isAuthorization);
+  const [messages, setMessages] = useState<any>();
+
+  const getMessages = async () => {
+    const result = await axios.get('/ticket.json');
+    return setMessages(result.data);
+  };
+
 
   // const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
@@ -41,7 +50,14 @@ const Dashboard = (): JSX.Element => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && dispatch(reduxIsAuthenticated(true));
+
+    
+    getMessages();
   },[]);
+
+  useEffect(() => {
+    messages && console.log(new Map(messages));
+  },[messages]);
 
   return (
     <>
@@ -51,11 +67,21 @@ const Dashboard = (): JSX.Element => {
         : <div>
           <h1>Aplikacja Hufcowa - v. 0.1</h1>
           <Paper>
-            <h2>Stan hufca:</h2>
+            <AppBar position="static" className={classes.appBar}>
+              <h2>Stan hufca:</h2>
+              <p>kwota zł</p>
+            </AppBar>
             {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
             <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
             <hr/>
             <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
+            <AppBar position="static">
+              {console.log(messages)}
+              <h2>Wiadomości</h2>
+              {typeof messages === 'object' ? Object.keys(messages).map((el:any, i:any) => console.log(el)) : null
+              
+              }
+            </AppBar>
           </Paper>
         </div>
       }
