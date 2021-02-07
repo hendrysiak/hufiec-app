@@ -11,9 +11,13 @@ import {
   useLocation
 } from 'react-router-dom';
 
+import Cookies from 'universal-cookie';
+
+import { AddEvent } from 'addEvent';
 import { IncomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
+import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
@@ -25,11 +29,11 @@ const Team = (): JSX.Element => {
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
-  
+  const user = useSelector((state: any) => state.user);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
-  
+  const cookies = new Cookies();
   const [incomesSC, setIncomesSC] = useState<number | null>(null);
 
   const location = useLocation();
@@ -44,6 +48,17 @@ const Team = (): JSX.Element => {
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
   };
+
+  const handleEvent = () => {
+    const token = cookies.get('token');
+    if (token) {
+      cookies.set('token', token, { path: '/', maxAge: 9 });
+      return;
+    }
+    user.roles?.length && window.location.reload();
+  };
+  
+  AddEvent('click', handleEvent);
 
   useEffect(() => {
     const teamRegistry = registry && registry[currentTeam];
@@ -142,6 +157,7 @@ const Team = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <section className="container">
         <div className="header">
           <div className="filters">

@@ -9,12 +9,12 @@ import axios from 'axios-income';
 import { addIncome, addOutcome, deleteIncome, deleteOutcome, editIncome, editOutcome } from 'helpers/editing-db.handler';
 import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
-
-import { RootState } from 'store/models/rootstate.model';
 import { reduxIsAuthenticated } from 'store/actions/user';
+import { RootState } from 'store/models/rootstate.model';
 
 const Edit = (): JSX.Element => {
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
@@ -43,11 +43,11 @@ const Edit = (): JSX.Element => {
   const [useDate, setUseDate] = useState(true);
 
   const isAuth = useSelector((state: any) => state.user.isAuthorization);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && dispatch(reduxIsAuthenticated(true));
-  },[])
+  },[]);
 
   useEffect(() => {
     dbIncomes && setDisplayedIncome(dbIncomes);
@@ -150,6 +150,7 @@ const Edit = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <Filters 
         editedData={editedData}

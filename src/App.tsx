@@ -14,8 +14,10 @@ import { BrowserRouter,
 
 import Cookies from 'universal-cookie';
 
+import { AddEvent } from 'addEvent';
 import { Decrypt, DecryptCookie, getAccount } from 'helpers/password.helper';
 import { reduxSetRoles } from 'store/actions/user';
+
 
 import { 
   getAccountState, 
@@ -29,15 +31,15 @@ import store from './store/store';
 
 
 const App = (): JSX.Element => {
-//TODO temporary "any" fix
+  //TODO temporary "any" fix
   const loadingStatus = useSelector((state: any) => state.ui.loading);
-  const isAuth = useSelector((state: any) => state.user);
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [roles, setRoles] = useState<string[] | null>(null);
   const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
-
+  
   useEffect(() => {
     const downloadData = async () => {
       await getAccountState();
@@ -47,14 +49,14 @@ const App = (): JSX.Element => {
     };
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
-
+    
     const dataLogin = DecryptCookie(cookies.get('token'));
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
         dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
-        // setRedirectToLogin(true);
+        setRedirectToLogin(true);
         // setTeam('6673') // TODO <- team number enter to TEST
         return;
       } else setRedirectToLogin(true);
@@ -64,7 +66,17 @@ const App = (): JSX.Element => {
     !dataLogin && setRedirectToLogin(true);
 
   },[]);
-
+    
+  const handleEvent = () => {
+    const token = cookies.get('token');
+    if (token) {
+      cookies.set('token', token, { path: '/', maxAge: 9 });
+      return;
+    }
+    user.roles?.length && window.location.reload();
+  };
+  
+  AddEvent('click', handleEvent);
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
@@ -87,19 +99,19 @@ const App = (): JSX.Element => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" render={() => <DashBoard />} />
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
         {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {isAuth.roles && (isAuth.roles.includes('admin') || isAuth.roles.includes('leader')) && <Route exact path="/info/:teamId" render={() => <Team />}/>}
-        {isAuth.roles && isAuth.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
+        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/info/:teamId" render={() => <Team />}/>}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
       </Switch>
       {team && <Redirect exact to={`/info/${team}`}/>}

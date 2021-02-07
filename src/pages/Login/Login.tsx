@@ -9,8 +9,8 @@ import {
   Paper,
   TextField,
 } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 // import { useHistory } from "react-router-dom";
 
@@ -23,7 +23,6 @@ import {
   reduxSetTeam,
 } from 'store/actions/user';
 
-import { Authorization } from '../../store/actions/action.types';
 
 import classes from './Login.module.css';
 
@@ -35,22 +34,28 @@ const Login = () => {
   // const [email, setEmail] = useState<string>('');
   const dispatch = useDispatch();
   const cookies = new Cookies();
+  let time: any;
 
 
   const checkLogin = async (login: string, password: string) => {
     const accountData = await getAccount(login);
-    if (password === Decrypt(accountData.password)) {
-      dispatch(reduxSetRoles(accountData.roles));
-      dispatch(reduxSetTeam('6673'));
-      cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 200});
-      // if(accountData.team) return history.push(`/info${accountData.team}`);
+    try {
+      if (password === Decrypt(accountData.password)) {
+        // time = window.setTimeout(()=> alert('test'), 5000);
+        dispatch(reduxSetRoles(accountData.roles));
+        dispatch(reduxSetTeam('6673'));
+        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 9});
+        // if(accountData.team) return history.push(`/info${accountData.team}`);
 
-      //TODO - this only to test ->
-      // const team = '6673';
-      // if (team) return history.push(`/info/${team}`);
-      //
+        //TODO - this only to test ->
+        // const team = '6673';
+        // if (team) return history.push(`/info/${team}`);
+        //
 
-      return history.push('/');
+        return history.push('/');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

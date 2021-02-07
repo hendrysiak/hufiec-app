@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { reduxIsAuthenticated } from 'store/actions/user';
 
@@ -37,9 +38,11 @@ const Dashboard = (): any => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state: any) => state.user.isAuthorization);
   const [messages, setMessages] = useState<any>();
+  const [loadingMess, setLoadingMess] = useState<boolean>(false);
 
   const getMessages = async () => {
     const result = await axios.get('/ticket.json');
+    setLoadingMess(true);
     return setMessages(result.data);
   };
 
@@ -56,17 +59,18 @@ const Dashboard = (): any => {
   },[]);
 
   useEffect(() => {
-    messages && console.log(new Map(messages));
+    // messages && console.log(new Map(messages));
   },[messages]);
 
   return (
     <>
+      <LogOut />
       <Navigation />
       {isLoading 
         ? <div className="loader"><CircularProgress/></div>
         : <div>
           <h1>Aplikacja Hufcowa - v. 0.1</h1>
-          <Paper>
+          <Paper style={{ background: 'transparent' }}>
             <AppBar position="static" className={classes.appBar}>
               <h2>Stan hufca:</h2>
               <p>kwota zł</p>
@@ -75,12 +79,29 @@ const Dashboard = (): any => {
             <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
             <hr/>
             <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
-            <AppBar position="static">
+            <AppBar position="static" color="transparent">
               {console.log(messages)}
               <h2>Wiadomości</h2>
-              {typeof messages === 'object' ? Object.keys(messages).map((el:any, i:any) => console.log(el)) : null
-              
-              }
+              <ul className={classes.listMessages}>
+                {typeof messages === 'object' ? Object.keys(messages).map((el:any, i:any) => {
+                  // console.log(messages[el]);
+                  return (
+                    <li key={i}>
+                      {
+                        <div className={classes.containerMessage}>
+                          <h2>Drużyna: {messages[el].team}</h2>
+                          <h3>Tytuł: {messages[el].title}</h3>
+                          <p>Treść zgłoszenia: {messages[el].content}</p>
+                          {messages[el].mail && <p>Proszę o odpowiedź na maila: {messages[el].mail}</p>}
+                        </div>
+                      }
+                    </li>
+                  );
+                }) : (
+                  <li>Brak wiadomości</li>
+                )
+                }
+              </ul>
             </AppBar>
           </Paper>
         </div>
