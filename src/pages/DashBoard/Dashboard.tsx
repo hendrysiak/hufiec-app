@@ -11,6 +11,8 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { reduxIsAuthenticated } from 'store/actions/user';
 
+import { RootState } from 'store/models/rootstate.model';
+
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
@@ -33,11 +35,23 @@ import classes from './Dashboard.module.css';
 
 // import { organizationStateVerification } from './helpers/dashboard.helpers';
 
+export interface IMessValue {
+  content: string;
+  mail: string;
+  team: string;
+  title: string;
 
-const Dashboard = (): any => {
+}
+
+export interface IMessages {
+  [key: string]: IMessValue;
+}
+
+
+const Dashboard = (): JSX.Element => {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state: any) => state.user.isAuthorization);
-  const [messages, setMessages] = useState<any>();
+  const isAuth = useSelector((state: RootState) => state.user.isAuthorization);
+  const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
 
   const getMessages = async () => {
@@ -83,7 +97,7 @@ const Dashboard = (): any => {
               {console.log(messages)}
               <h2>Wiadomości</h2>
               <ul className={classes.listMessages}>
-                {typeof messages === 'object' ? Object.keys(messages).map((el:any, i:any) => {
+                {messages ? Object.keys(messages).map((el, i:number) => {
                   // console.log(messages[el]);
                   return (
                     <li key={i}>
@@ -98,7 +112,7 @@ const Dashboard = (): any => {
                     </li>
                   );
                 }) : (
-                  <li>Brak wiadomości</li>
+                  <div>Brak wiadomośći</div>
                 )
                 }
               </ul>

@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
-export const AddEvent = (event: string, func: any) => {
+
+export const AddEvent = (action: string, func: () => void) => {
   useEffect(() => {
     window.addEventListener('click', func);
-  })
+  });
   return function cleanup() {
-    window.removeEventListener(event, func);
+    window.removeEventListener(action, func);
   };
 };

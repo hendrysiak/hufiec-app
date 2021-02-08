@@ -11,7 +11,7 @@
   cursor: pointer;
 } */
 
-.suwak {
+.container {
   display: flex;
   align-items: center;
   height: 30px;

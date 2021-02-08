@@ -42,7 +42,7 @@ const Edit = (): JSX.Element => {
 
   const [useDate, setUseDate] = useState(true);
 
-  const isAuth = useSelector((state: any) => state.user.isAuthorization);
+  const isAuth = useSelector((state: RootState) => state.user.isAuthorization);
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem('token');

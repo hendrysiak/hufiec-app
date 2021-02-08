@@ -8,16 +8,18 @@ import classes from './LogOut.module.css';
 export const LogOut = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const cookies = new Cookies();
-  const handleLogOut = () => {
+  
+  const handleLogOut = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     cookies.remove('token');
     window.location.reload();
   };
 
   return (
     <>
-      <div className={`${classes.suwak} ${isOpen && classes.close}`}>
+      <div className={`${classes.container} ${isOpen && classes.close}`}>
         {isOpen ? <BsArrowBarRight className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/> : <BsArrowBarLeft className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/>}
-        <button className={classes.logout} onClick={handleLogOut}>WYLOGUJ</button>
+        <button type="button" className={`${classes.logout} clicked`} onClick={handleLogOut}>WYLOGUJ</button>
       </div>
     </>
   );

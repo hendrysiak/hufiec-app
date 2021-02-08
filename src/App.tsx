@@ -19,6 +19,8 @@ import { Decrypt, DecryptCookie, getAccount } from 'helpers/password.helper';
 import { reduxSetRoles } from 'store/actions/user';
 
 
+import { RootState } from 'store/models/rootstate.model';
+
 import { 
   getAccountState, 
   getCodes, 
@@ -32,8 +34,8 @@ import store from './store/store';
 
 const App = (): JSX.Element => {
   //TODO temporary "any" fix
-  const loadingStatus = useSelector((state: any) => state.ui.loading);
-  const user = useSelector((state: any) => state.user);
+  const loadingStatus = useSelector((state: RootState) => state.ui.loading);
+  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [roles, setRoles] = useState<string[] | null>(null);
@@ -64,7 +66,6 @@ const App = (): JSX.Element => {
     };
     dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
     !dataLogin && setRedirectToLogin(true);
-
   },[]);
     
   const handleEvent = () => {
@@ -72,11 +73,12 @@ const App = (): JSX.Element => {
     if (token) {
       cookies.set('token', token, { path: '/', maxAge: 9 });
       return;
-    }
+    };
     user.roles?.length && window.location.reload();
   };
   
   AddEvent('click', handleEvent);
+
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));

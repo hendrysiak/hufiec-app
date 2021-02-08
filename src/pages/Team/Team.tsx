@@ -29,7 +29,7 @@ const Team = (): JSX.Element => {
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
