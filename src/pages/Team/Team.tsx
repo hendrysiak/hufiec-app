@@ -69,6 +69,7 @@ const Team = (): JSX.Element => {
       return ({
         ...el,
         lp: index + 1,
+        dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
       });
     })) : ([]);
     setRows(row);
@@ -85,13 +86,15 @@ const Team = (): JSX.Element => {
     { field: 'name', headerName: 'IMIĘ', width: 150, },
     { field: 'surname', headerName: 'NAZWISKO', width: 150, },
     { field: 'cash', headerName: 'KWOTA', width: 150, },
-    { field: 'title', headerName: 'TYTUŁ', width: 800, },
-    { field: 'importDate', headerName: 'DATA', width: 150, },
+    { field: 'title', headerName: 'TYTUŁ', width: 600, },
+    { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
+    { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
   ];
 
   useEffect(() => {
+    //Write date checker
     const filteredIncomes = rows && rows.filter(i => {
-      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== '' 
           && event !== 'unAssigned' 
@@ -144,7 +147,7 @@ const Team = (): JSX.Element => {
     selectedDate: unknown, 
     dayInCurrentMonth: unknown, 
     dayComponent: JSX.Element) => {
-    if (importDates && date && importDates.includes(date.toLocaleString().split(',')[0])) {
+    if (importDates && date && importDates.includes(date)) {
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}
         <div className={classes.dayWithDot}/>

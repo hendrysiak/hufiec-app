@@ -35,7 +35,7 @@ const Edit = (): JSX.Element => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
 
-  const [editedImportDates, setEditedImportDates] = useState<string[]>([]);
+  const [editedImportDates, setEditedImportDates] = useState<Date[]>([]);
 
   const [editedIndex, setEditedIndex] = useState(-1);
 
@@ -48,7 +48,7 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
@@ -56,11 +56,11 @@ const Edit = (): JSX.Element => {
       return true;
     });
     filteredIncomes && setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname]);
+  },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -68,7 +68,7 @@ const Edit = (): JSX.Element => {
       return true;
     });
     filteredOutcomes && setDisplayedOutcome(filteredOutcomes);
-  },[event, team, founding, category, selectedDate, dbOutcomes, useDate, editedData]);
+  },[event, team, founding, category, selectedDate, dbOutcomes, useDate, editedData, editedImportDates]);
 
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
@@ -135,7 +135,7 @@ const Edit = (): JSX.Element => {
     }
       
     const newImportDate = [...editedImportDates];
-    newImportDate.push(currentDate.toLocaleString().split(',')[0]);
+    newImportDate.push(currentDate);
     setEditedImportDates(newImportDate);
     axios.put('/importDates.json', newImportDate);
   };

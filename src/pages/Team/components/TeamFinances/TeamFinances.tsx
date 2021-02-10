@@ -33,6 +33,8 @@ const useStyles = makeStyles({
 const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
+  const [compensation, setCompensation] = React.useState<number>(0);
+  const [sumOfOutcomes, setSumOfOutcomes] = React.useState<number>(0);
   const classe = useStyles();
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -47,27 +49,35 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
     return { name, estate };
   };
    
-  const rows = [
-    createData('1%', onePercent),
-    createData('SKŁADKI', (incomesSC ? incomesSC / 5 : 0)),
-    createData('ZAKUPY/FAKTURY/POTRĄCENIA', outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + outcome.cash , 0)),
-    createData('WPŁYWY/WYRÓWNANIA', incomes.reduce((sum: number, income) => sum + income.cash , 0)),
-  ];
-
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get(`/onePercent/${currentTeam}.json`);
       setOnePercent(result.data);
     };
     getData();
-    const sum = incomes && incomes
+    const sumOfFees = incomes && incomes
       .filter(income => income.event === 'SC')
       .reduce((sum: number, income) => sum + income.cash ,0); 
+
+    const sumOfCompensation = incomes.filter(i => i.title === 'Przychód dodany ręcznie').reduce((sum: number, income) => sum + income.cash , 0);
+    const sumOfOutcomes = outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + outcome.cash , 0);
     
-    setIncomesSC(sum);
+    setSumOfOutcomes(sumOfOutcomes);
+    setCompensation(sumOfCompensation);
+    setIncomesSC(sumOfFees);
+
+
   });
 
-  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent;
+  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation;
+
+  const rows = [
+    createData('1%', onePercent),
+    createData('SKŁADKI', (incomesSC ? incomesSC / 5 : 0)),
+    createData('ZAKUPY/FAKTURY/POTRĄCENIA', sumOfOutcomes),
+    createData('WPŁYWY/WYRÓWNANIA', compensation),
+  ];
+
 
   const handleOpen = () => {
     setIsOpen(true);
