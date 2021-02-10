@@ -118,11 +118,11 @@ const EditorTeam: FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    // if (rows) {
-    //   const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
-    //   memberToDelete.dateOfDelete = new Date();
-    //   if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(team, memberToDelete);
-    // };
+    if (rows) {
+      const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
+      memberToDelete.dateOfDelete = new Date();
+      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(memberToDelete);
+    };
   };
 
   const handleChangeSelect = (value: string) => {
@@ -151,8 +151,10 @@ const EditorTeam: FC = () => {
           <TableRow>
             <TableCell align="left">Edytuj</TableCell>
             <TableCell align="left">LP</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Surname</TableCell>
+            <TableCell align="left">Imię</TableCell>
+            <TableCell align="left">Nazwisko</TableCell>
+            <TableCell align="left">Data dodania</TableCell>
+            <TableCell align="left">Data usunięcia</TableCell>
             <TableCell align="left">Usuń</TableCell>
           </TableRow>
         </TableHead>
@@ -187,6 +189,8 @@ const EditorTeam: FC = () => {
               <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
               <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
               <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
+              <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell>
+              <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell>
               <TableCell className={classes.selectTableCell}>
                 <IconButton
                   aria-label="delete"

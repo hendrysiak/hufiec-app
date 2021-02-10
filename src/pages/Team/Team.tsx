@@ -34,8 +34,6 @@ const Team = (): JSX.Element => {
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
   
-  const [incomesSC, setIncomesSC] = useState<number | null>(null);
-
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[2];
 
@@ -72,12 +70,7 @@ const Team = (): JSX.Element => {
         dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
       });
     })) : ([]);
-    setRows(row);
-    const sum = incomesByCode && incomesByCode
-      .filter(income => income.event === 'SC')
-      .reduce((sum: number, income) => sum + income.cash ,0); 
-      
-    setIncomesSC(sum);
+    setRows(row);     
   },[incomesByCode]);
 
 
