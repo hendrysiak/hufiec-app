@@ -1,7 +1,6 @@
 import { AppBar } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -9,7 +8,6 @@ import axios from 'axios-income';
 
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
-// import { reduxIsAuthenticated } from 'store/actions/user';
 
 import { RootState } from 'store/models/rootstate.model';
 

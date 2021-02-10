@@ -64,8 +64,6 @@ const App = (): JSX.Element => {
       } else setRedirectToLogin(true);
       return;
     };
-    // dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
-    // !dataLogin && setRedirectToLogin(true);
     dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
     

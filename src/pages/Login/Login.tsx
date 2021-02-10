@@ -1,18 +1,12 @@
 import {
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
   Input,
-  InputBase,
-  InputLabel,
   Paper,
-  TextField,
 } from '@material-ui/core';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-// import { useHistory } from "react-router-dom";
 
 import Cookies from 'universal-cookie';
 
@@ -27,7 +21,6 @@ import {
 import store from 'store/store';
 
 import classes from './Login.module.css';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Login = () => {
   const history = useHistory();

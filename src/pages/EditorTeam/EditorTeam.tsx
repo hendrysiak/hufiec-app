@@ -18,7 +18,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
+import { editTeamMember } from '../../helpers/editing-db.handler';
 
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
