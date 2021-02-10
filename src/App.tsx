@@ -6,7 +6,7 @@ import {
 } from '@material-ui/pickers';
 
 import React, { Suspense, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, 
   Redirect, 
   Route, 
@@ -14,8 +14,9 @@ import { BrowserRouter,
 
 import Cookies from 'universal-cookie';
 
-import { AddEvent } from 'addEvent';
-import { Decrypt, DecryptCookie, getAccount } from 'helpers/password.helper';
+import { getAccount } from 'helpers/account.helper';
+import { AddEvent } from 'helpers/hooks/addEvent';
+import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 import { reduxSetRoles } from 'store/actions/user';
 
 
@@ -33,10 +34,9 @@ import store from './store/store';
 
 
 const App = (): JSX.Element => {
-  //TODO temporary "any" fix
+  //TODO temporary "any" fix`
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
   const cookies = new Cookies();
   const [roles, setRoles] = useState<string[] | null>(null);
   const [team, setTeam] = useState<string | null>(null);
@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
-        dispatch(reduxSetRoles(accountData.roles));
+        store.dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
         setRedirectToLogin(true);
         // setTeam('6673') // TODO <- team number enter to TEST
@@ -64,8 +64,9 @@ const App = (): JSX.Element => {
       } else setRedirectToLogin(true);
       return;
     };
-    dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
-    !dataLogin && setRedirectToLogin(true);
+    // dataLogin && checkLogin(Decrypt(dataLogin.login), dataLogin.password);
+    // !dataLogin && setRedirectToLogin(true);
+    dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
     
   const handleEvent = () => {

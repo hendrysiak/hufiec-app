@@ -1,9 +1,9 @@
 import { IncomeState } from './income.state.model';
 import { UIState } from './ui.state.model';
-import { IUser } from './user.model.state';
+import { UserState } from './user.state.model';
 
 export interface RootState {
   ui: UIState;
   income: IncomeState;
-  user: IUser;
+  user: UserState;
 }

@@ -1,15 +1,15 @@
-import { AppBar, Button } from '@material-ui/core';
+import { AppBar } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
-
+// import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
-import { reduxIsAuthenticated } from 'store/actions/user';
+// import { reduxIsAuthenticated } from 'store/actions/user';
 
 import { RootState } from 'store/models/rootstate.model';
 
@@ -49,8 +49,7 @@ export interface IMessages {
 
 
 const Dashboard = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const isAuth = useSelector((state: RootState) => state.user.isAuthorization);
+  const isAuth = useSelector((state: RootState) => state.user.isAuthentication);
   const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
 
@@ -60,13 +59,17 @@ const Dashboard = (): JSX.Element => {
     return setMessages(result.data);
   };
 
+  // useEffect(() => {
+  //   console.log(loadingMess)
+  // },[loadingMess])
+
 
   // const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    token && !isAuth && dispatch(reduxIsAuthenticated(true));
+    token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
 
     
     getMessages();
@@ -112,7 +115,7 @@ const Dashboard = (): JSX.Element => {
                     </li>
                   );
                 }) : (
-                  <div>Brak wiadomośći</div>
+                  loadingMess ? <div>Brak wiadomośći</div> : <CircularProgress />
                 )
                 }
               </ul>

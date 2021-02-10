@@ -3,7 +3,7 @@ import { TextField, MenuItem } from '@material-ui/core';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { addIncome, addOutcome, deleteIncome, deleteOutcome, editIncome, editOutcome } from 'helpers/editing-db.handler';
@@ -13,8 +13,10 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
-import { reduxIsAuthenticated } from 'store/actions/user';
+import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
+import store from 'store/store';
+
 
 const Edit = (): JSX.Element => {
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
@@ -42,11 +44,10 @@ const Edit = (): JSX.Element => {
 
   const [useDate, setUseDate] = useState(true);
 
-  const isAuth = useSelector((state: RootState) => state.user.isAuthorization);
-  const dispatch = useDispatch();
+  const isAuth = useSelector((state: RootState) => state.user.isAuthentication);
   useEffect(() => {
     const token = localStorage.getItem('token');
-    token && !isAuth && dispatch(reduxIsAuthenticated(true));
+    token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
   },[]);
 
   useEffect(() => {

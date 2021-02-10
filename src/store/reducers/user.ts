@@ -1,20 +1,21 @@
 
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
-import { IUser } from 'store/models/user.model.state';
+import { UserState } from 'store/models/user.state.model';
 
-const initialState: IUser = {
-  isAuthorization: null,
+const initialState: UserState = {
+  isAuthentication: null,
   roles: null,
   team: null,
 };
 
-const reducer = (state = initialState, action: ActionType): IUser => {
+const reducer = (state = initialState, action: ActionType): UserState => {
   switch (action.type) {
-    case ActionTypes.AUTHORIZATION:
+    case ActionTypes.AUTHENTICATION:
       return {
         ...state,
-        isAuthorization: action.isAuthentication
+        isAuthentication: action.isAuthentication
+        // isAuthorization: action.isAuthentication
       };
     case ActionTypes.SET_ROLES:
       return {

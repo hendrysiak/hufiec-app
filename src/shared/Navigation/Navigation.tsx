@@ -9,12 +9,10 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
-import { Decrypt, DecryptCookie, EncryptCookie, getAccount } from 'helpers/password.helper';
+
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { reduxSetRoles } from 'store/actions/user';
-import Cookies from 'universal-cookie';
+
+
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
 const Navigation = (): JSX.Element => {

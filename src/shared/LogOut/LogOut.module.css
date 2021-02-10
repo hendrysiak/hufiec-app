@@ -27,12 +27,12 @@
   cursor: pointer;
   transition: transform 0.5s ;
 
-  transform: translateX(94px);
+  transform: translateX(80px);
 }
 
 .arrow {
-  width: 50px;
-  font-size: 25px;
+  width: 30px;
+  font-size: 28px;
   background-color: transparent;
 }
 

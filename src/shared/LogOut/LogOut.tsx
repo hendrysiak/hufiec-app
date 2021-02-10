@@ -1,6 +1,6 @@
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import CloseIcon from '@material-ui/icons/Close';
 import React, { useState } from 'react';
-import { BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
-
 import Cookies from 'universal-cookie';
 
 import classes from './LogOut.module.css';
@@ -18,7 +18,7 @@ export const LogOut = () => {
   return (
     <>
       <div className={`${classes.container} ${isOpen && classes.close}`}>
-        {isOpen ? <BsArrowBarRight className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/> : <BsArrowBarLeft className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/>}
+        {isOpen ? <CloseIcon className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/> : <ChevronLeftIcon className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/>}
         <button type="button" className={`${classes.logout} clicked`} onClick={handleLogOut}>WYLOGUJ</button>
       </div>
     </>

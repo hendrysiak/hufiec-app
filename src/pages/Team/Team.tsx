@@ -13,7 +13,7 @@ import {
 
 import Cookies from 'universal-cookie';
 
-import { AddEvent } from 'addEvent';
+import { AddEvent } from 'helpers/hooks/addEvent';
 import { IncomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
