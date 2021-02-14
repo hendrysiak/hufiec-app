@@ -16,20 +16,19 @@ import store from '../../store/store';
 
 import classes from './Dashboard.module.css';
 
+// import classes from './Dashboard.module.css';
 
-// import classes from "./Dashboard.module.css";
-
-// import Navigation from "../../components/Navigation/Navigation";
-// import Transfers from "../Transfers/containers/Transfers";
-// import Codes from "../../components/Codes/Codes";
-// import AddCode from "../../components/AddCode/AddCode";
-// import Teams from "../../components/Teams/Teams";
+// import Navigation from '../../components/Navigation/Navigation';
+// import Transfers from '../Transfers/containers/Transfers';
+// import Codes from '../../components/Codes/Codes';
+// import AddCode from '../../components/AddCode/AddCode';
+// import Teams from '../../components/Teams/Teams';
 // import ForCoders from '../../components/ForCoders/ForCoders';
 
-// import * as actions from "../../store/actions/index";
+// import * as actions from '../../store/actions/index';
 
 // import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
-// import EventBilling from "../EventBilling/containers/EventBilling";
+// import EventBilling from '../EventBilling/containers/EventBilling';
 
 // import { organizationStateVerification } from './helpers/dashboard.helpers';
 
@@ -38,16 +37,14 @@ export interface IMessValue {
   mail: string;
   team: string;
   title: string;
-
 }
 
 export interface IMessages {
   [key: string]: IMessValue;
 }
 
-
 const Dashboard = (): JSX.Element => {
-  const isAuth = useSelector((state: RootState) => state.user.isAuthentication);
+  const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
 
@@ -61,7 +58,6 @@ const Dashboard = (): JSX.Element => {
   //   console.log(loadingMess)
   // },[loadingMess])
 
-
   // const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
 
@@ -69,21 +65,23 @@ const Dashboard = (): JSX.Element => {
     const token = localStorage.getItem('token');
     token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
 
-    
     getMessages();
-  },[]);
+  }, []);
 
   useEffect(() => {
     // messages && console.log(new Map(messages));
-  },[messages]);
+  }, [messages]);
 
   return (
     <>
       <LogOut />
       <Navigation />
-      {isLoading 
-        ? <div className="loader"><CircularProgress/></div>
-        : <div>
+      {isLoading ? (
+        <div className="loader">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
           <h1>Aplikacja Hufcowa - v. 0.1</h1>
           <Paper style={{ background: 'transparent' }}>
             <AppBar position="static" className={classes.appBar}>
@@ -98,33 +96,38 @@ const Dashboard = (): JSX.Element => {
               {console.log(messages)}
               <h2>Wiadomości</h2>
               <ul className={classes.listMessages}>
-                {messages ? Object.keys(messages).map((el, i:number) => {
-                  // console.log(messages[el]);
-                  return (
-                    <li key={i}>
-                      {
-                        <div className={classes.containerMessage}>
-                          <h2>Drużyna: {messages[el].team}</h2>
-                          <h3>Tytuł: {messages[el].title}</h3>
-                          <p>Treść zgłoszenia: {messages[el].content}</p>
-                          {messages[el].mail && <p>Proszę o odpowiedź na maila: {messages[el].mail}</p>}
-                        </div>
-                      }
-                    </li>
-                  );
-                }) : (
-                  loadingMess ? <div>Brak wiadomośći</div> : <CircularProgress />
-                )
-                }
+                {messages ? (
+                  Object.keys(messages).map((el, i: number) => {
+                    // console.log(messages[el]);
+                    return (
+                      <li key={i}>
+                        {
+                          <div className={classes.containerMessage}>
+                            <h2>Drużyna: {messages[el].team}</h2>
+                            <h3>Tytuł: {messages[el].title}</h3>
+                            <p>Treść zgłoszenia: {messages[el].content}</p>
+                            {messages[el].mail && (
+                              <p>
+                                Proszę o odpowiedź na maila: {messages[el].mail}
+                              </p>
+                            )}
+                          </div>
+                        }
+                      </li>
+                    );
+                  })
+                ) : loadingMess ? (
+                  <div>Brak wiadomośći</div>
+                ) : (
+                  <CircularProgress />
+                )}
               </ul>
             </AppBar>
           </Paper>
         </div>
-      }
+      )}
     </>
   );
-  
 };
-
 
 export default Dashboard;

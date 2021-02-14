@@ -3,7 +3,7 @@ import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesW
 import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
-import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, Authentication } from './action.types';
+import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember } from './action.types';
 
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {

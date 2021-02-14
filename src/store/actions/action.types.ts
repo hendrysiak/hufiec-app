@@ -104,9 +104,9 @@ export interface DeleteMember {
   member: APIPerson;
 }
 
-export interface Authentication {
-  type: ActionTypes.AUTHENTICATION;
-  isAuthentication: boolean | null;
+export interface setAuthenticationState {
+  type: ActionTypes.SET_AUTHENTICATION_STATE;
+  isAuthenticated: boolean | null;
 }
 
 export interface SetRoles {
@@ -139,6 +139,6 @@ export type ActionType =
 | AddMember
 | EditMember
 | DeleteMember
-| Authentication
+| setAuthenticationState
 | SetRoles
 | SetTeam

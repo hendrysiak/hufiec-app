@@ -4,18 +4,17 @@ import { ActionType } from 'store/actions/action.types';
 import { UserState } from 'store/models/user.state.model';
 
 const initialState: UserState = {
-  isAuthentication: null,
+  isAuthenticated: null,
   roles: null,
   team: null,
 };
 
 const reducer = (state = initialState, action: ActionType): UserState => {
   switch (action.type) {
-    case ActionTypes.AUTHENTICATION:
+    case ActionTypes.SET_AUTHENTICATION_STATE:
       return {
         ...state,
-        isAuthentication: action.isAuthentication
-        // isAuthorization: action.isAuthentication
+        isAuthenticated: action.isAuthenticated
       };
     case ActionTypes.SET_ROLES:
       return {

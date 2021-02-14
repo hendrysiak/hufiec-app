@@ -1,11 +1,11 @@
 import { ActionTypes } from './action.enum';
-import { Authentication, SetRoles, SetTeam } from './action.types';
+import { setAuthenticationState, SetRoles, SetTeam } from './action.types';
 
 
-export const reduxIsAuthentication = (isAuthentication: boolean): Authentication => {
+export const reduxIsAuthentication = (isAuthenticated: boolean): setAuthenticationState => {
   return {
-    type: ActionTypes.AUTHENTICATION,
-    isAuthentication
+    type: ActionTypes.SET_AUTHENTICATION_STATE,
+    isAuthenticated
   };
 };
 
