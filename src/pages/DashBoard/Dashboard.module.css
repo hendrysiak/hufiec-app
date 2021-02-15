@@ -50,3 +50,17 @@
     /* background-color: rgba(74, 123, 38, 255); */
     /* background-color: red; */
 }
+
+.appBar {
+    margin-bottom: 20px;
+}
+
+.containerMessage {
+    margin-bottom: 80px;
+}
+
+.listMessages {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

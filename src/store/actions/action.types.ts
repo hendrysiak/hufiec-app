@@ -104,6 +104,20 @@ export interface DeleteMember {
   member: APIPerson;
 }
 
+export interface setAuthenticationState {
+  type: ActionTypes.SET_AUTHENTICATION_STATE;
+  isAuthenticated: boolean | null;
+}
+
+export interface SetRoles {
+  type: ActionTypes.SET_ROLES;
+  roles: string[];
+}
+export interface SetTeam {
+  type: ActionTypes.SET_TEAM;
+  team: string;
+}
+
 export type ActionType = 
 | LoadingEnd
 | LoadingStart
@@ -125,3 +139,6 @@ export type ActionType =
 | AddMember
 | EditMember
 | DeleteMember
+| setAuthenticationState
+| SetRoles
+| SetTeam

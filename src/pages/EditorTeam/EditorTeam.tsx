@@ -13,12 +13,12 @@ import React, { useState, useEffect, FC } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Rows } from 'models/global.enum';
-
 import { APIPerson } from 'models/registry.models';
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
+import { editTeamMember } from '../../helpers/editing-db.handler';
 
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
@@ -144,6 +144,7 @@ const EditorTeam: FC = () => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <SelectTeam onChange={handleChangeSelect} team={team}/>
       <Table className={classes.table} aria-label="caption table">

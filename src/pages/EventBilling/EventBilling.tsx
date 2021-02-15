@@ -16,6 +16,7 @@ import axios from 'axios-income';
 import { ApprovedEvent } from 'models/codes.models';
 import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomePurpose, IncomeDb, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 
 import TableEditor from 'shared/TableEditor/TableEditor';
@@ -142,6 +143,7 @@ const EventBilling = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <Modal 
         open={modalToAddOutcomeVisible}  
