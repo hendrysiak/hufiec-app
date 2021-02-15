@@ -6,26 +6,50 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
-import { addIncome, addOutcome, deleteIncome, deleteOutcome, editIncome, editOutcome } from 'helpers/editing-db.handler';
-import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
-import { IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
+import {
+  addIncome,
+  addOutcome,
+  deleteIncome,
+  deleteOutcome,
+  editIncome,
+  editOutcome,
+} from 'helpers/editing-db.handler';
+import {
+  BudgetEntry,
+  FinanceMethod,
+  FoundingSources,
+  OutcomeCategory,
+} from 'models/global.enum';
+import {
+  IncomeDb,
+  IncomesWithImportDate,
+  OutcomeDb,
+  OutcomesWithEvent,
+} from 'models/income.models';
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
-
+import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
+import store from 'store/store';
 
 const Edit = (): JSX.Element => {
+  const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
-  const importDates = useSelector((state: RootState) => state.income.importDates);
+  const importDates = useSelector(
+    (state: RootState) => state.income.importDates
+  );
 
   const [editedData, setEditedData] = useState(BudgetEntry.Income);
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   const [displayedOutcome, setDisplayedOutcome] = useState<OutcomeDb[]>([]);
 
-  const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(new Date());
+  const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(
+    new Date()
+  );
 
   //filters
   const [event, setEvent] = useState('Brak');
@@ -42,9 +66,14 @@ const Edit = (): JSX.Element => {
   const [useDate, setUseDate] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
+  }, []);
+
+  useEffect(() => {
     dbIncomes && setDisplayedIncome(dbIncomes);
     dbOutcomes && setDisplayedOutcome(dbOutcomes);
-  },[dbIncomes, dbOutcomes]);
+  }, [dbIncomes, dbOutcomes]);
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
@@ -72,25 +101,33 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
-  },[importDates]);
+  }, [importDates]);
 
   const editedDataHandler = (value: string) => {
-    const editedData = value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
+    const editedData =
+      value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
     setEditedData(editedData);
   };
 
-  const handleEdit = (index: number, data: { key: string, value: string | number }) => {
-    const usedData: (IncomeDb | OutcomeDb)[] 
-    = editedData === BudgetEntry.Income ? [...displayedIncome] : [...displayedOutcome];
+  const handleEdit = (
+    index: number,
+    data: { key: string; value: string | number }
+  ) => {
+    const usedData: (IncomeDb | OutcomeDb)[] =
+      editedData === BudgetEntry.Income
+        ? [...displayedIncome]
+        : [...displayedOutcome];
     usedData[index][data.key] = data.value;
-    
-    editedData === BudgetEntry.Income 
-      ? setDisplayedIncome(usedData as IncomeDb[]) 
+
+    editedData === BudgetEntry.Income
+      ? setDisplayedIncome(usedData as IncomeDb[])
       : setDisplayedOutcome(usedData as OutcomeDb[]);
   };
 
   const handleClose = (index: number): void => {
-    editedData === BudgetEntry.Income ? editIncome(displayedIncome[index]) : editOutcome(displayedOutcome[index]);
+    editedData === BudgetEntry.Income
+      ? editIncome(displayedIncome[index])
+      : editOutcome(displayedOutcome[index]);
     setEditedIndex(-1);
   };
 
@@ -99,7 +136,6 @@ const Edit = (): JSX.Element => {
   };
 
   const addNewPosition = (): void => {
-
     const currentDate = new Date();
 
     if (editedData === BudgetEntry.Income) {
@@ -128,12 +164,12 @@ const Edit = (): JSX.Element => {
         title: 'Koszt dodany ręcznie',
         year: currentDate.getFullYear(),
         financeMethod: FinanceMethod.Cash,
-        dateOfBook: currentDate
+        dateOfBook: currentDate,
       };
 
       addOutcome(newOutcome);
     }
-      
+
     const newImportDate = [...editedImportDates];
     newImportDate.push(currentDate);
     setEditedImportDates(newImportDate);
@@ -142,8 +178,9 @@ const Edit = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
-      <Filters 
+      <Filters
         editedData={editedData}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -175,23 +212,31 @@ const Edit = (): JSX.Element => {
             variant="outlined"
             margin="normal"
             SelectProps={{
-              MenuProps: { disableScrollLock: true }
+              MenuProps: { disableScrollLock: true },
             }}
           >
             {['Przychody', 'Koszty'].map((item) => (
-              <MenuItem key={item} value={item}>{item}</MenuItem>
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
             ))}
           </TextField>
         </header>
 
         <main>
           <section>
-            <TableEditor 
+            <TableEditor
               editable={true}
-              title={`Lista ${editedData === BudgetEntry.Income ? 'przychodów' : 'kosztów'} do edycji:`}
+              title={`Lista ${
+                editedData === BudgetEntry.Income ? 'przychodów' : 'kosztów'
+              } do edycji:`}
               info={editedData}
               editedIndex={editedIndex}
-              rows={editedData === BudgetEntry.Income ? displayedIncome : displayedOutcome}
+              rows={
+                editedData === BudgetEntry.Income
+                  ? displayedIncome
+                  : displayedOutcome
+              }
               onChange={handleEdit}
               onClose={handleClose}
               onDelete={handleDelete}

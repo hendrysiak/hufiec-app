@@ -9,18 +9,20 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
+
 import React, { useEffect } from 'react';
+
 
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
 const Navigation = (): JSX.Element => {
   const [isOpen, setIsOpen] = React.useState(false);
-
+  
   useEffect(() => {
     document.body.addEventListener('click', (event: MouseEvent): void => {
       const target = event.target as HTMLElement;
       if (target && !target.classList.contains('nav')) setIsOpen(false);
-    });
+    });    
   },[]);
 
   const navigation = [

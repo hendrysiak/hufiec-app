@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
+import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
@@ -35,6 +36,7 @@ const Codes = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <section className="Section">
         <header>

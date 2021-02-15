@@ -1,5 +1,7 @@
 
 import CryptoJS from 'crypto-js'; // references encryption
+
+import axios from 'axios-income';
     
 const key = CryptoJS.enc.Utf8.parse ( '1234123412ABCDEF'); // sixteen hexadecimal number as a key
 const iv = CryptoJS.enc.Utf8.parse ( 'ABCDEF1234123412'); // sixteen hexadecimal number as a key offset
@@ -27,3 +29,16 @@ export const Encrypt = (word: string): string => {
     { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
   return encrypted.ciphertext.toString().toUpperCase();
 };
+
+export const EncryptCookie = (login: string, password: string) => {
+  console.log(Encrypt(login), Encrypt(password))
+  return Encrypt(login) + Encrypt(password);
+};
+
+export const DecryptCookie = (cookie: string) => {
+  if (!cookie) return;
+  const login = cookie.slice(0,32);
+  const password = cookie.slice(32);
+  return { login, password };
+};
+
