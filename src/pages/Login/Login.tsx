@@ -38,16 +38,13 @@ const Login = () => {
     try {
       if (password === Decrypt(accountData.password)) {
         store.dispatch(reduxSetRoles(accountData.roles));
-        store.dispatch(reduxSetTeam('6673'));
-        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 9 });
+        store.dispatch(reduxSetTeam(accountData.team));
+        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 180 });
         // if(accountData.team) return history.push(`/info${accountData.team}`);
         //TODO - this only to test ->
 
-
-        const team = '6673'; 
-        //
         if (accountData.roles.includes('admin')) return history.push('/');
-        return history.push(`/info/${team}`);
+        return history.push(`/info/${accountData.team}`);
       }
     } catch (err) {
       setLoadingLogin(false);

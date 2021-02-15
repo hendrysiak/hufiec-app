@@ -11,8 +11,8 @@ import {
   useLocation
 } from 'react-router-dom';
 
-
 import Cookies from 'universal-cookie';
+
 import { AddEvent } from 'helpers/hooks/addEvent';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
@@ -62,7 +62,7 @@ const Team = (): JSX.Element => {
   const handleEvent = () => {
     const token = cookies.get('token');
     if (token) {
-      cookies.set('token', token, { path: '/', maxAge: 9 });
+      cookies.set('token', token, { path: '/', maxAge: 180 });
       return;
     }
     user.roles?.length && window.location.reload();
