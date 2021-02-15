@@ -45,18 +45,8 @@ const Filters = (props: Props): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 
-  // const handleSetname = (event: React.KeyboardEvent<HTMLInputElement>) => {
-
-  //   props.setName(name);
-  // };
-
-  // const handleSetsurname = (event: React.KeyboardEvent<HTMLInputElement>) => {
-
-  //   props.setSurname(surname);
-  // };
-
   const debouncedName = useDebounce(name, 500);
-  const debouncedSurname = useDebounce(name, 500);
+  const debouncedSurname = useDebounce(surname, 500);
 
   useEffect(() => {
     props.setName(name);

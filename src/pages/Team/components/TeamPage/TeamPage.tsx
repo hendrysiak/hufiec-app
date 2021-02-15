@@ -13,6 +13,7 @@ import classes from './TeamPage.module.css';
 interface IRows extends APIPerson {
   lp: string | number;
   fee: number;
+  isDeleted: string
 }
 
 interface IProps {
@@ -26,7 +27,8 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
     { field: 'lp', headerName: 'LP', width: 80, },
     { field: 'name', headerName: 'Imię', width: 150 },
     { field: 'surname', headerName: 'Nazwisko', width: 150 },
-    { field: 'fee', headerName: 'Stan składek', width: 150 }
+    { field: 'fee', headerName: 'Stan składek', width: 150 },
+    { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120 }
   ];
 
   const handleOpen = () => {
@@ -42,7 +44,8 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
       return ({
         ...el,
         lp: index + 1,
-        fee: countingMemberFee(el)
+        fee: countingMemberFee(el),
+        isDeleted: el.dateOfDelete ? 'Tak' : 'Nie'
       });
     })) : ([]);
     setRows(rows);
@@ -58,7 +61,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div className={classes.positionModal} style={{ height: 670, width: 500, backgroundColor: 'white' }}>
+        <div className={classes.positionModal} >
           {rows?.length ? (
             <DataGrid rows={rows} columns={columns} pageSize={10} /> 
           ) : (

@@ -46,7 +46,7 @@ export const reduxGetRegistry = (registry: Registry): GetRegistry => {
   };
 };
 
-export const reduxGetImportDates = (importDates: string[]): GetImportDates => {
+export const reduxGetImportDates = (importDates: Date[]): GetImportDates => {
   return {
     type: ActionTypes.SET_IMPORT_DATES,
     importDates

@@ -56,7 +56,7 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <NewTeamMember team={team}/>
+        <NewTeamMember team={team} handleCloseNewMember={handleCloseNewMember}/>
       </Modal>
     </div>
   );

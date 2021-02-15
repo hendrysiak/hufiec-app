@@ -40,7 +40,7 @@ export interface GetRegistry {
 
 export interface GetImportDates {
   type: ActionTypes.SET_IMPORT_DATES;
-  importDates: string[];
+  importDates: Date[];
 };
 
 

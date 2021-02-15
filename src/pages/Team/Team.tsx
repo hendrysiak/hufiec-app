@@ -11,10 +11,12 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import Cookies from 'universal-cookie';
 
+import Cookies from 'universal-cookie';
 import { AddEvent } from 'helpers/hooks/addEvent';
-import { IncomeDb } from 'models/income.models';
+import { useDebounce } from 'helpers/hooks/useDebounce';
+import { IncomeDb, OutcomeDb } from 'models/income.models';
+
 import { APIPerson } from 'models/registry.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { LogOut } from 'shared/LogOut/LogOut';
@@ -25,6 +27,7 @@ import './style.css';
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
@@ -32,9 +35,10 @@ const Team = (): JSX.Element => {
   const user = useSelector((state: RootState) => state.user);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
-  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[] | null>([]); 
+
   const cookies = new Cookies();
-  const [incomesSC, setIncomesSC] = useState<number | null>(null);
+  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
+  const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[2];
@@ -44,6 +48,12 @@ const Team = (): JSX.Element => {
   const [useDate, setUseDate] = useState<boolean>(true);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
+
+  const debouncedName = useDebounce(name, 500);
+  const debouncedSurname = useDebounce(surname, 500);
 
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
@@ -64,22 +74,20 @@ const Team = (): JSX.Element => {
     const teamRegistry = registry && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(teamRegistry);
     const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
+    const outcomesToDisplay = dbOutcomes && currentTeam && dbOutcomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
-  },[registry, dbIncomes, currentTeam]);
+    outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
+  },[registry, dbIncomes, dbOutcomes, currentTeam]);
 
   useEffect(() => {
     const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
       return ({
         ...el,
         lp: index + 1,
+        dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
       });
     })) : ([]);
-    setRows(row);
-    const sum = incomesByCode && incomesByCode
-      .filter(income => income.event === 'SC')
-      .reduce((sum: number, income) => sum + income.cash ,0); 
-      
-    setIncomesSC(sum);
+    setRows(row);     
   },[incomesByCode]);
 
 
@@ -88,13 +96,15 @@ const Team = (): JSX.Element => {
     { field: 'name', headerName: 'IMIĘ', width: 150, },
     { field: 'surname', headerName: 'NAZWISKO', width: 150, },
     { field: 'cash', headerName: 'KWOTA', width: 150, },
-    { field: 'title', headerName: 'TYTUŁ', width: 800, },
-    { field: 'importDate', headerName: 'DATA', width: 150, },
+    { field: 'title', headerName: 'TYTUŁ', width: 600, },
+    { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
+    { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
   ];
 
   useEffect(() => {
+    //Write date checker
     const filteredIncomes = rows && rows.filter(i => {
-      if (useDate && selectedDate && i.importDate.toLocaleString().split(',')[0] !== selectedDate.toLocaleString().split(',')[0]) return false;
+      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== '' 
           && event !== 'unAssigned' 
@@ -116,11 +126,13 @@ const Team = (): JSX.Element => {
           && i.title 
           && i.year 
           && i.cash) return false;
+      if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
+      if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
     setDisplayedIncome(filteredIncomes);
 
-  },[event, selectedDate, incomesByCode, useDate, rows]);
+  },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
@@ -145,7 +157,7 @@ const Team = (): JSX.Element => {
     selectedDate: unknown, 
     dayInCurrentMonth: unknown, 
     dayComponent: JSX.Element) => {
-    if (importDates && date && importDates.includes(date.toLocaleString().split(',')[0])) {
+    if (importDates && date && importDates.includes(date)) {
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}
         <div className={classes.dayWithDot}/>
@@ -180,6 +192,26 @@ const Team = (): JSX.Element => {
                 item ? <MenuItem key={item} value={item}>{item}</MenuItem> : null
               ))}
             </TextField>
+            <TextField
+              label="Po imieniu"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Wpisz imię"
+              size="small"
+              variant="outlined"
+              margin="normal"
+            />
+
+            <TextField
+              label="Po nazwisku"
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+              placeholder="Wpisz nazwisko"
+              size="small"
+              variant="outlined"
+              margin="normal"
+
+            />
             <KeyboardDatePicker
               className="datePicker"
               disableToolbar
@@ -207,7 +239,7 @@ const Team = (): JSX.Element => {
               label="Sortuj po dacie"
             />
           </div>
-          <Tooltips members={currentTeamRegistry} incomes={incomesSC} currentTeam={currentTeam}/>
+          <Tooltips members={currentTeamRegistry} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam}/>
         </div>
         <h1>Drużyna: {currentTeam}</h1>
         <div style={{ width: 1500 }}>

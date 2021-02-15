@@ -20,5 +20,5 @@ export interface IncomeState {
   dbIncomes: IncomeDb[],
   dbOutcomes: OutcomeDb[],
   codes: ApprovedEvent[] | null,
-  importDates: string[] | null;
+  importDates: Date[] | null;
 };

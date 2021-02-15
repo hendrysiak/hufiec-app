@@ -8,7 +8,7 @@ import { Person } from 'models/registry.models';
 import classes from '../EditorTeam.module.css';
 
 
-const NewTeamMember = ({team}: {team: string}) => {
+const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleCloseNewMember: () => void }): JSX.Element => {
   const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -19,6 +19,7 @@ const NewTeamMember = ({team}: {team: string}) => {
   };
   const handleAddTeamMemebr = () => {
     if (team && team.length && input.name.length && input.surname.length) addTeamMember(team, input);
+    handleCloseNewMember();
   };
 
   return (

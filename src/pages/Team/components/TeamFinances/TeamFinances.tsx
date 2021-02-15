@@ -8,15 +8,19 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import React, {useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import axios from 'axios-income';
+
+import { FoundingSources } from 'models/global.enum';
+import { IncomeDb, OutcomeDb } from 'models/income.models';
 
 import classes from './TeamFinances.module.css';
 
 
 interface Props {
-  incomes: number | null;
+  incomes: IncomeDb[];
+  outcomes: OutcomeDb[];
   currentTeam: string;
 }
 
@@ -26,31 +30,54 @@ const useStyles = makeStyles({
   },
 });
 
-const TeamFinances = ({ incomes, currentTeam } : Props): JSX.Element => {
+const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
+  const [compensation, setCompensation] = React.useState<number>(0);
+  const [sumOfOutcomes, setSumOfOutcomes] = React.useState<number>(0);
   const classe = useStyles();
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [incomesSC, setIncomesSC] = React.useState<number | null>(null);
 
-  const createData = (name: string, estate: number, expenses: number) => {
-    return { name, estate, expenses};
+  const createData = (
+    name: string, 
+    estate: number, 
+    // expenses: number
+  ) => {
+    // return { name, estate, expenses };
+    return { name, estate };
   };
    
-  const rows = [
-    createData('1%', onePercent, 99),
-    createData('SKŁADKI', (incomes ? incomes / 5 : 0), 99),
-  ];
-
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get(`/onePercent/${currentTeam}.json`);
       setOnePercent(result.data);
     };
     getData();
+    const sumOfFees = incomes && incomes
+      .filter(income => income.event === 'SC')
+      .reduce((sum: number, income) => sum + income.cash ,0); 
+
+    const sumOfCompensation = incomes.filter(i => i.title === 'Przychód dodany ręcznie').reduce((sum: number, income) => sum + income.cash , 0);
+    const sumOfOutcomes = outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + outcome.cash , 0);
+    
+    setSumOfOutcomes(sumOfOutcomes);
+    setCompensation(sumOfCompensation);
+    setIncomesSC(sumOfFees);
+
+
   });
 
-  const sum = (incomes ? incomes / 5 : 0) + onePercent;
+  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation;
+
+  const rows = [
+    createData('1%', onePercent),
+    createData('SKŁADKI', (incomesSC ? incomesSC / 5 : 0)),
+    createData('ZAKUPY/FAKTURY/POTRĄCENIA', sumOfOutcomes),
+    createData('WPŁYWY/WYRÓWNANIA', compensation),
+  ];
+
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -77,7 +104,7 @@ const TeamFinances = ({ incomes, currentTeam } : Props): JSX.Element => {
                   <TableRow>
                     <TableCell>KONTO</TableCell>
                     <TableCell align="right">STAN</TableCell>
-                    <TableCell align="right">PRZYSZŁE WYDATKI</TableCell>
+                    {/* <TableCell align="right">PRZYSZŁE WYDATKI</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -87,7 +114,7 @@ const TeamFinances = ({ incomes, currentTeam } : Props): JSX.Element => {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.estate}</TableCell>
-                      <TableCell align="right">{row.expenses}</TableCell>
+                      {/* <TableCell align="right">{row.expenses}</TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
