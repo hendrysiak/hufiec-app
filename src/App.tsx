@@ -15,7 +15,7 @@ import { BrowserRouter,
 import Cookies from 'universal-cookie';
 
 import { getAccount } from 'helpers/account.helper';
-import { AddEvent } from 'helpers/hooks/addEvent';
+import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 import { reduxSetRoles } from 'store/actions/user';
 
@@ -51,33 +51,21 @@ const App = (): JSX.Element => {
     };
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
-    
-    const dataLogin = DecryptCookie(cookies.get('token'));
+    const dataLogin = DecryptCookie('');
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
         store.dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
         setRedirectToLogin(true);
-        // setTeam('6673') // TODO <- team number enter to TEST
         return;
       } else setRedirectToLogin(true);
       return;
     };
     dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
-    
-  const handleEvent = () => {
-    const token = cookies.get('token');
-    if (token) {
-      cookies.set('token', token, { path: '/', maxAge: 180 });
-      return;
-    };
-    user.roles?.length && window.location.reload();
-  };
   
-  AddEvent('click', handleEvent);
-
+  useHandlerLogout();
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
@@ -99,7 +87,7 @@ const App = (): JSX.Element => {
   const routes = 
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <DashBoard />} />
+        {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
         {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
@@ -117,7 +105,6 @@ const App = (): JSX.Element => {
       </Switch>
       {team && <Redirect exact to={`/info/${team}`}/>}
       {redirectToLogin && !roles && <Redirect exact to="/login"/>}
-      
     </BrowserRouter>;
 
   return (

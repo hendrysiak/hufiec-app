@@ -13,7 +13,6 @@ import {
 
 import Cookies from 'universal-cookie';
 
-import { AddEvent } from 'helpers/hooks/addEvent';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 
@@ -32,11 +31,9 @@ const Team = (): JSX.Element => {
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
-  const user = useSelector((state: RootState) => state.user);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
 
-  const cookies = new Cookies();
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
@@ -58,17 +55,6 @@ const Team = (): JSX.Element => {
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
   };
-
-  const handleEvent = () => {
-    const token = cookies.get('token');
-    if (token) {
-      cookies.set('token', token, { path: '/', maxAge: 180 });
-      return;
-    }
-    user.roles?.length && window.location.reload();
-  };
-  
-  AddEvent('click', handleEvent);
 
   useEffect(() => {
     const teamRegistry = registry && registry[currentTeam];
