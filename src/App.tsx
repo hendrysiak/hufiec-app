@@ -17,7 +17,7 @@ import Cookies from 'universal-cookie';
 import { getAccount } from 'helpers/account.helper';
 import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
-import { reduxSetRoles } from 'store/actions/user';
+import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
 import { RootState } from 'store/models/rootstate.model';
@@ -56,6 +56,8 @@ const App = (): JSX.Element => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
         store.dispatch(reduxSetRoles(accountData.roles));
+        store.dispatch(reduxSetTeam(accountData.team));
+        store.dispatch(reduxIsAuthentication(true));
         setRoles(accountData.roles);
         setRedirectToLogin(true);
         setTeam(accountData.team);

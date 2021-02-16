@@ -13,6 +13,7 @@ import Cookies from 'universal-cookie';
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, EncryptCookie } from 'helpers/password.helper';
 import {
+  reduxIsAuthentication,
   reduxSetRoles,
   reduxSetTeam,
 } from 'store/actions/user';
@@ -38,6 +39,7 @@ const Login = () => {
     try {
       if (password === Decrypt(accountData.password)) {
         store.dispatch(reduxSetRoles(accountData.roles));
+        store.dispatch(reduxIsAuthentication(true));
         store.dispatch(reduxSetTeam(accountData.team));
         cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 180 });
         // if(accountData.team) return history.push(`/info${accountData.team}`);

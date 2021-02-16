@@ -21,6 +21,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
+import { useHandlerLogout } from '../../helpers/hooks/useHandlerLogout';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -37,7 +38,7 @@ const Team = (): JSX.Element => {
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
   const location = useLocation();
-  const currentTeam = location.pathname.split('/')[2];
+  const currentTeam = location.pathname.split('/')[1];
 
   const [rows, setRows] = useState<IncomeDb[]>([]);
 
@@ -74,7 +75,6 @@ const Team = (): JSX.Element => {
     })) : ([]);
     setRows(row);     
   },[incomesByCode]);
-
 
   const columns = [
     { field: 'lp', headerName: 'LP', width: 80, },
