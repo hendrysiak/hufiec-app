@@ -51,20 +51,20 @@ const App = (): JSX.Element => {
     };
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
-    const dataLogin = DecryptCookie('');
+    const dataLogin = DecryptCookie(cookies.get('token'));
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
         store.dispatch(reduxSetRoles(accountData.roles));
         setRoles(accountData.roles);
         setRedirectToLogin(true);
+        setTeam(accountData.team);
         return;
       } else setRedirectToLogin(true);
       return;
     };
     dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
-  
   useHandlerLogout();
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
@@ -82,7 +82,6 @@ const App = (): JSX.Element => {
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
 
-
   //TODO jeśli jest lider, ma w api informacje z jakiej jednoski pochodzi - z bazy danych, przypisywane w redux i przekierowywanie tylko i wylacznie na jego TEAM.
   const routes = 
     <BrowserRouter>
@@ -99,11 +98,11 @@ const App = (): JSX.Element => {
         {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/info/:teamId" render={() => <Team />}/>}
+        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
       </Switch>
-      {team && <Redirect exact to={`/info/${team}`}/>}
+      {user.roles && !user.roles.includes('admin') && team && <Redirect exact to={`/${team}`}/>}
       {redirectToLogin && !roles && <Redirect exact to="/login"/>}
     </BrowserRouter>;
 

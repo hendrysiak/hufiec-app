@@ -11,7 +11,6 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import Cookies from 'universal-cookie';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';

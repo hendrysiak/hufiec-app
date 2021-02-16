@@ -9,11 +9,8 @@ export const useHandlerLogout = () => {
     const target = e.target as HTMLElement;
     const token = cookies.get('token');
     if (target.classList.contains('clicked')) {
-      cookies.remove('token');
-      setTimeout(() => {
-        return window.location.reload();
-      },500);
-      return;
+      cookies.remove('token', {path: '/'});
+      return window.location.reload();
     }
     if (token && !target.classList.contains('clicked')) {
       cookies.set('token', token, { path: '/', maxAge: 180 });

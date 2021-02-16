@@ -44,7 +44,7 @@ const Login = () => {
         //TODO - this only to test ->
 
         if (accountData.roles.includes('admin')) return history.push('/');
-        return history.push(`/info/${accountData.team}`);
+        return history.push(`/${accountData.team}`);
       }
     } catch (err) {
       setLoadingLogin(false);
