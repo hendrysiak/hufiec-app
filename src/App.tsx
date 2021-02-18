@@ -38,8 +38,10 @@ const App = (): JSX.Element => {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
   const cookies = new Cookies();
-  const [roles, setRoles] = useState<string[] | null>(null);
-  const [team, setTeam] = useState<string | null>(null);
+  const roles = useSelector((state: RootState) => state.user.roles);
+  const team = useSelector((state: RootState) => state.user.team);
+  // const [roles, setRoles] = useState<string[] | null>(null);
+  // const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
   
   useEffect(() => {
@@ -58,9 +60,9 @@ const App = (): JSX.Element => {
         store.dispatch(reduxSetRoles(accountData.roles));
         store.dispatch(reduxSetTeam(accountData.team));
         store.dispatch(reduxIsAuthentication(true));
-        setRoles(accountData.roles);
+        // setRoles(accountData.roles);
         setRedirectToLogin(true);
-        setTeam(accountData.team);
+        // setTeam(accountData.team);
         return;
       } else setRedirectToLogin(true);
       return;
@@ -84,7 +86,6 @@ const App = (): JSX.Element => {
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
 
-  //TODO jeśli jest lider, ma w api informacje z jakiej jednoski pochodzi - z bazy danych, przypisywane w redux i przekierowywanie tylko i wylacznie na jego TEAM.
   const routes = 
     <BrowserRouter>
       <Switch>
