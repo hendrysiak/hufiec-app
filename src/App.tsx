@@ -15,9 +15,9 @@ import { BrowserRouter,
 import Cookies from 'universal-cookie';
 
 import { getAccount } from 'helpers/account.helper';
-import { AddEvent } from 'helpers/hooks/addEvent';
+import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
-import { reduxSetRoles } from 'store/actions/user';
+import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
 import { RootState } from 'store/models/rootstate.model';
@@ -38,8 +38,10 @@ const App = (): JSX.Element => {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
   const cookies = new Cookies();
-  const [roles, setRoles] = useState<string[] | null>(null);
-  const [team, setTeam] = useState<string | null>(null);
+  const roles = useSelector((state: RootState) => state.user.roles);
+  const team = useSelector((state: RootState) => state.user.team);
+  // const [roles, setRoles] = useState<string[] | null>(null);
+  // const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
   
   useEffect(() => {
@@ -51,33 +53,23 @@ const App = (): JSX.Element => {
     };
     downloadData();
     store.dispatch(actions.reduxLoadingEnd());
-    
     const dataLogin = DecryptCookie(cookies.get('token'));
     const checkLogin = async (login: string, password: string) => {
       const accountData = await getAccount(login);
       if (password === accountData.password) {
         store.dispatch(reduxSetRoles(accountData.roles));
-        setRoles(accountData.roles);
+        store.dispatch(reduxSetTeam(accountData.team));
+        store.dispatch(reduxIsAuthentication(true));
+        // setRoles(accountData.roles);
         setRedirectToLogin(true);
-        // setTeam('6673') // TODO <- team number enter to TEST
+        // setTeam(accountData.team);
         return;
       } else setRedirectToLogin(true);
       return;
     };
     dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
-    
-  const handleEvent = () => {
-    const token = cookies.get('token');
-    if (token) {
-      cookies.set('token', token, { path: '/', maxAge: 180 });
-      return;
-    };
-    user.roles?.length && window.location.reload();
-  };
-  
-  AddEvent('click', handleEvent);
-
+  useHandlerLogout();
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
@@ -94,12 +86,10 @@ const App = (): JSX.Element => {
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
 
-
-  //TODO jeśli jest lider, ma w api informacje z jakiej jednoski pochodzi - z bazy danych, przypisywane w redux i przekierowywanie tylko i wylacznie na jego TEAM.
   const routes = 
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" render={() => <DashBoard />} />
+        {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
         {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
@@ -111,13 +101,12 @@ const App = (): JSX.Element => {
         {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/info/:teamId" render={() => <Team />}/>}
+        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
       </Switch>
-      {team && <Redirect exact to={`/info/${team}`}/>}
+      {user.roles && !user.roles.includes('admin') && team && <Redirect exact to={`/${team}`}/>}
       {redirectToLogin && !roles && <Redirect exact to="/login"/>}
-      
     </BrowserRouter>;
 
   return (
