@@ -11,9 +11,7 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import Cookies from 'universal-cookie';
 
-import { AddEvent } from 'helpers/hooks/addEvent';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 
@@ -23,6 +21,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
+import { useHandlerLogout } from '../../helpers/hooks/useHandlerLogout';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -32,16 +31,14 @@ const Team = (): JSX.Element => {
   const importDates = useSelector((state: RootState) => state.income.importDates);
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
-  const user = useSelector((state: RootState) => state.user);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
 
-  const cookies = new Cookies();
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
   const location = useLocation();
-  const currentTeam = location.pathname.split('/')[2];
+  const currentTeam = location.pathname.split('/')[1];
 
   const [rows, setRows] = useState<IncomeDb[]>([]);
 
@@ -58,17 +55,6 @@ const Team = (): JSX.Element => {
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
   };
-
-  const handleEvent = () => {
-    const token = cookies.get('token');
-    if (token) {
-      cookies.set('token', token, { path: '/', maxAge: 180 });
-      return;
-    }
-    user.roles?.length && window.location.reload();
-  };
-  
-  AddEvent('click', handleEvent);
 
   useEffect(() => {
     const teamRegistry = registry && registry[currentTeam];
@@ -89,7 +75,6 @@ const Team = (): JSX.Element => {
     })) : ([]);
     setRows(row);     
   },[incomesByCode]);
-
 
   const columns = [
     { field: 'lp', headerName: 'LP', width: 80, },

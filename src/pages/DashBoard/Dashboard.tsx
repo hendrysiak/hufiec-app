@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 
+import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 
@@ -47,16 +48,12 @@ const Dashboard = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
-
+  // useHandlerLogout();
   const getMessages = async () => {
     const result = await axios.get('/ticket.json');
     setLoadingMess(true);
     return setMessages(result.data);
   };
-
-  // useEffect(() => {
-  //   console.log(loadingMess)
-  // },[loadingMess])
 
   // const [accountState, setAccountState] = useState({});
   const [isLoading, setLoading] = useState(false);
@@ -67,10 +64,6 @@ const Dashboard = (): JSX.Element => {
 
     getMessages();
   }, []);
-
-  useEffect(() => {
-    // messages && console.log(new Map(messages));
-  }, [messages]);
 
   return (
     <>
