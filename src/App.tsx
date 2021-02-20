@@ -34,7 +34,6 @@ import store from './store/store';
 
 
 const App = (): JSX.Element => {
-  //TODO temporary "any" fix`
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
   const cookies = new Cookies();
@@ -101,9 +100,9 @@ const App = (): JSX.Element => {
         {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
+        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
       </Switch>
       {user.roles && !user.roles.includes('admin') && team && <Redirect exact to={`/${team}`}/>}
       {redirectToLogin && !roles && <Redirect exact to="/login"/>}

@@ -224,7 +224,13 @@ const Team = (): JSX.Element => {
               label="Sortuj po dacie"
             />
           </div>
-          <Tooltips members={currentTeamRegistry} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam}/>
+          <Tooltips 
+            members={currentTeamRegistry} 
+            incomes={incomesByCode} 
+            outcomes={outcomesByCode} 
+            currentTeam={currentTeam} 
+            dataToExport={displayedIncome}
+          />
         </div>
         <h1>Drużyna: {currentTeam}</h1>
         <div style={{ width: 1500 }}>
