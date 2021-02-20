@@ -3,6 +3,7 @@ import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import React, { MouseEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { LogOut } from 'shared/LogOut/LogOut';
 
 import Navigation from 'shared/Navigation/Navigation';
 
@@ -27,6 +28,7 @@ const ImportIncome = (): JSX.Element => {
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <section className="Section">
         <form className={classes.Form}>

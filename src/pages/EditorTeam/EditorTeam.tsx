@@ -142,10 +142,15 @@ const EditorTeam: FC = () => {
     setRows(rows);
   },[team, registry]);
 
+  useEffect(() => {
+    console.log('wykonuje')
+  },[])
+
   return (
     <>
       <LogOut />
       <Navigation />
+      {console.log(rows)}
       <SelectTeam onChange={handleChangeSelect} team={team}/>
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
