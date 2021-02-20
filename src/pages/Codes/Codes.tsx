@@ -72,14 +72,6 @@ const Codes = (): JSX.Element => {
   },[currentCode]);
 
 
-  // const children = currentCode === 'Błedy niewyjaśnione' 
-  //   ? dbIncomes && dbIncomes.filter(i => !i.event).map((income, index) => {
-  //     return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
-  //   })
-  //   : dbIncomes && dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
-  //     return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
-  //   });
-
   return (
     <>
       <LogOut />
@@ -106,19 +98,19 @@ const Codes = (): JSX.Element => {
         <h2>Lista po kodzie</h2>
 
       </header>
-      {/* <main className={classes.Main}> */}
-      {/* {children && <ListContainer
+      <main className={classes.Main}>
+        {/* {children && <ListContainer
             title={currentCode}
           >
             {children}
           </ListContainer>} */}
-      {rows?.length ? (
-        <DataGrid rows={rows} columns={columns} pageSize={rows.length} autoHeight={true}/> 
-      ) : (
-        <div>Brak wpłat na kod</div>
-      )
-      }
-      {/* </main> */}
+        {rows?.length ? (
+          <DataGrid rows={rows} columns={columns} pageSize={rows.length - 1} autoHeight={true}/> 
+        ) : (
+          <div>Brak wpłat na kod</div>
+        )
+        }
+      </main>
     </>
   );
 };
