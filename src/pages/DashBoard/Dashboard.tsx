@@ -86,7 +86,6 @@ const Dashboard = (): JSX.Element => {
             <hr/>
             <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
             <AppBar position="static" color="transparent">
-              {console.log(messages)}
               <h2>Wiadomości</h2>
               <ul className={classes.listMessages}>
                 {messages ? (

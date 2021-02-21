@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button';
 import React, { MouseEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { LogOut } from 'shared/LogOut/LogOut';
+
 import Navigation from 'shared/Navigation/Navigation';
 
 
@@ -19,14 +21,13 @@ const ImportIncome = (): JSX.Element => {
   const setUrl = (
     event: MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
-    // store.dispatch(actions.fetchIncome(event.target.children[1].value));
     setIncomeInRedux(dataUrl);
-    // store.dispatch(actions.fetchIncome(dataUrl));
     history.push('/transfers/imported');
   };
 
   return (
     <>
+      <LogOut />
       <Navigation />
       <section className="Section">
         <form className={classes.Form}>
