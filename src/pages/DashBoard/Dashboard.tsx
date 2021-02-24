@@ -1,4 +1,4 @@
-import { AppBar } from '@material-ui/core';
+import { AppBar, Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 import React, { useEffect, useState } from 'react';
@@ -48,20 +48,26 @@ const Dashboard = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
-  // useHandlerLogout();
   const getMessages = async () => {
-    const result = await axios.get('/ticket.json');
+    const result = await axios.get('/ticket.json/');
     setLoadingMess(true);
     return setMessages(result.data);
   };
 
-  // const [accountState, setAccountState] = useState({});
-  const [isLoading, setLoading] = useState(false);
+  const handleDeleteMess = async (el: string, title: string, mess: string) => {
+    if (!window.confirm(`na pewno chcesz usunąć?\n ${title}, \n ${mess.length > 20 ? 
+      'początek wiadomośći: ' + mess.slice(0, 40) + '...'
+      : 
+      'wiadomość: ' + mess}`)) return;
+
+    await axios.delete(`/ticket/${el}.json`)
+      .then(() => getMessages())
+      .catch(() => alert('coś poszło nie tak, spróbuj ponownie'));
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
-
     getMessages();
   }, []);
 
@@ -69,55 +75,52 @@ const Dashboard = (): JSX.Element => {
     <>
       <LogOut />
       <Navigation />
-      {isLoading ? (
-        <div className="loader">
-          <CircularProgress />
-        </div>
-      ) : (
-        <div>
-          <h1>Aplikacja Hufcowa - v. 0.1</h1>
-          <Paper style={{ background: 'transparent' }}>
-            <AppBar position="static" className={classes.appBar}>
-              <h2>Stan hufca:</h2>
-              <p>kwota zł</p>
-            </AppBar>
-            {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
-            <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
-            <hr/>
-            <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
-            <AppBar position="static" color="transparent">
-              <h2>Wiadomości</h2>
-              <ul className={classes.listMessages}>
-                {messages ? (
-                  Object.keys(messages).map((el, i: number) => {
-                    // console.log(messages[el]);
-                    return (
-                      <li key={i}>
-                        {
-                          <div className={classes.containerMessage}>
-                            <h2>Drużyna: {messages[el].team}</h2>
-                            <h3>Tytuł: {messages[el].title}</h3>
-                            <p>Treść zgłoszenia: {messages[el].content}</p>
-                            {messages[el].mail && (
-                              <p>
-                                Proszę o odpowiedź na maila: {messages[el].mail}
-                              </p>
-                            )}
-                          </div>
-                        }
-                      </li>
-                    );
-                  })
-                ) : loadingMess ? (
-                  <div>Brak wiadomośći</div>
-                ) : (
-                  <CircularProgress />
-                )}
-              </ul>
-            </AppBar>
-          </Paper>
-        </div>
-      )}
+      <div>
+        <h1>Aplikacja Hufcowa - v. 0.1</h1>
+        <Paper style={{ background: 'transparent' }}>
+          <AppBar position="static" className={classes.appBar}>
+            <h2>Stan hufca:</h2>
+            <p>kwota zł</p>
+          </AppBar>
+          {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
+          <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
+          <hr/>
+          <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
+          <AppBar position="static" color="transparent">
+            <h2>Wiadomości</h2>
+            <ul className={classes.listMessages}>
+              {messages ? (
+                Object.keys(messages).map((el, i: number) => {
+                  // console.log(messages[el]);
+                  return (
+                    <li key={i}>
+                      {
+                        <div className={classes.containerMessage}>
+                          <h2>Drużyna: {messages[el].team}</h2>
+                          <h3>Tytuł: {messages[el].title}</h3>
+                          <p>Treść zgłoszenia: {messages[el].content}</p>
+                          {messages[el].mail && (
+                            <p>
+                              Proszę o odpowiedź na maila: {messages[el].mail}
+                            </p>
+                          )}
+                          <Button onClick={() => handleDeleteMess(el, messages[el].title, messages[el].content)} variant="contained" color="secondary">USUŃ</Button>
+                          {/* <button onClick={() => handleDeleteMess(el)}>USUN</button> */}
+                        </div>
+                      }
+                    </li>
+                  );
+                })
+              ) : loadingMess ? (
+                <div>Brak wiadomośći</div>
+              ) : (
+                <CircularProgress />
+              )}
+            </ul>
+            
+          </AppBar>
+        </Paper>
+      </div>
     </>
   );
 };
