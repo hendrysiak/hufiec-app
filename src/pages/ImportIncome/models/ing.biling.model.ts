@@ -4,13 +4,13 @@ export enum INGOperationType {
 }
 
 export interface INGDocument {
-  CdtDbtInd: INGOperationType; 
-  Amt: { __text: string; }; 
-  BookgDt: { DtTm: string; }; 
+  CdtDbtInd: { _text: INGOperationType }; 
+  Amt: { _text: string; }; 
+  BookgDt: { DtTm: { _text: string }; }; 
   NtryDtls: { 
     TxDtls: { 
       RmtInf: { 
-        Ustrd: string; 
+        Ustrd: { _text: string }; 
       }; 
     }; 
   }
@@ -25,4 +25,13 @@ export interface INGBiling {
       }
     } 
   }
+}
+export interface INGBilingDocument {
+
+  BkToCstmrAcctRpt: {
+    Rpt: {
+      Ntry: INGDocument[]
+    }
+  } 
+
 }
