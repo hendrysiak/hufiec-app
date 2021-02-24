@@ -46,8 +46,10 @@ export interface IMessages {
 
 const Dashboard = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
+  const incomeDb = useSelector((state: RootState) => state.income);
   const [messages, setMessages] = useState<IMessages>();
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(0);
   const getMessages = async () => {
     const result = await axios.get('/ticket.json/');
     setLoadingMess(true);
@@ -66,6 +68,12 @@ const Dashboard = (): JSX.Element => {
   };
 
   useEffect(() => {
+    const sumIncomes = incomeDb.dbIncomes.reduce((sum: number, income) => sum + income.cash,0);
+    const sumOutcomes = incomeDb.dbOutcomes.reduce((sum: number, income) => sum + income.cash,0);
+    setAmount(Number((sumIncomes + sumOutcomes).toFixed(2)));
+  },[incomeDb]);
+
+  useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
     getMessages();
@@ -80,7 +88,7 @@ const Dashboard = (): JSX.Element => {
         <Paper style={{ background: 'transparent' }}>
           <AppBar position="static" className={classes.appBar}>
             <h2>Stan hufca:</h2>
-            <p>kwota zł</p>
+            <p>{amount} zł</p>
           </AppBar>
           {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
           <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
