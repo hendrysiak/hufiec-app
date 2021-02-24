@@ -81,9 +81,9 @@ const Filters = (props: Props): JSX.Element => {
     dayInCurrentMonth: unknown, 
     dayComponent: JSX.Element) => {
 
-    const mappedImportDates = importDates?.map(id => new Date(id).toLocaleString());
+    const mappedImportDates = importDates?.map(id => new Date(id).toLocaleDateString());
 
-    if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleString())) {
+    if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleDateString())) {
       
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}

@@ -88,10 +88,9 @@ const SortedIncome = (): JSX.Element => {
     };
 
     const date = new Date();
-    const updatedDate = date.toLocaleString().split(',')[0];
 
     const importDatesToUpdate = importDates && importDates.length > 0 ? importDates : [];
-    const updatedImportDates = [...importDatesToUpdate, updatedDate];
+    const updatedImportDates = [...importDatesToUpdate, date];
     (async () => await axios.put('/importDates.json', updatedImportDates))();
 
     setLoading(false);
