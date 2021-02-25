@@ -10,3 +10,7 @@
 .positionModal > div > div {
     background-color: white;
 }
+
+.positionModalCell {
+    font-size: 16px;
+}

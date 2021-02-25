@@ -61,7 +61,7 @@ const StandardRow = (props: Props): JSX.Element => {
       <TableCell>{props.row.surname}</TableCell>
       <TableCell>{props.row.team}</TableCell>
       <TableCell>{props.row.event}</TableCell>
-      <TableCell align="right">{props.row.title}</TableCell>
+      <TableCell>{props.row.title}</TableCell>
     </TableRow>
     );
 

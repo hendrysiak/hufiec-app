@@ -1,7 +1,8 @@
+import { makeStyles, createStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CSVLink } from 'react-csv';
 
@@ -24,25 +25,34 @@ interface IProps {
 }
 
 const Tooltips = ({ members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
+  const tooltipStyles = useMemo(() => makeStyles(() => 
+    createStyles({
+      tooltip: {
+        fontSize: 16
+      },
+    })), []);
+
+  const tooltipsClasses = tooltipStyles();
+  
   return (
     <>
       <div className={classes.tooltips}>
-        <Tooltip title="Członkowie drużyny">
+        <Tooltip title="Członkowie drużyny" classes={tooltipsClasses}>
           <IconButton aria-label="members">
             <TeamPage members={members}/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Wyślij zgłoszenie">
+        <Tooltip title="Wyślij zgłoszenie" classes={tooltipsClasses}>
           <IconButton aria-label="support">
             <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam}/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Stan konta drużyny">
+        <Tooltip title="Stan konta drużyny" classes={tooltipsClasses}>
           <IconButton aria-label="account-state">
             <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam}/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Wyeksportuj widok do CSV">
+        <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
           <CSVLink data={dataToExport} filename={`${currentTeam}.csv`}>
             <IconButton aria-label="account-state">
               <GetAppIcon/>
