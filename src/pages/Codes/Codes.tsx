@@ -1,7 +1,11 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem , makeStyles, createStyles } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import { DataGrid } from '@material-ui/data-grid';
 
-import React, { useEffect, useState } from 'react';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import React, { useEffect, useMemo, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
 import { IncomeDb } from 'models/income.models';
@@ -13,6 +17,7 @@ import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 import classes from './Codes.module.css';
+
 
 interface Row {
   id: string;
@@ -30,6 +35,8 @@ const Codes = (): JSX.Element => {
 
   const [ usedCodes, setUsedCodes ] = useState<string[]>([]);
   const [ currentCode, setCurrentCode ] = useState<string>('');
+
+  const [dataToExport, setDataToExport] = useState<IncomeDb[]>([]);
 
   const [rows, setRows] = useState<Row[]>();
   
@@ -52,15 +59,13 @@ const Codes = (): JSX.Element => {
   }, [codes]);
 
   useEffect(() => {
-    const rows = currentCode === 'Błedy niewyjaśnione' 
-      ? dbIncomes && dbIncomes.filter(i => !i.event || !i.name || !i.surname || !i.team || !i.year ).map((income, index) => {
-        return {
-          ...income,
-          lp: index + 1,
-          dateOfBook: new Date(income.dateOfBook).toLocaleDateString()
-        };
-      })
-      : dbIncomes && dbIncomes.filter(i => i.event === currentCode).map((income, index) => {
+    let rows = [];
+    
+    if (currentCode === 'Błedy niewyjaśnione') {
+      const filteredIncomes = dbIncomes && dbIncomes.filter(i => !i.event || !i.name || !i.surname || !i.team || !i.year );
+      setDataToExport(filteredIncomes);
+      
+      rows = filteredIncomes.map((income, index) => {
         return {
           ...income,
           lp: index + 1,
@@ -68,8 +73,29 @@ const Codes = (): JSX.Element => {
         };
       });
 
+    } else {
+      const filteredIncomes = dbIncomes && dbIncomes.filter(i => i.event === currentCode);
+      setDataToExport(filteredIncomes);
+
+      rows = filteredIncomes.map((income, index) => {
+        return {
+          ...income,
+          lp: index + 1,
+          dateOfBook: new Date(income.dateOfBook).toLocaleDateString()
+        };
+      });
+    }
     setRows(rows);
   },[currentCode]);
+
+  const tooltipStyles = useMemo(() => makeStyles(() => 
+    createStyles({
+      tooltip: {
+        fontSize: 16
+      },
+    })), []);
+
+  const tooltipsClasses = tooltipStyles();
 
 
   return (
@@ -95,6 +121,13 @@ const Codes = (): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
+        <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
+          <CSVLink data={dataToExport} filename={`${currentCode}.csv`}>
+            <IconButton aria-label="account-state">
+              <GetAppIcon/>
+            </IconButton>
+          </CSVLink>
+        </Tooltip>
         <h2>Lista po kodzie</h2>
 
       </header>

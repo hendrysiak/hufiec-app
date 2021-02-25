@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
+import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
@@ -135,7 +136,8 @@ const EditorTeam: FC = () => {
         return (
           {
             lp: index + 1,
-            ...member
+            ...member,
+            feeState: countingMemberFee(member)
           }
         );
       })) : ([]);
@@ -156,6 +158,7 @@ const EditorTeam: FC = () => {
             <TableCell align="left">Nazwisko</TableCell>
             <TableCell align="left">Data dodania</TableCell>
             <TableCell align="left">Data usunięcia</TableCell>
+            <TableCell align="left">Stan składek</TableCell>
             <TableCell align="left">Usuń</TableCell>
           </TableRow>
         </TableHead>
@@ -192,6 +195,7 @@ const EditorTeam: FC = () => {
               <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
               <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell>
               <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell>
+              <TableCell>{row.feeState}</TableCell>
               <TableCell className={classes.selectTableCell}>
                 <IconButton
                   aria-label="delete"

@@ -53,8 +53,8 @@ const EventBilling = (): JSX.Element => {
         if (c.approvalInfo) return true;
         else return false;
       });
-
-      if (filteredCodes) {
+      
+      if (filteredCodes && filteredCodes.length > 0) {
         const getApprovalinfo = async () => {
           const approvalInfo = await axios.get(`/approval/${filteredCodes[0].approvalInfo}.json`);
           const currentEventApprovalCash 
