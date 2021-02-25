@@ -114,9 +114,8 @@ export const matchingIncomeByYear = (incomes: IncomesWithPerson[]): IncomesWithY
 
 const setDateOfImport = (data: any) => {
   const date = new Date();
-  const updatedDate = date.toLocaleString().split(',')[0];
   const updatedData = data.map((d: OutcomesBankModel | IncomesWithYear) => {
-    return { ...d, importDate: updatedDate };
+    return { ...d, importDate: date };
   });
     
   return updatedData;

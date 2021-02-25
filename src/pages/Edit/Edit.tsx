@@ -77,7 +77,7 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
@@ -89,7 +89,7 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -102,6 +102,28 @@ const Edit = (): JSX.Element => {
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
   }, [importDates]);
+
+  const filterIncomes = (incomes: IncomeDb[]) => {
+    return incomes.filter(i => {
+      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (team !== 'Brak' && i.team !== team) return false;
+      if (event !== 'Brak' && i.event !== event) return false;
+      if (founding !== 'Brak' && i.foundingSource !== founding) return false;
+      if (category !== 'Brak' && i.outcomeCategory !== event) return false;
+      return true;
+    });
+  };
+
+  const filterOutcomes = (outcomes: OutcomeDb[]) => {
+    return outcomes.filter(o => {
+      if (useDate && selectedDate && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (team !== 'Brak' && o.team !== team) return false;
+      if (event !== 'Brak' && o.event !== event) return false;
+      if (founding !== 'Brak' && o.foundingSource !== founding) return false;
+      if (category !== 'Brak' && o.outcomeCategory !== event) return false;
+      return true;
+    });
+  };
 
   const editedDataHandler = (value: string) => {
     const editedData =
@@ -146,7 +168,7 @@ const Edit = (): JSX.Element => {
         name: null,
         surname: null,
         team: '',
-        title: 'Przychód dodany ręcznie',
+        title: '',
         year: currentDate.getFullYear(),
         dateOfBook: currentDate,
       };
@@ -161,7 +183,7 @@ const Edit = (): JSX.Element => {
         foundingSource: FoundingSources.Other,
         outcomeCategory: OutcomeCategory.Fee,
         team: '',
-        title: 'Koszt dodany ręcznie',
+        title: '',
         year: currentDate.getFullYear(),
         financeMethod: FinanceMethod.Cash,
         dateOfBook: currentDate,

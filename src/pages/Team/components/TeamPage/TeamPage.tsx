@@ -24,11 +24,11 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = useState<IRows[]>();
   const columns = [
-    { field: 'lp', headerName: 'LP', width: 80, },
-    { field: 'name', headerName: 'Imię', width: 150 },
-    { field: 'surname', headerName: 'Nazwisko', width: 150 },
-    { field: 'fee', headerName: 'Stan składek', width: 150 },
-    { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120 }
+    { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
+    { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
+    { field: 'surname', headerName: 'Nazwisko', width: 150, cellClassName: `${classes.positionModalCell}` },
+    { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
+    { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
   ];
 
   const handleOpen = () => {
@@ -63,7 +63,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
       >
         <div className={classes.positionModal} >
           {rows?.length ? (
-            <DataGrid rows={rows} columns={columns} pageSize={10} /> 
+            <DataGrid rows={rows} columns={columns} pageSize={18} /> 
           ) : (
             <div>wczytywanie drużyny</div>
           )

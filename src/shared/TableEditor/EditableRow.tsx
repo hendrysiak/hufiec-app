@@ -95,7 +95,6 @@ const EditableRow = (props: Props): JSX.Element => {
         <TextField
           value={props.name}
           onChange={(e) => props.onChange(props.index, { key: 'name', value: e.target.value })}
-          select={true}
           size="medium"
           margin="dense"
         />
@@ -104,7 +103,6 @@ const EditableRow = (props: Props): JSX.Element => {
         <TextField
           value={props.surname}
           onChange={(e) => props.onChange(props.index, { key: 'surname', value: e.target.value })}
-          select={true}
           size="medium"
           margin="dense"
         />
@@ -142,7 +140,13 @@ const EditableRow = (props: Props): JSX.Element => {
           ))}
         </TextField>
         : <TableCell>{props.event}</TableCell>}
-      <TableCell align="right">{props.title}</TableCell>
+      <TableCell>        
+        <TextField
+          value={props.title}
+          onChange={(e) => props.onChange(props.index, { key: 'title', value: e.target.value })}
+          size="medium"
+          margin="dense"
+        /></TableCell>
     </>
   );
 };
