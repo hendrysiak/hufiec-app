@@ -21,7 +21,6 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
-import { useHandlerLogout } from '../../helpers/hooks/useHandlerLogout';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);

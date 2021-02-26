@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 
 import Cookies from 'universal-cookie';
 
+import { timeToLogout } from 'constans/Constans';
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, EncryptCookie } from 'helpers/password.helper';
 import {
@@ -29,6 +30,7 @@ const Login = () => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
+
   // const [email, setEmail] = useState<string>('');
   const cookies = new Cookies();
 
@@ -41,7 +43,7 @@ const Login = () => {
         store.dispatch(reduxSetRoles(accountData.roles));
         store.dispatch(reduxIsAuthentication(true));
         store.dispatch(reduxSetTeam(accountData.team));
-        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: 180 });
+        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: timeToLogout });
         // if(accountData.team) return history.push(`/info${accountData.team}`);
         //TODO - this only to test ->
 
