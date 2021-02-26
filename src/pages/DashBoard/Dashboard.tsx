@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 
-import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 

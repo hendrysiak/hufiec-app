@@ -48,3 +48,9 @@
 .close {
   transform: none;
 }
+
+.timer {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
