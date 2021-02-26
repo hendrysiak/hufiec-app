@@ -9,7 +9,7 @@ import { LogoutTimer } from 'shared/LogoutTimer/LogoutTimer';
 
 import classes from './LogOut.module.css';
 
-export const LogOut = () => {
+export const LogOut = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   
   return (

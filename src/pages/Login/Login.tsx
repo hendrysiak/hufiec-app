@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <>
       {loadingLogin ? <CircularProgress className={classes.circularProgress}/> : 
-        <Paper className={classes.form} component="form" onSubmit={onSubmit}>
+        <form className={classes.form} onSubmit={onSubmit}>
           <Input
             type="text/submit"
             className={classes.input}
@@ -114,7 +114,7 @@ const Login = () => {
             </Button>
           </>
           } */}
-        </Paper>}
+        </form>}
     </>
   );
 };

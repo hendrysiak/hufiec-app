@@ -80,7 +80,7 @@ const Team = (): JSX.Element => {
     { field: 'name', headerName: 'IMIĘ', width: 150, },
     { field: 'surname', headerName: 'NAZWISKO', width: 150, },
     { field: 'cash', headerName: 'KWOTA', width: 150, },
-    { field: 'title', headerName: 'TYTUŁ', width: 600, },
+    { field: 'title', headerName: 'TYTUŁ', width: 700, },
     { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
     { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
   ];
@@ -204,7 +204,7 @@ const Team = (): JSX.Element => {
               format="dd/MM/yyyy"
               margin="normal"
               id="date-picker-inline"
-              label="Wybierz datę importu"
+              label="Wybierz datę wpływu"
               renderDay={renderDayInPicker}
               value={selectedDate}
               onChange={handleDateChange}
@@ -232,9 +232,9 @@ const Team = (): JSX.Element => {
           />
         </div>
         <h1>Drużyna: {currentTeam}</h1>
-        <div style={{ width: 1500 }}>
+        <div style={{ width: '100%', height: '79vh', overflow: 'auto' }}>
           {displayedIncome?.length ? (
-            <DataGrid rows={displayedIncome} columns={columns} pageSize={10} autoHeight={true}/>
+            <DataGrid rows={displayedIncome} columns={columns} autoHeight={true} scrollbarSize={1}/>
           ) : (
             <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
           )}
