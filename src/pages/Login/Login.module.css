@@ -23,3 +23,14 @@
 .circularProgress {
   margin-top: 200px;
 }
+
+@media screen and (min-width: 300px) {
+  .btn {
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+  }
+  
+}

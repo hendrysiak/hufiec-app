@@ -1,8 +1,8 @@
 .tooltips {
   display: flex;
-  width: 140px;
-  height: 80px;
-  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 360px;
+  justify-content: space-between;
   align-items: center;
-  margin-left: 32px;
 }

@@ -3,14 +3,19 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
+import BuildIcon from '@material-ui/icons/Build';
+import ListIcon from '@material-ui/icons/List';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { size } from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   useLocation
 } from 'react-router-dom';
 
+import styles from './components/NavTeam/NavTeam.module.css';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
@@ -21,6 +26,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
+import { NavTeam } from './components/NavTeam/NavTeam';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -40,7 +46,7 @@ const Team = (): JSX.Element => {
   const currentTeam = location.pathname.split('/')[1];
 
   const [rows, setRows] = useState<IncomeDb[]>([]);
-
+  const [view, setView] = useState<any>('tooltips');
   const [useDate, setUseDate] = useState<boolean>(true);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -151,12 +157,58 @@ const Team = (): JSX.Element => {
     return dayComponent ;   
   };
 
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleMenu = (view: string) => {
+    setOpen(false);
+    setView(view);
+  };
+  
   return (
     <>
       <LogOut />
+      {/* <NavTeam team={currentTeam}/> */}
+      <div className={styles.navTeam}>
+        <p className={styles.team}>{currentTeam}</p>
+        <SpeedDial
+          classes={{ fab: styles.rootCircle }}
+          ariaLabel="SpeedDial example"
+          // classes={{root: classes.test,}}
+          hidden={false}
+          icon={<SpeedDialIcon classes={{ root: styles.iconRoot, icon: styles.icon }}/>}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+          direction= "left"
+        >
+          {/* {actions.map((action) => ( */}
+          <SpeedDialAction
+            classes={{ fab: styles.actionRoot }}
+            key={1}
+            icon={<ListIcon classes={{ root: styles.actionIcon }} />}
+            tooltipTitle={''}
+            onClick={() => handleMenu('list')}
+          />
+          <SpeedDialAction
+            classes={{ fab: styles.actionRoot }}
+            key={2}
+            icon={<BuildIcon classes={{ root: styles.actionIcon }}/>}
+            tooltipTitle={''}
+            onClick={() => handleMenu('tooltips')}
+          />
+          {/* ))} */}
+        </SpeedDial>
+      </div>
       <section className="container">
         <div className="header">
-          <div className="filters">
+          {view === 'list' && <div className="filters">
             <TextField
               className="testowa"
               label="Po wydarzeniu"
@@ -177,13 +229,14 @@ const Team = (): JSX.Element => {
               ))}
             </TextField>
             <TextField
+              className="name"
               label="Po imieniu"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Wpisz imię"
               size="small"
               variant="outlined"
-              margin="normal"
+              margin="none"
             />
 
             <TextField
@@ -222,23 +275,23 @@ const Team = (): JSX.Element => {
               />}
               label="Sortuj po dacie"
             />
-          </div>
-          <Tooltips 
+          </div>}
+          {view === 'tooltips' && <Tooltips 
             members={currentTeamRegistry} 
             incomes={incomesByCode} 
             outcomes={outcomesByCode} 
             currentTeam={currentTeam} 
             dataToExport={displayedIncome}
-          />
+          />}
         </div>
-        <h1>Drużyna: {currentTeam}</h1>
-        <div style={{ width: '100%', height: '79vh', overflow: 'auto' }}>
+        {/* <h1>Drużyna: {currentTeam}</h1> */}
+        {view === 'list' && <div style={{ width: '100%', height: '79vh', overflow: 'auto' }}>
           {displayedIncome?.length ? (
             <DataGrid rows={displayedIncome} columns={columns} autoHeight={true} scrollbarSize={1}/>
           ) : (
             <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
           )}
-        </div>
+        </div>}
       </section>
     </>
   );

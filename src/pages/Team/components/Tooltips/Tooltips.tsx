@@ -28,7 +28,7 @@ const Tooltips = ({ members, incomes, outcomes, currentTeam, dataToExport }: IPr
   const tooltipStyles = useMemo(() => makeStyles(() => 
     createStyles({
       tooltip: {
-        fontSize: 16
+        fontSize: 32
       },
     })), []);
 

@@ -7,6 +7,8 @@
 }
 
 .filters {
+  display: flex;
+
   width: 100%;
 }
 
@@ -15,8 +17,10 @@
 }
 
 .header {
+  margin-top: 40px;
   width: 80%;
   display: flex;
+  justify-content: space-between;
 }
 
 
@@ -26,10 +30,30 @@
   justify-content: center;
 }
 
-.filters {
-  display: flex;
-}
-
 .datePicker {
   width: 30%;
+}
+
+
+
+
+@media screen and (max-width: 500px){
+
+  .MuiInputBase-root {
+    margin-bottom: 10px;
+  }
+
+  .filters {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header {
+    margin-top: 40px;
+    /* flex-direction: column; */
+  }
+
+  .datePicker {
+    width: 100%;
+  }  
 }
