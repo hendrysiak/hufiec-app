@@ -8,15 +8,13 @@ import ListIcon from '@material-ui/icons/List';
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { size } from 'lodash';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   useLocation
 } from 'react-router-dom';
 
-import styles from './components/NavTeam/NavTeam.module.css';
-
+import { VIEW_TYPES } from 'constans/Constans';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 
@@ -26,7 +24,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
-import { NavTeam } from './components/NavTeam/NavTeam';
+import { List } from './components/List/List';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -34,7 +32,6 @@ const Team = (): JSX.Element => {
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
-
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
@@ -174,15 +171,13 @@ const Team = (): JSX.Element => {
   return (
     <>
       <LogOut />
-      {/* <NavTeam team={currentTeam}/> */}
-      <div className={styles.navTeam}>
-        <p className={styles.team}>{currentTeam}</p>
+      <div className="navTeam">
+        <p className="team">{currentTeam}</p>
         <SpeedDial
-          classes={{ fab: styles.rootCircle }}
+          classes={{ fab: 'rootCircle' }}
           ariaLabel="SpeedDial example"
-          // classes={{root: classes.test,}}
           hidden={false}
-          icon={<SpeedDialIcon classes={{ root: styles.iconRoot, icon: styles.icon }}/>}
+          icon={<SpeedDialIcon classes={{ root: 'iconRoot', icon: 'icon' }}/>}
           onClose={handleClose}
           onOpen={handleOpen}
           open={open}
@@ -190,16 +185,16 @@ const Team = (): JSX.Element => {
         >
           {/* {actions.map((action) => ( */}
           <SpeedDialAction
-            classes={{ fab: styles.actionRoot }}
+            classes={{ fab: 'actionRoot' }}
             key={1}
-            icon={<ListIcon classes={{ root: styles.actionIcon }} />}
+            icon={<ListIcon classes={{ root: 'actionIcon' }} />}
             tooltipTitle={''}
             onClick={() => handleMenu('list')}
           />
           <SpeedDialAction
-            classes={{ fab: styles.actionRoot }}
+            classes={{ fab: 'actionRoot' }}
             key={2}
-            icon={<BuildIcon classes={{ root: styles.actionIcon }}/>}
+            icon={<BuildIcon classes={{ root: 'actionIcon' }}/>}
             tooltipTitle={''}
             onClick={() => handleMenu('tooltips')}
           />
@@ -208,9 +203,9 @@ const Team = (): JSX.Element => {
       </div>
       <section className="container">
         <div className="header">
-          {view === 'list' && <div className="filters">
+          {view === VIEW_TYPES.list && <div className="filters">
             <TextField
-              className="testowa"
+              classes={{ root: 'teamInput' }}
               label="Po wydarzeniu"
               value={event}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
@@ -229,17 +224,18 @@ const Team = (): JSX.Element => {
               ))}
             </TextField>
             <TextField
-              className="name"
+              classes={{ root: 'teamInput' }}
               label="Po imieniu"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Wpisz imię"
               size="small"
               variant="outlined"
-              margin="none"
+              margin="normal"
             />
 
             <TextField
+              classes={{ root: 'teamInput' }}
               label="Po nazwisku"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
@@ -247,7 +243,7 @@ const Team = (): JSX.Element => {
               size="small"
               variant="outlined"
               margin="normal"
-
+              
             />
             <KeyboardDatePicker
               className="datePicker"
@@ -276,7 +272,7 @@ const Team = (): JSX.Element => {
               label="Sortuj po dacie"
             />
           </div>}
-          {view === 'tooltips' && <Tooltips 
+          {view === VIEW_TYPES.tooltips && <Tooltips 
             members={currentTeamRegistry} 
             incomes={incomesByCode} 
             outcomes={outcomesByCode} 
@@ -285,9 +281,10 @@ const Team = (): JSX.Element => {
           />}
         </div>
         {/* <h1>Drużyna: {currentTeam}</h1> */}
-        {view === 'list' && <div style={{ width: '100%', height: '79vh', overflow: 'auto' }}>
+        {view === VIEW_TYPES.list && <div className="containerDataGrid">
           {displayedIncome?.length ? (
-            <DataGrid rows={displayedIncome} columns={columns} autoHeight={true} scrollbarSize={1}/>
+            // <DataGrid className={'test'} rows={displayedIncome} columns={columns} autoHeight={true} scrollbarSize={1}/>
+            <List rows={displayedIncome}/>
           ) : (
             <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
           )}
