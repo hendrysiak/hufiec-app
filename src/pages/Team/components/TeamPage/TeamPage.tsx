@@ -17,10 +17,11 @@ interface IRows extends APIPerson {
 }
 
 interface IProps {
+  open: string;
   members: APIPerson[];
 }
 
-const TeamPage = ({ members } : IProps): JSX.Element => {
+const TeamPage = ({ members, open } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = useState<IRows[]>();
   const columns = [
@@ -30,6 +31,10 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
     { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
     { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
   ];
+
+  useEffect(() => {
+    open === 'team' && setOpen(true);
+  },[open]);
 
   const handleOpen = () => {
     setOpen(true);

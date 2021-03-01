@@ -1,4 +1,4 @@
-import { TextField, MenuItem, Theme } from '@material-ui/core';
+import { TextField, MenuItem, Theme, IconButton, Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,11 @@ import { useSelector } from 'react-redux';
 import {
   useLocation
 } from 'react-router-dom';
-
+import SearchIcon from '@material-ui/icons/Search';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import MailIcon from '@material-ui/icons/Mail';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import { VIEW_TYPES } from 'constans/Constans';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
@@ -25,6 +29,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 import { List } from './components/List/List';
+import { CSVLink } from 'react-csv';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -35,15 +40,15 @@ const Team = (): JSX.Element => {
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
-
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
-
+  const [openPopup, setOpenPopup] = useState<string>('');
   const [rows, setRows] = useState<IncomeDb[]>([]);
-  const [view, setView] = useState<any>('tooltips');
+  const [view, setView] = useState<any>('list');
   const [useDate, setUseDate] = useState<boolean>(true);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -155,15 +160,22 @@ const Team = (): JSX.Element => {
   };
 
   const [open, setOpen] = useState<boolean>(false);
+
   const handleClose = () => {
     setOpen(false);
+    setOpenPopup('');
   };
 
   const handleOpen = () => {
     setOpen(true);
   };
 
+  const handleOpenFilter = () => { // TODO we can delete arg and set always true;
+    setOpenFilter(!openFilter);
+  };
+
   const handleMenu = (view: string) => {
+    setOpenPopup(view);
     setOpen(false);
     setView(view);
   };
@@ -183,33 +195,56 @@ const Team = (): JSX.Element => {
           open={open}
           direction= "left"
         >
-          {/* {actions.map((action) => ( */}
+          
           <SpeedDialAction
-            classes={{ fab: 'actionRoot' }}
+            classes={{ fab: 'getAction' }}
             key={1}
-            icon={<ListIcon classes={{ root: 'actionIcon' }} />}
+            icon={<CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+              <IconButton aria-label="account-state">
+                <GetAppIcon/>
+              </IconButton>
+            </CSVLink>}
             tooltipTitle={''}
-            onClick={() => handleMenu('list')}
           />
+          
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}
             key={2}
-            icon={<BuildIcon classes={{ root: 'actionIcon' }}/>}
+            icon={<AssignmentIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu('tooltips')}
+            onClick={() => handleMenu('team')}
           />
-          {/* ))} */}
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={3}
+            icon={<MailIcon />}
+            tooltipTitle={''}
+            onClick={() => handleMenu('form')}
+          />
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={4}
+            icon={<AttachMoneyIcon />}
+            tooltipTitle={''}
+            onClick={() => handleMenu('finance')}
+          />
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={5}
+            icon={<SearchIcon />}
+            tooltipTitle={''}
+            onClick={handleOpenFilter}
+          />
         </SpeedDial>
       </div>
       <section className="container">
-        <div className="header">
-          {view === VIEW_TYPES.list && <div className="filters">
+        <div className={`header ${openFilter ? '' : 'filterClose'}`}>
+          <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
             <TextField
               classes={{ root: 'teamInput' }}
               label="Po wydarzeniu"
               value={event}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
-              // placeholder="Wybierz kod z listy"
               select={true}
               size="small"
               variant="outlined"
@@ -219,8 +254,8 @@ const Team = (): JSX.Element => {
               }}
             >
               <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
-              {codes && ['', ...codes.map(code => code.code)].map((item) => (
-                item ? <MenuItem key={item} value={item}>{item}</MenuItem> : null
+              {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
+                item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
               ))}
             </TextField>
             <TextField
@@ -271,24 +306,27 @@ const Team = (): JSX.Element => {
               />}
               label="Sortuj po dacie"
             />
-          </div>}
-          {view === VIEW_TYPES.tooltips && <Tooltips 
+            <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+              ZAMKNIJ FILTRY
+            </Button>
+          </div>
+          <div style={{display: 'none'}}><Tooltips
+            open={openPopup} 
             members={currentTeamRegistry} 
             incomes={incomesByCode} 
             outcomes={outcomesByCode} 
             currentTeam={currentTeam} 
             dataToExport={displayedIncome}
-          />}
+          />
+          </div>
         </div>
-        {/* <h1>Drużyna: {currentTeam}</h1> */}
-        {view === VIEW_TYPES.list && <div className="containerDataGrid">
+        <div className="containerDataGrid">
           {displayedIncome?.length ? (
-            // <DataGrid className={'test'} rows={displayedIncome} columns={columns} autoHeight={true} scrollbarSize={1}/>
             <List rows={displayedIncome}/>
           ) : (
             <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
           )}
-        </div>}
+        </div>
       </section>
     </>
   );

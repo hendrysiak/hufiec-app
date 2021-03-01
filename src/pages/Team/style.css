@@ -8,6 +8,8 @@
   margin-bottom: 17px;
 }
 
+
+
 .container {
   width: 100%;
   display: flex;
@@ -33,6 +35,7 @@
   width: 80%;
   display: flex;
   justify-content: space-between;
+  transition: transform 0.5s
 }
 
 .loadingInfo {
@@ -115,6 +118,15 @@
 }
 
 .actionRoot {
+  margin-left: 20px;
+  min-height: 10px;
+  width: var(--size);
+  height: var(--size);
+  background-color: white;
+}
+
+.getAction {
+  margin-left: 30px;
   min-height: 10px;
   width: var(--size);
   height: var(--size);
@@ -153,6 +165,12 @@
     height: 24px;
     background-color: white;
   }
+  .getAction {
+    min-height: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+  }
   
   .actionIcon {
     color: #000;
@@ -165,4 +183,24 @@
   .dateCheckbox {
     margin-left: 0;
   }
+}
+
+@media screen and (max-width: 1000px) {
+  .actionRoot {
+    margin-left: 5px;
+    /* min-height: 10px;
+    width: var(--size);
+    height: var(--size);
+    background-color: white; */
+  }
+
+  .getAction {
+    margin-left: 15px;
+  }
+}
+
+.filterClose {
+  display: none;
+  height: 0;
+  /* transform: translateY(-300%); */
 }

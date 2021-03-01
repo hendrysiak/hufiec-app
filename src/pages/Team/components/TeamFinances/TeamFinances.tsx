@@ -19,6 +19,7 @@ import classes from './TeamFinances.module.css';
 
 
 interface Props {
+  open: string;
   incomes: IncomeDb[];
   outcomes: OutcomeDb[];
   currentTeam: string;
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element => {
+const TeamFinances = ({open, incomes, outcomes, currentTeam } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
   const [compensation, setCompensation] = React.useState<number>(0);
@@ -48,6 +49,10 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
     // return { name, estate, expenses };
     return { name, estate };
   };
+  
+  useEffect(() => {
+    open === 'finance' && setIsOpen(true);
+  },[open])
    
   useEffect(() => {
     const getData = async () => {

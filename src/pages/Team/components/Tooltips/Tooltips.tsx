@@ -16,7 +16,8 @@ import TeamPage from 'pages/Team/components/TeamPage/TeamPage';
 import classes from './Tooltips.module.css';
 
 interface IProps {
-  icon?: string,
+  open: string;
+  icon?: string;
   members: APIPerson[];
   incomes: IncomeDb[];
   dataToExport: IncomeDb[];
@@ -24,7 +25,7 @@ interface IProps {
   currentTeam: string;
 }
 
-const Tooltips = ({ members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
+const Tooltips = ({open, members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
   const tooltipStyles = useMemo(() => makeStyles(() => 
     createStyles({
       tooltip: {
@@ -37,19 +38,19 @@ const Tooltips = ({ members, incomes, outcomes, currentTeam, dataToExport }: IPr
   return (
     <>
       <div className={classes.tooltips}>
-        <Tooltip title="Członkowie drużyny" classes={tooltipsClasses}>
+        <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="members">
-            <TeamPage members={members}/>
+            <TeamPage members={members} open={open}/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Wyślij zgłoszenie" classes={tooltipsClasses}>
+        <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="support">
-            <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam}/>
+            <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} open={open}/>
           </IconButton>
         </Tooltip>
-        <Tooltip title="Stan konta drużyny" classes={tooltipsClasses}>
+        <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="account-state">
-            <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam}/>
+            <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam} open={open}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>

@@ -2,17 +2,18 @@ import { Button, MenuItem, TextField } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import MailIcon from '@material-ui/icons/Mail';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import axios from 'axios-income';
 
 import classes from './Form.module.css';
 
-const Form = ({ title, currentTeam }: {title: string; currentTeam: string }): JSX.Element => {
+const Form = ({open, title, currentTeam }: {open: string; title: string; currentTeam: string }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [mail, setMail] = useState<string>('');
+
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -29,6 +30,10 @@ const Form = ({ title, currentTeam }: {title: string; currentTeam: string }): JS
     setContent('');
     setMail('');
   };
+
+  useEffect(() => {
+    open === 'form' && setIsOpen(true);
+  },[open])
 
   const topics = [
     'Błąd w przelewie - aplikacja źle zczytała przelew',
