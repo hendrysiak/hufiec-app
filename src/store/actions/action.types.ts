@@ -1,5 +1,5 @@
 import { ApprovedEvent } from 'models/codes.models';
-import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
+import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod, InitAccountState } from 'models/income.models';
 import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
@@ -41,6 +41,11 @@ export interface GetRegistry {
 export interface GetImportDates {
   type: ActionTypes.SET_IMPORT_DATES;
   importDates: Date[];
+};
+
+export interface GetInitAccountState {
+  type: ActionTypes.SET_INIT_ACCOUT_STATE;
+  initAccountState: InitAccountState[];
 };
 
 
@@ -127,6 +132,7 @@ export type ActionType =
 | GetAccountState
 | GetRegistry
 | GetImportDates 
+| GetInitAccountState
 | EditIncome 
 | EditDbIncome
 | EditDbOutcome

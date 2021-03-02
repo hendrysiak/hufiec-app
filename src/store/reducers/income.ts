@@ -1,4 +1,3 @@
-import { APIPerson } from 'models/registry.models';
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
 
@@ -14,7 +13,8 @@ const initialState: IncomeState = {
   dbIncomes: [],
   dbOutcomes: [],
   codes: null,
-  importDates: null
+  importDates: null,
+  initAccount: []
 };
 
 const reducer = (state = initialState, action: ActionType): IncomeState => {
@@ -119,6 +119,12 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
       return {
         ...state,
         importDates: action.importDates
+      };
+
+    case ActionTypes.SET_INIT_ACCOUT_STATE:
+      return {
+        ...state,
+        initAccount: action.initAccountState
       };
 
     case ActionTypes.ADD_MEMBER:

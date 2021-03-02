@@ -25,7 +25,8 @@ import {
   getAccountState, 
   getCodes, 
   getRegistry, 
-  getImportDates 
+  getImportDates, 
+  getInitAccountState
 } from './pages/DashBoard/api-handlers/account.handler';
 
 import * as actions from './store/actions/index';
@@ -45,6 +46,7 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     const downloadData = async () => {
+      await getInitAccountState();
       await getAccountState();
       await getCodes();
       await getRegistry();
