@@ -125,7 +125,7 @@ const TeamFinances = ({open, incomes, outcomes, currentTeam } : Props): JSX.Elem
                 </TableBody>
               </Table>
             </TableContainer>
-            <h1 className="sum">RAZEM: {sum} zł</h1>
+            <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
           </section>
         </>
       </Modal>

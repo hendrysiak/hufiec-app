@@ -4,6 +4,20 @@
     position: absolute;
     left: 50%;
     top: 50%;
+    width: 80%;
+    /* height: 90vh; */
     transform: translate(-50%, -50%);
+    /* background-color: #fff; */
+}
+
+.table {
+    width: 300px;
+}
+
+.sum {
+    padding-top: 20px;
+    padding-right: 5px;
+    margin: 0;
     background-color: #fff;
+    border-radius: 0 0 4px 4px;
 }
