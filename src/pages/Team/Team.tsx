@@ -18,7 +18,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import MailIcon from '@material-ui/icons/Mail';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { VIEW_TYPES } from 'constans/Constans';
+import { VIEW_MODAL } from 'constans/Constans';
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 
@@ -30,6 +30,7 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { List } from './components/List/List';
 import { CSVLink } from 'react-csv';
+import { IOpen } from './components/TeamFinances/TeamFinances';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -46,9 +47,8 @@ const Team = (): JSX.Element => {
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
-  const [openPopup, setOpenPopup] = useState<string>('');
+  const [openPopup, setOpenPopup] = useState<'finances' | 'team' | 'form' | ''>('');
   const [rows, setRows] = useState<IncomeDb[]>([]);
-  const [view, setView] = useState<any>('list');
   const [useDate, setUseDate] = useState<boolean>(true);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -83,15 +83,15 @@ const Team = (): JSX.Element => {
     setRows(row);     
   },[incomesByCode]);
 
-  const columns = [
-    { field: 'lp', headerName: 'LP', width: 80, },
-    { field: 'name', headerName: 'IMIĘ', width: 150, },
-    { field: 'surname', headerName: 'NAZWISKO', width: 150, },
-    { field: 'cash', headerName: 'KWOTA', width: 150, },
-    { field: 'title', headerName: 'TYTUŁ', width: 700, },
-    { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
-    { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
-  ];
+  // const columns = [
+  //   { field: 'lp', headerName: 'LP', width: 80, },
+  //   { field: 'name', headerName: 'IMIĘ', width: 150, },
+  //   { field: 'surname', headerName: 'NAZWISKO', width: 150, },
+  //   { field: 'cash', headerName: 'KWOTA', width: 150, },
+  //   { field: 'title', headerName: 'TYTUŁ', width: 700, },
+  //   { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
+  //   { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
+  // ];
 
   useEffect(() => {
     //Write date checker
@@ -174,10 +174,10 @@ const Team = (): JSX.Element => {
     setOpenFilter(!openFilter);
   };
 
-  const handleMenu = (view: string) => {
+  const handleMenu = (view: 'finances' | 'team' | 'form') => {
     setOpenPopup(view);
     setOpen(false);
-    setView(view);
+    // setView(view);
   };
   
   return (
@@ -212,21 +212,21 @@ const Team = (): JSX.Element => {
             key={2}
             icon={<AssignmentIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu('team')}
+            onClick={() => handleMenu(VIEW_MODAL.team)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}
             key={3}
             icon={<MailIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu('form')}
+            onClick={() => handleMenu(VIEW_MODAL.form)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}
             key={4}
             icon={<AttachMoneyIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu('finance')}
+            onClick={() => handleMenu(VIEW_MODAL.finances)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}

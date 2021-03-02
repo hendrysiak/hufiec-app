@@ -9,17 +9,20 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import React, { useEffect } from 'react';
-
 import axios from 'axios-income';
 
 import { FoundingSources } from 'models/global.enum';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 
 import classes from './TeamFinances.module.css';
+import { VIEW_MODAL } from '../../../../constans/Constans';
+
+export interface IOpen {
+  open: 'finances' | 'team' | 'form' | ''
+}
 
 
-interface Props {
-  open: string;
+interface Props extends IOpen {
   incomes: IncomeDb[];
   outcomes: OutcomeDb[];
   currentTeam: string;
@@ -51,8 +54,8 @@ const TeamFinances = ({open, incomes, outcomes, currentTeam } : Props): JSX.Elem
   };
   
   useEffect(() => {
-    open === 'finance' && setIsOpen(true);
-  },[open])
+    open === VIEW_MODAL.finances && setIsOpen(true);
+  },[open]);
    
   useEffect(() => {
     const getData = async () => {

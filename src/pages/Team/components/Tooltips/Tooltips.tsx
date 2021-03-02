@@ -10,13 +10,12 @@ import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Form from 'pages/Team/components/Form/Form';
 
-import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
+import TeamFinances, { IOpen } from 'pages/Team/components/TeamFinances/TeamFinances';
 import TeamPage from 'pages/Team/components/TeamPage/TeamPage';
 
 import classes from './Tooltips.module.css';
 
-interface IProps {
-  open: string;
+interface IProps extends IOpen {
   icon?: string;
   members: APIPerson[];
   incomes: IncomeDb[];
