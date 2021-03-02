@@ -324,7 +324,7 @@ const Team = (): JSX.Element => {
           {displayedIncome?.length ? (
             <List rows={displayedIncome}/>
           ) : (
-            <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
+            <div className="loadingInfo">brak wpłat na ten filtr</div>
           )}
         </div>
       </section>

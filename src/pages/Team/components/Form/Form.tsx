@@ -54,9 +54,10 @@ const Form = ({open, title, currentTeam }: {open: string; title: string; current
       >
         <>
           <form className={classes.positionModal}>
-            <h1>{title}</h1>
+            <h1 className={classes.titleForm}>{title}</h1>
             <TextField 
-              style={{ width: '80%' }} 
+              style={{ width: '80%' }}
+              classes={{root: classes.topic}}
               id="standard-basic" 
               label="WPISZ TEMAT" 
               value={messageTitle}
@@ -68,11 +69,12 @@ const Form = ({open, title, currentTeam }: {open: string; title: string; current
               }}
             >
               {topics.map((item) => (
-                <MenuItem key={item} value={item}>{item}</MenuItem>
+                <MenuItem classes={{root: classes.menuItem}} key={item} value={item}>{item}</MenuItem>
               ))}
             </TextField>
             <TextField
               style={{ width: '80%' }}
+              classes={{root: classes.textArea}}
               fullWidth
               id="standard-multiline-static"
               label="WPISZ WIADOMOŚĆ"
@@ -83,10 +85,13 @@ const Form = ({open, title, currentTeam }: {open: string; title: string; current
               onChange={(e) => setContent(e.target.value)}
             />
             <TextField 
-              style={{ width: '80%' }} 
+              style={{ width: '80%' }}
+              classes={{root: classes.responseRoot}}
+              className={classes.responseInput}
               id="standard-basic" 
               label="JEŚLI CHCESZ ODPOWIEDŹ, WPISZ MAILA" 
               value={mail}
+              size="small"
               onChange={(e) => setMail(e.target.value)}
             />
             <Button style={{ margin: '10px 0 10px 0' }} variant="contained" color="primary" onClick={() => sendHandler()}>WYŚLIJ</Button>
