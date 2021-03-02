@@ -9,6 +9,8 @@ import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import classes from './TeamPage.module.css';
+import { List } from '../List/List';
+import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -23,7 +25,7 @@ interface IProps {
 
 const TeamPage = ({ members, open } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
-  const [rows, setRows] = useState<IRows[]>();
+  const [rows, setRows] = useState<IRows[] | any>();
   const columns = [
     { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
     { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
@@ -61,19 +63,16 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
     <>
       <AssignmentIcon onClick={handleOpen}/>
       <Modal
+        className={classes.modal}
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div className={classes.positionModal} >
-          {rows?.length ? (
-            <DataGrid rows={rows} columns={columns} pageSize={18} /> 
-          ) : (
-            <div>wczytywanie drużyny</div>
-          )
-          }
-        </div>
+          
+            <ListOfMembers rows={rows}/>
+          
+          
       </Modal>
     </>
   );
