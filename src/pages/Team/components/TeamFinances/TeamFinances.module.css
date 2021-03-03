@@ -1,13 +1,20 @@
 .positionModal {
     text-align: right;
-    padding: 0 10px;
+    /* padding: 0 10px; */
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 80%;
+    width: 300px;
     /* height: 90vh; */
     transform: translate(-50%, -50%);
-    /* background-color: #fff; */
+    background-color: #fff;
+    border-radius: 7px;
+}
+
+@media screen and (min-width: 500px) {
+    .positionModal {
+        width: 400px;
+    }
 }
 
 .table {
@@ -20,4 +27,19 @@
     margin: 0;
     background-color: #fff;
     border-radius: 0 0 4px 4px;
+}
+
+.header {
+    width: 100%;
+    padding: 10px 5px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(92, 56, 150, 1);
+}
+
+.item {
+    padding: 10px 5px;
+    display: flex;
+    justify-content: space-between;
 }

@@ -2,35 +2,34 @@ import { TextField, MenuItem, Theme, IconButton, Button } from '@material-ui/cor
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { DataGrid } from '@material-ui/data-grid';
-import BuildIcon from '@material-ui/icons/Build';
-import ListIcon from '@material-ui/icons/List';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import MailIcon from '@material-ui/icons/Mail';
+import SearchIcon from '@material-ui/icons/Search';
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState, useEffect } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
   useLocation
 } from 'react-router-dom';
-import SearchIcon from '@material-ui/icons/Search';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import MailIcon from '@material-ui/icons/Mail';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import { VIEW_MODAL } from 'constans/Constans';
+
 import { useDebounce } from 'helpers/hooks/useDebounce';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
-
 import { APIPerson } from 'models/registry.models';
+import { IViewModal } from 'models/viewModal.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 import { List } from './components/List/List';
-import { CSVLink } from 'react-csv';
-import { IOpen } from './components/TeamFinances/TeamFinances';
+import { VIEW_MODAL } from './helpers/typeViewModal.enum';
+
+// type ITypeModal = VIEW_MODAL.empty | VIEW_MODAL.finances | VIEW_MODAL.team | VIEW_MODAL.form;
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -47,7 +46,7 @@ const Team = (): JSX.Element => {
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
-  const [openPopup, setOpenPopup] = useState<'finances' | 'team' | 'form' | ''>('');
+  const [openPopup, setOpenPopup] = useState<IViewModal>(VIEW_MODAL.empty);
   const [rows, setRows] = useState<IncomeDb[]>([]);
   const [useDate, setUseDate] = useState<boolean>(true);
 
@@ -64,10 +63,15 @@ const Team = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const teamRegistry = registry && registry[currentTeam];
+    const teamRegistry = registry 
+      && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(teamRegistry);
-    const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
-    const outcomesToDisplay = dbOutcomes && currentTeam && dbOutcomes.filter(income => income.team === currentTeam);
+    const incomesToDisplay = dbIncomes 
+      && currentTeam 
+      && dbIncomes.filter(income => income.team === currentTeam);
+    const outcomesToDisplay = dbOutcomes 
+      && currentTeam 
+      && dbOutcomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
     outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
   },[registry, dbIncomes, dbOutcomes, currentTeam]);
@@ -96,7 +100,11 @@ const Team = (): JSX.Element => {
   useEffect(() => {
     //Write date checker
     const filteredIncomes = rows && rows.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (
+        useDate 
+        && selectedDate 
+        && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()
+      ) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== '' 
           && event !== 'unAssigned' 
@@ -163,21 +171,20 @@ const Team = (): JSX.Element => {
 
   const handleClose = () => {
     setOpen(false);
-    setOpenPopup('');
+    setOpenPopup(VIEW_MODAL.empty);
   };
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleOpenFilter = () => { // TODO we can delete arg and set always true;
+  const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
   };
 
-  const handleMenu = (view: 'finances' | 'team' | 'form') => {
+  const handleMenu = (view: IViewModal) => {
     setOpenPopup(view);
     setOpen(false);
-    // setView(view);
   };
   
   return (
@@ -310,7 +317,7 @@ const Team = (): JSX.Element => {
               ZAMKNIJ FILTRY
             </Button>
           </div>
-          <div style={{display: 'none'}}><Tooltips
+          <div style={{ display: 'none' }}><Tooltips
             open={openPopup} 
             members={currentTeamRegistry} 
             incomes={incomesByCode} 

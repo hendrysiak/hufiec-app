@@ -3,19 +3,20 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import React, { useMemo } from 'react';
-
 import { CSVLink } from 'react-csv';
 
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import Form from 'pages/Team/components/Form/Form';
-
-import TeamFinances, { IOpen } from 'pages/Team/components/TeamFinances/TeamFinances';
+import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
 import TeamPage from 'pages/Team/components/TeamPage/TeamPage';
+
+import { IViewModal } from '../../../../models/viewModal.models';
 
 import classes from './Tooltips.module.css';
 
-interface IProps extends IOpen {
+interface IProps {
+  open: IViewModal;
   icon?: string;
   members: APIPerson[];
   incomes: IncomeDb[];
@@ -24,7 +25,7 @@ interface IProps extends IOpen {
   currentTeam: string;
 }
 
-const Tooltips = ({open, members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
+const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
   const tooltipStyles = useMemo(() => makeStyles(() => 
     createStyles({
       tooltip: {

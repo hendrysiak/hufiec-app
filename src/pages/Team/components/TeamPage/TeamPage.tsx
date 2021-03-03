@@ -8,9 +8,10 @@ import { APIPerson } from 'models/registry.models';
 
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
-import classes from './TeamPage.module.css';
 import { List } from '../List/List';
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
+
+import classes from './TeamPage.module.css';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -66,13 +67,8 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
         className={classes.modal}
         open={isOpen}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
       >
-          
-            <ListOfMembers rows={rows}/>
-          
-          
+        <ListOfMembers rows={rows}/>  
       </Modal>
     </>
   );

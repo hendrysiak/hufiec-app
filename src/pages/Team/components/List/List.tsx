@@ -3,7 +3,7 @@ import React from 'react';
 import { IncomeDb } from 'models/income.models';
 import './style.css';
 
-export const List = ({ rows }: {rows: IncomeDb[]}) => {
+export const List = ({ rows }: {rows: IncomeDb[]}): JSX.Element => {
   return (
     <div className="containerList">
       <ul className="ul">
