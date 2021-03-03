@@ -75,31 +75,29 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
         open={isOpen}
         onClose={handleClose}
       >
-        <>
-          <section className={classes.positionModal }>
-            <div className={classes.header}>
-              <p>Konto</p>
-              <p>Stan</p>
-            </div>
-            <div className={classes.item}>
-              <p>1%</p>
-              <p>{onePercent}</p>
-            </div>
-            <div className={classes.item}>
-              <p>SKŁADKI</p>
-              <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
-            </div>
-            <div className={classes.item}>
-              <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>
-              <p>{sumOfOutcomes}</p>
-            </div>
-            <div className={classes.item}>
-              <p>WPŁYWY/WYRÓWNANIA</p>
-              <p>{compensation}</p>
-            </div>
-            <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
-          </section>
-        </>
+        <section className={classes.positionModal }>
+          <div className={classes.header}>
+            <p>Konto</p>
+            <p>Stan</p>
+          </div>
+          <div className={classes.item}>
+            <p>1%</p>
+            <p>{onePercent}</p>
+          </div>
+          <div className={classes.item}>
+            <p>SKŁADKI</p>
+            <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
+          </div>
+          <div className={classes.item}>
+            <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>
+            <p>{sumOfOutcomes}</p>
+          </div>
+          <div className={classes.item}>
+            <p>WPŁYWY/WYRÓWNANIA</p>
+            <p>{compensation}</p>
+          </div>
+          <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
+        </section>
       </Modal>
     </>
   );

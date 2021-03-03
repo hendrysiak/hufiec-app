@@ -29,8 +29,6 @@ import './style.css';
 import { List } from './components/List/List';
 import { VIEW_MODAL } from './helpers/typeViewModal.enum';
 
-// type ITypeModal = VIEW_MODAL.empty | VIEW_MODAL.finances | VIEW_MODAL.team | VIEW_MODAL.form;
-
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
@@ -194,7 +192,7 @@ const Team = (): JSX.Element => {
         <p className="team">{currentTeam}</p>
         <SpeedDial
           classes={{ fab: 'rootCircle' }}
-          ariaLabel="SpeedDial example"
+          ariaLabel=""
           hidden={false}
           icon={<SpeedDialIcon classes={{ root: 'iconRoot', icon: 'icon' }}/>}
           onClose={handleClose}
@@ -206,11 +204,12 @@ const Team = (): JSX.Element => {
           <SpeedDialAction
             classes={{ fab: 'getAction' }}
             key={1}
-            icon={<CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
-              <IconButton aria-label="account-state">
-                <GetAppIcon/>
-              </IconButton>
-            </CSVLink>}
+            icon={
+              <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+                <IconButton>
+                  <GetAppIcon/>
+                </IconButton>
+              </CSVLink>}
             tooltipTitle={''}
           />
           

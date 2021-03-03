@@ -8,7 +8,7 @@ import axios from 'axios-income';
 
 import classes from './Form.module.css';
 
-const Form = ({open, title, currentTeam }: {open: string; title: string; currentTeam: string }): JSX.Element => {
+const Form = ({ open, title, currentTeam }: {open: string; title: string; currentTeam: string }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');

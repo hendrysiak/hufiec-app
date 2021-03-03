@@ -1,14 +1,10 @@
 import Modal from '@material-ui/core/Modal';
-import { DataGrid } from '@material-ui/data-grid';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState } from 'react';
 
-
 import { APIPerson } from 'models/registry.models';
-
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
-import { List } from '../List/List';
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 import classes from './TeamPage.module.css';
@@ -26,14 +22,14 @@ interface IProps {
 
 const TeamPage = ({ members, open } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
-  const [rows, setRows] = useState<IRows[] | any>();
-  const columns = [
-    { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
-    { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'surname', headerName: 'Nazwisko', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
-  ];
+  const [rows, setRows] = useState<IRows[]>([]);
+  // const columns = [
+  //   { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'surname', headerName: 'Nazwisko', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
+  // ];
 
   useEffect(() => {
     open === 'team' && setOpen(true);
