@@ -57,6 +57,7 @@ const TableEditor = (props: Props): JSX.Element => {
                   index={index}
                   outcomeCategory={row.outcomeCategory as OutcomeCategory}
                   team={row.team}
+                  year={row.year}
                   title={row.title}
                   onChange={props.onChange}
                   onClose={props.onClose}
