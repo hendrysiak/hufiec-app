@@ -1,5 +1,13 @@
+.titleForm {
+    text-align: center;
+    padding: 10px 5px;
+    font-size: 24px;
+}
+
 .positionModal {
     position: absolute;
+    max-height: 100vh;
+    height: 470px;
     width: 80%;
     left: 50%;
     top: 50%;
@@ -8,22 +16,16 @@
     align-items: center;
     transform: translate(-50%, -50%);
     background-color: #fff;
+    overflow-y: hidden; 
+    overflow: scroll;
 }
 
 .button {
     font-size: 16px;
     padding: 10px;
     width: 80%;
-    margin: 30px auto 30px;
+    margin: 30px auto;
 } 
-
-.textarea {
-    font-size: 16px;
-    line-height: 140%;
-    width: 80%;
-    padding: 8px;
-    height: 30rem;
-}
 
 .input {
     font-size: 16px;
@@ -31,11 +33,44 @@
     padding: 6px;
     width: 80%;
     text-align: center;
-    /* margin: 0 auto; */
+    height: 30px;
 }
 
 .label {
     text-align: center;
     margin-bottom: 14px;
     width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .menuItem {
+        padding: 0px 4px;
+        margin: 0 4px;
+        font-size: 14px;
+        overflow-x: hidden;
+        overflow: scroll;
+    }
+
+    .topic {
+    }
+
+    .input {
+    }
+
+    .responseInput {
+        padding-bottom: 30px;
+    }
+
+    .titleForm {
+        text-align: center;
+        padding: 10px 5px;
+        font-size: 20px;
+    }
+
+    .responseRoot {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        font-size: 10px;
+
+    }
 }
