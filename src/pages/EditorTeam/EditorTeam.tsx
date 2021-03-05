@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,7 +9,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
+import { values } from 'lodash';
 import React, { useState, useEffect, FC } from 'react';
+
+import { CSVLink } from 'react-csv';
 
 import { useSelector } from 'react-redux';
 
@@ -30,9 +34,14 @@ export interface IPerson extends APIPerson {
   isEditMode?: boolean;
 }
 
+interface DataToExport extends IPerson {
+  team: string
+}
+
 const EditorTeam: FC = () => {
   const registry = useSelector((state: RootState) => state.income.registry);
-  const [rows, setRows] = useState<IPerson[] | undefined>();
+  const [rows, setRows] = useState<IPerson[]>([]);
+  const [dataToExport, setDataToExport] = useState<DataToExport[]>([]);
   const [team, setTeam] = useState<string>('');
   const classes = useStyles();
   const [actualValue, setActualValue] = useState<IPerson>(
@@ -131,8 +140,9 @@ const EditorTeam: FC = () => {
   };
 
   useEffect(() => {
-    const rows = registry && registry[team] ? (
-      registry[team].map((member, index) => {
+    const usedRegistry = registry && team === 'Cały hufiec' ? [...Object.values(registry)].flat() : registry[team];
+    const rows = usedRegistry ? (
+      usedRegistry.map((member, index) => {
         return (
           {
             lp: index + 1,
@@ -142,6 +152,22 @@ const EditorTeam: FC = () => {
         );
       })) : ([]);
     setRows(rows);
+
+    let usedData: DataToExport[] = []; 
+    if (registry) {
+      if (team === 'Cały hufiec') {
+        usedData = Object.entries(registry)
+          .map(([key, value]: [string, APIPerson[]]) => [...value.map((p: APIPerson) => {
+            return { ...p, team: key, feeState: countingMemberFee(p) };
+          })]).flat();
+      } else {
+        usedData = registry[team] ? registry[team].map(p => {
+          return { ...p, team, feeState: countingMemberFee(p) };
+        }) : [];
+      }
+    }
+
+    setDataToExport(usedData);
   },[team, registry]);
 
   return (
@@ -149,6 +175,9 @@ const EditorTeam: FC = () => {
       <LogOut />
       <Navigation />
       <SelectTeam onChange={handleChangeSelect} team={team}/>
+      <CSVLink data={dataToExport} filename={`${team}.csv`}>
+        <Button variant="contained" color="primary" >Pobierz stan składek</Button>
+      </CSVLink>
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
           <TableRow>

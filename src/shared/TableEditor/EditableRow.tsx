@@ -16,6 +16,7 @@ interface Props {
   name?: string | null;
   surname?: string | null;
   team: string | null;
+  year: string | number | boolean | Date | null | undefined;
   event: string | null;
   title: string | null;
   cash: number | null;
@@ -26,6 +27,8 @@ interface Props {
 const EditableRow = (props: Props): JSX.Element => {
   const teams = store.getState().income.registry;
   const codes = store.getState().income.codes?.map(c => c.code);
+
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
@@ -140,6 +143,23 @@ const EditableRow = (props: Props): JSX.Element => {
           ))}
         </TextField>
         : <TableCell>{props.event}</TableCell>}
+      <TableCell>
+        <TextField
+          value={props.year}
+          onChange={(e) => props.onChange(props.index, { key: 'year', value: e.target.value })}
+          select={true}
+          size="medium"
+          margin="dense"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true }
+          }}
+        >
+          {[currentYear - 1, currentYear].map((item) => (
+            <MenuItem key={item} value={item}>{item}</MenuItem>
+          ))}
+        </TextField>
+
+      </TableCell>
       <TableCell>        
         <TextField
           value={props.title}

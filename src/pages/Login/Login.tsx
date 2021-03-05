@@ -24,7 +24,7 @@ import store from 'store/store';
 
 import classes from './Login.module.css';
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const history = useHistory();
   const [formReset, setFormReset] = useState<boolean>(false);
   const [login, setLogin] = useState<string>('');

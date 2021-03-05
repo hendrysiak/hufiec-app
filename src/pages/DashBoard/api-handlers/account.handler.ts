@@ -5,7 +5,8 @@ import {
   reduxGetAccountState, 
   reduxGetCodes, 
   reduxGetRegistry, 
-  reduxGetImportDates 
+  reduxGetImportDates, 
+  reduxGetInitAccountState
 } from 'store/actions/income';
 
 import store from 'store/store';
@@ -47,4 +48,9 @@ export const getImportDates = async (): Promise<void> => {
   store.dispatch(reduxGetImportDates(importDates.data));
 };
 
+export const getInitAccountState = async (): Promise<void> => {
+  const initAccountState = await axios.get('/initAccountState.json');
+  console.log(initAccountState.data);
+  store.dispatch(reduxGetInitAccountState(initAccountState.data));
+};
 

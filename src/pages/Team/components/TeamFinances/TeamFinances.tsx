@@ -45,7 +45,7 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
       .reduce((sum: number, income) => sum + income.cash ,0); 
 
     const sumOfCompensation = incomes
-      .filter(i => i.title === 'Przychód dodany ręcznie')
+      .filter(i => i.event === 'KOMP')
       .reduce((sum: number, income) => sum + income.cash , 0);
     const sumOfOutcomes = outcomes
       .filter(o => o.foundingSource === FoundingSources.TeamAccount)

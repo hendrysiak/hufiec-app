@@ -22,6 +22,7 @@ const HeadRow = (props: Props): JSX.Element => {
           <TableCell>Kategoria wydatku</TableCell>
           <TableCell>Jednostka</TableCell>
           <TableCell>Kod imprezy (automatycznie)</TableCell>
+          <TableCell>Rok</TableCell>
           <TableCell>Pełny tytuł</TableCell>
         </TableRow>
       </TableHead>
@@ -36,6 +37,7 @@ const HeadRow = (props: Props): JSX.Element => {
           <TableCell>Nazwisko</TableCell>
           <TableCell>Jednostka</TableCell>
           <TableCell>Kod imprezy (automatycznie)</TableCell>
+          <TableCell>Rok</TableCell>
           <TableCell>Pełny tytuł</TableCell>
         </TableRow>
       </TableHead>

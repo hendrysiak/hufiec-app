@@ -61,6 +61,7 @@ const StandardRow = (props: Props): JSX.Element => {
       <TableCell>{props.row.surname}</TableCell>
       <TableCell>{props.row.team}</TableCell>
       <TableCell>{props.row.event}</TableCell>
+      <TableCell>{props.row.year}</TableCell>
       <TableCell>{props.row.title}</TableCell>
     </TableRow>
     );

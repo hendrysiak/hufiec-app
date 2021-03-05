@@ -43,7 +43,7 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
           MenuProps: { disableScrollLock: true }
         }}
       >
-        {registry && ['', ...Object.keys(registry)].map((item) => (
+        {registry && ['Cały hufiec', ...Object.keys(registry)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>

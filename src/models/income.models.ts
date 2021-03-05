@@ -82,3 +82,11 @@ export interface OutcomePurposeDB {
 export interface Amount {
   [key: string]: number
 }
+
+export interface InitAccountState {
+  name: string;
+  surname: string;
+  team: string;
+  year: number;
+  balance: number
+}
