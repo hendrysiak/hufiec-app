@@ -38,6 +38,7 @@ import store from 'store/store';
 
 import classes from './Edit.module.css';
 import Team from '../Team/Team';
+// import { BudgetEntry } from 'models/global.enum';
 
 
 const Edit = (): JSX.Element => {
@@ -52,7 +53,7 @@ const Edit = (): JSX.Element => {
 
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   const [displayedOutcome, setDisplayedOutcome] = useState<OutcomeDb[]>([]);
-
+  const [dataToEdit, setDataToEdit] = useState<IncomeDb[] | OutcomeDb[]> ([])
   const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(
     new Date()
   );
@@ -139,11 +140,13 @@ const Edit = (): JSX.Element => {
   //   });
   // };
 
-  // const editedDataHandler = (value: string) => {
-  //   const editedData =
-  //     value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
-  //   setEditedData(editedData);
-  // };
+  const editedDataHandler = (value: string) => {
+    console.log(displayedOutcome)
+    const editedData =
+      value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
+    setEditedData(editedData);
+    value === 'Przychody' ? setDataToEdit(displayedIncome) : setDataToEdit(displayedOutcome)
+  };
 
   // const handleEdit = (
   //   index: number,
@@ -214,7 +217,7 @@ const Edit = (): JSX.Element => {
 
   const handleEdit = (id: string) => {
 
-    if (editId !== '' && !window.confirm('Już modyfikujesz jakiś wpis. \nChcesz anulować tamte zmiany i zminienić na edycje tego wiersza?')) return
+    if (editId !== '' && !window.confirm('Już modyfikujesz jakiś wpis. \nNa pewno zmienć? \nJeżeli coś zmieniałeś, zostanie anulowane.')) return
     setEditId(id);
     const el = displayedIncome.find(el => el.id === id);
 
@@ -323,30 +326,30 @@ const Edit = (): JSX.Element => {
         useDate={useDate}
         setUseDate={setUseDate}
       />
-      {/* <div>
-        <header>
-          <TextField
-            style={{ width: '79%', marginTop: '16px' }}
-            label="Co edytujesz?"
-            value={editedData === 'income' ? 'Przychody' : 'Koszty'}
-            onChange={(e) => editedDataHandler(e.target.value)}
-            placeholder="Wybierz kod z listy"
-            select={true}
-            size="small"
-            variant="outlined"
-            margin="normal"
-            SelectProps={{
-              MenuProps: { disableScrollLock: true },
-            }}
-          >
-            {['Przychody', 'Koszty'].map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </TextField>
-        </header>
-
+       {/* <div> */}
+      <header>
+        <TextField
+          style={{ width: '79%', marginTop: '16px' }}
+          label="Co edytujesz?"
+          value={editedData === 'income' ? 'Przychody' : 'Koszty'}
+          onChange={(e) => editedDataHandler(e.target.value)}
+          placeholder="Wybierz kod z listy"
+          select={true}
+          size="small"
+          variant="outlined"
+          margin="normal"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true },
+          }}
+        >
+          {['Przychody', 'Koszty'].map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </TextField>
+      </header>
+{/*
         <main>
           <section>
             <TableEditor
@@ -370,70 +373,86 @@ const Edit = (): JSX.Element => {
           </section>
         </main>
       </div> */}
-      <ul>
-        <li className={`${classes.firstLi} ${classes.li}`}>
-          <p className={classes.edit}>Edytuj</p>
-          <p className={classes.lp}>LP</p>
-          <p className={classes.cash}>Kwota</p>
-          <p className={classes.name}>Imię</p>
-          <p className={classes.surname}>Nazwisko</p>
-          <p className={classes.unit}>Jednostka</p>
-          <p className={classes.code}>Kod Imprezy (automatycznie)</p>
-          <p className={classes.year}>Rok</p>
-          <p className={classes.title}>Pełny tytuł</p>
-        </li>
-        {displayedIncome?.map((el, index: number) => {
-          // LP assigned when render list, always from 1 to upwards
-          return (
-            <li key={index} className={`${classes.li} ${editId === el.id ? classes.liEdit : ''}`}>
-              <p className={`${classes.editItem} ${classes.edit}`}>
-                {editId === el.id ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={handleClearEdit}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>}
-                <DeleteForeverIcon className={classes.pointer}/>
-              </p>
-              {editId === el.id ? 
-                <>
-                  <div className={classes.lp}>
-                    <TextField classes={{root: classes.input}} className={classes.lp} defaultValue={index} disabled />
-                  </div>
-                  <div className={classes.cash}>
-                    <TextField onChange={(e) => handleChange('cash', e)} className={classes.input} value={editCash ? editCash : el.cash} />
-                  </div>
-                  <div className={classes.name}>
-                    <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
-                  </div>
-                  <div className={classes.surname}>
-                    <TextField onChange={(e) => handleChange('surname', e)} className={classes.input} value={editSurname ? editSurname : el.surname } />
-                  </div>
-                  <div className={classes.unit}>
-                    <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.unit } />
-                  </div>
-                  <div className={classes.code}>
-                    <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={editEvent ? editEvent : el.event } />
-                  </div>
-                  <div className={classes.year}>
-                    <TextField onChange={(e) => handleChange('year', e)} className={classes.input} value={editYear ? editYear : el.year } />
-                  </div>
-                  <div className={classes.title}>
-                    <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editTitle ? editTitle : el.title} /> 
-                  </div>
-                </>
-                :
-                <>
-                  <p className={classes.lp}> {index}</p>
-                  <p className={classes.cash}> {el.cash} </p>
-                  <p className={classes.name}> {el.name} </p>
-                  <p className={classes.surname}> {el.surname}</p>
-                  <p className={classes.unit}> {el.team}</p>
-                  <p className={classes.code}> {el.event}</p>
-                  <p className={classes.year}> {el.year}</p>
-                  <p className={classes.title}> {el.title}</p>
-                </>
-              }
-            </li>
-          );})}
-          
+      {editedData === BudgetEntry.Income ? 
+        <ul>
+          <li className={`${classes.firstLi} ${classes.li}`}>
+            <p className={classes.edit}>Edytuj</p>
+            <p className={classes.lp}>LP</p>
+            <p className={classes.cash}>Kwota</p>
+            <p className={classes.name}>Imię</p>
+            <p className={classes.surname}>Nazwisko</p>
+            <p className={classes.unit}>Jednostka</p>
+            <p className={classes.code}>Kod Imprezy (automatycznie)</p>
+            <p className={classes.year}>Rok</p>
+            <p className={classes.title}>Pełny tytuł</p>
+          </li>
+          {displayedIncome?.map((el, index: number) => {
+            // LP assigned when render list, always from 1 to upwards
+            return (
+              <li key={index} className={`${classes.li} ${editId === el.id ? classes.liEdit : ''}`}>
+                <p className={`${classes.editItem} ${classes.edit}`}>
+                  {editId === el.id ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={handleClearEdit}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>}
+                  <DeleteForeverIcon className={classes.pointer}/>
+                </p>
+                {editId === el.id ? 
+                  <>
+                    <div className={classes.lp}>
+                      <TextField classes={{root: classes.input}} className={classes.lp} defaultValue={index} disabled />
+                    </div>
+                    <div className={classes.cash}>
+                      <TextField onChange={(e) => handleChange('cash', e)} className={classes.input} value={editCash ? editCash : el.cash} />
+                    </div>
+                    <div className={classes.name}>
+                      <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
+                    </div>
+                    <div className={classes.surname}>
+                      <TextField onChange={(e) => handleChange('surname', e)} className={classes.input} value={editSurname ? editSurname : el.surname } />
+                    </div>
+                    <div className={classes.unit}>
+                      <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.unit } />
+                    </div>
+                    <div className={classes.code}>
+                      <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={editEvent ? editEvent : el.event } />
+                    </div>
+                    <div className={classes.year}>
+                      <TextField onChange={(e) => handleChange('year', e)} className={classes.input} value={editYear ? editYear : el.year } />
+                    </div>
+                    <div className={classes.title}>
+                      <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editTitle ? editTitle : el.title} /> 
+                    </div>
+                  </>
+                  :
+                  <>
+                    <p className={classes.lp}> {index}</p>
+                    <p className={classes.cash}> {el.cash} </p>
+                    <p className={classes.name}> {el.name} </p>
+                    <p className={classes.surname}> {el.surname}</p>
+                    <p className={classes.unit}> {el.team}</p>
+                    <p className={classes.code}> {el.event}</p>
+                    <p className={classes.year}> {el.year}</p>
+                    <p className={classes.title}> {el.title}</p>
+                  </>
+                }
+              </li>
+            );})}
+            
 
-      </ul>
+        </ul> : 
+        <ul>
+          <li className={`${classes.firstLi} ${classes.li}`}>
+            <p className={classes.edit}>Edytuj</p>
+            <p className={classes.lp}>LP</p>
+            <p className={classes.cash}>Kwota</p>
+            <p className={classes.name}>Imię</p>
+            <p className={classes.surname}>Nazwisko</p>
+            <p className={classes.unit}>Jednostka</p>
+            <p className={classes.code}>Kod Imprezy (automatycznie)</p>
+            <p className={classes.year}>Rok</p>
+            <p className={classes.title}>Pełny tytuł</p>
+          </li>
+        </ul>
+      }
+
       {console.log(displayedIncome)}
     </>
   );
