@@ -13,10 +13,16 @@ ul, li {
 .li {
   width: 100%;
   display: flex;
+  align-items: center;
+}
+
+.liEdit {
+  /* color: white; */
+  background-color: rgba(92, 56, 150, 0.7);
 }
 
 .edit {
-  padding-center: 10px;
+  padding-left: 10px;
   width: 5%;
   text-align: center;
 }
@@ -29,37 +35,47 @@ ul, li {
 
 .lp {
   width: 5%;
-  text-align: center;
+  text-align: left;
+}
+.editLp {
+  width: 5%;
+  text-align: left;
+ color: white;
 }
 .cash {
+  margin-left: 10px;
   width: 5%;
-  text-align: center;
+  text-align: left;
 }
 .name {
   width: 15%;
-  text-align: center;
+  text-align: left;
 }
 .surname {
   width: 15%;
-  text-align: center;
+  text-align: left;
 }
 .unit {
   width: 10%;
-  text-align: center;
+  text-align: left;
 }
 .code {
   width: 10%;
-  text-align: center;
+  text-align: left;
 }
 .year {
   width: 5%;
-  text-align: center;
+  text-align: left;
 }
 .title {
   width: 30%;
-  text-align: center;
+  text-align: left;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.input {
+  width: 70%;
 }

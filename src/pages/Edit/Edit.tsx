@@ -1,12 +1,12 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem, Input } from '@material-ui/core';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState, useEffect } from 'react';
-
+import CheckIcon from '@material-ui/icons/Check';
 import { useSelector } from 'react-redux';
-
+import ClearIcon from '@material-ui/icons/Clear';
 import axios from 'axios-income';
 import {
   addIncome,
@@ -37,6 +37,8 @@ import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
 import classes from './Edit.module.css';
+import Team from '../Team/Team';
+
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -54,20 +56,28 @@ const Edit = (): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(
     new Date()
   );
+  const [editableRow, setEditableRow] = useState<IncomeDb>();
 
   //filters
   const [event, setEvent] = useState('Brak');
   const [team, setTeam] = useState('Brak');
   const [founding, setFounding] = useState('Brak');
-  const [category, setCategory] = useState<OutcomeCategory | string>('Brak');
+  const [category, setCategory] = useState<OutcomeCategory | 'Brak'>('Brak');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
-
   const [editedImportDates, setEditedImportDates] = useState<Date[]>([]);
 
   const [editedIndex, setEditedIndex] = useState(-1);
-
+  const [editId, setEditId] = useState<string>('');
   const [useDate, setUseDate] = useState(true);
+  // editableRow
+  const [editCash, setEditCash] = useState<string | number | null>(null);
+  const [editTeam, setEditTeam] = useState<string | null>(null);
+  const [editName, setEditName] = useState<string | null>(null);
+  const [editSurname, setEditSurname] = useState<string | null>(null);
+  const [editEvent, setEditEvent] = useState<string | null>(null);
+  const [editYear, setEditYear] = useState<string | number | null>(null);
+  const [editTitle, setEditTitle] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -107,33 +117,33 @@ const Edit = (): JSX.Element => {
     importDates && setEditedImportDates(importDates);
   }, [importDates]);
 
-  const filterIncomes = (incomes: IncomeDb[]) => {
-    return incomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && i.team !== team) return false;
-      if (event !== 'Brak' && i.event !== event) return false;
-      if (founding !== 'Brak' && i.foundingSource !== founding) return false;
-      if (category !== 'Brak' && i.outcomeCategory !== event) return false;
-      return true;
-    });
-  };
+  // const filterIncomes = (incomes: IncomeDb[]) => {
+  //   return incomes.filter(i => {
+  //     if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+  //     if (team !== 'Brak' && i.team !== team) return false;
+  //     if (event !== 'Brak' && i.event !== event) return false;
+  //     if (founding !== 'Brak' && i.foundingSource !== founding) return false;
+  //     if (category !== 'Brak' && i.outcomeCategory !== event) return false;
+  //     return true;
+  //   });
+  // };
 
-  const filterOutcomes = (outcomes: OutcomeDb[]) => {
-    return outcomes.filter(o => {
-      if (useDate && selectedDate && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && o.team !== team) return false;
-      if (event !== 'Brak' && o.event !== event) return false;
-      if (founding !== 'Brak' && o.foundingSource !== founding) return false;
-      if (category !== 'Brak' && o.outcomeCategory !== event) return false;
-      return true;
-    });
-  };
+  // const filterOutcomes = (outcomes: OutcomeDb[]) => {
+  //   return outcomes.filter(o => {
+  //     if (useDate && selectedDate && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+  //     if (team !== 'Brak' && o.team !== team) return false;
+  //     if (event !== 'Brak' && o.event !== event) return false;
+  //     if (founding !== 'Brak' && o.foundingSource !== founding) return false;
+  //     if (category !== 'Brak' && o.outcomeCategory !== event) return false;
+  //     return true;
+  //   });
+  // };
 
-  const editedDataHandler = (value: string) => {
-    const editedData =
-      value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
-    setEditedData(editedData);
-  };
+  // const editedDataHandler = (value: string) => {
+  //   const editedData =
+  //     value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
+  //   setEditedData(editedData);
+  // };
 
   // const handleEdit = (
   //   index: number,
@@ -157,53 +167,137 @@ const Edit = (): JSX.Element => {
   //   setEditedIndex(-1);
   // };
 
-  const handleDelete = (id: string) => {
-    editedData === BudgetEntry.Income ? deleteIncome(id) : deleteOutcome(id);
-  };
+  // const handleDelete = (id: string) => {
+  //   editedData === BudgetEntry.Income ? deleteIncome(id) : deleteOutcome(id);
+  // };
 
-  const addNewPosition = (): void => {
-    const currentDate = new Date();
+  // const addNewPosition = (): void => {
+  //   const currentDate = new Date();
 
-    if (editedData === BudgetEntry.Income) {
-      const newIncome: IncomesWithImportDate = {
-        cash: 0,
-        event: null,
-        importDate: currentDate,
-        name: null,
-        surname: null,
-        team: '',
-        title: '',
-        year: currentDate.getFullYear(),
-        dateOfBook: currentDate,
-      };
+  //   if (editedData === BudgetEntry.Income) {
+  //     const newIncome: IncomesWithImportDate = {
+  //       cash: 0,
+  //       event: null,
+  //       importDate: currentDate,
+  //       name: null,
+  //       surname: null,
+  //       team: '',
+  //       title: '',
+  //       year: currentDate.getFullYear(),
+  //       dateOfBook: currentDate,
+  //     };
 
-      addIncome(newIncome);
-    } else {
-      const newOutcome: OutcomesWithEvent = {
-        cash: 0,
-        event: null,
-        importDate: currentDate,
-        bilingNr: null,
-        foundingSource: FoundingSources.Other,
-        outcomeCategory: OutcomeCategory.Fee,
-        team: '',
-        title: '',
-        year: currentDate.getFullYear(),
-        financeMethod: FinanceMethod.Cash,
-        dateOfBook: currentDate,
-      };
+  //     addIncome(newIncome);
+  //   } else {
+  //     const newOutcome: OutcomesWithEvent = {
+  //       cash: 0,
+  //       event: null,
+  //       importDate: currentDate,
+  //       bilingNr: null,
+  //       foundingSource: FoundingSources.Other,
+  //       outcomeCategory: OutcomeCategory.Fee,
+  //       team: '',
+  //       title: '',
+  //       year: currentDate.getFullYear(),
+  //       financeMethod: FinanceMethod.Cash,
+  //       dateOfBook: currentDate,
+  //     };
 
-      addOutcome(newOutcome);
-    }
+  //     addOutcome(newOutcome);
+  //   }
 
-    const newImportDate = [...editedImportDates];
-    newImportDate.push(currentDate);
-    setEditedImportDates(newImportDate);
-    axios.put('/importDates.json', newImportDate);
-  };
+  //   const newImportDate = [...editedImportDates];
+  //   newImportDate.push(currentDate);
+  //   setEditedImportDates(newImportDate);
+  //   axios.put('/importDates.json', newImportDate);
+  // };
 
   const handleEdit = (id: string) => {
-    console.log('test', id)
+
+    if (editId !== '' && !window.confirm('Już modyfikujesz jakiś wpis. \nChcesz anulować tamte zmiany i zminienić na edycje tego wiersza?')) return
+    setEditId(id);
+    const el = displayedIncome.find(el => el.id === id);
+
+    el && setEditCash(el.cash);
+    el && setEditTeam(el.team);
+    el && setEditName(el.name);
+    el && setEditSurname(el.surname);
+    el && setEditEvent(el.event);
+    el && setEditYear(el.year);
+    el && setEditTitle(el.title);
+
+
+
+    const obj = el && {
+      name: el.name,
+      surname: el.surname,
+      id: el.id,
+      importDate: el.importDate,
+      team: el.team,
+      cash: el.cash,
+      event: el.event,
+      title: el.title,
+      dateOfBook: el.dateOfBook,
+      year: el.year
+    }
+    el && setEditableRow(obj);
+  };
+
+  const handleChange = (el: any, e: any) => {
+    switch (el) 
+    {
+      case 'cash':
+        setEditCash(e.target.value);
+        break;
+      case 'title':
+        setEditTitle(e.target.value);
+        break;
+      case 'team':
+        setEditTeam(e.target.value);
+        break;
+      case 'name':
+        setEditName(e.target.value);
+        break;
+      case 'surname':
+        setEditSurname(e.target.value);
+        break;
+      case 'year':
+        setEditYear(e.target.value);
+        break;
+      case 'event':
+        setEditEvent(e.target.value);
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleAcceptEdit = () => {
+    console.group()
+    console.log(editCash)
+    console.log(editTitle)
+    console.log(editName)
+    console.log(editSurname)
+    console.log(editYear)
+    console.log(editEvent)
+  }
+
+  const handleClearEdit = () => {
+    const editElement = displayedIncome.find(el => el.id === editId);
+    if ((editElement?.name !== editName 
+      || editElement?.surname !== editSurname 
+      || editElement?.cash !== editCash  
+      || editElement?.team !== editTeam  
+      || editElement?.title !== editTitle) 
+      && !window.confirm('zmiany zostaną usunięte')) return
+    setEditCash(null);
+    setEditTeam(null);
+    setEditName(null);
+    setEditSurname(null);
+    setEditEvent(null);
+    setEditYear(null);
+    setEditTitle(null);
+    setEditId('');
   }
 
   return (
@@ -291,39 +385,56 @@ const Edit = (): JSX.Element => {
         {displayedIncome?.map((el, index: number) => {
           // LP assigned when render list, always from 1 to upwards
           return (
-            <li key={index} className={classes.li}>
+            <li key={index} className={`${classes.li} ${editId === el.id ? classes.liEdit : ''}`}>
               <p className={`${classes.editItem} ${classes.edit}`}>
-                <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>
+                {editId === el.id ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={handleClearEdit}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>}
                 <DeleteForeverIcon className={classes.pointer}/>
               </p>
-              {!true? 
+              {editId === el.id ? 
                 <>
-                  <p className={classes.lp}>{index}</p>
-                  <input className={classes.cash} defaultValue={el.cash} />
-                  <input className={classes.name} defaultValue={el.name ? el.name : undefined} />
-                  <input className={classes.surname} defaultValue={el.surname ? el.surname : undefined } />
-                  <input className={classes.unit} defaultValue={el.team ? el.team : undefined } />
-                  <input className={classes.code} defaultValue={el.event ? el.event : undefined } />
-                  <input className={classes.year} defaultValue={el.year ? el.year : undefined } />
-                  <input className={classes.title} defaultValue={el.title} />
+                  <div className={classes.lp}>
+                    <TextField classes={{root: classes.input}} className={classes.lp} defaultValue={index} disabled />
+                  </div>
+                  <div className={classes.cash}>
+                    <TextField onChange={(e) => handleChange('cash', e)} className={classes.input} value={editCash ? editCash : el.cash} />
+                  </div>
+                  <div className={classes.name}>
+                    <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
+                  </div>
+                  <div className={classes.surname}>
+                    <TextField onChange={(e) => handleChange('surname', e)} className={classes.input} value={editSurname ? editSurname : el.surname } />
+                  </div>
+                  <div className={classes.unit}>
+                    <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.unit } />
+                  </div>
+                  <div className={classes.code}>
+                    <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={editEvent ? editEvent : el.event } />
+                  </div>
+                  <div className={classes.year}>
+                    <TextField onChange={(e) => handleChange('year', e)} className={classes.input} value={editYear ? editYear : el.year } />
+                  </div>
+                  <div className={classes.title}>
+                    <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editTitle ? editTitle : el.title} /> 
+                  </div>
                 </>
                 :
                 <>
-                  <p className={classes.lp}>{index}</p>
-                  <p className={classes.cash} defaultValue={el.cash} > </p>
-                  <p className={classes.name} >{el.name} </p>
-                  <p className={classes.surname} >  {el.surname}</p>
-                  <p className={classes.unit} >  {el.team}</p>
-                  <p className={classes.code} >  {el.event}</p>
-                  <p className={classes.year} >  {el.year}</p>
-                  <p className={classes.title}> {el.title} </p>
+                  <p className={classes.lp}> {index}</p>
+                  <p className={classes.cash}> {el.cash} </p>
+                  <p className={classes.name}> {el.name} </p>
+                  <p className={classes.surname}> {el.surname}</p>
+                  <p className={classes.unit}> {el.team}</p>
+                  <p className={classes.code}> {el.event}</p>
+                  <p className={classes.year}> {el.year}</p>
+                  <p className={classes.title}> {el.title}</p>
                 </>
               }
             </li>
           );})}
+          
 
       </ul>
-      {/* {console.log(displayedIncome)} */}
+      {console.log(displayedIncome)}
     </>
   );
 };
