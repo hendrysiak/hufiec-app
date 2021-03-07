@@ -1,12 +1,11 @@
 import { TextField, MenuItem, Input } from '@material-ui/core';
 
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import EditIcon from '@material-ui/icons/Edit';
+
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React, { useState, useEffect } from 'react';
-import CheckIcon from '@material-ui/icons/Check';
+
 import { useSelector } from 'react-redux';
-import ClearIcon from '@material-ui/icons/Clear';
+
 import axios from 'axios-income';
 import {
   addIncome,
@@ -38,6 +37,8 @@ import store from 'store/store';
 
 import classes from './Edit.module.css';
 import Team from '../Team/Team';
+import { Income } from './components/Income';
+import { Outcome } from './components/Outcome';
 // import { BudgetEntry } from 'models/global.enum';
 
 
@@ -69,7 +70,6 @@ const Edit = (): JSX.Element => {
   const [editedImportDates, setEditedImportDates] = useState<Date[]>([]);
 
   const [editedIndex, setEditedIndex] = useState(-1);
-  const [editId, setEditId] = useState<string>('');
   const [useDate, setUseDate] = useState(true);
   // editableRow
   const [editCash, setEditCash] = useState<string | number | null>(null);
@@ -79,6 +79,9 @@ const Edit = (): JSX.Element => {
   const [editEvent, setEditEvent] = useState<string | null>(null);
   const [editYear, setEditYear] = useState<string | number | null>(null);
   const [editTitle, setEditTitle] = useState<string | null>(null);
+  const [editInvoice, setEditInvoice] = useState<string | null>(null);
+  const [wayFinancing, setWayFinancing] = useState<string | null>(null);
+  const [kategoryOutcome, setKategoryOutcome] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -215,36 +218,36 @@ const Edit = (): JSX.Element => {
   //   axios.put('/importDates.json', newImportDate);
   // };
 
-  const handleEdit = (id: string) => {
+  // const handleEdit = (id: string) => {
 
-    if (editId !== '' && !window.confirm('Już modyfikujesz jakiś wpis. \nNa pewno zmienć? \nJeżeli coś zmieniałeś, zostanie anulowane.')) return
-    setEditId(id);
-    const el = displayedIncome.find(el => el.id === id);
+  //   if (editId !== '' && !window.confirm('Już modyfikujesz jakiś wpis. \nNa pewno zmienć? \nJeżeli coś zmieniałeś, zostanie anulowane.')) return
+  //   setEditId(id);
+  //   const el = displayedIncome.find(el => el.id === id);
 
-    el && setEditCash(el.cash);
-    el && setEditTeam(el.team);
-    el && setEditName(el.name);
-    el && setEditSurname(el.surname);
-    el && setEditEvent(el.event);
-    el && setEditYear(el.year);
-    el && setEditTitle(el.title);
+  //   el && setEditCash(el.cash);
+  //   el && setEditTeam(el.team);
+  //   el && setEditName(el.name);
+  //   el && setEditSurname(el.surname);
+  //   el && setEditEvent(el.event);
+  //   el && setEditYear(el.year);
+  //   el && setEditTitle(el.title);
 
 
 
-    const obj = el && {
-      name: el.name,
-      surname: el.surname,
-      id: el.id,
-      importDate: el.importDate,
-      team: el.team,
-      cash: el.cash,
-      event: el.event,
-      title: el.title,
-      dateOfBook: el.dateOfBook,
-      year: el.year
-    }
-    el && setEditableRow(obj);
-  };
+  //   const obj = el && {
+  //     name: el.name,
+  //     surname: el.surname,
+  //     id: el.id,
+  //     importDate: el.importDate,
+  //     team: el.team,
+  //     cash: el.cash,
+  //     event: el.event,
+  //     title: el.title,
+  //     dateOfBook: el.dateOfBook,
+  //     year: el.year
+  //   }
+  //   el && setEditableRow(obj);
+  // };
 
   const handleChange = (el: any, e: any) => {
     switch (el) 
@@ -275,33 +278,9 @@ const Edit = (): JSX.Element => {
     }
   };
 
-  const handleAcceptEdit = () => {
-    console.group()
-    console.log(editCash)
-    console.log(editTitle)
-    console.log(editName)
-    console.log(editSurname)
-    console.log(editYear)
-    console.log(editEvent)
-  }
 
-  const handleClearEdit = () => {
-    const editElement = displayedIncome.find(el => el.id === editId);
-    if ((editElement?.name !== editName 
-      || editElement?.surname !== editSurname 
-      || editElement?.cash !== editCash  
-      || editElement?.team !== editTeam  
-      || editElement?.title !== editTitle) 
-      && !window.confirm('zmiany zostaną usunięte')) return
-    setEditCash(null);
-    setEditTeam(null);
-    setEditName(null);
-    setEditSurname(null);
-    setEditEvent(null);
-    setEditYear(null);
-    setEditTitle(null);
-    setEditId('');
-  }
+
+
 
   return (
     <>
@@ -374,86 +353,9 @@ const Edit = (): JSX.Element => {
         </main>
       </div> */}
       {editedData === BudgetEntry.Income ? 
-        <ul>
-          <li className={`${classes.firstLi} ${classes.li}`}>
-            <p className={classes.edit}>Edytuj</p>
-            <p className={classes.lp}>LP</p>
-            <p className={classes.cash}>Kwota</p>
-            <p className={classes.name}>Imię</p>
-            <p className={classes.surname}>Nazwisko</p>
-            <p className={classes.unit}>Jednostka</p>
-            <p className={classes.code}>Kod Imprezy (automatycznie)</p>
-            <p className={classes.year}>Rok</p>
-            <p className={classes.title}>Pełny tytuł</p>
-          </li>
-          {displayedIncome?.map((el, index: number) => {
-            // LP assigned when render list, always from 1 to upwards
-            return (
-              <li key={index} className={`${classes.li} ${editId === el.id ? classes.liEdit : ''}`}>
-                <p className={`${classes.editItem} ${classes.edit}`}>
-                  {editId === el.id ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={handleClearEdit}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>}
-                  <DeleteForeverIcon className={classes.pointer}/>
-                </p>
-                {editId === el.id ? 
-                  <>
-                    <div className={classes.lp}>
-                      <TextField classes={{root: classes.input}} className={classes.lp} defaultValue={index} disabled />
-                    </div>
-                    <div className={classes.cash}>
-                      <TextField onChange={(e) => handleChange('cash', e)} className={classes.input} value={editCash ? editCash : el.cash} />
-                    </div>
-                    <div className={classes.name}>
-                      <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
-                    </div>
-                    <div className={classes.surname}>
-                      <TextField onChange={(e) => handleChange('surname', e)} className={classes.input} value={editSurname ? editSurname : el.surname } />
-                    </div>
-                    <div className={classes.unit}>
-                      <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.unit } />
-                    </div>
-                    <div className={classes.code}>
-                      <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={editEvent ? editEvent : el.event } />
-                    </div>
-                    <div className={classes.year}>
-                      <TextField onChange={(e) => handleChange('year', e)} className={classes.input} value={editYear ? editYear : el.year } />
-                    </div>
-                    <div className={classes.title}>
-                      <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editTitle ? editTitle : el.title} /> 
-                    </div>
-                  </>
-                  :
-                  <>
-                    <p className={classes.lp}> {index}</p>
-                    <p className={classes.cash}> {el.cash} </p>
-                    <p className={classes.name}> {el.name} </p>
-                    <p className={classes.surname}> {el.surname}</p>
-                    <p className={classes.unit}> {el.team}</p>
-                    <p className={classes.code}> {el.event}</p>
-                    <p className={classes.year}> {el.year}</p>
-                    <p className={classes.title}> {el.title}</p>
-                  </>
-                }
-              </li>
-            );})}
-            
-
-        </ul> : 
-        <ul>
-          <li className={`${classes.firstLi} ${classes.li}`}>
-            <p className={classes.edit}>Edytuj</p>
-            <p className={classes.lp}>LP</p>
-            <p className={classes.cash}>Kwota</p>
-            <p className={classes.name}>Imię</p>
-            <p className={classes.surname}>Nazwisko</p>
-            <p className={classes.unit}>Jednostka</p>
-            <p className={classes.code}>Kod Imprezy (automatycznie)</p>
-            <p className={classes.year}>Rok</p>
-            <p className={classes.title}>Pełny tytuł</p>
-          </li>
-        </ul>
+        <Income income={displayedIncome}/> : 
+        <Outcome outcome={displayedOutcome} />
       }
-
-      {console.log(displayedIncome)}
     </>
   );
 };
