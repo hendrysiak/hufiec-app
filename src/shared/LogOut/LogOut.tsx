@@ -4,7 +4,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import React, { useState } from 'react';
 
 
-import { LogOutTimer } from 'shared/LogOutTimer/LogOutTimer';
+// import { LogOutTimer } from 'LogOutTimer/LogOutTimer';
 
 
 import classes from './LogOut.module.css';
