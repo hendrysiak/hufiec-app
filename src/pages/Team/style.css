@@ -1,35 +1,210 @@
+/* .test {
+  width: 100%;
+} */
+.teamInput {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 17px;
+}
+
+
+
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .filters {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   width: 100%;
+  padding-bottom: 20px;
 }
 
 .filters > div {
-  margin: auto 8px;
+  margin: 6px 8px;
+
 }
 
 .header {
+  margin-top: 40px;
   width: 80%;
   display: flex;
+  justify-content: space-between;
+  transition: transform 0.5s
 }
 
-
 .loadingInfo {
+  font-size: 1.2em;
+  padding-top: 10px;
   height: 100%;
   display: flex;
   justify-content: center;
 }
 
-.filters {
-  display: flex;
+.datePicker {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
-.datePicker {
-  width: 30%;
+.dateCheckbox {
+  margin-left: 10px;
+}
+
+.containerDataGrid {
+  width: 100%;
+  /* height: 79vh; */
+  overflow: auto;
+}
+
+.navTeam {
+  height: 4vw;
+  min-height: 40px;
+  background-color:rgba(92, 56, 150, 1);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 80px;
+  padding-left: 10px;
+}
+
+.team {
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.speedDialIron {
+  font-size: 10px;
+}
+
+.speedDial {
+  height: 10px;
+  font-size: 10px;
+}
+
+.exampleWrapper {
+  height: 20px;
+}
+
+:root {
+  --size: 2.2vw;
+  --mixSize: 10px;
+}
+
+.rootCircle {
+  min-height: 0;
+  height: var(--size);
+  width: var(--size);
+}
+
+.iconRoot {
+  min-width: var(--mixSize);
+  min-height: var(--mixSize);
+  height: calc(var(--size)*0.8);
+  width: calc(var(--size)*0.8);
+  
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--size)*0.8);
+}
+
+.actionRoot {
+  margin-left: 20px;
+  min-height: 10px;
+  width: var(--size);
+  height: var(--size);
+  background-color: white;
+}
+
+.getAction {
+  margin-left: 30px;
+  min-height: 10px;
+  width: var(--size);
+  height: var(--size);
+  background-color: white;
+}
+
+.actionIcon {
+  color: #000;
+  font-size: calc(var(--size)*0.8);
+}
+
+@media screen and (max-width: 1000px) {
+  .team {
+    font-size: 18px;
+  }
+  .rootCircle {
+    height: 24px;
+    width: 24px;
+  }
+
+  .icon {
+    font-size: 24px;
+  }
+
+  .iconRoot {
+    /* min-width: var(--mixSize);
+    min-height: var(--mixSize); */
+    height: 24px;
+    width: 24px;
+    
+  }
+
+  .actionRoot {
+    min-height: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+  }
+  .getAction {
+    min-height: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+  }
+  
+  .actionIcon {
+    color: #000;
+    font-size: 20px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+  .dateCheckbox {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .actionRoot {
+    margin-left: 5px;
+    /* min-height: 10px;
+    width: var(--size);
+    height: var(--size);
+    background-color: white; */
+  }
+
+  .getAction {
+    margin-left: 15px;
+  }
+}
+
+.filterClose {
+  display: none;
+  height: 0;
+  /* transform: translateY(-300%); */
 }

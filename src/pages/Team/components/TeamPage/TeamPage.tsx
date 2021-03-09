@@ -1,14 +1,14 @@
 import Modal from '@material-ui/core/Modal';
-import { DataGrid } from '@material-ui/data-grid';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState } from 'react';
 
-
 import { APIPerson } from 'models/registry.models';
-
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
+import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
+
 import classes from './TeamPage.module.css';
+import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -17,19 +17,24 @@ interface IRows extends APIPerson {
 }
 
 interface IProps {
+  open: string;
   members: APIPerson[];
 }
 
-const TeamPage = ({ members } : IProps): JSX.Element => {
+const TeamPage = ({ members, open } : IProps): JSX.Element => {
   const [isOpen, setOpen] = React.useState<boolean>(false);
-  const [rows, setRows] = useState<IRows[]>();
-  const columns = [
-    { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
-    { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'surname', headerName: 'Nazwisko', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
-    { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
-  ];
+  const [rows, setRows] = useState<IRows[]>([]);
+  // const columns = [
+  //   { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'name', headerName: 'Imię', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'surname', headerName: 'Nazwisko', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'fee', headerName: 'Stan składek', width: 150, cellClassName: `${classes.positionModalCell}` },
+  //   { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
+  // ];
+
+  useEffect(() => {
+    open === ShowModal.Team && setOpen(true);
+  },[open]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -56,19 +61,11 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
     <>
       <AssignmentIcon onClick={handleOpen}/>
       <Modal
+        className={classes.modal}
         open={isOpen}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
       >
-        <div className={classes.positionModal} >
-          {rows?.length ? (
-            <DataGrid rows={rows} columns={columns} pageSize={18} /> 
-          ) : (
-            <div>wczytywanie drużyny</div>
-          )
-          }
-        </div>
+        <ListOfMembers rows={rows}/>  
       </Modal>
     </>
   );

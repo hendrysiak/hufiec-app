@@ -4,8 +4,12 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 660px;
-    height: 90vh;
-    background-color: 'white'
+    height: 80vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    border: 1px solid white;
+    padding-top: 40px;
+    background-color: #fff;
 }
 .positionModal > div > div {
     background-color: white;
@@ -13,4 +17,6 @@
 
 .positionModalCell {
     font-size: 16px;
+}
+.modal {
 }
