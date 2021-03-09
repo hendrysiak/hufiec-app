@@ -27,7 +27,7 @@
 }
 
 .filters > div {
-  margin: 6px 0;
+  margin: 6px 8px;
 
 }
 
@@ -68,10 +68,11 @@
   min-height: 40px;
   background-color:rgba(92, 56, 150, 1);
   color: white;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 60px;
+  padding-right: 80px;
   padding-left: 10px;
 }
 

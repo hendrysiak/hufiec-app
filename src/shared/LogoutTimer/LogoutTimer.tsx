@@ -5,7 +5,11 @@ import Cookies from 'universal-cookie';
 import { timeToLogout } from 'constans/Constans';
 import { RootState } from 'store/models/rootstate.model';
 
-export const LogoutTimer = ({ className }: any): JSX.Element => {
+interface Props {
+  className: string
+}
+
+export const LogOutTimer = ({ className }: Props): JSX.Element => {
   const user = useSelector((state: RootState) => state.user);
   const cookies = new Cookies();
   const [counter, setCounter] = useState(timeToLogout);
@@ -39,7 +43,7 @@ export const LogoutTimer = ({ className }: any): JSX.Element => {
   },[user]);
 
   return (
-    <div className={className} style={{ color: counter < 60 ? 'red' : 'black' }}>
+    <div className={className} style={{ color: counter < 60 ? 'red' : 'white' }}>
       {`${(counter / 60) > 9 ? parseInt((counter / 60).toString()) : '0' + parseInt((counter / 60).toString())}: ${counter % 60 >= 10 ? counter % 60 : '0' + counter % 60}`}
     </div>
   );

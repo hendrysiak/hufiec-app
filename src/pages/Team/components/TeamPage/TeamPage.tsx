@@ -8,6 +8,7 @@ import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 import classes from './TeamPage.module.css';
+import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -32,7 +33,7 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
   // ];
 
   useEffect(() => {
-    open === 'team' && setOpen(true);
+    open === ShowModal.Team && setOpen(true);
   },[open]);
 
   const handleOpen = () => {
