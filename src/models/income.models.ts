@@ -47,9 +47,9 @@ export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
 };
 
 export interface OutcomesWithData extends OutcomesWithFinanceMethod {
-  outcomeCategory: OutcomeCategory | null; // i wrote null
-  foundingSource: FoundingSources | null; // i wrote null
-  team: string | null; // i wrote null
+  outcomeCategory: OutcomeCategory;
+  foundingSource: FoundingSources;
+  team: string;
 }
 
 export interface OutcomesWithEvent extends OutcomesWithData {

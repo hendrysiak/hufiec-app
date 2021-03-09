@@ -3,28 +3,40 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { editOutcome } from 'helpers/editing-db.handler';
 import { FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
-import { OutcomeDb } from 'models/income.models';
+import { OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
 
 import classes from './Outcome.module.css';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/models/rootstate.model';
 
 export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
+  console.log(outcome);
+  const teamsList = useSelector((state: RootState) => state.income.registry);
+  const codesList = useSelector((state: RootState) => state.income.codes);
+  // const [allControl, setAllControl] = useState<OutcomeDb>();
   const [editCash, setEditCash] = useState<string | number | null>(null);
   const [editTitle, setEditTitle] = useState<string | null>(null);
   const [editDateOfBook, setEditDateOfBook] = useState<Date | string | null>(null);
   const [editImportDate, setEditImportDate] = useState<Date | string | null>(null);
-  const [editFinanceMethod, setEditFinanceMethod] = useState<FinanceMethod | null>(null);
+  const [editFinanceMethod, setEditFinanceMethod] = useState<FinanceMethod>();
   const [editOutcomeCategory, setEditOutcomeCategory] = useState<OutcomeCategory | null>(null);
   const [editTeam, setEditTeam] = useState<string | null>(null);
   const [editEvent, setEditEvent] = useState<string | null>(null);
   const [editFoundingSources, setEditFoundingSources] = useState<FoundingSources | null>(null);
+  // const [testTS, setTestTS] = useState<OutcomesWithFinanceMethod>();
+  const [testTS, setTestTS] = useState<OutcomesWithFinanceMethod>();
   // const [editInvoice, setEditInvoice] = useState<string | null>(null);
   // const [editFinanceMethod, setEditFinanceMethod] = useState<string>('');
   const [editBilingNr, setEditBilingNr] = useState<string>('');
   const [editId, setEditId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setEditFinanceMethod('');
+  },[])
   const handleAcceptEdit = () => {
     if (typeof editCash === 'number' 
       && editTitle 
@@ -45,7 +57,7 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
         bilingNr: editBilingNr,
         id: editId,
       };
-      editOutcome(objOutcome);
+      // editOutcome(objOutcome);
       return;
     }
     alert('uzupełnij wymagane dane');
@@ -66,61 +78,100 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
   };
 
   const handleEdit = (id: string) => {
-
-    if (editId !== null 
-        && !window
-          .confirm(`Już modyfikujesz jakiś wpis. 
-            \nNa pewno zmienć? 
-            \nJeżeli coś zmieniałeś, zostanie anulowane.`)) return;
+    const item = outcome.find(el => el.id === id);
+    item?.cash && setEditCash(item.cash);
+    setTestTS({
+      cash: item?.cash ? item?.cash : 0,
+      dateOfBook: item?.dateOfBook ? item?.dateOfBook : '',
+      financeMethod: item?.financeMethod ? item?.financeMethod : FinanceMethod.Transfer, // we can't have undefined/null/ empty string ?
+      importDate: item?.importDate ? item?.importDate : '',
+      title: item?.title ? item?.title : '',
+    });
     setEditId(id);
-    const el = outcome.find(el => el.id === id);
-    el?.cash && setEditCash(el.cash);
-    el?.team && setEditTeam(el.team);
-    el?.event && setEditEvent(el.event);
-    el?.title && setEditTitle(el.title);
-    el?.financeMethod 
-      && setEditFinanceMethod(el.financeMethod);
-    el?.outcomeCategory 
-      && setEditOutcomeCategory(el.outcomeCategory);
-    el?.foundingSource
-      && setEditFoundingSources(el.foundingSource);
-    el?.dateOfBook && setEditDateOfBook(el.dateOfBook);
-    el?.importDate && setEditImportDate(el.importDate);
-    el?.bilingNr && setEditBilingNr(el.bilingNr);
+    // if (editId !== null 
+    //     && !window
+    //       .confirm(`Już modyfikujesz jakiś wpis. 
+    //         \nNa pewno zmienć? 
+    //         \nJeżeli coś zmieniałeś, zostanie anulowane.`)) return;
+    // const el = outcome.find(el => el.id === id);
+    // el?.cash && setEditCash(el.cash);
+    // el?.team && setEditTeam(el.team);
+    // el?.event && setEditEvent(el.event);
+    // el?.title && setEditTitle(el.title);
+    // el?.financeMethod 
+    //   && setEditFinanceMethod(el.financeMethod);
+    // el?.outcomeCategory 
+    //   && setEditOutcomeCategory(el.outcomeCategory);
+    // el?.foundingSource
+    //   && setEditFoundingSources(el.foundingSource);
+    // el?.dateOfBook && setEditDateOfBook(el.dateOfBook);
+    // el?.importDate && setEditImportDate(el.importDate);
+    // el?.bilingNr && setEditBilingNr(el.bilingNr);
+
+    // setAllControl({
+    //   cash: el?.cash ? el.cash : 0,
+    //   title: el?.title ? el.title : '',
+    //   dateOfBook: el?.dateOfBook ? el.dateOfBook : '',
+    //   importDate: el?.importDate ? el.importDate : '',
+    //   financeMethod: el?.financeMethod ? el.financeMethod : null,
+    //   outcomeCategory: el?.outcomeCategory ? el.outcomeCategory : null,
+    //   foundingSource: el?.foundingSource ? el.foundingSource : null,
+    //   team: el?.team ? el.team : null,
+    //   event: el?.event ? el.event : null,
+    //   bilingNr: el?.bilingNr ? el.bilingNr : null,
+    //   id: editId? editId : '',
+    // })
   };
+
+  // const onChangeTest = () => {
+
+  // }
+
+  // useEffect(() => {
+    
+  // },[])
   
 
   const handleChange = (el: string, e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const target = e.target as HTMLInputElement;
-    switch (el) 
-    {
-      case 'cash':
-        setEditCash(target.value);
-        break;
-      case 'title':
-        setEditTitle(target.value);
-        break;
-      case 'team':
-        setEditTeam(target.value);
-        break;
-      case 'bilingNr':
-        setEditBilingNr(target.value);
-        break;
-      // case 'financeMethod':
-      //   setEditFinanceMethod(target.value);
-      //   break;
-      // case 'kategoryOutcome':
-      //   setEditOutcomeCategory(target.value);
-      //   break;
-      // case 'year':
-      //   setEditYear(target.value);
-      //   break;
-      case 'event':
-        setEditEvent(target.value);
-        break;
-      default:
-        return;
-    }
+    console.log(target, el);
+    console.log(testTS);
+    setTestTS((prev: any) => {
+      return ({
+        ...prev,
+        [el]: target.value,
+      });
+    });
+    console.log(testTS)
+    // switch (el) 
+    // {
+    //   case 'cash':
+    //     setEditCash(target.value);
+    //     break;
+    //   case 'title':
+    //     setEditTitle(target.value);
+    //     break;
+    //   case 'team':
+    //     setEditTeam(target.value);
+    //     break;
+    //   case 'bilingNr':
+    //     setEditBilingNr(target.value);
+    //     break;
+    //   // case 'financeMethod':
+    //   //   setEditFinanceMethod(target.value);
+    //   //   break;
+    //   // case 'kategoryOutcome':
+    //   //   setEditOutcomeCategory(target.value);
+    //   //   break;
+    //   // case 'year':
+    //   //   setEditYear(target.value);
+    //   //   break;
+    //   case 'event':
+    //     setEditEvent(target.value);
+    //     break;
+    //   default:
+    //     return;
+    // }
   };
 
   const test = (event: React.ChangeEvent<any>): void => {
@@ -171,20 +222,20 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                   <TextField 
                     onChange={(e) => handleChange('bilingNr', e)} 
                     className={classes.input} 
-                    value={editBilingNr ? editBilingNr : el.bilingNr ? el.bilingNr : ''} />
+                    value={testTS?.bilingNr ? testTS.bilingNr : el.bilingNr ? el.bilingNr : ''} />
                 </div>
                 <div className={classes.cash}>
                   <TextField 
                     onChange={(e) => handleChange('cash', e)} 
                     className={classes.input} 
-                    value={editCash ? editCash : el.cash ? el.cash : ''} />
+                    value={testTS?.cash ? testTS.cash : el.cash ? el.cash : ''} />
                 </div>
                 <div className={classes.financeMethod}>
                   <FormControl className={classes.input}>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editFinanceMethod ? editFinanceMethod : 'brak'}
+                      value={testTS?.financeMethod ? testTS.financeMethod : 'brak'}
                       onChange={handleChangeFinanceMethod}
                     >
                       <MenuItem value={'transfer'}>transfer</MenuItem>
@@ -197,7 +248,7 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editOutcomeCategory ? editOutcomeCategory : 'brak'}
+                      value={testTS?.outcomeCategory ? testTS.outcomeCategory : 'brak'}
                       onChange={test}
                     >
                       <MenuItem value={'materiały'}>materiały</MenuItem>
@@ -208,6 +259,7 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                       <MenuItem value={'konserwacja'}>konserwacja</MenuItem>
                       <MenuItem value={'media'}>media</MenuItem>
                       <MenuItem value={'składki'}>składki</MenuItem>
+                      <MenuItem value={'brak'}>brak</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -229,13 +281,51 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                   </FormControl>
                 </div>
                 <div className={classes.team}>
-                  <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.team ? el.team : '' } />
+                  <FormControl className={classes.input}>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={editFoundingSources ? editFoundingSources : 'brak'}
+                      onChange={handleChangeFounding}
+                    >
+                      {/* {console.log(Object.keys(teamsList))} */}
+                      {teamsList && Object.keys(teamsList).map((el, index: number) => <MenuItem key={index} value={el}>{el}</MenuItem>)}
+                      {/* // <MenuItem value={'1 %'}>1 %</MenuItem>
+                      // <MenuItem value={'dotacja'}>dotacja</MenuItem>
+                      // <MenuItem value={'konto drużyny'}>konto drużyny</MenuItem>
+                      // <MenuItem value={'wpłaty własne'}>wpłaty własne</MenuItem>
+                      // <MenuItem value={'własne środki'}>własne środki</MenuItem>
+                      // <MenuItem value={'inne'}>inne</MenuItem> */}
+                    </Select>
+                  </FormControl>
                 </div>
+                {/* <div className={classes.team}>
+                  <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={testTS?.team ? testTS.team : el.team ? el.team : '' } />
+                </div> */}
                 <div className={classes.code}>
-                  <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={editEvent ? editEvent : el.event ? el.event : '' } />
+                  <FormControl className={classes.input}>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={editFoundingSources ? editFoundingSources : 'brak'}
+                      onChange={handleChangeFounding}
+                    >
+                      {/* {console.log(Object.keys(teamsList))} */}
+                      {codesList && Object.values(codesList).map((el, index: number) => <MenuItem key={index} value={el.code}>{el.code}</MenuItem>)}
+                      {/* // <MenuItem value={'1 %'}>1 %</MenuItem>
+                      // <MenuItem value={'dotacja'}>dotacja</MenuItem>
+                      // <MenuItem value={'konto drużyny'}>konto drużyny</MenuItem>
+                      // <MenuItem value={'wpłaty własne'}>wpłaty własne</MenuItem>
+                      // <MenuItem value={'własne środki'}>własne środki</MenuItem>
+                      // <MenuItem value={'inne'}>inne</MenuItem> */}
+                    </Select>
+                  </FormControl>
                 </div>
+                {/* <div className={classes.code}>
+                  <TextField onChange={(e) => handleChange('event', e)} className={classes.input} value={testTS?.event ? testTS.event : el.event ? el.event : '' } />
+                </div> */}
                 <div className={classes.title}>
-                  <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editTitle ? editTitle : el.title ? el.title : ''} /> 
+                  <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={testTS?.title ? testTS.title : el.title ? el.title : ''} /> 
                 </div>
               </>
               :
