@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios-income';
 
+import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
+
 import classes from './Form.module.css';
 
 const Form = ({ open, title, currentTeam }: {open: string; title: string; currentTeam: string }): JSX.Element => {
@@ -32,7 +34,7 @@ const Form = ({ open, title, currentTeam }: {open: string; title: string; curren
   };
 
   useEffect(() => {
-    open === 'form' && setIsOpen(true);
+    open === ShowModal.Form && setIsOpen(true);
   },[open]);
 
   const topics = [

@@ -9,7 +9,7 @@ import { IncomeDb, OutcomeDb } from 'models/income.models';
 
 import { IViewModal } from 'models/viewModal.models';
 
-import { VIEW_MODAL } from '../../helpers/typeViewModal.enum';
+import { ShowModal } from '../../helpers/typeViewModal.enum';
 
 import classes from './TeamFinances.module.css';
 
@@ -31,7 +31,7 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
   const [incomesSC, setIncomesSC] = React.useState<number | null>(null);
   
   useEffect(() => {
-    open === VIEW_MODAL.finances && setIsOpen(true);
+    open === ShowModal.Finances && setIsOpen(true);
   },[open]);
    
   useEffect(() => {
@@ -54,7 +54,6 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
     setSumOfOutcomes(sumOfOutcomes);
     setCompensation(sumOfCompensation);
     setIncomesSC(sumOfFees);
-
 
   });
 

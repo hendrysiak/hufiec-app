@@ -24,7 +24,7 @@ export const Income = ({income} : {income: IncomeDb[]}): JSX.Element => {
   const [editId, setEditId] = useState<string>('');
 
   const handleAcceptEdit = () => {
-    if(editId !== null
+    if (editId !== null
       && editCash !== null
       && editYear !== null
       && editSurname !== null

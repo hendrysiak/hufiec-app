@@ -27,7 +27,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 import { List } from './components/List/List';
-import { VIEW_MODAL } from './helpers/typeViewModal.enum';
+import { ShowModal } from './helpers/typeViewModal.enum';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -44,9 +44,9 @@ const Team = (): JSX.Element => {
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
-  const [openPopup, setOpenPopup] = useState<IViewModal>(VIEW_MODAL.empty);
+  const [openPopup, setOpenPopup] = useState<IViewModal>(ShowModal.Empty);
   const [rows, setRows] = useState<IncomeDb[]>([]);
-  const [useDate, setUseDate] = useState<boolean>(true);
+  const [useDate, setUseDate] = useState<boolean>(false);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
@@ -169,7 +169,7 @@ const Team = (): JSX.Element => {
 
   const handleClose = () => {
     setOpen(false);
-    setOpenPopup(VIEW_MODAL.empty);
+    setOpenPopup(ShowModal.Empty);
   };
 
   const handleOpen = () => {
@@ -218,21 +218,21 @@ const Team = (): JSX.Element => {
             key={2}
             icon={<AssignmentIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu(VIEW_MODAL.team)}
+            onClick={() => handleMenu(ShowModal.Team)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}
             key={3}
             icon={<MailIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu(VIEW_MODAL.form)}
+            onClick={() => handleMenu(ShowModal.Form)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}
             key={4}
             icon={<AttachMoneyIcon />}
             tooltipTitle={''}
-            onClick={() => handleMenu(VIEW_MODAL.finances)}
+            onClick={() => handleMenu(ShowModal.Finances)}
           />
           <SpeedDialAction
             classes={{ fab: 'actionRoot' }}

@@ -93,6 +93,21 @@ const Edit = (): JSX.Element => {
     dbOutcomes && setDisplayedOutcome(dbOutcomes);
   }, [dbIncomes, dbOutcomes]);
 
+  //! Very efficient array filter (to test later) - this comment was leaving for remember this case. We use any, because value of the filter is not specified.
+  //! More ideas - https://gist.github.com/jherax/f11d669ba286f21b7a2dcff69621eb72?fbclid=IwAR1lCOrU9ENfkjODHgDXCCqcwdkfUFpL2-_3o80cftst6J58NAssBxjzFqw
+  // const filterArray = (array: (IncomeDb | OutcomeDb)[], filters: Record<string, any>) => {
+  //   const filterKeys = Object.keys(filters);
+  //   return array.filter(item => {
+  //     // validates all filter criteria
+  //     return filterKeys.every(key => {
+  //       // ignores non-function predicates
+  //       if (typeof filters[key] !== 'function') return true;
+  //       return filters[key](item[key]);
+  //     });
+  //   });
+  // };
+
+
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
       if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
@@ -102,6 +117,7 @@ const Edit = (): JSX.Element => {
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
+
     filteredIncomes && setDisplayedIncome(filteredIncomes);
   },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
 
@@ -144,11 +160,11 @@ const Edit = (): JSX.Element => {
   // };
 
   const editedDataHandler = (value: string) => {
-    console.log(displayedOutcome)
+    console.log(displayedOutcome);
     const editedData =
       value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
     setEditedData(editedData);
-    value === 'Przychody' ? setDataToEdit(displayedIncome) : setDataToEdit(displayedOutcome)
+    value === 'Przychody' ? setDataToEdit(displayedIncome) : setDataToEdit(displayedOutcome);
   };
 
   // const handleEdit = (
