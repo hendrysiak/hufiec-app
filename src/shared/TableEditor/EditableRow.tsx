@@ -127,8 +127,8 @@ const EditableRow = (props: Props): JSX.Element => {
         </TextField>
 
       </TableCell>
-      {props.editable 
-        ? <TextField
+      <TableCell>
+        {props.editable ? <TextField
           value={props.event}
           onChange={(e) => props.onChange(props.index, { key: 'event', value: e.target.value })}
           select={true}
@@ -142,7 +142,7 @@ const EditableRow = (props: Props): JSX.Element => {
             <MenuItem key={item} value={item}>{item}</MenuItem>
           ))}
         </TextField>
-        : <TableCell>{props.event}</TableCell>}
+          : props.event}</TableCell>
       <TableCell>
         <TextField
           value={props.year}
