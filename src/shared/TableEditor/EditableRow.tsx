@@ -96,16 +96,16 @@ const EditableRow = (props: Props): JSX.Element => {
       </TableCell>}
       {props.info === BudgetEntry.Income && <TableCell>
         <TextField
-          value={props.name}
-          onChange={(e) => props.onChange(props.index, { key: 'name', value: e.target.value })}
+          value={props.surname}
+          onChange={(e) => props.onChange(props.index, { key: 'surname', value: e.target.value })}
           size="medium"
           margin="dense"
         />
       </TableCell>}
       {props.info === BudgetEntry.Income && <TableCell>
         <TextField
-          value={props.surname}
-          onChange={(e) => props.onChange(props.index, { key: 'surname', value: e.target.value })}
+          value={props.name}
+          onChange={(e) => props.onChange(props.index, { key: 'name', value: e.target.value })}
           size="medium"
           margin="dense"
         />

@@ -15,7 +15,7 @@ export const ListOfMembers = ({ rows }: {rows: IRows[]}): JSX.Element => {
     <div className={classes.containerListMembers}>
       <div className={`${classes.first} ${classes.li}`}>
         <p className={classes.id}>ID</p>
-        <p className={classes.name}>Imię i nazwisko</p>
+        <p className={classes.name}>Nazwisko i imię</p>
         <p className={classes.cash}>Stan składek</p>
         <p className={classes.deleted}>Usunięty/-a?</p>
       </div>
@@ -24,7 +24,7 @@ export const ListOfMembers = ({ rows }: {rows: IRows[]}): JSX.Element => {
           return (
             <li key={index} className={classes.li}>
               <p className={classes.id}>{el.lp}</p>
-              <p className={classes.name}>{el.name} {el.surname}</p>
+              <p className={classes.name}>{el.surname} {el.name}</p>
               <p className={classes.cash}>{el.fee}</p>
               <p className={classes.deleted}>{el.isDeleted}</p>
             </li>

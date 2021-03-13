@@ -128,6 +128,13 @@ const Team = (): JSX.Element => {
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
+
+    filteredIncomes.sort((a,b) => {
+      const firstPerson = a.surname ? a.surname : 'ŹŹŹ';
+      const secondPerson = b.surname ? b.surname : 'ŹŹŹ';
+      return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
+    });
+    
     setDisplayedIncome(filteredIncomes);
 
   },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);

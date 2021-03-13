@@ -53,6 +53,13 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
         isDeleted: el.dateOfDelete ? 'Tak' : 'Nie'
       });
     })) : ([]);
+
+    rows.sort((a,b) => {
+      const firstPerson = a.surname ? a.surname : 'ŹŹŹ';
+      const secondPerson = b.surname ? b.surname : 'ŹŹŹ';
+      return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
+    });
+
     setRows(rows);
   },[members]);
 

@@ -33,8 +33,8 @@ const HeadRow = (props: Props): JSX.Element => {
           <TableCell>Edytuj</TableCell>
           <TableCell>LP</TableCell>
           <TableCell>Kwota</TableCell>
-          <TableCell>Imię</TableCell>
           <TableCell>Nazwisko</TableCell>
+          <TableCell>Imię</TableCell>
           <TableCell>Jednostka</TableCell>
           <TableCell>Kod imprezy (automatycznie)</TableCell>
           <TableCell>Rok</TableCell>

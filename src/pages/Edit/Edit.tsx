@@ -100,7 +100,14 @@ const Edit = (): JSX.Element => {
       return true;
     });
 
-    filteredIncomes && setDisplayedIncome(filteredIncomes);
+    const sortIncomes = filteredIncomes.sort((a,b) => {
+      const firstPerson = a.surname ? a.surname : 'ŹŹŹ';
+      const secondPerson = b.surname ? b.surname : 'ŹŹŹ';
+      return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
+    });
+    sortIncomes && setDisplayedIncome(sortIncomes);
+
+    // filteredIncomes && setDisplayedIncome(filteredIncomes);
   },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
 
   useEffect(() => {

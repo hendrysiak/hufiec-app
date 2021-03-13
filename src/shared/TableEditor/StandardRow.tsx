@@ -57,8 +57,8 @@ const StandardRow = (props: Props): JSX.Element => {
       </TableCell>
       <TableCell>{props.index + 1}</TableCell>
       <TableCell>{props.row.cash}</TableCell>
-      <TableCell>{props.row.name}</TableCell>
       <TableCell>{props.row.surname}</TableCell>
+      <TableCell>{props.row.name}</TableCell>
       <TableCell>{props.row.team}</TableCell>
       <TableCell>{props.row.event}</TableCell>
       <TableCell>{props.row.year}</TableCell>
