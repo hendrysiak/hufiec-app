@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
+import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
+
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 import classes from './TeamPage.module.css';
-import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 interface IRows extends APIPerson {
   lp: string | number;

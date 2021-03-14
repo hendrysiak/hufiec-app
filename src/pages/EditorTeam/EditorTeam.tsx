@@ -1,4 +1,3 @@
-import { Box, Input, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -11,11 +10,9 @@ import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { values } from 'lodash';
-import React, { useState, useEffect, FC, Fragment } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 
 import { CSVLink } from 'react-csv';
-import DatePicker from 'react-datepicker';
 import { useSelector } from 'react-redux';
 
 import { Rows } from 'models/global.enum';
@@ -61,12 +58,6 @@ const EditorTeam: FC = () => {
         dateOfDelete: null
       };
     });
-    // const dataToSend = {
-    //   name: actualValue.name,
-    //   surname: actualValue.surname,
-    //   dateOfAdd: actualValue.dateOfAdd,
-    //   dateOfDelete: actualValue.dateOfDelete,
-    // }
     setActiveRow(null);
     rows && rows.map(el => {
       if (el.id === id && (prevValue.name !== actualValue.name 
@@ -159,9 +150,10 @@ const EditorTeam: FC = () => {
     if (rows) {
       const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
       memberToDelete.dateOfDelete = new Date();
-      if(activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji')
+      if (activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji');
       if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) {
-        memberToDelete.feeState && memberToDelete.feeState < 0 ? deleteTeamMember(memberToDelete) : permDeleteTeamMember(memberToDelete);
+        memberToDelete.feeState && memberToDelete.feeState < 0 ? 
+          deleteTeamMember(memberToDelete) : permDeleteTeamMember(memberToDelete);
         setActualValue(prev => {
           return {
             ...prev,
@@ -227,12 +219,7 @@ const EditorTeam: FC = () => {
         value = e;
       } else value = prevValue.dateOfDelete ? prevValue.dateOfDelete : null;
     }
-
-
-    // const value = new Date(`${e}`).getTime() ;
     const { id } = row;
-    // console.log(new Date(`${row.dateOfAdd}`).getTime(), 'asds')
-
     if (rows) {
       const newRows = rows.map(row => {
         if (row.id === id) {
