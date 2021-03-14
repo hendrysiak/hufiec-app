@@ -25,7 +25,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
+import { deleteTeamMember, editTeamMember, permDeleteTeamMember } from '../../helpers/editing-db.handler';
 
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
@@ -159,7 +159,16 @@ const EditorTeam: FC = () => {
     if (rows) {
       const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
       memberToDelete.dateOfDelete = new Date();
-      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(memberToDelete);
+      if(activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji')
+      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) {
+        memberToDelete.feeState && memberToDelete.feeState < 0 ? deleteTeamMember(memberToDelete) : permDeleteTeamMember(memberToDelete);
+        setActualValue(prev => {
+          return {
+            ...prev,
+            dateOfDelete: memberToDelete.dateOfDelete,
+          };
+        });
+      }
     };
   };
 
@@ -206,8 +215,24 @@ const EditorTeam: FC = () => {
 
   const handleDateChange = (e: Date | null, row: IPerson, kind: string) => {
     const name = kind;
-    const value = e;
+    let value = e;
+    const valueDate = e && Date.parse(`${e}`) ? actualValue.dateOfDelete : null;
+    if (valueDate && kind === 'dateOfAdd') {
+      if (new Date(`${prevValue.dateOfDelete}`).getTime() - new Date(`${e}`).getTime() > 0) {
+        value = e;
+      } else value = prevValue.dateOfAdd;
+    }
+    if (valueDate && kind === 'dateOfDelete') {
+      if (new Date(`${e}`).getTime() - new Date(`${prevValue.dateOfAdd}`).getTime() > 0) {
+        value = e;
+      } else value = prevValue.dateOfDelete ? prevValue.dateOfDelete : null;
+    }
+
+
+    // const value = new Date(`${e}`).getTime() ;
     const { id } = row;
+    // console.log(new Date(`${row.dateOfAdd}`).getTime(), 'asds')
+
     if (rows) {
       const newRows = rows.map(row => {
         if (row.id === id) {

@@ -18,6 +18,14 @@ type Props = {
 
 const StandardRow = (props: Props): JSX.Element => {
 
+  const handleDelete = (row: IncomeDb | OutcomeDb) => {
+    if(window.confirm(`Na pewno chcesz usunąć?\n
+    Kwota: ${row.cash}
+    Nazwisko: ${row.surname}
+    Team: ${row.team}
+    `)) props.onDelete(row.id);
+  };
+
   const oneRow = props.info === BudgetEntry.Outcome 
     ? (<TableRow>
       <TableCell>
@@ -51,7 +59,7 @@ const StandardRow = (props: Props): JSX.Element => {
         </Tooltip>
         <Tooltip title="Usuń koszt" aria-label="add-team">
           <IconButton>
-            <DeleteForeverIcon onClick={() => props.onDelete(props.row.id)}/>
+            <DeleteForeverIcon onClick={() => handleDelete(props.row)}/>
           </IconButton>
         </Tooltip>
       </TableCell>
