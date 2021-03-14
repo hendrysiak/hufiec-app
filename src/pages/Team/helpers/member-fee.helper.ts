@@ -40,14 +40,13 @@ export const countingMemberFee = (person: APIPerson): number => {
   const incomes = store.getState().income.dbIncomes;
   const currentYear = new Date().getFullYear();
 
-  const feeIncomeByPerson = incomes.filter(i => i.name?.toLowerCase() === person.name.toLowerCase() 
-    && i.surname?.toLowerCase() === person.surname.toLowerCase()  
+  const feeIncomeByPerson = incomes.filter(i => i.name?.toLowerCase() === person?.name?.toLowerCase() 
+    && i.surname?.toLowerCase() === person?.surname?.toLowerCase()  
     && i.event === 'SC');
 
-  const initAccountStatePerPerson = store.getState().income.initAccount
-    .find(ia => 
-      ia.name.toLowerCase() === person.name.toLowerCase() && 
-      ia.surname.toLowerCase() === person.surname.toLowerCase() );
+  const initAccountStatePerPerson = store?.getState().income?.initAccount?.find(ia => (
+      ia?.name?.toLowerCase() === person?.name?.toLowerCase() && 
+      ia?.surname?.toLowerCase() === person?.surname?.toLowerCase() ));
 
   const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + currentIncome.cash, 0);
   const neededFee = countAmountOfFee(person);

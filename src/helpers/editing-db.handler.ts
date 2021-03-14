@@ -52,7 +52,8 @@ export const addTeamMember = async (team: string, person: { name: string, surnam
 };
 
 export const editTeamMember = async (team: string, person: APIPerson): Promise<void> => {
-  const reducedMember = {
+  console.log(person)
+  const reducedMember: Person = {
     name: person.name,
     surname: person.surname,
     dateOfAdd: person.dateOfAdd,
