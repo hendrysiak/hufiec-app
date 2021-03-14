@@ -57,7 +57,7 @@ export const Income = ({income} : {income: IncomeDb[]}): JSX.Element => {
       || editElement?.cash !== editCash  
       || editElement?.team !== editTeam  
       || editElement?.title !== editTitle) 
-      && !window.confirm('zmiany zostaną usunięte')) return
+      && !window.confirm('zmiany zostaną usunięte')) return;
     setEditCash(null);
     setEditTeam(null);
     setEditName(null);
@@ -136,8 +136,8 @@ export const Income = ({income} : {income: IncomeDb[]}): JSX.Element => {
         <p className={classes.edit}>Edytuj</p>
         <p className={classes.lp}>LP</p>
         <p className={classes.cash}>Kwota</p>
-        <p className={classes.name}>Imię</p>
         <p className={classes.surname}>Nazwisko</p>
+        <p className={classes.name}>Imię</p>
         <p className={classes.team}>Jednostka</p>
         <p className={classes.code}>Kod Imprezy (automatycznie)</p>
         <p className={classes.year}>Rok</p>
@@ -159,11 +159,11 @@ export const Income = ({income} : {income: IncomeDb[]}): JSX.Element => {
                 <div className={classes.cash}>
                   <TextField onChange={(e) => handleChange('cash', e)} className={classes.input} value={editCash ? editCash : el.cash} />
                 </div>
-                <div className={classes.name}> 
-                  <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
-                </div>
                 <div className={classes.surname}>
                   <TextField onChange={(e) => handleChange('surname', e)} className={classes.input} value={editSurname ? editSurname : el.surname } />
+                </div>
+                <div className={classes.name}> 
+                  <TextField onChange={(e) => handleChange('name', e)} className={classes.input} value={editName? editName: el.name}/>
                 </div>
                 <div className={classes.team}>
                   <TextField onChange={(e) => handleChange('team', e)} className={classes.input} value={editTeam ? editTeam : el.unit } />
@@ -182,8 +182,8 @@ export const Income = ({income} : {income: IncomeDb[]}): JSX.Element => {
               <>
                 <p className={classes.lp}> {index}</p>
                 <p className={classes.cash}> {el.cash} </p>
-                <p className={classes.name}> {el.name} </p>
                 <p className={classes.surname}> {el.surname}</p>
+                <p className={classes.name}> {el.name} </p>
                 <p className={classes.team}> {el.team}</p>
                 <p className={classes.code}> {el.event}</p>
                 <p className={classes.year}> {el.year}</p>

@@ -27,7 +27,7 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
   const [editId, setEditId] = useState<string | null>(null);
 
   const handleAcceptEdit = () => {
-    
+    editOutcome(editData);
   };
   const handleClearEdit = (id: string) => {
     if (!window.confirm('Wszystkie dane zostaną cofnięte do wartości sprzed rozpoczęcia edycji.\nJesteś pewien?')) return;
