@@ -28,6 +28,7 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { List } from './components/List/List';
 import { ShowModal } from './helpers/typeViewModal.enum';
+import { sortOfSurname } from 'helpers/sorting.helper';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -129,12 +130,7 @@ const Team = (): JSX.Element => {
       return true;
     });
 
-    filteredIncomes.sort((a,b) => {
-      const firstPerson = a.surname ? a.surname : 'ŹŹŹ';
-      const secondPerson = b.surname ? b.surname : 'ŹŹŹ';
-      return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
-    });
-    
+    sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
 
   },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);

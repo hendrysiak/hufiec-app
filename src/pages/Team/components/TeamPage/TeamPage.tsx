@@ -10,6 +10,7 @@ import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 import classes from './TeamPage.module.css';
+import { sortOfSurname } from 'helpers/sorting.helper';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -55,11 +56,7 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
       });
     })) : ([]);
 
-    rows.sort((a,b) => {
-      const firstPerson = a.surname ? a.surname : 'ŹŹŹ';
-      const secondPerson = b.surname ? b.surname : 'ŹŹŹ';
-      return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
-    });
+    sortOfSurname(rows, 'ŻŻŻ');
 
     setRows(rows);
   },[members]);

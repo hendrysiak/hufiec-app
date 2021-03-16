@@ -72,7 +72,7 @@ export const deleteTeamMember = async (person: APIPerson): Promise<void> => {
   team && store.dispatch(reduxEditMember(person, team));
 };
 
-export const permDeleteTeamMember = async (person: APIPerson): Promise<void> => {
+export const permanentDeleteTeamMember = async (person: APIPerson): Promise<void> => {
 
   const { team, lp, ...mappedPerson } = person;
 
