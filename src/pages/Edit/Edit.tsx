@@ -33,6 +33,7 @@ import TableEditor from 'shared/TableEditor/TableEditor';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
+import { sortOfSurname } from 'helpers/sorting.helper';
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -100,6 +101,7 @@ const Edit = (): JSX.Element => {
       return true;
     });
 
+    sortOfSurname(filteredIncomes, 'ŻŻŻ');
     filteredIncomes && setDisplayedIncome(filteredIncomes);
   },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
 

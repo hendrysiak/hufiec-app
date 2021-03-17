@@ -9,13 +9,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
-import { values } from 'lodash';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import React, { useState, useEffect, FC } from 'react';
 
 import { CSVLink } from 'react-csv';
-
 import { useSelector } from 'react-redux';
 
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
@@ -23,7 +23,7 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handler';
+import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../../helpers/editing-db.handler';
 
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
@@ -48,19 +48,36 @@ const EditorTeam: FC = () => {
     { name: '', surname:'', id: '', dateOfAdd: null }
   );
   const [prevValue, setPrevValue] = useState<IPerson>(
-    { name: '', surname: '', id: '', dateOfAdd: null }
+    { name: '', surname: '', id: '', dateOfAdd: null, dateOfDelete: null }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
-
+  const [activeRow, setActiveRow] = useState<string | null>(null);
   const handleAcceptChange = (id: string) => {
+    setActualValue(prev => {
+      return {
+        ...prev,
+        dateOfDelete: null
+      };
+    });
+    setActiveRow(null);
     rows && rows.map(el => {
-      if (el.id === id && (prevValue.name !== actualValue.name || prevValue.surname !== actualValue.surname )) {
-        editTeamMember(team, actualValue);
+      if (el.id === id && (prevValue.name !== actualValue.name 
+        || prevValue.surname !== actualValue.surname 
+        || prevValue.dateOfAdd !== actualValue.dateOfAdd 
+        || prevValue.dateOfDelete !== actualValue.dateOfDelete)) {
+        editTeamMember(team,
+          { id: actualValue.id,
+            name: actualValue.name,
+            surname: actualValue.surname,
+            dateOfAdd: actualValue.dateOfAdd,
+            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null });
         setPrevValue((prev) => (
           {
             ...prev,
             name: actualValue.name,
-            surname: actualValue.surname
+            surname: actualValue.surname,
+            dateOfAdd: actualValue.dateOfAdd,
+            dateOfDelete: actualValue.dateOfDelete,
           }
         ));
       }
@@ -74,6 +91,7 @@ const EditorTeam: FC = () => {
       alert(`Jesteś w trakcie edycji innej osoby.`);
       return;
     };
+    !activeRow && setActiveRow(id);
     setActiveEdit(!activeEdit);
     rows && rows.find(el => {
       if (el.id === id) {
@@ -83,7 +101,7 @@ const EditorTeam: FC = () => {
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
-          setPrevValue(row);
+          setPrevValue({ ...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
@@ -118,7 +136,9 @@ const EditorTeam: FC = () => {
           return {
             ...row,
             name: prevValue.name,
-            surname: prevValue.surname 
+            surname: prevValue.surname,
+            dateOfAdd: prevValue.dateOfAdd,
+            dateOfDelete: prevValue.dateOfDelete ? prevValue.dateOfDelete : null,
           };
         }
         return row;
@@ -131,7 +151,17 @@ const EditorTeam: FC = () => {
     if (rows) {
       const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
       memberToDelete.dateOfDelete = new Date();
-      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) deleteTeamMember(memberToDelete);
+      if (activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji');
+      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) {
+        memberToDelete.feeState && memberToDelete.feeState < 0 ? 
+          deleteTeamMember(memberToDelete) : permanentDeleteTeamMember(memberToDelete);
+        setActualValue(prev => {
+          return {
+            ...prev,
+            dateOfDelete: memberToDelete.dateOfDelete,
+          };
+        });
+      }
     };
   };
 
@@ -151,6 +181,7 @@ const EditorTeam: FC = () => {
           }
         );
       })) : ([]);
+    sortOfSurname(rows, 'ŻŻŻ');
     setRows(rows);
 
     let usedData: DataToExport[] = []; 
@@ -170,6 +201,37 @@ const EditorTeam: FC = () => {
     setDataToExport(usedData);
   },[team, registry]);
 
+
+  const handleDateChange = (e: Date | null, row: IPerson, nameKey: string) => {
+    const name = nameKey;
+    let value = e;
+    const valueDate = e && Date.parse(`${e}`) ? actualValue.dateOfDelete : null;
+    if (valueDate && nameKey === 'dateOfAdd') {
+      if (new Date(`${prevValue.dateOfDelete}`).getTime() - new Date(`${e}`).getTime() > 0) {
+        value = e;
+      } else value = prevValue.dateOfAdd;
+    }
+    if (valueDate && nameKey === 'dateOfDelete') {
+      if (new Date(`${e}`).getTime() - new Date(`${prevValue.dateOfAdd}`).getTime() > 0) {
+        value = e;
+      } else value = prevValue.dateOfDelete ? prevValue.dateOfDelete : null;
+    }
+    const { id } = row;
+    if (rows) {
+      const newRows = rows.map(row => {
+        if (row.id === id) {
+          setActualValue((prev: IPerson) => {
+            return { ...prev, [name]: value };
+          });
+          return { ...row, [name]: value };
+        }
+        return row;
+      });
+      setRows(newRows);
+    }
+
+  };
+
   return (
     <>
       <LogOut />
@@ -183,8 +245,8 @@ const EditorTeam: FC = () => {
           <TableRow>
             <TableCell align="left">Edytuj</TableCell>
             <TableCell align="left">LP</TableCell>
-            <TableCell align="left">Imię</TableCell>
             <TableCell align="left">Nazwisko</TableCell>
+            <TableCell align="left">Imię</TableCell>
             <TableCell align="left">Data dodania</TableCell>
             <TableCell align="left">Data usunięcia</TableCell>
             <TableCell align="left">Stan składek</TableCell>
@@ -220,10 +282,44 @@ const EditorTeam: FC = () => {
                 )}
               </TableCell>
               <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
-              <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
               <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
-              <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell>
-              <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell>
+              <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
+              {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
+              <TableCell >
+                <KeyboardDatePicker
+                  disabled={activeRow !== row.id}
+                  disableToolbar
+                  variant="inline"
+                  key={row.id}
+                  margin="normal"
+                  id="date-picker-dialog"
+                  // label="Data dodania"
+                  format="dd/MM/yyyy"
+                  value={row.dateOfAdd ? new Date(row.dateOfAdd) : null}
+                  onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date'
+                  }}
+                />
+              </TableCell>
+              {/* <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell> */}
+              {/* <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell> */}
+              <TableCell>
+                <KeyboardDatePicker
+                  disabled={activeRow !== row.id}
+                  disableToolbar
+                  variant="inline"
+                  key={row.id}
+                  margin="normal"
+                  id="date-picker-dialog"
+                  // label="Data usunięcia"
+                  format="dd/MM/yyyy"
+                  value={row.dateOfDelete ? new Date(row.dateOfDelete) : null}
+                  onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date'
+                  }}
+                /></TableCell>
               <TableCell>{row.feeState}</TableCell>
               <TableCell className={classes.selectTableCell}>
                 <IconButton

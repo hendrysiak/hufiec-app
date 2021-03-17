@@ -152,3 +152,13 @@ export const sortingIncome = (
     sortedOutcomes: setInfoAboutSourceOfOutcome(outcomesWithDate)
   };
 };
+
+export const sortOfSurname = (array: {surname: string | undefined | null}[], ifUndefined: string) => {
+  array.sort((a,b) => {
+    const firstPerson = a.surname ? a.surname : ifUndefined;
+    const secondPerson = b.surname ? b.surname : ifUndefined;
+    return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
+  });
+  console.log(array);
+  return array;
+};

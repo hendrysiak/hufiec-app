@@ -28,6 +28,7 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { List } from './components/List/List';
 import { ShowModal } from './helpers/typeViewModal.enum';
+import { sortOfSurname } from 'helpers/sorting.helper';
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -128,6 +129,8 @@ const Team = (): JSX.Element => {
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
+
+    sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
 
   },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
