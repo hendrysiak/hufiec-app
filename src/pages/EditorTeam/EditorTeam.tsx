@@ -171,6 +171,7 @@ const EditorTeam: FC = () => {
 
   useEffect(() => {
     const usedRegistry = registry && team === 'Cały hufiec' ? [...Object.values(registry)].flat() : registry[team];
+    usedRegistry?.length && sortOfSurname(usedRegistry, 'ŻŻŻ');
     const rows = usedRegistry ? (
       usedRegistry.map((member, index) => {
         return (
@@ -181,7 +182,6 @@ const EditorTeam: FC = () => {
           }
         );
       })) : ([]);
-    sortOfSurname(rows, 'ŻŻŻ');
     setRows(rows);
 
     let usedData: DataToExport[] = []; 
@@ -197,7 +197,7 @@ const EditorTeam: FC = () => {
         }) : [];
       }
     }
-
+    // permanentDeleteTeamMember("-MVkP645aBxZglf8UY11")
     setDataToExport(usedData);
   },[team, registry]);
 
