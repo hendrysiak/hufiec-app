@@ -18,6 +18,7 @@ import {
 } from 'react-router-dom';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
@@ -28,7 +29,7 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { List } from './components/List/List';
 import { ShowModal } from './helpers/typeViewModal.enum';
-import { sortOfSurname } from 'helpers/sorting.helper';
+
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);

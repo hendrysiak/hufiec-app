@@ -14,6 +14,7 @@ import {
   editIncome,
   editOutcome,
 } from 'helpers/editing-db.handler';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import {
   BudgetEntry,
   FinanceMethod,
@@ -33,7 +34,6 @@ import TableEditor from 'shared/TableEditor/TableEditor';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
-import { sortOfSurname } from 'helpers/sorting.helper';
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -93,7 +93,8 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate 
+        && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
@@ -107,7 +108,8 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate 
+        && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -123,7 +125,8 @@ const Edit = (): JSX.Element => {
 
   const filterIncomes = (incomes: IncomeDb[]) => {
     return incomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate 
+        && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -134,7 +137,8 @@ const Edit = (): JSX.Element => {
 
   const filterOutcomes = (outcomes: OutcomeDb[]) => {
     return outcomes.filter(o => {
-      if (useDate && selectedDate && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate 
+        && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && o.team !== team) return false;
       if (event !== 'Brak' && o.event !== event) return false;
       if (founding !== 'Brak' && o.foundingSource !== founding) return false;

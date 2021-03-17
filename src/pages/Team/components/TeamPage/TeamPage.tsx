@@ -2,6 +2,7 @@ import Modal from '@material-ui/core/Modal';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState } from 'react';
 
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
@@ -10,7 +11,6 @@ import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
 import classes from './TeamPage.module.css';
-import { sortOfSurname } from 'helpers/sorting.helper';
 
 interface IRows extends APIPerson {
   lp: string | number;

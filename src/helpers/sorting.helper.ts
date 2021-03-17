@@ -159,6 +159,5 @@ export const sortOfSurname = (array: {surname: string | undefined | null}[], ifU
     const secondPerson = b.surname ? b.surname : ifUndefined;
     return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
   });
-  console.log(array);
   return array;
 };

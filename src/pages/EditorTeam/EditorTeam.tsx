@@ -15,6 +15,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
@@ -27,7 +28,6 @@ import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
-import { sortOfSurname } from 'helpers/sorting.helper';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -101,7 +101,7 @@ const EditorTeam: FC = () => {
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
-          setPrevValue({...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null});
+          setPrevValue({ ...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
@@ -284,7 +284,6 @@ const EditorTeam: FC = () => {
               <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
               <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
               <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
-              {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
               <TableCell >
                 <KeyboardDatePicker
                   disabled={activeRow !== row.id}
@@ -293,7 +292,6 @@ const EditorTeam: FC = () => {
                   key={row.id}
                   margin="normal"
                   id="date-picker-dialog"
-                  // label="Data dodania"
                   format="dd/MM/yyyy"
                   value={row.dateOfAdd ? new Date(row.dateOfAdd) : null}
                   onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
@@ -302,8 +300,6 @@ const EditorTeam: FC = () => {
                   }}
                 />
               </TableCell>
-              {/* <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell> */}
-              {/* <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell> */}
               <TableCell>
                 <KeyboardDatePicker
                   disabled={activeRow !== row.id}
@@ -312,7 +308,6 @@ const EditorTeam: FC = () => {
                   key={row.id}
                   margin="normal"
                   id="date-picker-dialog"
-                  // label="Data usunięcia"
                   format="dd/MM/yyyy"
                   value={row.dateOfDelete ? new Date(row.dateOfDelete) : null}
                   onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
