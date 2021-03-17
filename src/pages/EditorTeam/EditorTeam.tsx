@@ -15,6 +15,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
@@ -27,7 +28,6 @@ import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
-import { sortOfSurname } from 'helpers/sorting.helper';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -101,7 +101,7 @@ const EditorTeam: FC = () => {
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
-          setPrevValue({...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null});
+          setPrevValue({ ...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
