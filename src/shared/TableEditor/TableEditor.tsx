@@ -6,7 +6,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import React from 'react';
+
+import { CSVLink } from 'react-csv';
 
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
@@ -34,6 +37,13 @@ const TableEditor = (props: Props): JSX.Element => {
       <div className="table__add">
         <Tooltip title={`Dodaj ${props.info === BudgetEntry.Income ? 'przychód' : 'koszt'}`} aria-label="add-position">
           <IconButton><AddIcon onClick={() => props.onAdd()}/></IconButton>
+        </Tooltip>
+        <Tooltip title="Pobierz do CSV" aria-label="add-position">
+          <CSVLink data={props.rows} filename={`${props.info === BudgetEntry.Income ? 'przychody' : 'koszty'}.csv`}>
+            <IconButton>
+              <GetAppIcon/>
+            </IconButton>
+          </CSVLink>
         </Tooltip>
       </div>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
