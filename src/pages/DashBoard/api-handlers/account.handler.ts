@@ -50,7 +50,7 @@ export const getImportDates = async (): Promise<void> => {
 
 export const getInitAccountState = async (): Promise<void> => {
   const initAccountState = await axios.get('/initAccountState.json');
-  console.log(initAccountState.data);
+  
   store.dispatch(reduxGetInitAccountState(initAccountState.data));
 };
 
