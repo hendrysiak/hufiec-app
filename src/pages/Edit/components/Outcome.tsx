@@ -5,63 +5,40 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import React, { useEffect, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { editOutcome } from 'helpers/editing-db.handler';
 import { FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
-import { OutcomeDb, OutcomesWithFinanceMethod } from 'models/income.models';
+import { OutcomeDb } from 'models/income.models';
 
-import classes from './Outcome.module.css';
-import { useSelector } from 'react-redux';
 import { RootState } from 'store/models/rootstate.model';
 
+import classes from './Outcome.module.css';
+
 export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
-  console.log(outcome);
   const teamsList = useSelector((state: RootState) => state.income.registry);
   const codesList = useSelector((state: RootState) => state.income.codes);
-  const [editData, setEditData] = useState<OutcomesWithFinanceMethod>({
-    cash: outcome[0].cash,
-    dateOfBook: outcome[0].dateOfBook,
-    financeMethod: outcome[0].financeMethod,
-    importDate: outcome[0].importDate,
-    title: outcome[0].title,
-  });
-  const [editId, setEditId] = useState<string | null>(null);
+  const [editData, setEditData] = useState<OutcomeDb[]>(outcome);
+  const [editIndex, setEditIndex] = useState<number>(-1);
 
   const handleAcceptEdit = () => {
-    editOutcome(editData);
+    editOutcome(editData[editIndex]);
+    setEditIndex(-1);
   };
-  const handleClearEdit = (id: string) => {
+  const handleClearEdit = () => {
     if (!window.confirm('Wszystkie dane zostaną cofnięte do wartości sprzed rozpoczęcia edycji.\nJesteś pewien?')) return;
-    const item = outcome.find(el => el.id === id);
-    setEditData({
-      cash: item?.cash ? item?.cash : 0,
-      dateOfBook: item?.dateOfBook ? item?.dateOfBook : '',
-      financeMethod: item?.financeMethod ? item?.financeMethod : FinanceMethod.Transfer, // we can't have undefined/null/ empty string ?
-      importDate: item?.importDate ? item?.importDate : '',
-      title: item?.title ? item?.title : '',
-    });
-    setEditId(null);
+    setEditIndex(-1);
   };
 
-  const handleEdit = (id: string) => {
-    const item = outcome.find(el => el.id === id);
-    setEditData({
-      cash: item?.cash ? item?.cash : 0,
-      dateOfBook: item?.dateOfBook ? item?.dateOfBook : '',
-      financeMethod: item?.financeMethod ? item?.financeMethod : FinanceMethod.Transfer, // we can't have undefined/null/ empty string ?
-      importDate: item?.importDate ? item?.importDate : '',
-      title: item?.title ? item?.title : '',
-    });
-    setEditId(id);
+  const handleEdit = (index: number) => {
+    setEditIndex(index);
   };
 
-  const handleChange = (el: string, e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | EventTarget & { name?: string | undefined; value: unknown; }> ): void => {
-    const target = e.target as HTMLInputElement ;
-    setEditData((prevState: OutcomesWithFinanceMethod) => {
-      return ({
-        ...prevState,
-        [el]: target.value,
-      });
-    });
+  const handleChange = (el: string, value: string | number): void => {
+    const updatedData = [ ...editData ];
+    updatedData[editIndex][el] = value;
+    setEditData(updatedData);
+    
   };
 
   return (
@@ -80,12 +57,12 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
       </li>
       {outcome?.map((el, index: number) => {
         return (
-          <li key={index} className={`${classes.li} ${editId === el.id ? classes.liEdit : ''}`}>
+          <li key={index} className={`${classes.li} ${index === editIndex ? classes.liEdit : ''}`}>
             <div className={`${classes.editItem} ${classes.edit}`}>
-              {editId === el.id ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={() => handleClearEdit(el.id)}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(el.id)}/>}
+              {index === editIndex ? <div><CheckIcon className={classes.pointer} onClick={handleAcceptEdit}/><ClearIcon onClick={() => handleClearEdit()}/> </div> : <EditIcon className={classes.pointer} onClick={() => handleEdit(index)}/>}
               <DeleteForeverIcon className={classes.pointer}/>
             </div>
-            {editId === el.id ? 
+            {index === editIndex ? 
               <>
                 <div className={classes.lp}>
                   <TextField 
@@ -96,37 +73,60 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                 </div>
                 <div className={classes.bilingNr}>
                   <TextField 
-                    onChange={(e) => handleChange('bilingNr', e)} 
+                    onChange={(e) => handleChange('bilingNr', e.target.value)} 
                     className={classes.input} 
-                    value={editData?.bilingNr ? editData.bilingNr : el.bilingNr ? el.bilingNr : ''} />
+                    value={editData[editIndex].bilingNr} />
                 </div>
                 <div className={classes.cash}>
                   <TextField 
                     type="number"
-                    onChange={(e) => handleChange('cash', e)} 
+                    onChange={(e) => handleChange('cash', e.target.value)} 
                     className={classes.input} 
-                    value={editData?.cash ? editData.cash : el.cash ? el.cash : ''} />
+                    value={editData[editIndex].cash} />
                 </div>
                 <div className={classes.financeMethod}>
                   <FormControl className={classes.input}>
-                    <Select
+                    <TextField
+                      value={editData[editIndex].financeMethod}
+                      onChange={(e) => handleChange('financeMethod', e.target.value)}
+                      select={true}
+                      size="small"
+                      variant="standard"
+                      margin="normal"
+                      SelectProps={{
+                        MenuProps: { disableScrollLock: true },
+                      }}
+                    >
+                      {/* <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editData?.financeMethod ? editData.financeMethod : 'brak'}
-                      onChange={(e) => handleChange('financeMethod', e)}
-                    >
+                      value={editData[editIndex].financeMethod ? editData.financeMethod : 'brak'}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChange('financeMethod', e)}
+                    > */}
                       <MenuItem value={'transfer'}>transfer</MenuItem>
                       <MenuItem value={'cash'}>cash</MenuItem>
-                    </Select>
+                      {/* </Select>*/}
+                    </TextField>
                   </FormControl>
                 </div>
                 <div className={classes.outcomeCategory}>
                   <FormControl className={classes.input}>
-                    <Select
+                    {/* <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editData?.outcomeCategory ? editData.outcomeCategory : 'brak'}
+                      value={editData[editIndex].outcomeCategory ? editData.outcomeCategory : 'brak'}
                       onChange={(e) => handleChange('outcomeCategory', e)}
+                    > */}
+                    <TextField
+                      value={editData[editIndex].outcomeCategory}
+                      onChange={(e) => handleChange('outcomeCategory', e.target.value)}
+                      select={true}
+                      size="small"
+                      variant="standard"
+                      margin="normal"
+                      SelectProps={{
+                        MenuProps: { disableScrollLock: true },
+                      }}
                     >
                       <MenuItem value={'materiały'}>materiały</MenuItem>
                       <MenuItem value={'zakwaterowanie'}>zakwaterowanie</MenuItem>
@@ -136,15 +136,34 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                       <MenuItem value={'konserwacja'}>konserwacja</MenuItem>
                       <MenuItem value={'media'}>media</MenuItem>
                       <MenuItem value={'składki'}>składki</MenuItem>
-                    </Select>
+                      {/* </Select> */}
+                    </TextField>
                   </FormControl>
                 </div>
                 <div className={classes.foundingSource}>
                   <FormControl className={classes.input}>
-                    <Select
+                    <TextField
+                      value={editData[editIndex].foundingSources}
+                      onChange={(e) => handleChange('foundingSources', e.target.value)}
+                      select={true}
+                      size="small"
+                      variant="standard"
+                      margin="normal"
+                      SelectProps={{
+                        MenuProps: { disableScrollLock: true },
+                      }}
+                    >
+                      <MenuItem value={'1 %'}>1 %</MenuItem>
+                      <MenuItem value={'dotacja'}>dotacja</MenuItem>
+                      <MenuItem value={'konto drużyny'}>konto drużyny</MenuItem>
+                      <MenuItem value={'wpłaty własne'}>wpłaty własne</MenuItem>
+                      <MenuItem value={'własne środki'}>własne środki</MenuItem>
+                      <MenuItem value={'inne'}>inne</MenuItem>
+                    </TextField>
+                    {/* <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editData?.foundingSources ? editData.foundingSources : 'brak'}
+                      value={editData[editIndex].foundingSources ? editData.foundingSources : 'brak'}
                       onChange={(e) => handleChange('foundingSources', e)}
                     >
                       <MenuItem value={'1 %'}>1 %</MenuItem>
@@ -153,35 +172,59 @@ export const Outcome = ({ outcome } : {outcome: OutcomeDb[]}): JSX.Element => {
                       <MenuItem value={'wpłaty własne'}>wpłaty własne</MenuItem>
                       <MenuItem value={'własne środki'}>własne środki</MenuItem>
                       <MenuItem value={'inne'}>inne</MenuItem>
-                    </Select>
+                    </Select> */}
                   </FormControl>
                 </div>
                 <div className={classes.team}>
                   <FormControl className={classes.input}>
-                    <Select
+                    {/* <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editData?.team ? editData.team : 'brak'}
+                      value={editData[editIndex].team ? editData.team : 'brak'}
                       onChange={(e) => handleChange('team', e)}
+                    > */}
+                    <TextField
+                      value={editData[editIndex].team}
+                      onChange={(e) => handleChange('team', e.target.value)}
+                      select={true}
+                      size="small"
+                      variant="standard"
+                      margin="normal"
+                      SelectProps={{
+                        MenuProps: { disableScrollLock: true },
+                      }}
                     >
                       {teamsList && Object.keys(teamsList).map((el, index: number) => <MenuItem key={index} value={el}>{el}</MenuItem>)}
-                    </Select>
+                      {/* </Select> */}
+                    </TextField>
                   </FormControl>
                 </div>
                 <div className={classes.code}>
                   <FormControl className={classes.input}>
-                    <Select
+                    {/* <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={editData?.code ? editData.code : 'brak'}
+                      value={editData[editIndex].code ? editData.code : 'brak'}
                       onChange={(e) => handleChange('code', e)}
+                    > */}
+                    <TextField
+                      value={editData[editIndex].code}
+                      onChange={(e) => handleChange('code', e.target.value)}
+                      select={true}
+                      size="small"
+                      variant="standard"
+                      margin="normal"
+                      SelectProps={{
+                        MenuProps: { disableScrollLock: true },
+                      }}
                     >
                       {codesList && Object.values(codesList).map((el, index: number) => <MenuItem key={index} value={el.code}>{el.code}</MenuItem>)}
-                    </Select>
+                      {/* </Select> */}
+                    </TextField>
                   </FormControl>
                 </div>
                 <div className={classes.title}>
-                  <TextField onChange={(e) => handleChange('title', e)} className={classes.input} value={editData?.title ? editData.title : el.title ? el.title : ''} /> 
+                  <TextField onChange={(e) => handleChange('title', e.target.value)} className={classes.input} value={editData[editIndex].title} /> 
                 </div>
               </>
               :
