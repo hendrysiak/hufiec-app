@@ -14,6 +14,7 @@ import {
   editIncome,
   editOutcome,
 } from 'helpers/editing-db.handler';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import {
   BudgetEntry,
   FinanceMethod,
@@ -33,7 +34,6 @@ import TableEditor from 'shared/TableEditor/TableEditor';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
-import { sortOfSurname } from 'helpers/sorting.helper';
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -151,8 +151,9 @@ const Edit = (): JSX.Element => {
 
   const handleEdit = (
     index: number,
-    data: { key: string; value: string | number }
+    data: { key: string; value: string | number | Date | boolean }
   ) => {
+    console.log(data);
     const usedData: (IncomeDb | OutcomeDb)[] =
       editedData === BudgetEntry.Income
         ? [...displayedIncome]

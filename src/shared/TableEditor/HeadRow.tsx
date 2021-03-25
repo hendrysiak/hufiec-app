@@ -39,6 +39,8 @@ const HeadRow = (props: Props): JSX.Element => {
           <TableCell>Kod imprezy (automatycznie)</TableCell>
           <TableCell>Rok</TableCell>
           <TableCell>Pełny tytuł</TableCell>
+          <TableCell>Dodatkowe informacje</TableCell>
+          <TableCell>Rozwiń</TableCell>
         </TableRow>
       </TableHead>
     );

@@ -22,9 +22,10 @@ type Props = {
   editable: boolean;
   title: string;
   editedIndex: number;
+  expandedIndex?: number;
   info: BudgetEntry;
   rows: (OutcomeDb | IncomeDb)[];
-  onChange: (index: number, data: { key: string, value: string | number }) => void;
+  onChange: (index: number, data: { key: string, value: string | number | Date | boolean }) => void;
   onClose: (index: number) => void;
   onEdit: (index: number) => void;
   onDelete: (id: string) => void;
@@ -54,26 +55,30 @@ const TableEditor = (props: Props): JSX.Element => {
         <TableBody>
           {props.rows && props.rows.map((row, index) => (
             index === props.editedIndex 
-              ? <TableRow key={index}>
-                <EditableRow 
-                  editable={props.editable}
-                  info={props.info}
-                  bilingNr={row.bilingNr as string | null}
-                  cash={row.cash}
-                  event={row.event}
-                  name={row.name as string | null}
-                  surname={row.surname as string | null}
-                  foundingSources={row.foundingSources as FoundingSources}
-                  index={index}
-                  outcomeCategory={row.outcomeCategory as OutcomeCategory}
-                  team={row.team}
-                  year={row.year}
-                  title={row.title}
-                  onChange={props.onChange}
-                  onClose={props.onClose}
-                />
-              </TableRow> 
+              ? 
+              <EditableRow 
+                key={index}
+                editable={props.editable}
+                info={props.info}
+                bilingNr={row.bilingNr as string | null}
+                cash={row.cash}
+                event={row.event}
+                name={row.name as string | null}
+                surname={row.surname as string | null}
+                letterReceived={row.letterReceived as boolean | null}
+                dateOfLetter={row.dateOfLetter as string | null | Date}
+                comment={row.comment as string | null}
+                foundingSources={row.foundingSources as FoundingSources}
+                index={index}
+                outcomeCategory={row.outcomeCategory as OutcomeCategory}
+                team={row.team}
+                year={row.year}
+                title={row.title}
+                onChange={props.onChange}
+                onClose={props.onClose}
+              />
               : <StandardRow 
+                expandedIndex={props.expandedIndex}
                 key={index}
                 info={props.info}
                 index={index}

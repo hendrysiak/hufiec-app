@@ -109,7 +109,7 @@ const EventBilling = (): JSX.Element => {
     addOutcome(newCashOutcome);
   };
 
-  const handleEditOutcome = (index: number, data: { key: string, value: string | number }) => {
+  const handleEditOutcome = (index: number, data: { key: string, value: string | number | Date | boolean }) => {
     const outcomeToUpdate = [...usedOutcomes];
     outcomeToUpdate[index][data.key] = data.value;
     

@@ -30,6 +30,9 @@ export interface IncomesWithImportDate extends IncomesWithYear {
 
 export interface IncomeDb extends IncomesWithImportDate {
   id: string;
+  letterReceived?: boolean;
+  dateOfLetter?: Date | string;
+  comment?: string;
 }
 
 export interface OutcomesBankModel extends IObjectKeys{
