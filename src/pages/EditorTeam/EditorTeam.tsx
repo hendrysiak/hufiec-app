@@ -24,7 +24,6 @@ import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../../helpers/editing-db.handler';
-
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
@@ -52,6 +51,9 @@ const EditorTeam: FC = () => {
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
   const [activeRow, setActiveRow] = useState<string | null>(null);
+
+
+
   const handleAcceptChange = (id: string) => {
     setActualValue(prev => {
       return {
@@ -129,6 +131,10 @@ const EditorTeam: FC = () => {
   };
 
   const onRevert = (id: string) => {
+    if (!window.confirm('jesteś pewien, że chcesz cofnąć zmiany?')) return;
+    setActiveRow(null);
+    setActiveEdit(false);
+    
     if (rows) { // if
       const newRows = rows.map((row ) => {
         if (row.id === id) {
@@ -139,6 +145,7 @@ const EditorTeam: FC = () => {
             surname: prevValue.surname,
             dateOfAdd: prevValue.dateOfAdd,
             dateOfDelete: prevValue.dateOfDelete ? prevValue.dateOfDelete : null,
+            isEditMode: false,
           };
         }
         return row;
@@ -150,9 +157,9 @@ const EditorTeam: FC = () => {
   const handleDelete = (id: string) => {
     if (rows) {
       const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
-      memberToDelete.dateOfDelete = new Date();
       if (activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji');
       if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) {
+        memberToDelete.dateOfDelete = new Date();
         memberToDelete.feeState && memberToDelete.feeState < 0 ? 
           deleteTeamMember(memberToDelete) : permanentDeleteTeamMember(memberToDelete);
         setActualValue(prev => {
@@ -171,6 +178,11 @@ const EditorTeam: FC = () => {
 
   useEffect(() => {
     const usedRegistry = registry && team === 'Cały hufiec' ? [...Object.values(registry)].flat() : registry[team];
+
+    if (usedRegistry) {
+      sortOfSurname(usedRegistry, 'ŻŻŻ');
+    }
+    
     const rows = usedRegistry ? (
       usedRegistry.map((member, index) => {
         return (
@@ -181,7 +193,6 @@ const EditorTeam: FC = () => {
           }
         );
       })) : ([]);
-    sortOfSurname(rows, 'ŻŻŻ');
     setRows(rows);
 
     let usedData: DataToExport[] = []; 

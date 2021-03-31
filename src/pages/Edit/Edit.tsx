@@ -76,20 +76,6 @@ const Edit = (): JSX.Element => {
     dbOutcomes && setDisplayedOutcome(dbOutcomes);
   }, [dbIncomes, dbOutcomes]);
 
-  //! Very efficient array filter (to test later) - this comment was leaving for remember this case. We use any, because value of the filter is not specified.
-  //! More ideas - https://gist.github.com/jherax/f11d669ba286f21b7a2dcff69621eb72?fbclid=IwAR1lCOrU9ENfkjODHgDXCCqcwdkfUFpL2-_3o80cftst6J58NAssBxjzFqw
-  // const filterArray = (array: (IncomeDb | OutcomeDb)[], filters: Record<string, any>) => {
-  //   const filterKeys = Object.keys(filters);
-  //   return array.filter(item => {
-  //     // validates all filter criteria
-  //     return filterKeys.every(key => {
-  //       // ignores non-function predicates
-  //       if (typeof filters[key] !== 'function') return true;
-  //       return filters[key](item[key]);
-  //     });
-  //   });
-  // };
-
 
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
@@ -120,28 +106,6 @@ const Edit = (): JSX.Element => {
   useEffect(() => {
     importDates && setEditedImportDates(importDates);
   }, [importDates]);
-
-  const filterIncomes = (incomes: IncomeDb[]) => {
-    return incomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && i.team !== team) return false;
-      if (event !== 'Brak' && i.event !== event) return false;
-      if (founding !== 'Brak' && i.foundingSource !== founding) return false;
-      if (category !== 'Brak' && i.outcomeCategory !== event) return false;
-      return true;
-    });
-  };
-
-  const filterOutcomes = (outcomes: OutcomeDb[]) => {
-    return outcomes.filter(o => {
-      if (useDate && selectedDate && new Date(o.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && o.team !== team) return false;
-      if (event !== 'Brak' && o.event !== event) return false;
-      if (founding !== 'Brak' && o.foundingSource !== founding) return false;
-      if (category !== 'Brak' && o.outcomeCategory !== event) return false;
-      return true;
-    });
-  };
 
   const editedDataHandler = (value: string) => {
     const editedData =
