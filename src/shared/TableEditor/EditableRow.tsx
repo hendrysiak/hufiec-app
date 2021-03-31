@@ -6,6 +6,7 @@ import EventIcon from '@material-ui/icons/Event';
 import InsertCommentIcon from '@material-ui/icons/InsertComment';
 import MailIcon from '@material-ui/icons/Mail';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React from 'react';
 
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
@@ -37,6 +38,11 @@ const EditableRow = (props: Props): JSX.Element => {
   const codes = store.getState().income.codes?.map(c => c.code);
 
   const currentYear = new Date().getFullYear();
+
+  const dateOfLetterHandler = (index: number, value: MaterialUiPickersDate) => {
+    if (!props.letterReceived) return alert('Żeby podac datę pisma, proszę zaznaczyć iż wpłynęło.');
+    props.onChange(index, { key: 'dateOfLetter', value: value || '' });
+  };
 
   return (
     <>
@@ -211,7 +217,8 @@ const EditableRow = (props: Props): JSX.Element => {
             // label="Data dodania"
             format="dd/MM/yyyy"
             value={props.dateOfLetter ? new Date(props.dateOfLetter) : null}
-            onChange={(e) => props.onChange(props.index, { key: 'dateOfLetter', value: e || '' })}
+            // onChange={(e) => props.onChange(props.index, { key: 'dateOfLetter', value: e || '' })}
+            onChange={(e) => dateOfLetterHandler(props.index, e)}
             KeyboardButtonProps={{
               'aria-label': 'change date'
             }}

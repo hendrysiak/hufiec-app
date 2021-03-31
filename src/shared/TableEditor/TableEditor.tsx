@@ -4,7 +4,6 @@ import TableBody from '@material-ui/core/TableBody';
 
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -73,26 +72,30 @@ const TableEditor = (props: Props): JSX.Element => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => (
                 index === props.editedIndex 
-                  ? <TableRow key={index}>
-                    <EditableRow 
-                      editable={props.editable}
-                      info={props.info}
-                      bilingNr={row.bilingNr as string | null}
-                      cash={row.cash}
-                      event={row.event}
-                      name={row.name as string | null}
-                      surname={row.surname as string | null}
-                      foundingSources={row.foundingSources as FoundingSources}
-                      index={index}
-                      outcomeCategory={row.outcomeCategory as OutcomeCategory}
-                      team={row.team}
-                      year={row.year}
-                      title={row.title}
-                      onChange={props.onChange}
-                      onClose={props.onClose}
-                    />
-                  </TableRow> 
+                  ? 
+                  <EditableRow 
+                    key={index}
+                    editable={props.editable}
+                    info={props.info}
+                    bilingNr={row.bilingNr as string | null}
+                    cash={row.cash}
+                    event={row.event}
+                    name={row.name as string | null}
+                    surname={row.surname as string | null}
+                    letterReceived={row.letterReceived as boolean | null}
+                    dateOfLetter={row.dateOfLetter as string | null | Date}
+                    comment={row.comment as string | null}
+                    foundingSources={row.foundingSources as FoundingSources}
+                    index={index}
+                    outcomeCategory={row.outcomeCategory as OutcomeCategory}
+                    team={row.team}
+                    year={row.year}
+                    title={row.title}
+                    onChange={props.onChange}
+                    onClose={props.onClose}
+                  />
                   : <StandardRow 
+                    expandedIndex={props.expandedIndex}
                     key={index}
                     info={props.info}
                     index={index}
