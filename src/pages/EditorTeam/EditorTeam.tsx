@@ -1,3 +1,4 @@
+import { TablePagination, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -15,6 +16,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
+import { useDebounce } from 'helpers/hooks/useDebounce';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
@@ -52,6 +54,18 @@ const EditorTeam: FC = () => {
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
   const [activeRow, setActiveRow] = useState<string | null>(null);
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
     
   const handleAcceptChange = (id: string) => {
     setActualValue(prev => {
@@ -260,85 +274,96 @@ const EditorTeam: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows && rows.map((row: IPerson) => (
-            <TableRow key={row.id}>
-              <TableCell className={classes.selectTableCell}>
-                {row.isEditMode ? (
-                  <>
+          {rows && rows
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row: IPerson) => (
+              <TableRow key={row.id}>
+                <TableCell className={classes.selectTableCell}>
+                  {row.isEditMode ? (
+                    <>
+                      <IconButton
+                        aria-label="done"
+                        onClick={() => handleAcceptChange(row.id)}
+                      >
+                        <DoneIcon />
+                      </IconButton>
+                      <IconButton
+                        aria-label="revert"
+                        onClick={() => onRevert(row.id)}
+                      >
+                        <RevertIcon />
+                      </IconButton>
+                    </>
+                  ) : (
                     <IconButton
-                      aria-label="done"
-                      onClick={() => handleAcceptChange(row.id)}
+                      aria-label="delete"
+                      onClick={() => onToggleEditMode(row.id)}
                     >
-                      <DoneIcon />
+                      <EditIcon />
                     </IconButton>
-                    <IconButton
-                      aria-label="revert"
-                      onClick={() => onRevert(row.id)}
-                    >
-                      <RevertIcon />
-                    </IconButton>
-                  </>
-                ) : (
+                  )}
+                </TableCell>
+                <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
+                <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
+                <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
+                {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
+                <TableCell >
+                  <KeyboardDatePicker
+                    disabled={activeRow !== row.id}
+                    disableToolbar
+                    variant="inline"
+                    key={row.id}
+                    margin="normal"
+                    id="date-picker-dialog"
+                    // label="Data dodania"
+                    format="dd/MM/yyyy"
+                    value={row.dateOfAdd ? new Date(row.dateOfAdd) : null}
+                    onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date'
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <KeyboardDatePicker
+                    disabled={activeRow !== row.id}
+                    disableToolbar
+                    variant="inline"
+                    key={row.id}
+                    margin="normal"
+                    id="date-picker-dialog"
+                    // label="Data usunięcia"
+                    format="dd/MM/yyyy"
+                    value={row.dateOfDelete ? new Date(row.dateOfDelete) : null}
+                    onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date'
+                    }}
+                  /></TableCell>
+                <TableCell>{row.feeState}</TableCell>
+                <TableCell className={classes.selectTableCell}>
                   <IconButton
                     aria-label="delete"
-                    onClick={() => onToggleEditMode(row.id)}
+                    onClick={() => handleDelete(row.id)}
                   >
-                    <EditIcon />
+                    <DeleteIcon />
                   </IconButton>
-                )}
-              </TableCell>
-              <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
-              <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
-              <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
-              {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
-              <TableCell >
-                <KeyboardDatePicker
-                  disabled={activeRow !== row.id}
-                  disableToolbar
-                  variant="inline"
-                  key={row.id}
-                  margin="normal"
-                  id="date-picker-dialog"
-                  // label="Data dodania"
-                  format="dd/MM/yyyy"
-                  value={row.dateOfAdd ? new Date(row.dateOfAdd) : null}
-                  onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date'
-                  }}
-                />
-              </TableCell>
-              {/* <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell> */}
-              {/* <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell> */}
-              <TableCell>
-                <KeyboardDatePicker
-                  disabled={activeRow !== row.id}
-                  disableToolbar
-                  variant="inline"
-                  key={row.id}
-                  margin="normal"
-                  id="date-picker-dialog"
-                  // label="Data usunięcia"
-                  format="dd/MM/yyyy"
-                  value={row.dateOfDelete ? new Date(row.dateOfDelete) : null}
-                  onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date'
-                  }}
-                /></TableCell>
-              <TableCell>{row.feeState}</TableCell>
-              <TableCell className={classes.selectTableCell}>
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => handleDelete(row.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
-      </Table></>
+      </Table>
+      <TablePagination
+        rowsPerPageOptions={[25, 50, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage="Ilośc wierszy na stronie"
+      />
+    </>
   );
 };
 
