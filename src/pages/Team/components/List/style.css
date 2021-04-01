@@ -152,22 +152,20 @@ p {
   }
 }
 
-.divPag {
+.paginationContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   text-align: right;
   width: 100%;
   padding: 14px 4px;
   margin: 0 auto;
 }
 
-.displayFlex {
+.paginationItem
+ {
   margin-left: 20px;
   align-items: center;
   display: flex;
-}
-
-.textRowPag {
-  margin-right: 10px;
 }

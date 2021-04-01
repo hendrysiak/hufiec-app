@@ -7,6 +7,11 @@ import { IncomeDb } from 'models/income.models';
 
 import './style.css';
 
+enum ActionPagination {
+  Next = 'next',
+  Prev = 'prev'
+}
+
 export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | null, scrollPosition: number, rows: IncomeDb[]}): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -48,10 +53,10 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
 
   const handleChangePage = (action: string) => {
     
-    if (action === 'next' && rows.length > page * rowsPerPage + rowsPerPage) {
+    if (action === ActionPagination.Next && rows.length > page * rowsPerPage + rowsPerPage) {
       setPage(prev => prev + 1);
     }
-    if (action === 'prev' && page > 0) {
+    if (action === ActionPagination.Prev && page > 0) {
       setPage(prev => prev - 1);
     }
   };
@@ -83,31 +88,29 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
             </li>
           );
         })}
-        <li className="li pagination">
-          <div className="divPag">
-            <div className="displayFlex">
-              <p className="textRowPag">Ilość wierszy na stronie:</p> 
-              <FormControl>
-                <Select
-                  value={rowsPerPage}
-                  onChange={(e: any) => handleRowsPerPage(e.target.value)}
-                  displayEmpty
-                  className=""
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  <MenuItem value={25}>25</MenuItem>
-                  <MenuItem value={50}>50</MenuItem>
-                  <MenuItem value={100}>100</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <div className="displayFlex">
-              od {page * rowsPerPage + 1} do {page * rowsPerPage + rowsPerPage < rows.length ? page * rowsPerPage + rowsPerPage : rows.length } of {rows.length}
-            </div>
-            <div className="displayFlex">
-              <ChevronLeftIcon onClick={() => handleChangePage('prev')} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
-              <ChevronRightIcon onClick={() => handleChangePage('next')} style={{ cursor: 'pointer', fontSize: '44px' }}/>
-            </div>
+        <li className="li paginationContainer">
+          <div className="paginationItem">
+            <p className="textRowPag">Ilość wierszy na stronie:</p> 
+            <FormControl>
+              <Select
+                value={rowsPerPage}
+                onChange={(e: any) => handleRowsPerPage(e.target.value)}
+                displayEmpty
+                className=""
+                inputProps={{ 'aria-label': 'Without label' }}
+              >
+                <MenuItem value={25}>25</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+                <MenuItem value={100}>100</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="paginationItem">
+            od {page * rowsPerPage + 1} do {page * rowsPerPage + rowsPerPage < rows.length ? page * rowsPerPage + rowsPerPage : rows.length } of {rows.length}
+          </div>
+          <div className="paginationItem">
+            <ChevronLeftIcon onClick={() => handleChangePage(ActionPagination.Prev)} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
+            <ChevronRightIcon onClick={() => handleChangePage(ActionPagination.Next)} style={{ cursor: 'pointer', fontSize: '44px' }}/>
           </div>
         </li>
       </ul>
