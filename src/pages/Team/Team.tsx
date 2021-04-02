@@ -194,7 +194,7 @@ const Team = (): JSX.Element => {
   useEffect(() => {
     const listenerScroll = (navBar: RefObject<HTMLDivElement>, scrollY: number): void => {
       if (navBar.current?.clientHeight) {
-        setNavHeight(navBar.current?.clientHeight);
+        setNavHeight(navBar.current?.clientHeight - 1);
         setScrollPosition(scrollY);
       }
     };
