@@ -22,7 +22,7 @@ type Props = {
   index: number;
   expandedIndex?: number;
   row: IncomeDb | OutcomeDb;
-  onEdit: (index: number) => void;
+  onEdit: () => void;
   onDelete: (id: string) => void;
 }
 
@@ -59,13 +59,12 @@ const StandardRow = (props: Props): JSX.Element => {
       
     </TableRow>
     : <></>;
-
   const oneRow = props.info === BudgetEntry.Outcome 
     ? (<><TableRow>
       <TableCell>
         <Tooltip title="Edytuj koszt" aria-label="add-team">
           <IconButton>
-            <EditIcon onClick={() => props.onEdit(props.index)}/>
+            <EditIcon onClick={props.onEdit}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Usuń koszt" aria-label="add-team">
@@ -89,7 +88,7 @@ const StandardRow = (props: Props): JSX.Element => {
       <TableCell>
         <Tooltip title="Edytuj przychód" aria-label="add-team">
           <IconButton>
-            <EditIcon onClick={() => props.onEdit(props.index)}/>
+            <EditIcon onClick={props.onEdit}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Usuń koszt" aria-label="add-team">

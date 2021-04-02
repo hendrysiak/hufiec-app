@@ -86,7 +86,7 @@ const TableEditor = (props: Props): JSX.Element => {
                     dateOfLetter={row.dateOfLetter as string | null | Date}
                     comment={row.comment as string | null}
                     foundingSources={row.foundingSources as FoundingSources}
-                    index={index}
+                    index={index + page * rowsPerPage}
                     outcomeCategory={row.outcomeCategory as OutcomeCategory}
                     team={row.team}
                     year={row.year}
@@ -98,9 +98,9 @@ const TableEditor = (props: Props): JSX.Element => {
                     expandedIndex={props.expandedIndex}
                     key={index}
                     info={props.info}
-                    index={index}
+                    index={index + page * rowsPerPage}
                     row={row}
-                    onEdit={props.onEdit}
+                    onEdit={() => props.onEdit(index)}
                     onDelete={props.onDelete}
                   /> 
               ))}
