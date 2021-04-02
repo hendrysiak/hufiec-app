@@ -47,6 +47,7 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
   };
 
   useEffect(() => {
+    sortOfSurname(members, 'ŻŻŻ');
     const rows = members ? (members.map((el, index) => {
       return ({
         ...el,
@@ -56,7 +57,6 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
       });
     })) : ([]);
 
-    sortOfSurname(rows, 'ŻŻŻ');
 
     setRows(rows);
   },[members]);

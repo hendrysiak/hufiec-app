@@ -10,7 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, RefObject } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
@@ -18,6 +18,7 @@ import {
 } from 'react-router-dom';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
@@ -28,7 +29,7 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { List } from './components/List/List';
 import { ShowModal } from './helpers/typeViewModal.enum';
-import { sortOfSurname } from 'helpers/sorting.helper';
+
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -50,10 +51,10 @@ const Team = (): JSX.Element => {
   const [useDate, setUseDate] = useState<boolean>(false);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
-
+  const [navHeight, setNavHeight] = useState<number | null>(null);
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
 
@@ -187,11 +188,24 @@ const Team = (): JSX.Element => {
     setOpenPopup(view);
     setOpen(false);
   };
+
+  const navBar = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const listenerScroll = (navBar: RefObject<HTMLDivElement>, scrollY: number): void => {
+      if (navBar.current?.clientHeight) {
+        setNavHeight(navBar.current?.clientHeight - 1);
+        setScrollPosition(scrollY);
+      }
+    };
+    window.addEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
+    return () => window.removeEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
+  },[navBar]);
   
   return (
     <>
       <LogOut />
-      <div className="navTeam">
+      <div ref={navBar} className="navTeam">
         <p className="team">{currentTeam}</p>
         <SpeedDial
           classes={{ fab: 'rootCircle' }}
@@ -331,7 +345,7 @@ const Team = (): JSX.Element => {
         </div>
         <div className="containerDataGrid">
           {displayedIncome?.length ? (
-            <List rows={displayedIncome}/>
+            <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome}/>
           ) : (
             <div className="loadingInfo">brak wpłat na ten filtr</div>
           )}

@@ -65,7 +65,7 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
 
   return (
     <>
-      <AttachMoneyIcon onClick={handleOpen} />
+      <AttachMoneyIcon onClick={handleOpen}/>
       <Modal
         open={isOpen}
         onClose={handleClose}
