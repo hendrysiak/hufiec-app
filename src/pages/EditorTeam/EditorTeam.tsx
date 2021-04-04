@@ -137,10 +137,10 @@ const EditorTeam: FC = () => {
 
   useEffect(() => {
     const rows = registry && registry[team] ? (
-      registry[team].reduce((a: any,b: any, c: number) => {
+      registry[team].reduce((a: IPerson[], b: IPerson) => {
         const acc = a;
         if(b.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && b.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()) ) {
-          b.lp = c
+          b.lp = acc.length + 1
           acc.push(b)
         }
         return acc
