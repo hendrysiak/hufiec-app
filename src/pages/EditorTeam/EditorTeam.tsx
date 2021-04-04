@@ -23,6 +23,7 @@ import { deleteTeamMember, editTeamMember } from '../../helpers/editing-db.handl
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
+import { FilterName } from 'pages/EditorTeam/components/FilterName';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -31,8 +32,11 @@ export interface IPerson extends APIPerson {
 
 const EditorTeam: FC = () => {
   const registry = useSelector((state: RootState) => state.income.registry);
-  const [rows, setRows] = useState<IPerson[] | undefined>();
+  const [filteredRows, setFilteredRows] = useState<IPerson[] | null>(null)
+  const [rows, setRows] = useState<IPerson[] | null>(null);
   const [team, setTeam] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('')
   const classes = useStyles();
   const [actualValue, setActualValue] = useState<IPerson>(
     { name: '', surname:'', id: '', dateOfAdd: null }
@@ -41,6 +45,8 @@ const EditorTeam: FC = () => {
     { name: '', surname: '', id: '', dateOfAdd: null }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
+
+    
 
   const handleAcceptChange = (id: string) => {
     rows && rows.map(el => {
@@ -130,8 +136,12 @@ const EditorTeam: FC = () => {
   };
 
   useEffect(() => {
+    // TODO  - changed filter and map to reduce method
     const rows = registry && registry[team] ? (
-      registry[team].map((member, index) => {
+      registry[team]
+      .filter(el => el.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && el.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
+      .map((member, index) => {
+
         return (
           {
             lp: index + 1,
@@ -140,17 +150,18 @@ const EditorTeam: FC = () => {
         );
       })) : ([]);
     setRows(rows);
-  },[team, registry]);
-
-  useEffect(() => {
-    console.log('wykonuje')
-  },[])
+  },[team, registry, name, surname]);
 
   return (
     <>
       <LogOut />
       <Navigation />
-      {console.log(rows)}
+      <FilterName 
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}
+      />
       <SelectTeam onChange={handleChangeSelect} team={team}/>
       <Table className={classes.table} aria-label="caption table">
         <TableHead>

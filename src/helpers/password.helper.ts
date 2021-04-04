@@ -31,7 +31,6 @@ export const Encrypt = (word: string): string => {
 };
 
 export const EncryptCookie = (login: string, password: string) => {
-  console.log(Encrypt(login), Encrypt(password));
   return Encrypt(login) + Encrypt(password);
 };
 
