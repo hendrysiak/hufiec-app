@@ -136,19 +136,15 @@ const EditorTeam: FC = () => {
   };
 
   useEffect(() => {
-    // TODO  - changed filter and map to reduce method
     const rows = registry && registry[team] ? (
-      registry[team]
-      .filter(el => el.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && el.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
-      .map((member, index) => {
-
-        return (
-          {
-            lp: index + 1,
-            ...member
-          }
-        );
-      })) : ([]);
+      registry[team].reduce((a: any,b: any, c: number) => {
+        const acc = a;
+        if(b.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && b.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()) ) {
+          b.lp = c
+          acc.push(b)
+        }
+        return acc
+      },[])): ([])
     setRows(rows);
   },[team, registry, name, surname]);
 
