@@ -14,6 +14,7 @@ import {
   editIncome,
   editOutcome,
 } from 'helpers/editing-db.handler';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import {
   BudgetEntry,
   FinanceMethod,
@@ -75,21 +76,24 @@ const Edit = (): JSX.Element => {
     dbOutcomes && setDisplayedOutcome(dbOutcomes);
   }, [dbIncomes, dbOutcomes]);
 
+
   useEffect(() => {
     const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
+
+    sortOfSurname(filteredIncomes, 'ŻŻŻ');
     filteredIncomes && setDisplayedIncome(filteredIncomes);
   },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
 
   useEffect(() => {
     const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
       if (team !== 'Brak' && i.team !== team) return false;
       if (event !== 'Brak' && i.event !== event) return false;
       if (founding !== 'Brak' && i.foundingSource !== founding) return false;
@@ -111,8 +115,9 @@ const Edit = (): JSX.Element => {
 
   const handleEdit = (
     index: number,
-    data: { key: string; value: string | number }
+    data: { key: string; value: string | number | Date | boolean }
   ) => {
+    console.log(data);
     const usedData: (IncomeDb | OutcomeDb)[] =
       editedData === BudgetEntry.Income
         ? [...displayedIncome]
@@ -146,7 +151,7 @@ const Edit = (): JSX.Element => {
         name: null,
         surname: null,
         team: '',
-        title: 'Przychód dodany ręcznie',
+        title: '',
         year: currentDate.getFullYear(),
         dateOfBook: currentDate,
       };
@@ -161,7 +166,7 @@ const Edit = (): JSX.Element => {
         foundingSource: FoundingSources.Other,
         outcomeCategory: OutcomeCategory.Fee,
         team: '',
-        title: 'Koszt dodany ręcznie',
+        title: '',
         year: currentDate.getFullYear(),
         financeMethod: FinanceMethod.Cash,
         dateOfBook: currentDate,

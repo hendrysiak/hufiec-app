@@ -30,6 +30,9 @@ export interface IncomesWithImportDate extends IncomesWithYear {
 
 export interface IncomeDb extends IncomesWithImportDate {
   id: string;
+  letterReceived?: boolean;
+  dateOfLetter?: Date | string;
+  comment?: string;
 }
 
 export interface OutcomesBankModel extends IObjectKeys{
@@ -81,4 +84,12 @@ export interface OutcomePurposeDB {
 
 export interface Amount {
   [key: string]: number
+}
+
+export interface InitAccountState {
+  name: string;
+  surname: string;
+  team: string;
+  year: number;
+  balance: number
 }

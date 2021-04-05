@@ -30,11 +30,11 @@ export const Encrypt = (word: string): string => {
   return encrypted.ciphertext.toString().toUpperCase();
 };
 
-export const EncryptCookie = (login: string, password: string) => {
+export const EncryptCookie = (login: string, password: string): string => {
   return Encrypt(login) + Encrypt(password);
 };
 
-export const DecryptCookie = (cookie: string) => {
+export const DecryptCookie = (cookie: string): { login: string; password: string } | undefined => {
   if (!cookie) return;
   const login = cookie.slice(0,32);
   const password = cookie.slice(32);

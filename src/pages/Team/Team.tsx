@@ -1,27 +1,35 @@
-import { TextField, MenuItem, Theme } from '@material-ui/core';
+import { TextField, MenuItem, Theme, IconButton, Button } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import { DataGrid } from '@material-ui/data-grid';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import MailIcon from '@material-ui/icons/Mail';
+import SearchIcon from '@material-ui/icons/Search';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, RefObject } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
   useLocation
 } from 'react-router-dom';
 
-
 import { useDebounce } from 'helpers/hooks/useDebounce';
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
-
 import { APIPerson } from 'models/registry.models';
+import { IViewModal } from 'models/viewModal.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
-import { useHandlerLogout } from '../../helpers/hooks/useHandlerLogout';
+import { List } from './components/List/List';
+import { ShowModal } from './helpers/typeViewModal.enum';
+
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -29,26 +37,24 @@ const Team = (): JSX.Element => {
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
-
   const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
-
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
-
+  const [openPopup, setOpenPopup] = useState<IViewModal>(ShowModal.Empty);
   const [rows, setRows] = useState<IncomeDb[]>([]);
-
-  const [useDate, setUseDate] = useState<boolean>(true);
+  const [useDate, setUseDate] = useState<boolean>(false);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
-
+  const [navHeight, setNavHeight] = useState<number | null>(null);
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
 
@@ -57,10 +63,15 @@ const Team = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const teamRegistry = registry && registry[currentTeam];
+    const teamRegistry = registry 
+      && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(teamRegistry);
-    const incomesToDisplay = dbIncomes && currentTeam && dbIncomes.filter(income => income.team === currentTeam);
-    const outcomesToDisplay = dbOutcomes && currentTeam && dbOutcomes.filter(income => income.team === currentTeam);
+    const incomesToDisplay = dbIncomes 
+      && currentTeam 
+      && dbIncomes.filter(income => income.team === currentTeam);
+    const outcomesToDisplay = dbOutcomes 
+      && currentTeam 
+      && dbOutcomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
     outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
   },[registry, dbIncomes, dbOutcomes, currentTeam]);
@@ -76,20 +87,24 @@ const Team = (): JSX.Element => {
     setRows(row);     
   },[incomesByCode]);
 
-  const columns = [
-    { field: 'lp', headerName: 'LP', width: 80, },
-    { field: 'name', headerName: 'IMIĘ', width: 150, },
-    { field: 'surname', headerName: 'NAZWISKO', width: 150, },
-    { field: 'cash', headerName: 'KWOTA', width: 150, },
-    { field: 'title', headerName: 'TYTUŁ', width: 600, },
-    { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
-    { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
-  ];
+  // const columns = [
+  //   { field: 'lp', headerName: 'LP', width: 80, },
+  //   { field: 'name', headerName: 'IMIĘ', width: 150, },
+  //   { field: 'surname', headerName: 'NAZWISKO', width: 150, },
+  //   { field: 'cash', headerName: 'KWOTA', width: 150, },
+  //   { field: 'title', headerName: 'TYTUŁ', width: 700, },
+  //   { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
+  //   { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
+  // ];
 
   useEffect(() => {
     //Write date checker
     const filteredIncomes = rows && rows.filter(i => {
-      if (useDate && selectedDate && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
+      if (
+        useDate 
+        && selectedDate 
+        && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()
+      ) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== '' 
           && event !== 'unAssigned' 
@@ -115,6 +130,8 @@ const Team = (): JSX.Element => {
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
     });
+
+    sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
 
   },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
@@ -152,18 +169,105 @@ const Team = (): JSX.Element => {
     return dayComponent ;   
   };
 
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    setOpenPopup(ShowModal.Empty);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleOpenFilter = () => {
+    setOpenFilter(!openFilter);
+  };
+
+  const handleMenu = (view: IViewModal) => {
+    setOpenPopup(view);
+    setOpen(false);
+  };
+
+  const navBar = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const listenerScroll = (navBar: RefObject<HTMLDivElement>, scrollY: number): void => {
+      if (navBar.current?.clientHeight) {
+        setNavHeight(navBar.current?.clientHeight - 1);
+        setScrollPosition(scrollY);
+      }
+    };
+    window.addEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
+    return () => window.removeEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
+  },[navBar]);
+  
   return (
     <>
       <LogOut />
+      <div ref={navBar} className="navTeam">
+        <p className="team">{currentTeam}</p>
+        <SpeedDial
+          classes={{ fab: 'rootCircle' }}
+          ariaLabel=""
+          hidden={false}
+          icon={<SpeedDialIcon classes={{ root: 'iconRoot', icon: 'icon' }}/>}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+          direction= "left"
+        >
+          
+          <SpeedDialAction
+            classes={{ fab: 'getAction' }}
+            key={1}
+            icon={
+              <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+                <IconButton>
+                  <GetAppIcon/>
+                </IconButton>
+              </CSVLink>}
+            tooltipTitle={''}
+          />
+          
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={2}
+            icon={<AssignmentIcon />}
+            tooltipTitle={''}
+            onClick={() => handleMenu(ShowModal.Team)}
+          />
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={3}
+            icon={<MailIcon />}
+            tooltipTitle={''}
+            onClick={() => handleMenu(ShowModal.Form)}
+          />
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={4}
+            icon={<AttachMoneyIcon />}
+            tooltipTitle={''}
+            onClick={() => handleMenu(ShowModal.Finances)}
+          />
+          <SpeedDialAction
+            classes={{ fab: 'actionRoot' }}
+            key={5}
+            icon={<SearchIcon />}
+            tooltipTitle={''}
+            onClick={handleOpenFilter}
+          />
+        </SpeedDial>
+      </div>
       <section className="container">
-        <div className="header">
-          <div className="filters">
+        <div className={`header ${openFilter ? '' : 'filterClose'}`}>
+          <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
             <TextField
-              className="testowa"
+              classes={{ root: 'teamInput' }}
               label="Po wydarzeniu"
               value={event}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
-              // placeholder="Wybierz kod z listy"
               select={true}
               size="small"
               variant="outlined"
@@ -173,11 +277,12 @@ const Team = (): JSX.Element => {
               }}
             >
               <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
-              {codes && ['', ...codes.map(code => code.code)].map((item) => (
-                item ? <MenuItem key={item} value={item}>{item}</MenuItem> : null
+              {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
+                item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
               ))}
             </TextField>
             <TextField
+              classes={{ root: 'teamInput' }}
               label="Po imieniu"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -188,6 +293,7 @@ const Team = (): JSX.Element => {
             />
 
             <TextField
+              classes={{ root: 'teamInput' }}
               label="Po nazwisku"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
@@ -195,7 +301,7 @@ const Team = (): JSX.Element => {
               size="small"
               variant="outlined"
               margin="normal"
-
+              
             />
             <KeyboardDatePicker
               className="datePicker"
@@ -205,7 +311,7 @@ const Team = (): JSX.Element => {
               format="dd/MM/yyyy"
               margin="normal"
               id="date-picker-inline"
-              label="Wybierz datę importu"
+              label="Wybierz datę wpływu"
               renderDay={renderDayInPicker}
               value={selectedDate}
               onChange={handleDateChange}
@@ -223,21 +329,25 @@ const Team = (): JSX.Element => {
               />}
               label="Sortuj po dacie"
             />
+            <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+              ZAMKNIJ FILTRY
+            </Button>
           </div>
-          <Tooltips 
+          <div style={{ display: 'none' }}><Tooltips
+            open={openPopup} 
             members={currentTeamRegistry} 
             incomes={incomesByCode} 
             outcomes={outcomesByCode} 
             currentTeam={currentTeam} 
             dataToExport={displayedIncome}
           />
+          </div>
         </div>
-        <h1>Drużyna: {currentTeam}</h1>
-        <div style={{ width: 1500 }}>
+        <div className="containerDataGrid">
           {displayedIncome?.length ? (
-            <DataGrid rows={displayedIncome} columns={columns} pageSize={10} autoHeight={true}/>
+            <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome}/>
           ) : (
-            <div className="loadingInfo">wczytywanie płatności drużyny / brak wpłat na ten filtr</div>
+            <div className="loadingInfo">brak wpłat na ten filtr</div>
           )}
         </div>
       </section>

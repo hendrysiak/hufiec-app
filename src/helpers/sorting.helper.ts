@@ -112,11 +112,13 @@ export const matchingIncomeByYear = (incomes: IncomesWithPerson[]): IncomesWithY
   return matchedIncomesByYear;
 };
 
-const setDateOfImport = (data: any) => {
+const setDateOfImport = (
+  data: (OutcomesBankModel | IncomesWithYear)[]
+): (OutcomesWithImportDate | IncomesWithImportDate)[] => {
+
   const date = new Date();
-  const updatedDate = date.toLocaleString().split(',')[0];
   const updatedData = data.map((d: OutcomesBankModel | IncomesWithYear) => {
-    return { ...d, importDate: updatedDate };
+    return { ...d, importDate: date };
   });
     
   return updatedData;
@@ -149,7 +151,16 @@ export const sortingIncome = (
   const outcomesWithDate = setDateOfImport(outcomes);
 
   return {
-    sortedIncomes: setDateOfImport(byYear),
+    sortedIncomes: setDateOfImport(byYear) as IncomesWithImportDate[],
     sortedOutcomes: setInfoAboutSourceOfOutcome(outcomesWithDate)
   };
+};
+
+export const sortOfSurname = (array: {surname: string | undefined | null}[], ifUndefined: string) => {
+  array.sort((a,b) => {
+    const firstPerson = a.surname ? a.surname : ifUndefined;
+    const secondPerson = b.surname ? b.surname : ifUndefined;
+    return firstPerson.toLocaleLowerCase().localeCompare(secondPerson.toLocaleLowerCase());
+  });
+  return array;
 };

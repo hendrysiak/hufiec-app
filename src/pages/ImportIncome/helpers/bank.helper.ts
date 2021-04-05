@@ -1,16 +1,16 @@
 import { IncomesBankModel } from 'models/income.models';
 
-import { INGBiling, INGDocument, INGOperationType } from '../models/ing.biling.model';
+import { INGBilingDocument, INGDocument, INGOperationType } from '../models/ing.biling.model';
 
-export const sortBilingFromING = (jsonBiling: INGBiling): IncomesBankModel[] => {
+export const sortBilingFromING = (jsonBiling: INGBilingDocument): IncomesBankModel[] => {
   const resultInfo: IncomesBankModel[] = [];
-  const resultArray = jsonBiling.Document.BkToCstmrAcctRpt.Rpt.Ntry;
+  const resultArray = jsonBiling.BkToCstmrAcctRpt.Rpt.Ntry;
   resultArray.forEach((result: INGDocument) => {
     resultInfo.push({
-      cash: Number(result.CdtDbtInd === INGOperationType.Debit ?
-        `-${result.Amt.__text}` : result.Amt.__text),
-      title: result.NtryDtls.TxDtls.RmtInf.Ustrd,
-      dateOfBook: new Date(result.BookgDt.DtTm)
+      cash: Number(result.CdtDbtInd._text === INGOperationType.Debit ?
+        `-${result.Amt._text}` : result.Amt._text),
+      title: result.NtryDtls.TxDtls.RmtInf.Ustrd._text,
+      dateOfBook: new Date(result.BookgDt.DtTm._text)
     });
   });
 

@@ -10,15 +10,18 @@ const feeByYear: Record<number, number> = {
 const countAmountOfFee = (person: APIPerson): number => {
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : new Date();
   const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
+
+
+  const quarterOfStart = Math.floor((new Date(dateOfAdd).getMonth() + 3) / 3);
   const quarterOfEnd = Math.floor((new Date(lastDate).getMonth() + 3) / 3);
-  const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
+  const quartersForCounting = quarterOfEnd - quarterOfStart + 1;
+  const amountOfFeesInLastYear = quartersForCounting * feeByYear[lastDate.getFullYear()];
   
   const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
-  
+ 
   if (checkIfMemberComeInCurrentYear) return amountOfFeesInLastYear;
 
   const numberOfYearsPassed = lastDate.getFullYear() - dateOfAdd.getFullYear();
-  const quarterOfStart = Math.floor((dateOfAdd.getMonth() + 3) / 3);
   const numberOfQuartersInStartYear = 4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
   const feeValueInStartYear = feeByYear[dateOfAdd.getFullYear()];
 
@@ -38,12 +41,21 @@ const countAmountOfFee = (person: APIPerson): number => {
 
 export const countingMemberFee = (person: APIPerson): number => {
   const incomes = store.getState().income.dbIncomes;
-  const feeIncomeByPerson = incomes.filter(i => i.name === person.name 
-    && i.surname === person.surname 
+
+  const feeIncomeByPerson = incomes.filter(i => i.name?.toLowerCase() === person?.name?.toLowerCase() 
+    && i.surname?.toLowerCase() === person?.surname?.toLowerCase()  
     && i.event === 'SC');
 
-  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + currentIncome.cash, 0);
-  const neededFee = countAmountOfFee(person);
+  const initAccountStatePerPerson = store?.getState().income?.initAccount?.find(ia => (
+      ia?.name?.toLowerCase() === person?.name?.toLowerCase() && 
+      ia?.surname?.toLowerCase() === person?.surname?.toLowerCase() ));
 
-  return allFeeIncomesValue - neededFee;
+  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + currentIncome.cash, 0);
+  const neededFee = Math.abs(countAmountOfFee(person));
+
+  const sum = initAccountStatePerPerson ?
+    initAccountStatePerPerson.balance + allFeeIncomesValue - neededFee :
+    allFeeIncomesValue - neededFee;
+
+  return sum;
 };

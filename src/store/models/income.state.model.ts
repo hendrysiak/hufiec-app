@@ -5,7 +5,8 @@ import {
   IncomesWithImportDate,  
   IncomeDb,
   OutcomeDb,  
-  OutcomesWithFinanceMethod 
+  OutcomesWithFinanceMethod, 
+  InitAccountState
 } from 'models/income.models';
 
 import { Registry } from 'models/registry.models';
@@ -21,4 +22,5 @@ export interface IncomeState {
   dbOutcomes: OutcomeDb[],
   codes: ApprovedEvent[] | null,
   importDates: Date[] | null;
+  initAccount: InitAccountState[]
 };

@@ -15,7 +15,6 @@ import { BrowserRouter,
 import Cookies from 'universal-cookie';
 
 import { getAccount } from 'helpers/account.helper';
-import { useHandlerLogout } from 'helpers/hooks/useHandlerLogout';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
@@ -26,7 +25,8 @@ import {
   getAccountState, 
   getCodes, 
   getRegistry, 
-  getImportDates 
+  getImportDates, 
+  getInitAccountState
 } from './pages/DashBoard/api-handlers/account.handler';
 
 import * as actions from './store/actions/index';
@@ -42,9 +42,11 @@ const App = (): JSX.Element => {
   // const [roles, setRoles] = useState<string[] | null>(null);
   // const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
-  
+
+
   useEffect(() => {
     const downloadData = async () => {
+      await getInitAccountState();
       await getAccountState();
       await getCodes();
       await getRegistry();
@@ -68,7 +70,6 @@ const App = (): JSX.Element => {
     };
     dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   },[]);
-  useHandlerLogout();
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));

@@ -29,7 +29,8 @@
     "redux-thunk": "^2.3.0",
     "typescript": "~4.0.2",
     "universal-cookie": "^4.0.4",
-    "use-add-event": "^1.1.0"
+    "use-add-event": "^1.1.0",
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "start": "react-scripts start",

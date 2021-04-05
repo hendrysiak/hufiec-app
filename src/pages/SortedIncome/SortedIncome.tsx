@@ -12,12 +12,12 @@ import { IncomesWithImportDate } from 'models/income.models';
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
 
+import { LogOut } from 'shared/LogOut/LogOut';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
 import { sortingIncome } from '../../helpers/sorting.helper';
-
 
 const SortedIncome = (): JSX.Element => {
   
@@ -88,10 +88,9 @@ const SortedIncome = (): JSX.Element => {
     };
 
     const date = new Date();
-    const updatedDate = date.toLocaleString().split(',')[0];
 
     const importDatesToUpdate = importDates && importDates.length > 0 ? importDates : [];
-    const updatedImportDates = [...importDatesToUpdate, updatedDate];
+    const updatedImportDates = [...importDatesToUpdate, date];
     (async () => await axios.put('/importDates.json', updatedImportDates))();
 
     setLoading(false);
@@ -100,50 +99,53 @@ const SortedIncome = (): JSX.Element => {
 
   return (
     loading ? <div className="loader"><CircularProgress/></div> :
-      <section className="Section">
-        <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
-        <TextField 
-          value={currentTeam}
-          onChange={(e) => setCurrentTeam(e.target.value)}
-          placeholder="Wybierz jednostkę z listy"
-          select={true}
-          size="small"
-          variant="outlined"
-          margin="normal"
-          SelectProps={{
-            MenuProps: { disableScrollLock: true }
-          }}
-        >
-          {registry && [...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-        </TextField>
-        <h2>Przelewy posortowane według kodów:</h2>
-        <main>
-          {codes.map((item, index) => {
-            const event = item;
-            const children = displayedIncome.map((income, index) => {
-              if (income.event === event) {
-                return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
-              } else if (event === 'unAssigned' && (
-                !income.hasOwnProperty('event') ||
+      <>
+        <LogOut />
+        <section className="Section">
+          <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
+          <TextField 
+            value={currentTeam}
+            onChange={(e) => setCurrentTeam(e.target.value)}
+            placeholder="Wybierz jednostkę z listy"
+            select={true}
+            size="small"
+            variant="outlined"
+            margin="normal"
+            SelectProps={{
+              MenuProps: { disableScrollLock: true }
+            }}
+          >
+            {registry && [...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
+              <MenuItem key={item} value={item}>{item}</MenuItem>
+            ))}
+          </TextField>
+          <h2>Przelewy posortowane według kodów:</h2>
+          <main>
+            {codes.map((item, index) => {
+              const event = item;
+              const children = displayedIncome.map((income, index) => {
+                if (income.event === event) {
+                  return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
+                } else if (event === 'unAssigned' && (
+                  !income.hasOwnProperty('event') ||
               !income.hasOwnProperty('year') ||
               !income.hasOwnProperty('team') ||
               !income.hasOwnProperty('name') ||
               !income.hasOwnProperty('surname')
-              )) {
-                return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
-              }
-            });
-            return (<ListContainer
-              key={index}
-              title={item}
-            >
-              {children}
-            </ListContainer>);
-          })}
-        </main>
-      </section>
+                )) {
+                  return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
+                }
+              });
+              return (<ListContainer
+                key={index}
+                title={item}
+              >
+                {children}
+              </ListContainer>);
+            })}
+          </main>
+        </section>
+      </>
   );
   
 };
