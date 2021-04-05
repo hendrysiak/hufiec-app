@@ -24,6 +24,7 @@ import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
 import { FilterName } from 'pages/EditorTeam/components/FilterName';
+import { TextField } from '@material-ui/core';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -45,7 +46,7 @@ const EditorTeam: FC = () => {
     { name: '', surname: '', id: '', dateOfAdd: null }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
-
+  const [newTeam, setNewTeam] = useState<string>('')
     
 
   const handleAcceptChange = (id: string) => {
@@ -133,6 +134,7 @@ const EditorTeam: FC = () => {
 
   const handleChangeSelect = (value: string) => {
     setTeam(value);
+    console.log(registry);
   };
 
   useEffect(() => {
@@ -147,6 +149,10 @@ const EditorTeam: FC = () => {
       },[])): ([])
     setRows(rows);
   },[team, registry, name, surname]);
+
+  const handleChangeTeam = () => {
+    setNewTeam('')
+  }
 
   return (
     <>
@@ -168,10 +174,12 @@ const EditorTeam: FC = () => {
             <TableCell align="left">Nazwisko</TableCell>
             <TableCell align="left">Data dodania</TableCell>
             <TableCell align="left">Data usunięcia</TableCell>
+            <TableCell align="left"></TableCell>
             <TableCell align="left">Usuń</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+          {console.log(rows)}
           {rows && rows.map((row: IPerson) => (
             <TableRow key={row.id}>
               <TableCell className={classes.selectTableCell}>
@@ -204,6 +212,19 @@ const EditorTeam: FC = () => {
               <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
               <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell>
               <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell>
+              <TableCell>
+                {row.isEditMode && <TextField
+                    id="standard-select-currency-native"
+                    select
+                    label="Wybierz"
+                    value={newTeam}
+                    onChange={handleChangeTeam}
+                    SelectProps={{
+                      native: true,
+                    }}
+                    helperText="Przenieś do innej drużyny"
+                  ></TextField>}
+              </TableCell>
               <TableCell className={classes.selectTableCell}>
                 <IconButton
                   aria-label="delete"
