@@ -30,6 +30,7 @@ import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
+import { Filter } from './Filter';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -57,6 +58,10 @@ const EditorTeam: FC = () => {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+
+  //filter
+  const [name, setName] = useState<string>('')
+  const [surname, setSurname] = useState<string>('')
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -197,7 +202,11 @@ const EditorTeam: FC = () => {
     }
     
     const rows = usedRegistry ? (
-      usedRegistry.map((member, index) => {
+      usedRegistry
+        .filter(member => 
+          member.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && 
+          member.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
+        .map((member, index) => {
         return (
           {
             lp: index + 1,
@@ -223,7 +232,7 @@ const EditorTeam: FC = () => {
     }
 
     setDataToExport(usedData);
-  },[team, registry]);
+  },[team, registry, name, surname]);
 
 
   const handleDateChange = (e: Date | null, row: IPerson, nameKey: string) => {
@@ -260,6 +269,11 @@ const EditorTeam: FC = () => {
     <>
       <LogOut />
       <Navigation />
+      <Filter 
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}/>
       <SelectTeam onChange={handleChangeSelect} team={team}/>
       <CSVLink data={dataToExport} filename={`${team}.csv`}>
         <Button variant="contained" color="primary" >Pobierz stan składek</Button>
