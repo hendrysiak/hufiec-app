@@ -98,6 +98,7 @@ const AddCode = (): JSX.Element => {
     try {
       await axios.put('/codes.json', currentCodes);
     } catch (err) {
+      alert('coś poszło nie tak, spróbuj ponownie.')
       console.log(err);
     }
   };

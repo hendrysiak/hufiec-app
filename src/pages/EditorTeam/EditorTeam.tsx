@@ -30,6 +30,8 @@ import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
+import { FilterName } from 'pages/EditorTeam/components/FilterName';
+import { TextField } from '@material-ui/core';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -42,9 +44,16 @@ interface DataToExport extends IPerson {
 
 const EditorTeam: FC = () => {
   const registry = useSelector((state: RootState) => state.income.registry);
+<<<<<<< HEAD
+  const [filteredRows, setFilteredRows] = useState<IPerson[] | null>(null)
+  const [rows, setRows] = useState<IPerson[] | null>(null);
+=======
   const [rows, setRows] = useState<IPerson[]>([]);
   const [dataToExport, setDataToExport] = useState<DataToExport[]>([]);
+>>>>>>> master
   const [team, setTeam] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('')
   const classes = useStyles();
   const [actualValue, setActualValue] = useState<IPerson>(
     { name: '', surname:'', id: '', dateOfAdd: null }
@@ -53,10 +62,15 @@ const EditorTeam: FC = () => {
     { name: '', surname: '', id: '', dateOfAdd: null, dateOfDelete: null }
   );
   const [activeEdit, setActiveEdit] = useState<boolean>(false);
+<<<<<<< HEAD
+  const [newTeam, setNewTeam] = useState<string>('')
+    
+=======
   const [activeRow, setActiveRow] = useState<string | null>(null);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+>>>>>>> master
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -187,6 +201,7 @@ const EditorTeam: FC = () => {
 
   const handleChangeSelect = (value: string) => {
     setTeam(value);
+    console.log(registry);
   };
 
   useEffect(() => {
@@ -260,6 +275,12 @@ const EditorTeam: FC = () => {
     <>
       <LogOut />
       <Navigation />
+      <FilterName 
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}
+      />
       <SelectTeam onChange={handleChangeSelect} team={team}/>
       <CSVLink data={dataToExport} filename={`${team}.csv`}>
         <Button variant="contained" color="primary" >Pobierz stan składek</Button>
@@ -273,11 +294,29 @@ const EditorTeam: FC = () => {
             <TableCell align="left">Imię</TableCell>
             <TableCell align="left">Data dodania</TableCell>
             <TableCell align="left">Data usunięcia</TableCell>
+<<<<<<< HEAD
+            <TableCell align="left"></TableCell>
+=======
             <TableCell align="left">Stan składek</TableCell>
+>>>>>>> master
             <TableCell align="left">Usuń</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+<<<<<<< HEAD
+          {console.log(rows)}
+          {rows && rows.map((row: IPerson) => (
+            <TableRow key={row.id}>
+              <TableCell className={classes.selectTableCell}>
+                {row.isEditMode ? (
+                  <>
+                    <IconButton
+                      aria-label="done"
+                      onClick={() => handleAcceptChange(row.id)}
+                    >
+                      <DoneIcon />
+                    </IconButton>
+=======
           {rows && rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row: IPerson) => (
@@ -299,6 +338,7 @@ const EditorTeam: FC = () => {
                       </IconButton>
                     </>
                   ) : (
+>>>>>>> master
                     <IconButton
                       aria-label="delete"
                       onClick={() => onToggleEditMode(row.id)}
@@ -352,9 +392,42 @@ const EditorTeam: FC = () => {
                   >
                     <DeleteIcon />
                   </IconButton>
+<<<<<<< HEAD
+                )}
+              </TableCell>
+              <CustomTableCell {...{ row, name: Rows.Lp, onChange }} />
+              <CustomTableCell {...{ row, name: Rows.Name, onChange }} />
+              <CustomTableCell {...{ row, name: Rows.Surname, onChange }} />
+              <TableCell>{row.dateOfAdd ? new Date(row.dateOfAdd).toLocaleDateString() : ''}</TableCell>
+              <TableCell>{row.dateOfDelete ? new Date(row.dateOfDelete).toLocaleDateString() : ''}</TableCell>
+              <TableCell>
+                {row.isEditMode && <TextField
+                    id="standard-select-currency-native"
+                    select
+                    label="Wybierz"
+                    value={newTeam}
+                    onChange={handleChangeTeam}
+                    SelectProps={{
+                      native: true,
+                    }}
+                    helperText="Przenieś do innej drużyny"
+                  ></TextField>}
+              </TableCell>
+              <TableCell className={classes.selectTableCell}>
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleDelete(row.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+=======
                 </TableCell>
               </TableRow>
             ))}
+>>>>>>> master
         </TableBody>
       </Table>
       <TablePagination
