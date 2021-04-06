@@ -169,6 +169,22 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
       } else throw Error('Błąd z drużyną');
 
+    case ActionTypes.CHANGE_TEAM_MEMBER:
+      if (action.member.team) {
+        console.log(action)
+        return ({
+          ...state
+        })
+        // const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
+        // return {
+        //   ...state,
+        //   registry: { 
+        //     ...state.registry, 
+        //     [action.member.team]: [...teamAfterDelete] }
+        // };
+
+      } else throw Error('Błąd z drużyną');
+
     default:
       return state;
   }

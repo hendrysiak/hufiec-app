@@ -48,5 +48,6 @@ export enum Routing {
 export enum Rows {
   Lp = 'lp',
   Name = 'name',
-  Surname = 'surname'
+  Surname = 'surname',
+  Team = 'team'
 }

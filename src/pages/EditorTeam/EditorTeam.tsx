@@ -1,4 +1,4 @@
-import { TablePagination, TextField } from '@material-ui/core';
+import { MenuItem, TablePagination, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -35,6 +35,7 @@ import { Filter } from './Filter';
 export interface IPerson extends APIPerson {
   lp?: number;
   isEditMode?: boolean;
+  // team: number | null;
 }
 
 interface DataToExport extends IPerson {
@@ -59,9 +60,11 @@ const EditorTeam: FC = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
-  //filter
   const [name, setName] = useState<string>('')
   const [surname, setSurname] = useState<string>('')
+
+  const [newTeam, setNewTeam] = useState<string | null>(null)
+
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -73,6 +76,24 @@ const EditorTeam: FC = () => {
   };
     
   const handleAcceptChange = (id: string) => {
+
+    const asyncEditTeamMember = async (team: string, person: APIPerson, newTeam: string | null = null) => {
+      try {
+        if(newTeam && newTeam !== team) {
+          const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
+          await permanentDeleteTeamMember(memberToDelete);
+        }
+        const teamToEdit = newTeam ? newTeam : team
+        const result = await editTeamMember(teamToEdit, person) 
+      }
+
+      catch(err) {
+        console.log(err)
+        console.log(err?.response)
+        console.log(err?.response?.status)
+      }
+    }
+    
     setActualValue(prev => {
       return {
         ...prev,
@@ -85,12 +106,25 @@ const EditorTeam: FC = () => {
         || prevValue.surname !== actualValue.surname 
         || prevValue.dateOfAdd !== actualValue.dateOfAdd 
         || prevValue.dateOfDelete !== actualValue.dateOfDelete)) {
-        editTeamMember(team,
+
+        // if(actualValue.team !== prevValue.team) {
+        //   console.log(actualValue.team, prevValue.team) 
+        //   return
+        // }
+
+        asyncEditTeamMember(team,
           { id: actualValue.id,
             name: actualValue.name,
             surname: actualValue.surname,
             dateOfAdd: actualValue.dateOfAdd,
-            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null });
+            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null }, newTeam)
+        // editTeamMember(team,
+        //   { id: actualValue.id,
+        //     name: actualValue.name,
+        //     surname: actualValue.surname,
+        //     team: actualValue.team,
+        //     dateOfAdd: actualValue.dateOfAdd,
+        //     dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null });
         setPrevValue((prev) => (
           {
             ...prev,
@@ -115,13 +149,15 @@ const EditorTeam: FC = () => {
     setActiveEdit(!activeEdit);
     rows && rows.find(el => {
       if (el.id === id) {
+        console.log(el)
         setActualValue(el);
       };
     });
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
-          setPrevValue({ ...row, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
+          console.log(row)
+          setPrevValue({ ...row, team: team, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
@@ -129,11 +165,17 @@ const EditorTeam: FC = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(actualValue)
+  },[rows])
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, row: IPerson) => {
-    if (e.target.getAttribute(Rows.Name) === Rows.Lp) return;
+    if (e.target.name !== Rows.Team && e.target.getAttribute(Rows.Name) === Rows.Lp) return;
     const value = e.target.value;
     const name = e.target.name;
     const { id } = row;
+
+    if(name === Rows.Team) setNewTeam(value)
     if (rows) {
       const newRows = rows.map(row => {
         if (row.id === id) {
@@ -159,15 +201,13 @@ const EditorTeam: FC = () => {
           setActualValue(prevValue);
           return {
             ...row,
-            name: prevValue.name,
-            surname: prevValue.surname,
-            dateOfAdd: prevValue.dateOfAdd,
-            dateOfDelete: prevValue.dateOfDelete ? prevValue.dateOfDelete : null,
+            ...prevValue,
             isEditMode: false,
           };
         }
         return row;
       });
+      console.log(newRows)
       setRows(newRows);
     }
   };
@@ -265,6 +305,10 @@ const EditorTeam: FC = () => {
 
   };
 
+  const handleChangeTeam = () => {
+
+  }
+
   return (
     <>
       <LogOut />
@@ -288,6 +332,7 @@ const EditorTeam: FC = () => {
             <TableCell align="left">Data dodania</TableCell>
             <TableCell align="left">Data usunięcia</TableCell>
             <TableCell align="left">Stan składek</TableCell>
+            <TableCell align="left"> </TableCell>
             <TableCell align="left">Usuń</TableCell>
           </TableRow>
         </TableHead>
@@ -359,6 +404,24 @@ const EditorTeam: FC = () => {
                     }}
                   /></TableCell>
                 <TableCell>{row.feeState}</TableCell>
+                {row.isEditMode ? 
+                <TableCell>
+                  <TextField
+                    name={Rows.Team}
+                    id="standard-select-currency"
+                    select
+                    label="Wybierz"
+                    value={newTeam}
+                    onChange={(e) => onChange(e, row)}
+                    helperText="Przenieś do innej drużyny"
+                  >
+                    {Object.keys(registry).slice(0,-1).map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </TableCell> : <TableCell></TableCell>}
                 <TableCell className={classes.selectTableCell}>
                   <IconButton
                     aria-label="delete"

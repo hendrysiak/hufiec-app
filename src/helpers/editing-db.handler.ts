@@ -51,16 +51,18 @@ export const addTeamMember = async (team: string, person: { name: string, surnam
   store.dispatch(reduxAddMember({ ...extendedPerson, id: response.data.name }));
 };
 
-export const editTeamMember = async (team: string, person: APIPerson): Promise<void> => {
+export const editTeamMember = async (team: string, person: APIPerson): Promise<unknown> => {
+  console.log('wyk')
   const reducedMember: Person = {
     name: person.name,
     surname: person.surname,
     dateOfAdd: person.dateOfAdd,
     dateOfDelete: person.dateOfDelete
   };
-  await axios.put(`/registry/${team}/${person.id}.json`, { ...reducedMember }); 
+  const result = await axios.put(`/registry/${team}/${person.id}.json`, { ...reducedMember }); 
 
   store.dispatch(reduxEditMember(person, team));
+  return result
 };
 
 export const deleteTeamMember = async (person: APIPerson): Promise<void> => {
@@ -72,13 +74,15 @@ export const deleteTeamMember = async (person: APIPerson): Promise<void> => {
   team && store.dispatch(reduxEditMember(person, team));
 };
 
-export const permanentDeleteTeamMember = async (person: APIPerson): Promise<void> => {
-
+export const permanentDeleteTeamMember = async (person: APIPerson): Promise<unknown> => {
+  console.log('wyk perm del')
   const { team, lp, ...mappedPerson } = person;
 
-  axios.delete(`/registry/${team}/${person.id}.json`); 
+  const result = await axios.delete(`/registry/${team}/${person.id}.json`); 
 
   store.dispatch(reduxDeleteMember(person));
+
+  return result
 };
 
 export const updateOnePercent = async (team : string, value: string): Promise<number> => {
