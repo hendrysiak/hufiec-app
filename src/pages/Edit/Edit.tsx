@@ -117,7 +117,6 @@ const Edit = (): JSX.Element => {
     index: number,
     data: { key: string; value: string | number | Date | boolean }
   ) => {
-    console.log(data);
     const usedData: (IncomeDb | OutcomeDb)[] =
       editedData === BudgetEntry.Income
         ? [...displayedIncome]

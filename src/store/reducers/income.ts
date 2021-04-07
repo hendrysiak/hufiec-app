@@ -171,7 +171,6 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
     case ActionTypes.CHANGE_TEAM_MEMBER:
       if (action.member.team) {
-        console.log(action)
         return ({
           ...state
         })

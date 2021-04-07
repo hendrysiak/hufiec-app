@@ -28,9 +28,9 @@ import { RootState } from 'store/models/rootstate.model';
 import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../../helpers/editing-db.handler';
 
 import SelectTeam from './components/SelectTeam';
+import { Filter } from './Filter';
 import { CustomTableCell } from './functions/newCell';
 import { useStyles } from './stylesTable';
-import { Filter } from './Filter';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -60,10 +60,10 @@ const EditorTeam: FC = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
-  const [name, setName] = useState<string>('')
-  const [surname, setSurname] = useState<string>('')
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
 
-  const [newTeam, setNewTeam] = useState<string | null>(null)
+  const [newTeam, setNewTeam] = useState<string | null>(null);
 
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -79,20 +79,18 @@ const EditorTeam: FC = () => {
 
     const asyncEditTeamMember = async (team: string, person: APIPerson, newTeam: string | null = null) => {
       try {
-        if(newTeam && newTeam !== team) {
+        if (newTeam && newTeam !== team) {
           const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
           await permanentDeleteTeamMember(memberToDelete);
         }
-        const teamToEdit = newTeam ? newTeam : team
-        const result = await editTeamMember(teamToEdit, person) 
+        const teamToEdit = newTeam ? newTeam : team;
+        const result = await editTeamMember(teamToEdit, person) ;
       }
 
-      catch(err) {
-        console.log(err)
-        console.log(err?.response)
-        console.log(err?.response?.status)
+      catch (err) {
+        console.error(err);
       }
-    }
+    };
     
     setActualValue(prev => {
       return {
@@ -117,7 +115,7 @@ const EditorTeam: FC = () => {
             name: actualValue.name,
             surname: actualValue.surname,
             dateOfAdd: actualValue.dateOfAdd,
-            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null }, newTeam)
+            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null }, newTeam);
         // editTeamMember(team,
         //   { id: actualValue.id,
         //     name: actualValue.name,
@@ -149,14 +147,12 @@ const EditorTeam: FC = () => {
     setActiveEdit(!activeEdit);
     rows && rows.find(el => {
       if (el.id === id) {
-        console.log(el)
         setActualValue(el);
       };
     });
     rows && setRows(() => {
       return rows.map((row) => { 
         if (row.id === id) {
-          console.log(row)
           setPrevValue({ ...row, team: team, dateOfDelete: row.dateOfDelete ? row.dateOfDelete : null });
           return { ...row, isEditMode: !row.isEditMode };
         }
@@ -165,17 +161,13 @@ const EditorTeam: FC = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(actualValue)
-  },[rows])
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, row: IPerson) => {
     if (e.target.name !== Rows.Team && e.target.getAttribute(Rows.Name) === Rows.Lp) return;
     const value = e.target.value;
     const name = e.target.name;
     const { id } = row;
 
-    if(name === Rows.Team) setNewTeam(value)
+    if (name === Rows.Team) setNewTeam(value);
     if (rows) {
       const newRows = rows.map(row => {
         if (row.id === id) {
@@ -207,26 +199,38 @@ const EditorTeam: FC = () => {
         }
         return row;
       });
-      console.log(newRows)
       setRows(newRows);
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (rows) {
       const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
       if (activeRow !== memberToDelete.id) return alert('Wejdź w tryb edycji');
-      if (window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) {
-        memberToDelete.dateOfDelete = new Date();
-        memberToDelete.feeState && memberToDelete.feeState < 0 ? 
-          deleteTeamMember(memberToDelete) : permanentDeleteTeamMember(memberToDelete);
-        setActualValue(prev => {
-          return {
-            ...prev,
-            dateOfDelete: memberToDelete.dateOfDelete,
-          };
-        });
-      }
+      if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
+
+      memberToDelete.dateOfDelete = new Date();
+      if (memberToDelete.feeState && memberToDelete.feeState < 0) {
+        deleteTeamMember(memberToDelete);
+      } 
+      else {
+        try {
+          await permanentDeleteTeamMember(memberToDelete);
+          setActiveEdit(false);
+          setActiveRow(null);
+        }
+        catch {
+          alert('Błąd, nie udało się usunąć');
+        }
+      };
+
+      setActualValue(prev => {
+        return {
+          ...prev,
+          dateOfDelete: memberToDelete.dateOfDelete,
+        };
+      });
+      
     };
   };
 
@@ -247,14 +251,14 @@ const EditorTeam: FC = () => {
           member.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && 
           member.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
         .map((member, index) => {
-        return (
-          {
-            lp: index + 1,
-            ...member,
-            feeState: countingMemberFee(member)
-          }
-        );
-      })) : ([]);
+          return (
+            {
+              lp: index + 1,
+              ...member,
+              feeState: countingMemberFee(member)
+            }
+          );
+        })) : ([]);
     setRows(rows);
 
     let usedData: DataToExport[] = []; 
@@ -273,7 +277,6 @@ const EditorTeam: FC = () => {
 
     setDataToExport(usedData);
   },[team, registry, name, surname]);
-
 
   const handleDateChange = (e: Date | null, row: IPerson, nameKey: string) => {
     const name = nameKey;
@@ -304,10 +307,6 @@ const EditorTeam: FC = () => {
     }
 
   };
-
-  const handleChangeTeam = () => {
-
-  }
 
   return (
     <>
@@ -405,23 +404,23 @@ const EditorTeam: FC = () => {
                   /></TableCell>
                 <TableCell>{row.feeState}</TableCell>
                 {row.isEditMode ? 
-                <TableCell>
-                  <TextField
-                    name={Rows.Team}
-                    id="standard-select-currency"
-                    select
-                    label="Wybierz"
-                    value={newTeam}
-                    onChange={(e) => onChange(e, row)}
-                    helperText="Przenieś do innej drużyny"
-                  >
-                    {Object.keys(registry).slice(0,-1).map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </TableCell> : <TableCell></TableCell>}
+                  <TableCell>
+                    <TextField
+                      name={Rows.Team}
+                      id="standard-select-currency"
+                      select
+                      label="Wybierz"
+                      value={newTeam}
+                      onChange={(e) => onChange(e, row)}
+                      helperText="Przenieś do innej drużyny"
+                    >
+                      {Object.keys(registry).slice(0,-1).map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </TableCell> : <TableCell></TableCell>}
                 <TableCell className={classes.selectTableCell}>
                   <IconButton
                     aria-label="delete"
