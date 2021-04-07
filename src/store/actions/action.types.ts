@@ -112,6 +112,7 @@ export interface DeleteMember {
 export interface ChangeTeamMember {
   type: ActionTypes.CHANGE_TEAM_MEMBER;
   member: APIPerson;
+  prevTeam: string;
 }
 
 export interface setAuthenticationState {

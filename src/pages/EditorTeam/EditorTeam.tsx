@@ -79,12 +79,7 @@ const EditorTeam: FC = () => {
 
     const asyncEditTeamMember = async (team: string, person: APIPerson, newTeam: string | null = null) => {
       try {
-        if (newTeam && newTeam !== team) {
-          const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
-          await permanentDeleteTeamMember(memberToDelete);
-        }
-        const teamToEdit = newTeam ? newTeam : team;
-        const result = await editTeamMember(teamToEdit, person) ;
+        await editTeamMember(team, person, newTeam);
       }
 
       catch (err) {
@@ -103,26 +98,16 @@ const EditorTeam: FC = () => {
       if (el.id === id && (prevValue.name !== actualValue.name 
         || prevValue.surname !== actualValue.surname 
         || prevValue.dateOfAdd !== actualValue.dateOfAdd 
-        || prevValue.dateOfDelete !== actualValue.dateOfDelete)) {
-
-        // if(actualValue.team !== prevValue.team) {
-        //   console.log(actualValue.team, prevValue.team) 
-        //   return
-        // }
+        || prevValue.dateOfDelete !== actualValue.dateOfDelete
+        || prevValue.team !== actualValue.team)) {
 
         asyncEditTeamMember(team,
           { id: actualValue.id,
             name: actualValue.name,
             surname: actualValue.surname,
             dateOfAdd: actualValue.dateOfAdd,
-            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null }, newTeam);
-        // editTeamMember(team,
-        //   { id: actualValue.id,
-        //     name: actualValue.name,
-        //     surname: actualValue.surname,
-        //     team: actualValue.team,
-        //     dateOfAdd: actualValue.dateOfAdd,
-        //     dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null });
+            dateOfDelete: actualValue.dateOfDelete && Date.parse(`${actualValue.dateOfDelete}`) ? actualValue.dateOfDelete : null },
+          newTeam);
         setPrevValue((prev) => (
           {
             ...prev,
@@ -314,10 +299,12 @@ const EditorTeam: FC = () => {
       <Navigation />
       <Filter 
         name={name}
-        setName={setName}
+        setName={setName} 
         surname={surname}
-        setSurname={setSurname}/>
-      <SelectTeam onChange={handleChangeSelect} team={team}/>
+        setSurname={setSurname}
+        disabled={activeEdit ? true : false}
+      />
+      <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeEdit ? true : false}/>
       <CSVLink data={dataToExport} filename={`${team}.csv`}>
         <Button variant="contained" color="primary" >Pobierz stan składek</Button>
       </CSVLink>

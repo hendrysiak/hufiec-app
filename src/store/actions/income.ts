@@ -140,9 +140,9 @@ export const reduxDeleteMember = (member: APIPerson): DeleteMember => {
     member
   };
 };
-export const reduxChangeTeamMember = (team: number, member: APIPerson): ChangeTeamMember => {
+export const reduxChangeTeamMember = (member: APIPerson, prevTeam: string): ChangeTeamMember => {
   return {
     type: ActionTypes.CHANGE_TEAM_MEMBER,
-    member
+    member, prevTeam
   };
 };

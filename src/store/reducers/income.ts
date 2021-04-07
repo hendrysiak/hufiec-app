@@ -169,18 +169,21 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
       } else throw Error('Błąd z drużyną');
 
-    case ActionTypes.CHANGE_TEAM_MEMBER:
-      if (action.member.team) {
+    case ActionTypes.CHANGE_TEAM_MEMBER:     
+      
+      if (action.member.team && action.prevTeam) {
+
+        const teamAfterDelete = state.registry[action.prevTeam].filter(m => m.id !== action.member.id);
+        const newTeamList = state.registry[action.member.team];
+
         return ({
-          ...state
-        })
-        // const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
-        // return {
-        //   ...state,
-        //   registry: { 
-        //     ...state.registry, 
-        //     [action.member.team]: [...teamAfterDelete] }
-        // };
+          ...state,
+          registry: {
+            ...state.registry,
+            [action.prevTeam]: [...teamAfterDelete],
+            [action.member.team]: [...newTeamList, action.member]
+          }
+        });
 
       } else throw Error('Błąd z drużyną');
 

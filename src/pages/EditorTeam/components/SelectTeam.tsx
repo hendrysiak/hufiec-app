@@ -14,9 +14,10 @@ interface SelectTeam {
   children?: React.ReactNode;
   team: string; 
   onChange: (e: string) => void;
+  disabled: boolean;
 }
 
-const SelectTeam = ({onChange, team}: SelectTeam) => {
+const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
         SelectProps={{
           MenuProps: { disableScrollLock: true }
         }}
+        disabled={disabled}
       >
         {registry && ['Cały hufiec', ...Object.keys(registry)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
