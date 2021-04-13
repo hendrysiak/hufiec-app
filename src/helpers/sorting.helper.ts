@@ -81,7 +81,7 @@ export const matchingIncomesToTeamMember = (teams: Registry, incomes: IncomesWit
     if (income.team === null) updatedIncome = { ...income, name: null, surname: null };
     else {
 
-      const currentTeamMembers = [...teams[income.team]];
+      const currentTeamMembers = Object.values(teams[income.team]);
       const findedMember = currentTeamMembers.find(member => {
 
         const nameRegex = new RegExp(member.name, 'mi');

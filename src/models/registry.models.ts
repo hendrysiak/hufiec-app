@@ -13,5 +13,5 @@ export interface APIPerson extends Person {
 }
 
 export interface Registry {
-  [key: string]: APIPerson[]
+  [key: string]: Record<string, APIPerson>
 };

@@ -35,14 +35,24 @@ export const getCodes = async (): Promise<void> => {
 
 export const getRegistry = async (): Promise<void> => {
   const registry = await axios.get('/registry.json');
-  const mappedRegistry: Record<string, APIPerson[]> = {};
+  const mappedRegistry: Record<string, Record<string, APIPerson>> = {};
 
   for (const id in registry.data ) {
     const { team, ...currentPerson } = registry.data[id];
 
     currentPerson['id'] = id; 
+    
 
-    mappedRegistry[team] = mappedRegistry[team] ? [ currentPerson, ...mappedRegistry[team]] : [];
+    if (mappedRegistry[team]) mappedRegistry[team][id] = registry.data[id];
+    else {
+      if (!team) {
+        mappedRegistry['errorTeam'] = { ...mappedRegistry['errorTeam'] };
+        mappedRegistry['errorTeam'][id] = registry.data[id];
+      } else {
+        mappedRegistry[team] = {};
+        mappedRegistry[team][id] = registry.data[id];
+      }
+    }
   }
 
   store.dispatch(reduxGetRegistry(mappedRegistry));
