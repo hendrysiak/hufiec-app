@@ -30,25 +30,25 @@ export const Filter = (props: Props) => {
   return (
     <>
       <TextField
-        style={{ marginTop: '16px' }}
+        style={{ margin: '0 8px' }}
         label="Po nazwisku"
         value={surname}
         onChange={(e) => setSurname(e.target.value)}
         placeholder="Wpisz nazwisko"
         size="small"
         variant="outlined"
-        margin="normal"
+        margin="none"
         disabled={ props.disabled }
       />
       <TextField
-        style={{ marginTop: '16px' }}
+        style={{ margin: '0 8px' }}
         label="Po imieniu"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Wpisz imię"
         size="small"
         variant="outlined"
-        margin="normal"
+        margin="none"
         disabled={ props.disabled }
       />
     </>

@@ -1,4 +1,5 @@
 import { MenuItem, TablePagination, TextField } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -297,17 +298,19 @@ const EditorTeam: FC = () => {
     <>
       <LogOut />
       <Navigation />
-      <Filter 
-        name={name}
-        setName={setName} 
-        surname={surname}
-        setSurname={setSurname}
-        disabled={activeEdit ? true : false}
-      />
-      <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeEdit ? true : false}/>
-      <CSVLink data={dataToExport} filename={`${team}.csv`}>
-        <Button variant="contained" color="primary" >Pobierz stan składek</Button>
-      </CSVLink>
+      <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
+        <Filter 
+          name={name}
+          setName={setName} 
+          surname={surname}
+          setSurname={setSurname}
+          disabled={activeEdit ? true : false}
+        />
+        <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeEdit ? true : false}/>
+        <CSVLink data={dataToExport} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
+          <Button variant="contained" color="primary" >Pobierz stan składek</Button>
+        </CSVLink>
+      </Box>
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
           <TableRow>
