@@ -1,4 +1,4 @@
-import { TextField, MenuItem, Theme, IconButton, Button } from '@material-ui/core';
+import { TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,6 +30,9 @@ import './style.css';
 import { List } from './components/List/List';
 import { ShowModal } from './helpers/typeViewModal.enum';
 
+import { TabPanel } from 'shared/TabPanel/TabPanel';
+import TeamPage from './components/TeamPage/TeamPage';
+
 
 const Team = (): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes);
@@ -57,6 +60,11 @@ const Team = (): JSX.Element => {
   const [navHeight, setNavHeight] = useState<number | null>(null);
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
+  const [tab, setTab] = useState(0);
+
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setTab(newValue);
+  };
 
   const handleDateChange = (date: Date | null) => {
     date && setSelectedDate(date);
@@ -206,8 +214,13 @@ const Team = (): JSX.Element => {
     <>
       <LogOut />
       <div ref={navBar} className="navTeam">
-        <p className="team">{currentTeam}</p>
-        <SpeedDial
+        <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+        <Tabs value={tab} variant="fullWidth" indicatorColor="primary" onChange={handleTabChange} style={{ flex: 3 }}>
+          <Tab label="Lista wpłat" />
+          <Tab label="Stan składek" />
+          <Tab label="Wyślij wiadomość"/>
+        </Tabs>
+        {/* <SpeedDial
           classes={{ fab: 'rootCircle' }}
           ariaLabel=""
           hidden={false}
@@ -258,99 +271,104 @@ const Team = (): JSX.Element => {
             tooltipTitle={''}
             onClick={handleOpenFilter}
           />
-        </SpeedDial>
+        </SpeedDial> */}
       </div>
-      <section className="container">
-        <div className={`header ${openFilter ? '' : 'filterClose'}`}>
-          <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po wydarzeniu"
-              value={event}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
-              select={true}
-              size="small"
-              variant="outlined"
-              margin="normal"
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
-              }}
-            >
-              <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
-              {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
-                item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
-              ))}
-            </TextField>
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po imieniu"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Wpisz imię"
-              size="small"
-              variant="outlined"
-              margin="normal"
-            />
+      <TabPanel value={tab} index={0}>
+        <section className="container">
+          <div className={`header ${openFilter ? '' : 'filterClose'}`}>
+            <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po wydarzeniu"
+                value={event}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
+                select={true}
+                size="small"
+                variant="outlined"
+                margin="normal"
+                SelectProps={{
+                  MenuProps: { disableScrollLock: true }
+                }}
+              >
+                <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
+                {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
+                  item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
+                ))}
+              </TextField>
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po imieniu"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Wpisz imię"
+                size="small"
+                variant="outlined"
+                margin="normal"
+              />
 
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po nazwisku"
-              value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-              placeholder="Wpisz nazwisko"
-              size="small"
-              variant="outlined"
-              margin="normal"
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po nazwisku"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                placeholder="Wpisz nazwisko"
+                size="small"
+                variant="outlined"
+                margin="normal"
               
-            />
-            <KeyboardDatePicker
-              className="datePicker"
-              disableToolbar
-              disableFuture={true}
-              inputVariant="outlined"
-              format="dd/MM/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Wybierz datę wpływu"
-              renderDay={renderDayInPicker}
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            <FormControlLabel
-              className="dateCheckbox"
-              control={<Checkbox 
-                checked={useDate} 
-                onChange={(e) => setUseDate(e.target.checked)} 
-                name="checkedA" 
-                color="primary"
-              />}
-              label="Sortuj po dacie"
-            />
-            <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+              />
+              <KeyboardDatePicker
+                className="datePicker"
+                disableToolbar
+                disableFuture={true}
+                inputVariant="outlined"
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Wybierz datę wpływu"
+                renderDay={renderDayInPicker}
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+              <FormControlLabel
+                className="dateCheckbox"
+                control={<Checkbox 
+                  checked={useDate} 
+                  onChange={(e) => setUseDate(e.target.checked)} 
+                  name="checkedA" 
+                  color="primary"
+                />}
+                label="Sortuj po dacie"
+              />
+              <Button onClick={handleOpenFilter} variant="contained" color="secondary">
               ZAMKNIJ FILTRY
-            </Button>
+              </Button>
+            </div>
+            <div style={{ display: 'none' }}><Tooltips
+              open={openPopup} 
+              members={currentTeamRegistry} 
+              incomes={incomesByCode} 
+              outcomes={outcomesByCode} 
+              currentTeam={currentTeam} 
+              dataToExport={displayedIncome}
+            />
+            </div>
           </div>
-          <div style={{ display: 'none' }}><Tooltips
-            open={openPopup} 
-            members={currentTeamRegistry} 
-            incomes={incomesByCode} 
-            outcomes={outcomesByCode} 
-            currentTeam={currentTeam} 
-            dataToExport={displayedIncome}
-          />
+          <div className="containerDataGrid">
+            {displayedIncome?.length ? (
+              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome}/>
+            ) : (
+              <div className="loadingInfo">brak wpłat na ten filtr</div>
+            )}
           </div>
-        </div>
-        <div className="containerDataGrid">
-          {displayedIncome?.length ? (
-            <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome}/>
-          ) : (
-            <div className="loadingInfo">brak wpłat na ten filtr</div>
-          )}
-        </div>
-      </section>
+        </section>
+      </TabPanel>
+      <TabPanel value={tab} index={1}>
+        <TeamPage members={currentTeamRegistry} />
+      </TabPanel>
     </>
   );
 };
