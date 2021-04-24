@@ -32,6 +32,7 @@ import { ShowModal } from './helpers/typeViewModal.enum';
 
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import TeamPage from './components/TeamPage/TeamPage';
+import Form from './components/Form/Form';
 
 
 const Team = (): JSX.Element => {
@@ -218,6 +219,7 @@ const Team = (): JSX.Element => {
         <Tabs value={tab} variant="fullWidth" indicatorColor="primary" onChange={handleTabChange} style={{ flex: 3 }}>
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
+          <Tab label="Stan konta" />
           <Tab label="Wyślij wiadomość"/>
         </Tabs>
         {/* <SpeedDial
@@ -368,6 +370,9 @@ const Team = (): JSX.Element => {
       </TabPanel>
       <TabPanel value={tab} index={1}>
         <TeamPage members={currentTeamRegistry} />
+      </TabPanel>
+      <TabPanel value={tab} index={3}>
+        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} />
       </TabPanel>
     </>
   );

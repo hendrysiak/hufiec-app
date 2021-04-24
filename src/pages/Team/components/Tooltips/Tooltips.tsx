@@ -43,11 +43,11 @@ const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport 
             <TeamPage members={members} open={open}/>
           </IconButton>
         </Tooltip> */}
-        <Tooltip title="" classes={tooltipsClasses}>
+        {/* <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="support">
             <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} open={open}/>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="account-state">
             <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam} open={open}/>
