@@ -16,7 +16,7 @@ import Cookies from 'universal-cookie';
 
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
-import EditorTeam2 from 'pages/EditorTeam/EditorTeam2';
+import EditorTeam2 from 'pages/EditorTeam/EditorTeam';
 import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
@@ -102,7 +102,7 @@ const App = (): JSX.Element => {
         {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam2 />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
         <Route exact path="/login" render={() => <Login />} />
         {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
       </Switch>
