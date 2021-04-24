@@ -65,7 +65,7 @@ const Team = (): JSX.Element => {
   useEffect(() => {
     const teamRegistry = registry 
       && registry[currentTeam];
-    teamRegistry && setCurrentTeamRegistry(teamRegistry);
+    teamRegistry && setCurrentTeamRegistry(Object.values(teamRegistry));
     const incomesToDisplay = dbIncomes 
       && currentTeam 
       && dbIncomes.filter(income => income.team === currentTeam);

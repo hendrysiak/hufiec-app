@@ -1,3 +1,4 @@
+import { APIPerson, Person } from 'models/registry.models';
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
 
@@ -129,62 +130,46 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
     case ActionTypes.ADD_MEMBER:
       if (action.member.team) {
-        const teamAfterAdd = [...state.registry[action.member.team]];
+        const registry = state.registry;
+        registry[action.member.team][action.member.id] = { ...action.member };
+
         return {
           ...state,
-          registry: { ...state.registry, [action.member.team]: [...teamAfterAdd, action.member] }
+          registry: {...registry}
         };
-
       } else throw Error('Błąd z drużyną');
 
     case ActionTypes.EDIT_MEMBER:
       if (action.team) {
-        const teamBeforeEdit = [...state.registry[action.team]];
+        const { id, team } = action.member;
+        const member: Partial<APIPerson> = action.member;
+        const registry = state.registry;
 
-        const teamAfterEdit = teamBeforeEdit.map(el => {
-          if (el.id === action.member.id) {
-            return ({
-              ...action.member
-            });
-          }
-          return el;
-        });
-        
+        if (team && id) {
+          const stateMember = registry[action.team][id];
+          if (member && member.id) delete member['id'];
+
+          delete registry[action.team][id];
+          registry[team][id] = {...stateMember, ...member};
+        }
+
         return {
           ...state,
-          registry: { ...state.registry, [action.team]: [...teamAfterEdit] }
+          registry: {...registry}
         };
 
       } else throw Error('Błąd z drużyną');
 
     case ActionTypes.DELETE_MEMBER:
       if (action.member.team) {
-        const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
+
+        const registry = state.registry;
+        delete registry[action.member.team][action.member.id];
+
         return {
           ...state,
-          registry: { 
-            ...state.registry, 
-            [action.member.team]: [...teamAfterDelete] }
+          registry: {...registry}
         };
-
-      } else throw Error('Błąd z drużyną');
-
-    case ActionTypes.CHANGE_TEAM_MEMBER:     
-      
-      if (action.member.team && action.prevTeam) {
-
-        const teamAfterDelete = state.registry[action.prevTeam].filter(m => m.id !== action.member.id);
-        const newTeamList = state.registry[action.member.team];
-
-        return ({
-          ...state,
-          registry: {
-            ...state.registry,
-            [action.prevTeam]: [...teamAfterDelete],
-            [action.member.team]: [...newTeamList, action.member]
-          }
-        });
-
       } else throw Error('Błąd z drużyną');
 
     default:

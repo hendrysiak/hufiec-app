@@ -14,10 +14,10 @@ interface SelectTeam {
   children?: React.ReactNode;
   team: string; 
   onChange: (e: string) => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
+const SelectTeam = ({onChange, team, disabled = false}: SelectTeam) => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
