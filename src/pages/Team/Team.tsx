@@ -33,6 +33,7 @@ import { ShowModal } from './helpers/typeViewModal.enum';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import TeamPage from './components/TeamPage/TeamPage';
 import Form from './components/Form/Form';
+import TeamFinances from './components/TeamFinances/TeamFinances';
 
 
 const Team = (): JSX.Element => {
@@ -370,6 +371,9 @@ const Team = (): JSX.Element => {
       </TabPanel>
       <TabPanel value={tab} index={1}>
         <TeamPage members={currentTeamRegistry} />
+      </TabPanel>
+      <TabPanel value={tab} index={2}>
+        <TeamFinances incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
         <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} />

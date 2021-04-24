@@ -6,7 +6,7 @@
   width: 660px;
   height: 90vh;
   overflow-y: scroll;
-   transform: translateY(3vh);
+   transform: translateY(5vh);
 }
 
 .li {
