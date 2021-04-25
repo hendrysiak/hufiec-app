@@ -166,7 +166,7 @@ const EditorTeam: FC = () => {
     <>
       <LogOut />
       <Navigation />
-      <Box display="flex" justifyContent="center" alignItems="center" p={4}> 
+      <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
         <Filter 
           name={name}
           setName={setName} 
@@ -174,8 +174,8 @@ const EditorTeam: FC = () => {
           setSurname={setSurname}
           disabled={activeRow ? true : false}
         />
-        <SelectTeam onChange={handleChangeSelect} team={team}/>
-        <CSVLink data={rows} filename={`${team}.csv`}>
+        <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeRow ? true : false}/>
+        <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
           <Button variant="contained" color="primary" >Pobierz stan składek</Button>
         </CSVLink>
       </Box>
