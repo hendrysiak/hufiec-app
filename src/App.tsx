@@ -16,7 +16,6 @@ import Cookies from 'universal-cookie';
 
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
-import EditorTeam2 from 'pages/EditorTeam/EditorTeam';
 import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
