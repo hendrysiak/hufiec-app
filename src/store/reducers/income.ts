@@ -1,4 +1,4 @@
-import { APIPerson, Person } from 'models/registry.models';
+import { APIPerson } from 'models/registry.models';
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
 
@@ -135,7 +135,7 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
         return {
           ...state,
-          registry: {...registry}
+          registry: { ...registry }
         };
       } else throw Error('Błąd z drużyną');
 
@@ -150,12 +150,12 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
           if (member && member.id) delete member['id'];
 
           delete registry[action.team][id];
-          registry[team][id] = {...stateMember, ...member};
+          registry[team][id] = { ...stateMember, ...member };
         }
 
         return {
           ...state,
-          registry: {...registry}
+          registry: { ...registry }
         };
 
       } else throw Error('Błąd z drużyną');
@@ -168,7 +168,7 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
 
         return {
           ...state,
-          registry: {...registry}
+          registry: { ...registry }
         };
       } else throw Error('Błąd z drużyną');
 

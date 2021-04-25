@@ -45,7 +45,6 @@ const Login = (): JSX.Element => {
         store.dispatch(reduxSetTeam(accountData.team));
         cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: timeToLogout });
         // if(accountData.team) return history.push(`/info${accountData.team}`);
-        //TODO - this only to test ->
 
         if (accountData.roles.includes('admin')) return history.push('/');
         return history.push(`/${accountData.team}`);

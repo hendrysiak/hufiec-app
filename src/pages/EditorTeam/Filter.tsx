@@ -12,7 +12,7 @@ type Props = {
   disabled: boolean;
 };
 
-export const Filter = (props: Props) => {
+export const Filter = (props: Props): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 

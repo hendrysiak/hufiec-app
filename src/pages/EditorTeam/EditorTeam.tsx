@@ -1,4 +1,4 @@
-import { MenuItem, TablePagination, TextField } from '@material-ui/core';
+import { Box, MenuItem, TablePagination, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -16,20 +16,19 @@ import React, { useState, useEffect, FC } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
-import { useDebounce } from 'helpers/hooks/useDebounce';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
-import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
-import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from '../../helpers/editing-db.handler';
+import { editTeamMember } from '../../helpers/editing-db.handler';
 
+import { CustomTableCell } from './components/newCell';
 import SelectTeam from './components/SelectTeam';
 import { Filter } from './Filter';
-import { CustomTableCell } from './functions/newCell';
+import { controlerDate, filterMembers, handleDelete } from './helpers/helpers';
 import { useStyles } from './stylesTable';
 
 export interface IPerson extends APIPerson {
@@ -53,11 +52,15 @@ const EditorTeam: FC = () => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 
-  const [newTeam, setNewTeam] = useState<string | null>(null);
+  // const [newTeam, setNewTeam] = useState<string | null>(null);
 
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
 
+  const clearStateRow = () => {
+    setActiveRow(null);
+    setNewData(null);
+  };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -73,37 +76,36 @@ const EditorTeam: FC = () => {
 
     try {
       await editTeamMember(team, newData);
-      setActiveRow(null);
-      setNewData(null);
+      alert('Edycja zakończona sukcesem.');
+      clearStateRow();
       return;
     }
     catch (err) {
-      console.error(err);
+      alert('Wystąpił błąd podczas edycji. Spróbuj ponownie.');
     }
     onToggleEditMode(id);
   };
 
   const onToggleEditMode = (id: string) => {
-
-    if (activeRow && !window.confirm('Jesteś w trakcie edycji innej osoby. Naciśnij okej, a usuniesz wszelkie wprowadzone zmiany.')) {
+    if (activeRow && 
+      !window.confirm(`Jesteś w trakcie edycji innej osoby. Naciśnij okej, a usuniesz wszelkie wprowadzone zmiany.`)) {
       return;
     };
     setNewData(null);
     setActiveRow(id);
-    setNewData((prev: any) => {
+    setNewData((prev) => {
       return ({
         ...prev,
         id,
-        team: newTeam ? newTeam : team
+        team
       });
     });
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, row: IPerson) => {
-    const {value, name, } = e.target;
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value, name, } = e.target;
     
-    // setNewTeam()
-    setNewData((prev: any) => {
+    setNewData((prev) => {
       return ({
         ...prev,
         [name]: value
@@ -111,34 +113,16 @@ const EditorTeam: FC = () => {
     });
   };
 
-  const onRevert = (id: string) => {
+  const onRevert = () => {
     if (!window.confirm('jesteś pewien, że chcesz cofnąć zmiany?')) return;
-    setActiveRow(null);
-    setNewData(null);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (rows) {
-      const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
-      if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
-
-      memberToDelete.dateOfDelete = new Date();
-      if (memberToDelete.feeState && memberToDelete.feeState < 0) {
-        deleteTeamMember(memberToDelete);
-      } 
-      else {
-        try {
-          await permanentDeleteTeamMember(memberToDelete);
-
-        }
-        catch {
-          alert('Błąd, nie udało się usunąć');
-        }
-      };      
-    };
+    clearStateRow();
   };
 
   const handleChangeSelect = (value: string) => {
+    if (activeRow && !window.confirm('Jestes w trakcie edycji, jestes pewien, że chcesz zakończyć bez zapisywania zmian?')) {
+      return;
+    }
+    clearStateRow();
     setTeam(value);
   };
 
@@ -146,56 +130,29 @@ const EditorTeam: FC = () => {
     let usedRegistry: APIPerson[] = [];
 
     if (team === 'Cały hufiec') {
-
       for (const currentTeam in registry) {
         usedRegistry = [...usedRegistry, ...Object.values(registry[currentTeam])];
       }
 
     } else usedRegistry = registry[team] ? [...Object.values(registry[team])] : [];
 
-
     if (usedRegistry) {
       sortOfSurname(usedRegistry, 'ŻŻŻ');
     }
-    console.log(usedRegistry);
-    const rows = usedRegistry ? (
-      usedRegistry
-        .filter(member => 
-          member.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && 
-          member.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
-        .map((member, index) => {
-          console.log(member);
-          return (
-            {
-              lp: index + 1,
-              ...member,
-              feeState: countingMemberFee(member)
-            }
-          );
-        })) : ([]);
+    const rows = usedRegistry ? filterMembers(usedRegistry, name, surname) : ([]);
     setRows(rows);
-
-  },[team, registry]);
+  },[team, registry, name, surname]);
 
 
   const handleDateChange = (e: Date | null, row: IPerson, nameKey: string) => {
+    
     const value = e;
-    const minDate = newData?.dateOfAdd ? newData.dateOfAdd : row.dateOfAdd;
-    const maxDate = newData?.dateOfDelete ? newData.dateOfDelete : row.dateOfDelete;
-    
-    if (maxDate && value && nameKey === 'dateOfAdd') {
-      if (value.getTime() > new Date(maxDate).getTime()) {
-        alert('Data usunięcia członka nie może być wcześniej niż data dodania go do drużyny.');
-        return;
-      }
-    }
-    
-    if (minDate && value && nameKey === 'dateOfDelete') {
-      if (new Date(minDate).getTime() > value.getTime()) {
-        alert('Data usunięcia członka nie może być wcześniej niż data dodania go do drużyny.');
-        return;
-      }
-    }
+    if (!value) return;
+
+    if (controlerDate(value, newData, row, nameKey)) {
+      alert('Data usunięcia członka nie może być wcześniej niż data dodania go do drużyny.');
+      return;
+    };
     
     setNewData((prev) => {
       return ({
@@ -209,10 +166,19 @@ const EditorTeam: FC = () => {
     <>
       <LogOut />
       <Navigation />
-      <SelectTeam onChange={handleChangeSelect} team={team}/>
-      <CSVLink data={rows} filename={`${team}.csv`}>
-        <Button variant="contained" color="primary" >Pobierz stan składek</Button>
-      </CSVLink>
+      <Box display="flex" justifyContent="center" alignItems="center" p={4}> 
+        <Filter 
+          name={name}
+          setName={setName} 
+          surname={surname}
+          setSurname={setSurname}
+          disabled={activeRow ? true : false}
+        />
+        <SelectTeam onChange={handleChangeSelect} team={team}/>
+        <CSVLink data={rows} filename={`${team}.csv`}>
+          <Button variant="contained" color="primary" >Pobierz stan składek</Button>
+        </CSVLink>
+      </Box>
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
           <TableRow>
@@ -243,7 +209,7 @@ const EditorTeam: FC = () => {
                       </IconButton>
                       <IconButton
                         aria-label="revert"
-                        onClick={() => onRevert(row.id)}
+                        onClick={onRevert}
                       >
                         <RevertIcon />
                       </IconButton>
@@ -259,7 +225,7 @@ const EditorTeam: FC = () => {
                 </TableCell>
                 <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
                 <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
-                <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData}} />
+                <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
                 {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
                 <TableCell >
                   <KeyboardDatePicker
@@ -271,7 +237,9 @@ const EditorTeam: FC = () => {
                     id="date-picker-dialog"
                     // label="Data dodania"
                     format="dd/MM/yyyy"
-                    value={newData?.dateOfAdd && activeRow === row.id ? new Date(newData.dateOfAdd) : row.dateOfAdd ? new Date(row.dateOfAdd) : null }
+                    value={newData?.dateOfAdd && activeRow === row.id ? 
+                      new Date(newData.dateOfAdd) : 
+                      row.dateOfAdd ? new Date(row.dateOfAdd) : null }
                     onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
                     KeyboardButtonProps={{
                       'aria-label': 'change date'
@@ -288,7 +256,9 @@ const EditorTeam: FC = () => {
                     id="date-picker-dialog"
                     // label="Data usunięcia"
                     format="dd/MM/yyyy"
-                    value={newData?.dateOfDelete && activeRow === row.id ? new Date(newData.dateOfDelete) : row.dateOfDelete ? new Date(row.dateOfDelete) : null}
+                    value={newData?.dateOfDelete && activeRow === row.id ? 
+                      new Date(newData.dateOfDelete) : 
+                      row.dateOfDelete ? new Date(row.dateOfDelete) : null}
                     onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
                     KeyboardButtonProps={{
                       'aria-label': 'change date'
@@ -303,7 +273,7 @@ const EditorTeam: FC = () => {
                       select
                       label="Wybierz"
                       value={newData?.team}
-                      onChange={(e) => onChange(e, row)}
+                      onChange={(e) => onChange(e)}
                       helperText="Przenieś do innej drużyny"
                     >
                       {Object.keys(registry).slice(0,-1).map((option) => (
@@ -316,7 +286,8 @@ const EditorTeam: FC = () => {
                 <TableCell className={classes.selectTableCell}>
                   <IconButton
                     aria-label="delete"
-                    onClick={() => handleDelete(row.id)}
+                    color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
+                    onClick={() => handleDelete(rows, row.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

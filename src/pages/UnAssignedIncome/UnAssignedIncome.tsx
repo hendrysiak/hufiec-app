@@ -35,7 +35,7 @@ const UnAssignedIncome = (): JSX.Element => {
   };
 
 
-  const editIncome = (event: any, index: number) => {
+  const editIncome = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     if (initIncome) {
       const incomeToEdit = [...initIncome];
       incomeToEdit[index].title = event.target.value;

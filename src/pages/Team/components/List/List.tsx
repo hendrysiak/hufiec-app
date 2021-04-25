@@ -12,14 +12,15 @@ enum ActionPagination {
   Prev = 'prev'
 }
 
-export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | null, scrollPosition: number, rows: IncomeDb[]}): JSX.Element => {
+export const List = ({ navHeight, scrollPosition, rows }: 
+{navHeight: number | null, scrollPosition: number, rows: IncomeDb[]}): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [displayRows, setDisplayRows] = useState<IncomeDb[]>(rows);
   const [barFixed, serBarFixed] = useState<boolean>(false);
   const [heightFirstLi, setHeightFirstLi] = useState<number>(0);
 
-  const handleRowsPerPage = (value: number | string) => { 
+  const handleRowsPerPage = (value: string) => { 
     setRowsPerPage(Number(value));
 
     if ((page * rowsPerPage) > displayRows.length) {
@@ -63,6 +64,13 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
 
   const firstLi = useRef<HTMLLIElement>(null);
 
+  const controlEntireDataRow = (el: IncomeDb) => {
+    if (el.name && el.surname && el.dateOfBook && el.title && el.event && el.cash) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div className="containerList">
       <ul className="ul">
@@ -77,7 +85,10 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
         </li>
         {displayRows.map((el: IncomeDb, index: number) => {
           return (
-            <li key={index} style={{marginTop: `${index === 0 && barFixed ? heightFirstLi+'px' : '0'}`}} className={`li ${el.name && el.surname && el.dateOfBook && el.title && el.event && el.cash ? '' : 'incompleteData'}`}>
+            <li 
+              key={index} 
+              style={{ marginTop: `${index === 0 && barFixed ? heightFirstLi + 'px' : '0'}` }} 
+              className={`li ${controlEntireDataRow(el) ? '' : 'incompleteData'}`}>
               <div className="containerGroup">
                 <p className="name">{el.surname} {el.name}</p>
                 <p className="date">{el.dateOfBook} </p>
@@ -94,9 +105,8 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
             <FormControl>
               <Select
                 value={rowsPerPage}
-                onChange={(e: any) => handleRowsPerPage(e.target.value)}
+                onChange={(e: React.ChangeEvent<{ value: unknown }>): void => handleRowsPerPage(e.target.value as string)}
                 displayEmpty
-                className=""
                 inputProps={{ 'aria-label': 'Without label' }}
               >
                 <MenuItem value={25}>25</MenuItem>
@@ -106,7 +116,8 @@ export const List = ({ navHeight, scrollPosition, rows }: {navHeight: number | n
             </FormControl>
           </div>
           <div className="paginationItem">
-            od {page * rowsPerPage + 1} do {page * rowsPerPage + rowsPerPage < rows.length ? page * rowsPerPage + rowsPerPage : rows.length } of {rows.length}
+            od {page * rowsPerPage + 1} do {page * rowsPerPage + rowsPerPage < rows.length ? 
+              page * rowsPerPage + rowsPerPage : rows.length } of {rows.length}
           </div>
           <div className="paginationItem">
             <ChevronLeftIcon onClick={() => handleChangePage(ActionPagination.Prev)} style={{ cursor: 'pointer', fontSize: '44px' }}/> 

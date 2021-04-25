@@ -36,7 +36,7 @@ export const getCodes = async (): Promise<void> => {
 export const getRegistry = async (): Promise<void> => {
   const registry = await axios.get('/registry.json');
   const mappedRegistry: Record<string, Record<string, APIPerson>> = {};
-
+  
   for (const id in registry.data ) {
     const { team, ...currentPerson } = registry.data[id];
     currentPerson['id'] = id;
