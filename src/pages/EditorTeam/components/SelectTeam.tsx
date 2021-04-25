@@ -17,7 +17,7 @@ interface SelectTeam {
   disabled?: boolean;
 }
 
-const SelectTeam = ({onChange, team, disabled = false}: SelectTeam) => {
+const SelectTeam = ({onChange, team, disabled = false}: SelectTeam): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
