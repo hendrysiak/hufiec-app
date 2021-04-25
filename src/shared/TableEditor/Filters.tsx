@@ -14,6 +14,7 @@ import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enu
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
+import { FiltersName } from './FiltersName';
 
 
 type Props = {
@@ -42,20 +43,6 @@ const Filters = (props: Props): JSX.Element => {
 
   const codes = useSelector((state: RootState) => state.income.codes);
 
-  const [name, setName] = useState<string>('');
-  const [surname, setSurname] = useState<string>('');
-
-  const debouncedName = useDebounce(name, 500);
-  const debouncedSurname = useDebounce(surname, 500);
-
-  useEffect(() => {
-    props.setName(name);
-  }, [debouncedName]);
-
-  useEffect(() => {
-    props.setSurname(surname);
-  }, [debouncedSurname]);
-  
   const useStyles = makeStyles((theme) => ({
     dayWithDotContainer: {
       position: 'relative'
@@ -136,27 +123,12 @@ const Filters = (props: Props): JSX.Element => {
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
-      <TextField
-        style={{ marginTop: '16px' }}
-        label="Po imieniu"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Wpisz imię"
-        size="small"
-        variant="outlined"
-        margin="normal"
-      />
 
-      <TextField
-        style={{ marginTop: '16px' }}
-        label="Po nazwisku"
-        value={surname}
-        onChange={(e) => setSurname(e.target.value)}
-        placeholder="Wpisz nazwisko"
-        size="small"
-        variant="outlined"
-        margin="normal"
-
+      <FiltersName 
+        name={props.name}
+        setName={props.setName}
+        surname={props.surname}
+        setSurname={props.setSurname}
       />
     </>
   );

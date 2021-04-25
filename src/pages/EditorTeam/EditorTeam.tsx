@@ -21,23 +21,18 @@ import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import { LogOut } from 'shared/LogOut/LogOut';
 import Navigation from 'shared/Navigation/Navigation';
+import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { RootState } from 'store/models/rootstate.model';
 
 import { editTeamMember } from '../../helpers/editing-db.handler';
 
 import { CustomTableCell } from './components/newCell';
 import SelectTeam from './components/SelectTeam';
-import { Filter } from './Filter';
 import { controlerDate, filterMembers, handleDelete } from './helpers/helpers';
 import { useStyles } from './stylesTable';
 
 export interface IPerson extends APIPerson {
   lp?: number;
-  // team: number | null;
-}
-
-interface DataToExport extends IPerson {
-  team: string
 }
 
 const EditorTeam: FC = () => {
@@ -51,8 +46,6 @@ const EditorTeam: FC = () => {
 
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
-
-  // const [newTeam, setNewTeam] = useState<string | null>(null);
 
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
@@ -167,12 +160,18 @@ const EditorTeam: FC = () => {
       <LogOut />
       <Navigation />
       <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
-        <Filter 
+        {/* <Filter 
           name={name}
           setName={setName} 
           surname={surname}
           setSurname={setSurname}
           disabled={activeRow ? true : false}
+        /> */}
+        <FiltersName 
+          name={name}
+          setName={setName}
+          surname={surname}
+          setSurname={setSurname}
         />
         <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeRow ? true : false}/>
         <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
@@ -276,9 +275,9 @@ const EditorTeam: FC = () => {
                       onChange={(e) => onChange(e)}
                       helperText="Przenieś do innej drużyny"
                     >
-                      {Object.keys(registry).slice(0,-1).map((option) => (
-                        <MenuItem key={option} value={option}>
-                          {option}
+                      {Object.keys(registry).slice(0,-1).map((team) => (
+                        <MenuItem key={team} value={team}>
+                          {team}
                         </MenuItem>
                       ))}
                     </TextField>
