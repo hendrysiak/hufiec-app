@@ -4,8 +4,7 @@ import classes from './ListContainer.module.css';
 
 type Props = {
   title?: string;
-  //TODO Fix type or delete component
-  children: any;
+  children: React.ReactNode;
 }
 
 const ListContainer = (props: Props): JSX.Element => (

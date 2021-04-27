@@ -92,7 +92,8 @@ const Dashboard = (): JSX.Element => {
           {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
           <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
           <hr/>
-          <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - accountState.outcomesAccountState}</p> */}
+          <p><strong>Stan hufca:</strong>{accountState.incomesAccountState - 
+          accountState.outcomesAccountState}</p> */}
           <AppBar position="static" color="transparent">
             <h2>Wiadomości</h2>
             <ul className={classes.listMessages}>
@@ -111,7 +112,11 @@ const Dashboard = (): JSX.Element => {
                               Proszę o odpowiedź na maila: {messages[el].mail}
                             </p>
                           )}
-                          <Button onClick={() => handleDeleteMess(el, messages[el].title, messages[el].content)} variant="contained" color="secondary">USUŃ</Button>
+                          <Button 
+                            onClick={() => 
+                              handleDeleteMess(el, messages[el].title, messages[el].content)} 
+                            variant="contained" 
+                            color="secondary">USUŃ</Button>
                           {/* <button onClick={() => handleDeleteMess(el)}>USUN</button> */}
                         </div>
                       }

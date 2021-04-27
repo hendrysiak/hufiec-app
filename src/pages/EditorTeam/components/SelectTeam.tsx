@@ -14,9 +14,10 @@ interface SelectTeam {
   children?: React.ReactNode;
   team: string; 
   onChange: (e: string) => void;
+  disabled?: boolean;
 }
 
-const SelectTeam = ({onChange, team}: SelectTeam) => {
+const SelectTeam = ({onChange, team, disabled = false}: SelectTeam): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
@@ -30,7 +31,7 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
   return (
     <div className={styles.div}>
       <TextField
-        style={{ marginTop: '16px', width: '200px' }}
+        style={{ width: '200px', margin: '0 8px' }}
         label="Wybierz drużynę"
         value={team}
         onChange={(e) => onChange(e.target.value)}
@@ -38,10 +39,10 @@ const SelectTeam = ({onChange, team}: SelectTeam) => {
         select={true}
         size="small"
         variant="outlined"
-        margin="normal"
         SelectProps={{
           MenuProps: { disableScrollLock: true }
         }}
+        disabled={disabled}
       >
         {registry && ['Cały hufiec', ...Object.keys(registry)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>

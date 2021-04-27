@@ -100,7 +100,7 @@ export interface AddMember {
 
 export interface EditMember {
   type: ActionTypes.EDIT_MEMBER;
-  member: APIPerson;
+  member: Partial<APIPerson>;
   team: string;
 }
 

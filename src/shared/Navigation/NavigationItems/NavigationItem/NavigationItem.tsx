@@ -6,7 +6,7 @@ import classes from './NavigationItem.module.css';
 type Props = {
   link: string;
   exact: boolean;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 const NavigationItem = (props: Props): JSX.Element => (
