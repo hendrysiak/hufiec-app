@@ -160,13 +160,6 @@ const EditorTeam: FC = () => {
       <LogOut />
       <Navigation />
       <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
-        {/* <Filter 
-          name={name}
-          setName={setName} 
-          surname={surname}
-          setSurname={setSurname}
-          disabled={activeRow ? true : false}
-        /> */}
         <FiltersName 
           name={name}
           setName={setName}

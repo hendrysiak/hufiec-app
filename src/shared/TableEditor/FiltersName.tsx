@@ -29,7 +29,7 @@ export const FiltersName = (props: IProps): JSX.Element => {
   return (
     <>
       <TextField
-        style={{ marginTop: '16px' }}
+        style={{ margin: '0 8px' }}
         label="Po nazwisku"
         value={surname}
         onChange={(e) => setSurname(e.target.value)}
@@ -40,7 +40,7 @@ export const FiltersName = (props: IProps): JSX.Element => {
 
       />
       <TextField
-        style={{ marginTop: '16px' }}
+        style={{ margin: '0 8px' }}
         label="Po imieniu"
         value={name}
         onChange={(e) => setName(e.target.value)}
