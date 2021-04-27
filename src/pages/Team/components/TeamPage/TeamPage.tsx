@@ -21,9 +21,10 @@ interface IRows extends APIPerson {
 interface IProps {
   // open: string;
   members: APIPerson[];
+  navHeight: number;
 }
 
-const TeamPage = ({ members } : IProps): JSX.Element => {
+const TeamPage = ({ members, navHeight } : IProps): JSX.Element => {
   // const [isOpen, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = useState<IRows[]>([]);
   // const columns = [
@@ -46,6 +47,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
   //   setOpen(false);
   // };
 
+ 
   useEffect(() => {
     sortOfSurname(members, 'ŻŻŻ');
     const rows = members ? (members.map((el, index) => {
@@ -70,7 +72,7 @@ const TeamPage = ({ members } : IProps): JSX.Element => {
         open={isOpen}
         onClose={handleClose}
       > */}
-      <ListOfMembers rows={rows}/>  
+      <ListOfMembers rows={rows} navHeight={navHeight}/>  
       {/* </Modal> */}
     </>
   );

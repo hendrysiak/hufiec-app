@@ -9,8 +9,9 @@ import axios from 'axios-income';
 import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 import classes from './Form.module.css';
+import { useMobileView } from 'helpers/hooks/useMobileView';
 
-const Form = ({ title, currentTeam }: { title: string; currentTeam: string }): JSX.Element => {
+const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: string, navHeight: number }): JSX.Element => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -45,6 +46,8 @@ const Form = ({ title, currentTeam }: { title: string; currentTeam: string }): J
     'Stan konta - chcę wyjaśnień dotyczacych stanu konta'
   ];
 
+  const isMobile = useMobileView(360);
+
   return (
     <>
       {/* <MailIcon onClick={ handleOpen } />
@@ -54,7 +57,7 @@ const Form = ({ title, currentTeam }: { title: string; currentTeam: string }): J
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       > */}
-      <form className={ classes.positionModal }>
+      <form className={ classes.positionModal } style={{ top: navHeight, width: isMobile ? '100%' : '80%' }}>
         <h1 className={ classes.titleForm }>{title}</h1>
         <TextField 
           style={{ width: '80%' }}

@@ -10,10 +10,15 @@ interface IRows extends APIPerson {
   isDeleted: string
 }
 
-export const ListOfMembers = ({ rows }: {rows: IRows[]}): JSX.Element => {
+interface ListOfMembersProps {
+  rows: IRows[],
+  navHeight: number
+}
+
+export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Element => {
   return (
     <div className={classes.containerListMembers}>
-      <div className={`${classes.first} ${classes.li}`}>
+      <div style={{ top: navHeight }} className={`${classes.first} ${classes.li}`}>
         <p className={classes.id}>ID</p>
         <p className={classes.name}>Nazwisko i imię</p>
         <p className={classes.cash}>Stan składek</p>

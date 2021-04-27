@@ -1,4 +1,4 @@
-import { TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab } from '@material-ui/core';
+import { TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab, Tooltip } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,6 +34,7 @@ import { TabPanel } from 'shared/TabPanel/TabPanel';
 import TeamPage from './components/TeamPage/TeamPage';
 import Form from './components/Form/Form';
 import TeamFinances from './components/TeamFinances/TeamFinances';
+import { useMobileView } from 'helpers/hooks/useMobileView';
 
 
 const Team = (): JSX.Element => {
@@ -60,9 +61,10 @@ const Team = (): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
   const [navHeight, setNavHeight] = useState<number | null>(null);
+  const [tab, setTab] = useState(0);
+
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
-  const [tab, setTab] = useState(0);
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -211,12 +213,24 @@ const Team = (): JSX.Element => {
     window.addEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
     return () => window.removeEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
   },[navBar]);
+
+  const isMobile = useMobileView(360);
   
   return (
     <>
       <LogOut />
-      <div ref={navBar} className="navTeam">
+      <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}` }>
         <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+        <IconButton aria-label="account-state" onClick={handleOpenFilter}>
+          <SearchIcon color="secondary" />
+        </IconButton>
+        <Tooltip title="Wyeksportuj widok do CSV">
+          <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+            <IconButton aria-label="account-state">
+              <GetAppIcon color="secondary" />
+            </IconButton>
+          </CSVLink>
+        </Tooltip>
         <Tabs value={tab} variant="fullWidth" indicatorColor="primary" onChange={handleTabChange} style={{ flex: 3 }}>
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
@@ -370,13 +384,13 @@ const Team = (): JSX.Element => {
         </section>
       </TabPanel>
       <TabPanel value={tab} index={1}>
-        <TeamPage members={currentTeamRegistry} />
+        <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
       </TabPanel>
       <TabPanel value={tab} index={2}>
         <TeamFinances incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
-        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} />
+        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)}/>
       </TabPanel>
     </>
   );

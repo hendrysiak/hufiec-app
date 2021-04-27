@@ -64,7 +64,7 @@
 }
 
 .navTeam {
-  height: 4vw;
+  /* height: 4vw; */
   min-height: 40px;
   background-color:rgba(92, 56, 150, 1);
   color: white;
@@ -72,8 +72,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 80px;
-  padding-left: 10px;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.navTeam__mobile {
+  flex-direction: column;
 }
 
 .team {
