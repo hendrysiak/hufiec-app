@@ -2,12 +2,6 @@
   width: 100%;
 }
 
-.ul {
-  width: 660px;
-  overflow-y: scroll;
-   transform: translateY(5vh);
-}
-
 .li {
   padding: 10px 0;
   display: flex;
@@ -15,7 +9,7 @@
 }
 
 .first {
-  position: fixed;
+  position: sticky;
   left: 0;
   padding: 10px 0;
   display: flex;
@@ -23,6 +17,7 @@
   width: 100%;
   color: white;
   background-color: rgba(92, 56, 150, 1);
+  top: 20px
 }
 
 .li:nth-child(2n) {
@@ -32,6 +27,7 @@
 .ul {
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 .containerGroup {
   width: 70%;

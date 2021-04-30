@@ -16,9 +16,12 @@ interface ListOfMembersProps {
 }
 
 export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Element => {
+
+  
+
   return (
     <div className={classes.containerListMembers}>
-      <div style={{ top: navHeight }} className={`${classes.first} ${classes.li}`}>
+      <div className={`${classes.first} ${classes.li}`}>
         <p className={classes.id}>ID</p>
         <p className={classes.name}>Nazwisko i imię</p>
         <p className={classes.cash}>Stan składek</p>
