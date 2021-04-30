@@ -1,4 +1,4 @@
-import { TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab, Tooltip } from '@material-ui/core';
+import { Box, TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab, Tooltip } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,13 +27,14 @@ import { LogOut } from 'shared/LogOut/LogOut';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
+import Form from './components/Form/Form';
 import { List } from './components/List/List';
+import TeamFinances from './components/TeamFinances/TeamFinances';
+import TeamPage from './components/TeamPage/TeamPage';
 import { ShowModal } from './helpers/typeViewModal.enum';
 
 import { TabPanel } from 'shared/TabPanel/TabPanel';
-import TeamPage from './components/TeamPage/TeamPage';
-import Form from './components/Form/Form';
-import TeamFinances from './components/TeamFinances/TeamFinances';
+
 import { useMobileView } from 'helpers/hooks/useMobileView';
 
 
@@ -47,8 +48,8 @@ const Team = (): JSX.Element => {
   const [event, setEvent] = useState<string>('');
   const [currentTeamRegistry, setCurrentTeamRegistry] = useState<APIPerson[]>([]);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
-  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]); 
-  const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]); 
+  const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]);
+  const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]);
 
   const location = useLocation();
   const currentTeam = location.pathname.split('/')[1];
@@ -75,18 +76,18 @@ const Team = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const teamRegistry = registry 
+    const teamRegistry = registry
       && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(teamRegistry);
-    const incomesToDisplay = dbIncomes 
-      && currentTeam 
+    const incomesToDisplay = dbIncomes
+      && currentTeam
       && dbIncomes.filter(income => income.team === currentTeam);
-    const outcomesToDisplay = dbOutcomes 
-      && currentTeam 
+    const outcomesToDisplay = dbOutcomes
+      && currentTeam
       && dbOutcomes.filter(income => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
     outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
-  },[registry, dbIncomes, dbOutcomes, currentTeam]);
+  }, [registry, dbIncomes, dbOutcomes, currentTeam]);
 
   useEffect(() => {
     const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
@@ -96,8 +97,8 @@ const Team = (): JSX.Element => {
         dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
       });
     })) : ([]);
-    setRows(row);     
-  },[incomesByCode]);
+    setRows(row);
+  }, [incomesByCode]);
 
   // const columns = [
   //   { field: 'lp', headerName: 'LP', width: 80, },
@@ -113,31 +114,31 @@ const Team = (): JSX.Element => {
     //Write date checker
     const filteredIncomes = rows && rows.filter(i => {
       if (
-        useDate 
-        && selectedDate 
+        useDate
+        && selectedDate
         && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()
       ) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
-      if (event !== '' 
-          && event !== 'unAssigned' 
-          && !(i.name 
-              && i.surname 
-              && i.event 
-              && i.importDate 
-              && i.team 
-              && i.title 
-              && i.year 
-              && i.cash)) return false;
-      if (event !== '' 
-          && event === 'unAssigned' 
-          && i.name 
-          && i.surname 
-          && i.event 
-          && i.importDate 
-          && i.team 
-          && i.title 
-          && i.year 
-          && i.cash) return false;
+      if (event !== ''
+        && event !== 'unAssigned'
+        && !(i.name
+          && i.surname
+          && i.event
+          && i.importDate
+          && i.team
+          && i.title
+          && i.year
+          && i.cash)) return false;
+      if (event !== ''
+        && event === 'unAssigned'
+        && i.name
+        && i.surname
+        && i.event
+        && i.importDate
+        && i.team
+        && i.title
+        && i.year
+        && i.cash) return false;
       if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
       if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
       return true;
@@ -146,7 +147,7 @@ const Team = (): JSX.Element => {
     sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
 
-  },[event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
+  }, [event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
@@ -162,23 +163,38 @@ const Team = (): JSX.Element => {
       right: '50%',
       transform: 'translateX(1px)',
       top: '80%'
-    }
+    },
+    customTooltip: {
+      // I used the rgba color for the standard "secondary" color
+      fontSize: '16px',
+      color: 'white'
+    },
+    icon: {
+      width: '24px',
+      height: '24px'
+    },
+    button: {
+      color: 'white'
+    },
+    indicator: {
+      backgroundColor: 'white',
+    },
   }));
 
   const classes = useStyles();
 
-  const renderDayInPicker = (date: MaterialUiPickersDate, 
-    selectedDate: unknown, 
-    dayInCurrentMonth: unknown, 
+  const renderDayInPicker = (date: MaterialUiPickersDate,
+    selectedDate: unknown,
+    dayInCurrentMonth: unknown,
     dayComponent: JSX.Element) => {
     if (importDates && date && importDates.includes(date)) {
       return (<div className={classes.dayWithDotContainer}>
         {dayComponent}
-        <div className={classes.dayWithDot}/>
+        <div className={classes.dayWithDot} />
       </div>);
     }
 
-    return dayComponent ;   
+    return dayComponent;
   };
 
   const [open, setOpen] = useState<boolean>(false);
@@ -212,30 +228,39 @@ const Team = (): JSX.Element => {
     };
     window.addEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
     return () => window.removeEventListener('scroll', () => listenerScroll(navBar, window.scrollY));
-  },[navBar]);
+  }, [navBar]);
 
   const isMobile = useMobileView(360);
-  
+
+
   return (
     <>
       <LogOut />
-      <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}` }>
-        <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
-        <IconButton aria-label="account-state" onClick={handleOpenFilter}>
-          <SearchIcon color="secondary" />
-        </IconButton>
-        <Tooltip title="Wyeksportuj widok do CSV">
-          <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
-            <IconButton aria-label="account-state">
-              <GetAppIcon color="secondary" />
+      <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
+        <Box display="flex" alignItems="center">
+          <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+          <Tooltip title="Otwórz filtry" classes={{
+            tooltip: classes.customTooltip
+          }}>
+            <IconButton aria-label="account-state" onClick={handleOpenFilter} classes={{ root: classes.button }}>
+              <SearchIcon fontSize="large" color="inherit" />
             </IconButton>
-          </CSVLink>
-        </Tooltip>
-        <Tabs value={tab} variant="fullWidth" indicatorColor="primary" onChange={handleTabChange} style={{ flex: 3 }}>
+          </Tooltip>
+          <Tooltip title="Wyeksportuj widok do CSV" classes={{
+            tooltip: classes.customTooltip
+          }}>
+            <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+              <IconButton aria-label="account-state" classes={{ root: classes.button }}>
+                <GetAppIcon fontSize="large" color="inherit" />
+              </IconButton>
+            </CSVLink>
+          </Tooltip>
+        </Box>
+        <Tabs value={tab} variant="fullWidth" classes={{ indicator: classes.indicator }} onChange={handleTabChange} style={{ flex: 3 }}>
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
           <Tab label="Stan konta" />
-          <Tab label="Wyślij wiadomość"/>
+          <Tab label="Wyślij wiadomość" />
         </Tabs>
         {/* <SpeedDial
           classes={{ fab: 'rootCircle' }}
@@ -332,7 +357,7 @@ const Team = (): JSX.Element => {
                 size="small"
                 variant="outlined"
                 margin="normal"
-              
+
               />
               <KeyboardDatePicker
                 className="datePicker"
@@ -352,31 +377,31 @@ const Team = (): JSX.Element => {
               />
               <FormControlLabel
                 className="dateCheckbox"
-                control={<Checkbox 
-                  checked={useDate} 
-                  onChange={(e) => setUseDate(e.target.checked)} 
-                  name="checkedA" 
+                control={<Checkbox
+                  checked={useDate}
+                  onChange={(e) => setUseDate(e.target.checked)}
+                  name="checkedA"
                   color="primary"
                 />}
                 label="Sortuj po dacie"
               />
               <Button onClick={handleOpenFilter} variant="contained" color="secondary">
-              ZAMKNIJ FILTRY
+                ZAMKNIJ FILTRY
               </Button>
             </div>
             <div style={{ display: 'none' }}><Tooltips
-              open={openPopup} 
-              members={currentTeamRegistry} 
-              incomes={incomesByCode} 
-              outcomes={outcomesByCode} 
-              currentTeam={currentTeam} 
+              open={openPopup}
+              members={currentTeamRegistry}
+              incomes={incomesByCode}
+              outcomes={outcomesByCode}
+              currentTeam={currentTeam}
               dataToExport={displayedIncome}
             />
             </div>
           </div>
           <div className="containerDataGrid">
             {displayedIncome?.length ? (
-              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome}/>
+              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome} />
             ) : (
               <div className="loadingInfo">brak wpłat na ten filtr</div>
             )}
@@ -390,7 +415,7 @@ const Team = (): JSX.Element => {
         <TeamFinances incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
-        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)}/>
+        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
       </TabPanel>
     </>
   );

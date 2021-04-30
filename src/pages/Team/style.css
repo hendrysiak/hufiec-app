@@ -76,6 +76,10 @@
   padding-left: 8px;
 }
 
+.tooltip {
+  font-size: 12px;
+}
+
 .navTeam__mobile {
   flex-direction: column;
 }

@@ -4,7 +4,6 @@
 
 .ul {
   width: 660px;
-  height: 90vh;
   overflow-y: scroll;
    transform: translateY(5vh);
 }
@@ -33,7 +32,6 @@
 .ul {
   padding: 0;
   margin: 0;
-  width: 100%;
 }
 .containerGroup {
   width: 70%;
