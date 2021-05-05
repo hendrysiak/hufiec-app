@@ -17,8 +17,6 @@ interface ListOfMembersProps {
 
 export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Element => {
 
-  
-
   return (
     <div className={classes.containerListMembers}>
       <div className={`${classes.first} ${classes.li}`}>

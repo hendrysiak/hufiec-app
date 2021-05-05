@@ -173,15 +173,17 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
       
       if (action.member.team && action.prevTeam) {
 
-        const teamAfterDelete = state.registry[action.prevTeam].filter(m => m.id !== action.member.id);
+        const teamAfterDelete = state.registry[action.prevTeam];
+        delete teamAfterDelete[action.member.id];
         const newTeamList = state.registry[action.member.team];
+        const currentMember = action.member;
 
         return ({
           ...state,
           registry: {
             ...state.registry,
-            [action.prevTeam]: [...teamAfterDelete],
-            [action.member.team]: [...newTeamList, action.member]
+            [action.prevTeam]: { ...teamAfterDelete },
+            [action.member.team]: { ...newTeamList, currentMember }
           }
         });
 
