@@ -127,47 +127,47 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
         initAccount: action.initAccountState
       };
 
-    case ActionTypes.ADD_MEMBER:
-      if (action.member.team) {
-        const teamAfterAdd = [...state.registry[action.member.team]];
-        return {
-          ...state,
-          registry: { ...state.registry, [action.member.team]: [...teamAfterAdd, action.member] }
-        };
+      // case ActionTypes.ADD_MEMBER:
+      //   if (action.member.team) {
+      //     const teamAfterAdd = [...state.registry[action.member.team]];
+      //     return {
+      //       ...state,
+      //       registry: { ...state.registry, [action.member.team]: [...teamAfterAdd, action.member] }
+      //     };
 
-      } else throw Error('Błąd z drużyną');
+      //   } else throw Error('Błąd z drużyną');
 
-    case ActionTypes.EDIT_MEMBER:
-      if (action.team) {
-        const teamBeforeEdit = [...state.registry[action.team]];
+      // case ActionTypes.EDIT_MEMBER:
+      //   if (action.team) {
+      //     const teamBeforeEdit = [...state.registry[action.team]];
 
-        const teamAfterEdit = teamBeforeEdit.map(el => {
-          if (el.id === action.member.id) {
-            return ({
-              ...action.member
-            });
-          }
-          return el;
-        });
+      //     const teamAfterEdit = teamBeforeEdit.map(el => {
+      //       if (el.id === action.member.id) {
+      //         return ({
+      //           ...action.member
+      //         });
+      //       }
+      //       return el;
+      //     });
         
-        return {
-          ...state,
-          registry: { ...state.registry, [action.team]: [...teamAfterEdit] }
-        };
+      //     return {
+      //       ...state,
+      //       registry: { ...state.registry, [action.team]: [...teamAfterEdit] }
+      //     };
 
-      } else throw Error('Błąd z drużyną');
+      //   } else throw Error('Błąd z drużyną');
 
-    case ActionTypes.DELETE_MEMBER:
-      if (action.member.team) {
-        const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
-        return {
-          ...state,
-          registry: { 
-            ...state.registry, 
-            [action.member.team]: [...teamAfterDelete] }
-        };
+      // case ActionTypes.DELETE_MEMBER:
+      //   if (action.member.team) {
+      //     const teamAfterDelete = state.registry[action.member.team].filter(m => m.id !== action.member.id);
+      //     return {
+      //       ...state,
+      //       registry: { 
+      //         ...state.registry, 
+      //         [action.member.team]: [...teamAfterDelete] }
+      //     };
 
-      } else throw Error('Błąd z drużyną');
+      //   } else throw Error('Błąd z drużyną');
 
     case ActionTypes.CHANGE_TEAM_MEMBER:     
       

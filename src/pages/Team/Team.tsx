@@ -18,12 +18,14 @@ import {
 } from 'react-router-dom';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
+import { useMobileView } from 'helpers/hooks/useMobileView';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { LogOut } from 'shared/LogOut/LogOut';
+import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
@@ -32,10 +34,6 @@ import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { ShowModal } from './helpers/typeViewModal.enum';
-
-import { TabPanel } from 'shared/TabPanel/TabPanel';
-
-import { useMobileView } from 'helpers/hooks/useMobileView';
 
 
 const Team = (): JSX.Element => {
@@ -78,9 +76,9 @@ const Team = (): JSX.Element => {
   useEffect(() => {
     const teamRegistry = registry
       && registry[currentTeam];
-    teamRegistry && setCurrentTeamRegistry(teamRegistry);
-    const incomesToDisplay = dbIncomes
-      && currentTeam
+    teamRegistry && setCurrentTeamRegistry(Object.values(teamRegistry));
+    const incomesToDisplay = dbIncomes 
+      && currentTeam 
       && dbIncomes.filter(income => income.team === currentTeam);
     const outcomesToDisplay = dbOutcomes
       && currentTeam

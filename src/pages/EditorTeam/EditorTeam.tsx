@@ -225,7 +225,16 @@ const EditorTeam: FC = () => {
   };
 
   useEffect(() => {
-    const usedRegistry = registry && team === 'Cały hufiec' ? [...Object.values(registry)].flat() : registry[team];
+    let usedRegistry: APIPerson[] = [];
+
+    if (team === 'Cały hufiec') {
+
+      for (const currentTeam in registry) {
+        usedRegistry = [...usedRegistry, ...Object.values(registry[currentTeam])];
+      }
+
+    } else usedRegistry = registry[team] ? [...Object.values(registry[team])] : [];
+
 
     if (usedRegistry) {
       sortOfSurname(usedRegistry, 'ŻŻŻ');
@@ -247,22 +256,23 @@ const EditorTeam: FC = () => {
         })) : ([]);
     setRows(rows);
 
-    let usedData: DataToExport[] = []; 
-    if (registry) {
-      if (team === 'Cały hufiec') {
-        usedData = Object.entries(registry)
-          .map(([key, value]: [string, APIPerson[]]) => [...value.map((p: APIPerson) => {
-            return { ...p, team: key, feeState: countingMemberFee(p) };
-          })]).flat();
-      } else {
-        usedData = registry[team] ? registry[team].map(p => {
-          return { ...p, team, feeState: countingMemberFee(p) };
-        }) : [];
-      }
-    }
+    // let usedData: DataToExport[] = []; 
+    // if (registry) {
+    //   if (team === 'Cały hufiec') {
+    //     usedData = Object.entries(registry)
+    //       .map(([key, value]: [string, Record<string, APIPerson>]) => value ? [...Object.values(value).map((p: APIPerson) => {
+    //         return { ...p, team: key, feeState: countingMemberFee(p) };
+    //       })] : []).flat();
+    //   } else {
+    //     usedData = registry[team] ? Object.values(registry[team]).map(p => {
+    //       return { ...p, team, feeState: countingMemberFee(p) };
+    //     }) : [];
+    //   }
+    // }
 
-    setDataToExport(usedData);
-  },[team, registry, name, surname]);
+    // setDataToExport(rows);
+  },[team, registry]);
+
 
   const handleDateChange = (e: Date | null, row: IPerson, nameKey: string) => {
     const name = nameKey;
@@ -307,7 +317,7 @@ const EditorTeam: FC = () => {
           disabled={activeEdit ? true : false}
         />
         <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeEdit ? true : false}/>
-        <CSVLink data={dataToExport} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
+        <CSVLink data={rows} filename={`${team}.csv`}>
           <Button variant="contained" color="primary" >Pobierz stan składek</Button>
         </CSVLink>
       </Box>
