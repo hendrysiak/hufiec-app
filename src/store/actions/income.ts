@@ -3,7 +3,7 @@ import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesW
 import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
-import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState, ChangeTeamMember } from './action.types';
+import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState } from './action.types';
 
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {
@@ -127,7 +127,7 @@ export const reduxAddMember = (member: APIPerson): AddMember => {
     member
   };
 };
-export const reduxEditMember = (member: APIPerson, team: string): EditMember => {
+export const reduxEditMember = (member: Partial<APIPerson>, team: string): EditMember => {
   return {
     type: ActionTypes.EDIT_MEMBER,
     member,
@@ -138,11 +138,5 @@ export const reduxDeleteMember = (member: APIPerson): DeleteMember => {
   return {
     type: ActionTypes.DELETE_MEMBER,
     member
-  };
-};
-export const reduxChangeTeamMember = (member: APIPerson, prevTeam: string): ChangeTeamMember => {
-  return {
-    type: ActionTypes.CHANGE_TEAM_MEMBER,
-    member, prevTeam
   };
 };

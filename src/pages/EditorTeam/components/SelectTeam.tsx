@@ -14,10 +14,10 @@ interface SelectTeam {
   children?: React.ReactNode;
   team: string; 
   onChange: (e: string) => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
+const SelectTeam = ({onChange, team, disabled = false}: SelectTeam): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
@@ -29,7 +29,7 @@ const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
   };
 
   return (
-    <div style={{ display: 'flex', alignContent: 'center' }}>
+    <div className={styles.div}>
       <TextField
         style={{ width: '200px', margin: '0 8px' }}
         label="Wybierz drużynę"
@@ -39,7 +39,6 @@ const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
         select={true}
         size="small"
         variant="outlined"
-        margin="none"
         SelectProps={{
           MenuProps: { disableScrollLock: true }
         }}
@@ -49,7 +48,7 @@ const SelectTeam = ({onChange, team, disabled}: SelectTeam) => {
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
-      <Button style={{ margin: '0 8px' }} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={team ? false : true}>
+      <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={team ? false : true}>
             NOWY CZŁONEK
       </Button>
       <Modal

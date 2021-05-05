@@ -12,3 +12,13 @@
 .btnAddNewMember {
   margin-top: 50px;
 }
+
+.div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnAddNewMember {
+  margin-top: 50px;
+}

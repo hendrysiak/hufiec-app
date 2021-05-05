@@ -100,19 +100,13 @@ export interface AddMember {
 
 export interface EditMember {
   type: ActionTypes.EDIT_MEMBER;
-  member: APIPerson;
+  member: Partial<APIPerson>;
   team: string;
 }
 
 export interface DeleteMember {
   type: ActionTypes.DELETE_MEMBER;
   member: APIPerson;
-}
-
-export interface ChangeTeamMember {
-  type: ActionTypes.CHANGE_TEAM_MEMBER;
-  member: APIPerson;
-  prevTeam: string;
 }
 
 export interface setAuthenticationState {
@@ -151,7 +145,6 @@ export type ActionType =
 | AddMember
 | EditMember
 | DeleteMember
-| ChangeTeamMember
 | setAuthenticationState
 | SetRoles
 | SetTeam

@@ -4,21 +4,20 @@ import React, { useEffect, useState } from 'react';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
 
-type Props = {
+interface IProps {
   name: string;
-  setName: (team: string) => void;
+  setName: (name: string) => void;
   surname: string;
-  setSurname: (team: string) => void;
-  disabled: boolean;
-};
+  setSurname: (surname: string) => void;
+}
 
-export const Filter = (props: Props) => {
+export const FiltersName = (props: IProps): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
-
+  
   useEffect(() => {
     props.setName(name);
   }, [debouncedName]);
@@ -37,8 +36,8 @@ export const Filter = (props: Props) => {
         placeholder="Wpisz nazwisko"
         size="small"
         variant="outlined"
-        margin="none"
-        disabled={ props.disabled }
+        margin="normal"
+
       />
       <TextField
         style={{ margin: '0 8px' }}
@@ -48,8 +47,7 @@ export const Filter = (props: Props) => {
         placeholder="Wpisz imię"
         size="small"
         variant="outlined"
-        margin="none"
-        disabled={ props.disabled }
+        margin="normal"
       />
     </>
   );
