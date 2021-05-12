@@ -1,21 +1,30 @@
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import CloseIcon from '@material-ui/icons/Close';
+import { Tooltip, IconButton, makeStyles } from '@material-ui/core';
 
-import React, { useState } from 'react';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import React from 'react';
 
 import { LogOutTimer } from 'shared/LogOutTimer/LogOutTimer';
 
 import classes from './LogOut.module.css';
 
 export const LogOut = (): JSX.Element => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const useStyles = makeStyles(() => ({
+    button: {
+      color: 'white'
+    },
+  }));
+
+  const materialClasses = useStyles();
   
   return (
     <>
       <LogOutTimer className={classes.timer}/>
-      <div className={`${classes.container} ${isOpen && classes.close}`}>
-        {isOpen ? <CloseIcon className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/> : <ChevronLeftIcon className={classes.arrow} onClick={() => setIsOpen(!isOpen)}/>}
-        <button type="button" className={`${classes.logout} clicked`} >WYLOGUJ</button>
+      <div className={`${classes.container} ${classes.close}`}>
+        <Tooltip title="Wyloguj" aria-label="log-out">
+          <IconButton classes={{ root: materialClasses.button }} ><ExitToAppIcon className="clicked" /></IconButton>
+        </Tooltip>
       </div>
     </>
   );
