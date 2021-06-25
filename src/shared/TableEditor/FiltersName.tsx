@@ -29,25 +29,23 @@ export const FiltersName = (props: IProps): JSX.Element => {
   return (
     <>
       <TextField
-        style={{ margin: '0 8px' }}
+        style={{ margin: 'auto 8px' }}
         label="Po nazwisku"
         value={surname}
         onChange={(e) => setSurname(e.target.value)}
         placeholder="Wpisz nazwisko"
         size="small"
         variant="outlined"
-        margin="normal"
 
       />
       <TextField
-        style={{ margin: '0 8px' }}
+        style={{ margin: 'auto 8px' }}
         label="Po imieniu"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Wpisz imię"
         size="small"
         variant="outlined"
-        margin="normal"
       />
     </>
   );

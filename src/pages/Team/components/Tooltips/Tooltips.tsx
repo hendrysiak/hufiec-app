@@ -38,21 +38,21 @@ const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport 
   return (
     <>
       <div className={classes.tooltips}>
-        <Tooltip title="" classes={tooltipsClasses}>
+        {/* <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="members">
             <TeamPage members={members} open={open}/>
           </IconButton>
-        </Tooltip>
-        <Tooltip title="" classes={tooltipsClasses}>
+        </Tooltip> */}
+        {/* <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="support">
             <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} open={open}/>
           </IconButton>
-        </Tooltip>
-        <Tooltip title="" classes={tooltipsClasses}>
+        </Tooltip> */}
+        {/* <Tooltip title="" classes={tooltipsClasses}>
           <IconButton aria-label="account-state">
             <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam} open={open}/>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
           <CSVLink data={dataToExport} filename={`${currentTeam}.csv`}>
             <IconButton aria-label="account-state">

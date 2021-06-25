@@ -4,10 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { useDebounce } from 'helpers/hooks/useDebounce';
 
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 
@@ -88,7 +87,6 @@ const Filters = (props: Props): JSX.Element => {
   const filtersToIncomes = (
     <>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po drużynie"
         value={props.team}
         onChange={(e) => props.setTeam(e.target.value)}
@@ -106,7 +104,6 @@ const Filters = (props: Props): JSX.Element => {
         ))}
       </TextField>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po wydarzeniu"
         value={props.event}
         onChange={(e) => props.setEvent(e.target.value)}
@@ -135,7 +132,6 @@ const Filters = (props: Props): JSX.Element => {
   const filtersToOutcomes = (
     <>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po drużynie"
         value={props.team}
         onChange={(e) => props.setTeam(e.target.value)}
@@ -153,7 +149,6 @@ const Filters = (props: Props): JSX.Element => {
         ))}
       </TextField>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po wydarzeniu"
         value={props.event}
         onChange={(e) => props.setEvent(e.target.value)}
@@ -171,7 +166,6 @@ const Filters = (props: Props): JSX.Element => {
         ))}
       </TextField>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po finansowaniu"
         value={props.founding}
         onChange={(e) => props.setFounding(e.target.value as FoundingSources)}
@@ -189,7 +183,6 @@ const Filters = (props: Props): JSX.Element => {
         ))}
       </TextField>
       <TextField
-        style={{ marginTop: '16px' }}
         label="Po kategorii"
         value={props.category}
         onChange={(e) => props.setCategory(e.target.value as OutcomeCategory)}

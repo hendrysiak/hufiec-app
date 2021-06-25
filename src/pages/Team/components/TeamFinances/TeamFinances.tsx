@@ -14,25 +14,25 @@ import { ShowModal } from '../../helpers/typeViewModal.enum';
 import classes from './TeamFinances.module.css';
 
 interface Props {
-  open: IViewModal;
+  // open: IViewModal;
   incomes: IncomeDb[];
   outcomes: OutcomeDb[];
   currentTeam: string;
 }
 
 
-const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Element => {
+const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
   const [compensation, setCompensation] = React.useState<number>(0);
   const [sumOfOutcomes, setSumOfOutcomes] = React.useState<number>(0);
 
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  // const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [incomesSC, setIncomesSC] = React.useState<number | null>(null);
   
-  useEffect(() => {
-    open === ShowModal.Finances && setIsOpen(true);
-  },[open]);
+  // useEffect(() => {
+  //   open === ShowModal.Finances && setIsOpen(true);
+  // },[open]);
    
   useEffect(() => {
     const getData = async () => {
@@ -55,45 +55,45 @@ const TeamFinances = ({ open, incomes, outcomes, currentTeam } : Props): JSX.Ele
 
   const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation;
 
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setIsOpen(true);
+  // };
 
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  // const handleClose = () => {
+  //   setIsOpen(false);
+  // };
 
   return (
     <>
-      <AttachMoneyIcon onClick={handleOpen}/>
+      {/* <AttachMoneyIcon onClick={handleOpen}/>
       <Modal
         open={isOpen}
         onClose={handleClose}
-      >
-        <section className={classes.positionModal }>
-          <div className={classes.header}>
-            <p>Konto</p>
-            <p>Stan</p>
-          </div>
-          <div className={classes.item}>
-            <p>1%</p>
-            <p>{onePercent}</p>
-          </div>
-          <div className={classes.item}>
-            <p>SKŁADKI</p>
-            <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
-          </div>
-          <div className={classes.item}>
-            <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>
-            <p>{sumOfOutcomes}</p>
-          </div>
-          <div className={classes.item}>
-            <p>WPŁYWY/WYRÓWNANIA</p>
-            <p>{compensation}</p>
-          </div>
-          <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
-        </section>
-      </Modal>
+      > */}
+      <section className={classes.positionModal }>
+        <div className={classes.header}>
+          <p>Konto</p>
+          <p>Stan</p>
+        </div>
+        <div className={classes.item}>
+          <p>1%</p>
+          <p>{onePercent}</p>
+        </div>
+        <div className={classes.item}>
+          <p>SKŁADKI</p>
+          <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
+        </div>
+        <div className={classes.item}>
+          <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>
+          <p>{sumOfOutcomes}</p>
+        </div>
+        <div className={classes.item}>
+          <p>WPŁYWY/WYRÓWNANIA</p>
+          <p>{compensation}</p>
+        </div>
+        <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
+      </section>
+      {/* </Modal> */}
     </>
   );
 };

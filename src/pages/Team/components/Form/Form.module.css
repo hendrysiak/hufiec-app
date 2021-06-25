@@ -7,17 +7,11 @@
 .positionModal {
     position: absolute;
     max-height: 100vh;
-    height: 470px;
-    width: 80%;
     left: 50%;
-    top: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    overflow-y: hidden; 
-    overflow: scroll;
+    transform: translate(-50%, 0%);
 }
 
 .button {
@@ -49,12 +43,6 @@
         font-size: 14px;
         overflow-x: hidden;
         overflow: scroll;
-    }
-
-    .topic {
-    }
-
-    .input {
     }
 
     .responseInput {

@@ -2,6 +2,7 @@ import Modal from '@material-ui/core/Modal';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState } from 'react';
 
+import { sortOfSurname } from 'helpers/sorting.helper';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
@@ -9,8 +10,7 @@ import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
 
-import classes from './TeamPage.module.css';
-import { sortOfSurname } from 'helpers/sorting.helper';
+// import classes from './TeamPage.module.css';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -19,12 +19,13 @@ interface IRows extends APIPerson {
 }
 
 interface IProps {
-  open: string;
+  // open: string;
   members: APIPerson[];
+  navHeight: number;
 }
 
-const TeamPage = ({ members, open } : IProps): JSX.Element => {
-  const [isOpen, setOpen] = React.useState<boolean>(false);
+const TeamPage = ({ members, navHeight } : IProps): JSX.Element => {
+  // const [isOpen, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = useState<IRows[]>([]);
   // const columns = [
   //   { field: 'lp', headerName: 'LP', width: 80, cellClassName: `${classes.positionModalCell}` },
@@ -34,18 +35,19 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
   //   { field: 'isDeleted', headerName: 'Usunięty/-a?', width: 120, cellClassName: `${classes.positionModalCell}` }
   // ];
 
-  useEffect(() => {
-    open === ShowModal.Team && setOpen(true);
-  },[open]);
+  // useEffect(() => {
+  //   open === ShowModal.Team && setOpen(true);
+  // },[open]);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
+ 
   useEffect(() => {
     sortOfSurname(members, 'ŻŻŻ');
     const rows = members ? (members.map((el, index) => {
@@ -64,14 +66,14 @@ const TeamPage = ({ members, open } : IProps): JSX.Element => {
 
   return (
     <>
-      <AssignmentIcon onClick={handleOpen}/>
+      {/* <AssignmentIcon onClick={handleOpen}/>
       <Modal
         className={classes.modal}
         open={isOpen}
         onClose={handleClose}
-      >
-        <ListOfMembers rows={rows}/>  
-      </Modal>
+      > */}
+      <ListOfMembers rows={rows} navHeight={navHeight}/>  
+      {/* </Modal> */}
     </>
   );
 };
