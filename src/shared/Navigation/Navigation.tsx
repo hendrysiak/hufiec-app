@@ -19,12 +19,15 @@ import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 const Navigation = (): JSX.Element => {
   const [isOpen, setIsOpen] = React.useState(false);
   
-  useEffect(() => {
-    document.body.addEventListener('click', (event: MouseEvent): void => {
-      const target = event.target as HTMLElement;
-      if (target && !target.classList.contains('nav')) setIsOpen(false);
-    });    
-  },[]);
+  // useEffect(() => {
+  //   document.body.addEventListener('click', (event: MouseEvent): void => {
+  //     const target = event.target as HTMLElement;
+  //     console.log(target.classList.contains('nav__open'));
+  //     console.log(target.classList.contains('nav__open--icon'));
+  //     if (target && (!target.classList.contains('nav__open') || !target.classList.contains('nav__open--icon'))) setIsOpen(false);
+  //     else setIsOpen(true);
+  //   });    
+  // },[]);
 
   const navigation = [
     { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
@@ -39,11 +42,15 @@ const Navigation = (): JSX.Element => {
     { link: '/resources', title: 'ZASOBY', icon: <StorageIcon fontSize="small" /> },
   ];
 
+  const navigationHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
-        <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
-          {isOpen ? <CloseIcon/> : <LaunchIcon/>}
+        <div className="nav__open" onClick={navigationHandler}>
+          {isOpen ? <CloseIcon className="nav__open--icon"/> : <LaunchIcon className="nav__open--icon"/>}
         </div>
         {navigation.map((nEl, index: number) => (
           <NavigationItem 

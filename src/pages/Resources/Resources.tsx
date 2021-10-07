@@ -1,7 +1,10 @@
 import { makeStyles, Tab, Tabs, Theme } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
 import React from 'react';
+
+import { Resource } from 'models/resources.model';
 
 import PageWrapper from 'shared/PageWrapper/PageWrapper';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
@@ -66,6 +69,25 @@ const Resources = (): JSX.Element => {
   const [currentMonth, setCurrentMonth] = React.useState(0);
   const [currentYear, setCurrentYear] = React.useState(1970);
 
+
+  const resources: Resource[] = [
+    { type: 'old-bungalow', availablePlaces: 8, name: 'K1' }, 
+    { type: 'old-bungalow', availablePlaces: 8, name: 'K2' }, 
+    { type: 'old-bungalow', availablePlaces: 8, name: 'K3' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G1' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G2' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G3' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G4' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G5' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G6' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G7' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G8' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G9' }, 
+    { type: 'bungalow', availablePlaces: 10, name: 'G10' }, 
+    { type: 'tent', availablePlaces: 10, name: 'Dolinka' }, 
+    { type: 'tent', availablePlaces: 10, name: 'Jałowce' }, 
+  ];
+
   React.useEffect(() => {
     const today = new Date();
     setCurrentMonth(today.getMonth());
@@ -108,7 +130,7 @@ const Resources = (): JSX.Element => {
         {`Miesiąc: ${months[currentMonth]}, Rok ${currentYear}`}
         <div style={{ display: 'flex', margin: 'auto', justifyContent: 'center', alignItems: 'center' }}>
           <ChevronLeftIcon onClick={() => handleChangeMonth('prev')} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
-          <MonthPage month={currentMonth + 1} resources={['K1', 'K2', 'K3', 'G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'G9', 'G10']}/>
+          <MonthPage month={currentMonth + 1} resources={resources}/>
           <ChevronRightIcon onClick={() => handleChangeMonth('next')} style={{ cursor: 'pointer', fontSize: '44px' }}/>
         </div>
       </TabPanel>
