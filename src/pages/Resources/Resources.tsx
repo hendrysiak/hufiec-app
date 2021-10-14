@@ -1,7 +1,11 @@
 import { makeStyles, Tab, Tabs, Theme } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import BungalowIcon from '@mui/icons-material/Bungalow';
+import HomeIcon from '@mui/icons-material/Home';
+import ParkIcon from '@mui/icons-material/Park';
 
+import { Box } from '@mui/material';
 import React from 'react';
 
 import { Resource } from 'models/resources.model';
@@ -10,6 +14,18 @@ import PageWrapper from 'shared/PageWrapper/PageWrapper';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 
 import MonthPage from './MonthPage/MonthPage';
+import ReservationEditor from './ReservationEditor/ReservationEditor';
+
+export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow'): JSX.Element => {
+  switch (type) {
+    case 'tent':
+      return <ParkIcon />;
+    case 'bungalow':
+      return <HomeIcon />;
+    case 'old-bungalow':
+      return <BungalowIcon />;
+  }
+};
 
 
 const months = [
@@ -122,18 +138,23 @@ const Resources = (): JSX.Element => {
         <Tabs value={tab} variant="fullWidth" classes={{ indicator: classes.indicator }} onChange={handleTabChange} style={{ flex: 3 }}>
           <Tab label="Rezerwacje" />
           <Tab label="Dodaj rezerwację" />
-          <Tab label="Edytuj zasoby" />
+          {/* <Tab label="Edytuj zasoby" /> */}
           {/* <Tab label="Wyślij wiadomość" /> */}
         </Tabs>
       </div>
-      <TabPanel value={tab} index={0}>
-        {`Miesiąc: ${months[currentMonth]}, Rok ${currentYear}`}
-        <div style={{ display: 'flex', margin: 'auto', justifyContent: 'center', alignItems: 'center' }}>
-          <ChevronLeftIcon onClick={() => handleChangeMonth('prev')} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
-          <MonthPage month={currentMonth + 1} resources={resources}/>
-          <ChevronRightIcon onClick={() => handleChangeMonth('next')} style={{ cursor: 'pointer', fontSize: '44px' }}/>
-        </div>
-      </TabPanel>
+      <Box p={4}>
+        <TabPanel value={tab} index={0}>
+          {`Miesiąc: ${months[currentMonth]}, Rok ${currentYear}`}
+          <div style={{ display: 'flex', margin: 'auto', justifyContent: 'center', alignItems: 'center' }}>
+            <ChevronLeftIcon onClick={() => handleChangeMonth('prev')} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
+            <MonthPage month={currentMonth + 1} resources={resources}/>
+            <ChevronRightIcon onClick={() => handleChangeMonth('next')} style={{ cursor: 'pointer', fontSize: '44px' }}/>
+          </div>
+        </TabPanel>
+        <TabPanel value={tab} index={1}>
+          <ReservationEditor resources={resources} />
+        </TabPanel>
+      </Box>
     </PageWrapper>
   );
 };

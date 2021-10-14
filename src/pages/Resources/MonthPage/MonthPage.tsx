@@ -1,9 +1,11 @@
-import BungalowIcon from '@mui/icons-material/Bungalow';
-import HomeIcon from '@mui/icons-material/Home';
-import ParkIcon from '@mui/icons-material/Park';
+
+import { Typography } from '@mui/material';
+import Popover from '@mui/material/Popover';
 import React from 'react';
 
 import { Resource } from 'models/resources.model';
+
+import { generateIcon } from '../Resources';
 
 
 interface MonthPageProps {
@@ -14,17 +16,21 @@ interface MonthPageProps {
 const getDaysInMonth = (month: number) => new Date(new Date().getFullYear(), month, 0).getDate();
 
 const MonthPage = (props: MonthPageProps): JSX.Element => {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLDivElement | null>(null);
+  const [content, setContent] = React.useState('');
 
-  const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow') => {
-    switch (type) {
-      case 'tent':
-        return <ParkIcon />;
-      case 'bungalow':
-        return <HomeIcon />;
-      case 'old-bungalow':
-        return <BungalowIcon />;
-    }
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>, content: string) => {
+    setAnchorEl(event.currentTarget);
+    setContent(content);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setContent('');
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   const generateElements = () => {
     const numberOfDays = getDaysInMonth(props.month);
@@ -46,7 +52,7 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
           <div style={{ width: '40px', height: '40px', border: '2px solid black' }}>
             {i + 1}
           </div>
-          {props.resources.map((r, i) => <div style={{ width: '40px', height: '40px', border: '2px solid black' }} key={i}></div>)}
+          {props.resources.map((r, i) => (<div onClick={(e) => handleClick(e, r.name)} style={{ width: '40px', height: '40px', border: '2px solid black' }} key={i}></div>))}
         </div>);
     }
     return renderedItems;
@@ -55,6 +61,18 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
   return (
     <div style={{ display: 'flex' }}>
       {generateElements()}
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Typography sx={{ p: 2 }}>{content}</Typography>
+      </Popover>
       {/* {`Month has ${getDaysInMonth(props.month)} days`} */}
     </div>
   );

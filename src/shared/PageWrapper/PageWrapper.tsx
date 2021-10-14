@@ -10,11 +10,11 @@ interface PageWrapperProps {
 
 const PageWrapper = (props: PageWrapperProps): JSX.Element => {
   return (
-    <>
+    <div>
       <Navigation />
       <LogOut />
       {props.children}
-    </>
+    </div>
   );
 };
 
