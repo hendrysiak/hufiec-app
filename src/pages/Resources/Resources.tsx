@@ -8,12 +8,12 @@ import ParkIcon from '@mui/icons-material/Park';
 import { Box } from '@mui/material';
 import React from 'react';
 
-import { Resource } from 'models/resources.model';
+import { MappedReservation, Reservation, ReservationMapElement, Resource, ResourceMapElement } from 'models/resources.model';
 
 import PageWrapper from 'shared/PageWrapper/PageWrapper';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 
-import MonthPage from './MonthPage/MonthPage';
+import MonthPage, { generateListOfDay } from './MonthPage/MonthPage';
 import ReservationEditor from './ReservationEditor/ReservationEditor';
 
 export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow'): JSX.Element => {
@@ -26,7 +26,6 @@ export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow'): JSX.El
       return <BungalowIcon />;
   }
 };
-
 
 const months = [
   'Styczeń',
@@ -84,7 +83,58 @@ const Resources = (): JSX.Element => {
     
   const [currentMonth, setCurrentMonth] = React.useState(0);
   const [currentYear, setCurrentYear] = React.useState(1970);
+  const [reservations, setReservations] = React.useState<ReservationMapElement>({});
+  const [resourceMap, setResourceMap] = React.useState<ResourceMapElement>({});
 
+  const setDays = (resourceMap: ResourceMapElement, resource: string, usedDays: string[], id: string) => {
+    console.log(usedDays);
+    usedDays.forEach(day => {
+
+      if (resourceMap[resource][day]) {
+        resourceMap[resource][day].push(id);
+      } else {
+        resourceMap[resource][day] = [id];
+      }
+
+    });
+    return resourceMap;
+  };
+
+  const temporaryResourceCapacityhandler = (reservation: Reservation, id: string) => {
+    let resources = { ...resourceMap };
+    const usedDays = generateListOfDay(reservation.startDate, reservation.endDate);
+    
+    reservation.resources.forEach(resource => {
+      if (resources[resource]) {
+        resources = setDays(resources, resource, usedDays, id);
+      } else {
+        resources[resource] = {};
+        resources = setDays(resources, resource, usedDays, id);
+      }
+    });
+
+    setResourceMap(resources);
+  };
+
+  const temporarySaveReservation = (reservation: Reservation) => {
+    const startDate = reservation.startDate.split('.');
+    const endDate = reservation.endDate.split('.');
+    const id = `${Object.keys(reservations).length}`;
+
+    const mappedReservation: ReservationMapElement = {
+      [id]: {
+        ...reservation,
+        startDay: Number(startDate[0]),
+        endDay: Number(endDate[0]),
+        startMonth: Number(startDate[1]) - 1,
+        endMonth: Number(endDate[1]) - 1,
+        id,
+      }
+    };
+
+    temporaryResourceCapacityhandler(reservation, id);
+    setReservations({ ...reservations, ...mappedReservation });
+  };
 
   const resources: Resource[] = [
     { type: 'old-bungalow', availablePlaces: 8, name: 'K1' }, 
@@ -132,6 +182,7 @@ const Resources = (): JSX.Element => {
     }
   };
 
+
   return (
     <PageWrapper>
       <div style={{ backgroundColor: 'rgba(92, 56, 150, 1)', color: 'white' }}>
@@ -152,7 +203,7 @@ const Resources = (): JSX.Element => {
           </div>
         </TabPanel>
         <TabPanel value={tab} index={1}>
-          <ReservationEditor resources={resources} />
+          <ReservationEditor resources={resources} saveReservation={temporarySaveReservation}/>
         </TabPanel>
       </Box>
     </PageWrapper>

@@ -6,13 +6,14 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { HexColorPicker } from 'react-colorful';
 
-import { Resource } from 'models/resources.model';
+import { Reservation, Resource } from 'models/resources.model';
 
 interface ReservationEditorProps {
   resources: Resource[];
+  saveReservation: (reservation: Reservation) => void;
 }
 
-const ReservationEditor = (props: ReservationEditorProps) => {
+const ReservationEditor = (props: ReservationEditorProps): JSX.Element => {
   const [numberOfPersons, setNumberOfPersons] = React.useState(0);
   const [name, setName] = React.useState('');
   const [color, setColor] = React.useState('');
@@ -40,13 +41,25 @@ const ReservationEditor = (props: ReservationEditorProps) => {
     return setReservedResources(editedResources);
   };
 
+  const saveHandler = () => {
+    const newReservation: Reservation = {
+      startDate: new Date(startDate).toLocaleDateString(),
+      endDate: new Date(endDate).toLocaleDateString(),
+      resources: reservedResources,
+      name,
+      color,
+      numberOfPersons
+    };
+
+    props.saveReservation(newReservation);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <KeyboardDatePicker
           className="datePicker"
           disableToolbar
-          disableFuture={true}
           inputVariant="outlined"
           format="dd/MM/yyyy"
           margin="normal"
@@ -64,7 +77,6 @@ const ReservationEditor = (props: ReservationEditorProps) => {
         <KeyboardDatePicker
           className="datePicker"
           disableToolbar
-          disableFuture={true}
           inputVariant="outlined"
           format="dd/MM/yyyy"
           margin="normal"
@@ -120,7 +132,7 @@ const ReservationEditor = (props: ReservationEditorProps) => {
         <HexColorPicker style={{ margin: '0 auto' }} color={color} onChange={setColor} />
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={() => console.log()}>Zapisz rezerwację</Button>
+        <Button variant="contained" color="primary" onClick={() => saveHandler()}>Zapisz rezerwację</Button>
       </Grid>
     </Grid>
   );

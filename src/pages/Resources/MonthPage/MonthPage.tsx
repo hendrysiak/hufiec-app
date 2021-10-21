@@ -8,6 +8,52 @@ import { Resource } from 'models/resources.model';
 import { generateIcon } from '../Resources';
 
 
+const temporaryReservation = [{
+  id: '1',
+  startDate: new Date('10.10.2021').toLocaleDateString(),
+  endDate: new Date('12.10.2021').toLocaleDateString(),
+  startMonth: 9,
+  startDay: 10,
+  endMonth: 9,
+  endDay: 12,
+  resources: ['K1', 'G2', 'G3'],
+  name: 'Pilecki',
+  color: '#914545',
+}];
+
+export const generateListOfDay = (startDate: string, endDate: string, steps = 1): string[] => {
+  const splitedStartDate = startDate.split('.');
+  const splitedEndDate = endDate.split('.');
+  const dateArray = [];
+  const currentDate = new Date(`${splitedStartDate[1]}.${splitedStartDate[0]}.${splitedStartDate[2]}`);
+
+  while (currentDate <= new Date(`${splitedEndDate[1]}.${splitedEndDate[0]}.${splitedEndDate[2]}`)) {
+    dateArray.push(new Date(currentDate).toLocaleDateString());
+    // Use UTC date to prevent problems with time zones and DST
+    currentDate.setUTCDate(currentDate.getUTCDate() + steps);
+  }
+  return dateArray;
+};
+
+// {
+//   'K1': {
+//     '10.10.2021': {
+//       id: '1'
+//     }
+//   }
+// }
+
+// {
+//   ':ID': {
+//     name: 'Pilecki',
+//     numberOfPerson: ''
+//   }
+// }
+
+
+// const dates = generateListOfDay(temporaryReservation[0].startDate, temporaryReservation[0].endDate);
+// console.log(dates);
+
 interface MonthPageProps {
   month: number;
   resources: Resource[];
@@ -34,6 +80,7 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
 
   const generateElements = () => {
     const numberOfDays = getDaysInMonth(props.month);
+    const reservationInCurrentMonth = temporaryReservation.filter(r => r.startMonth === props.month);
 
     const renderedItems = [];
 
@@ -52,7 +99,16 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
           <div style={{ width: '40px', height: '40px', border: '2px solid black' }}>
             {i + 1}
           </div>
-          {props.resources.map((r, i) => (<div onClick={(e) => handleClick(e, r.name)} style={{ width: '40px', height: '40px', border: '2px solid black' }} key={i}></div>))}
+
+          {props.resources.map((r, i) => {
+            
+            return (<div 
+              onClick={(e) => handleClick(e, r.name)} 
+              style={{ width: '40px', height: '40px', border: '2px solid black' }} 
+              key={i}
+            ></div>);
+          })}
+
         </div>);
     }
     return renderedItems;
