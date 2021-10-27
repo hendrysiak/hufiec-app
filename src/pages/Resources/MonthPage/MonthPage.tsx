@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import React from 'react';
 
-import { Resource } from 'models/resources.model';
+import { ReservationMapElement, Resource, ResourceMapElement } from 'models/resources.model';
 
 import { generateIcon } from '../Resources';
 
@@ -57,6 +57,9 @@ export const generateListOfDay = (startDate: string, endDate: string, steps = 1)
 interface MonthPageProps {
   month: number;
   resources: Resource[];
+  resourceMap: ResourceMapElement;
+  reservations: ReservationMapElement;
+  year: number;
 }
 
 const getDaysInMonth = (month: number) => new Date(new Date().getFullYear(), month, 0).getDate();
@@ -80,8 +83,6 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
 
   const generateElements = () => {
     const numberOfDays = getDaysInMonth(props.month);
-    const reservationInCurrentMonth = temporaryReservation.filter(r => r.startMonth === props.month);
-
     const renderedItems = [];
 
     renderedItems.push(
@@ -93,18 +94,25 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
       </div>);
 
     for (let i = 0; i < numberOfDays; i++) {
+      const day = i + 1;
 
       renderedItems.push(
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ width: '40px', height: '40px', border: '2px solid black' }}>
-            {i + 1}
+            {day}
           </div>
 
           {props.resources.map((r, i) => {
+            // year and month changing
+            const currentReservationId = props.resourceMap?.[r.name]?.[`${day}.${props.month}.${props.year}`];
+            const currentStyle = currentReservationId ? { backgroundColor: props.reservations[currentReservationId].color } : { backgroundColor: 'transparent' };
+            const currentInfo = currentReservationId 
+              ? `Rezerwacja dla ${props.reservations[currentReservationId].name} na ${props.reservations[currentReservationId].numberOfPersons} osób` 
+              : r.name;
             
             return (<div 
-              onClick={(e) => handleClick(e, r.name)} 
-              style={{ width: '40px', height: '40px', border: '2px solid black' }} 
+              onClick={(e) => handleClick(e, currentInfo)} 
+              style={{ width: '40px', height: '40px', border: '2px solid black', ...currentStyle }} 
               key={i}
             ></div>);
           })}
@@ -114,9 +122,11 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
     return renderedItems;
   };
 
+  const generatedElements = React.useMemo(() => generateElements(), [props.reservations, props.resourceMap, props.month]);
+
   return (
     <div style={{ display: 'flex' }}>
-      {generateElements()}
+      {generatedElements}
       <Popover
         id={id}
         open={open}

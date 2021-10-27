@@ -89,12 +89,12 @@ const Resources = (): JSX.Element => {
   const setDays = (resourceMap: ResourceMapElement, resource: string, usedDays: string[], id: string) => {
     console.log(usedDays);
     usedDays.forEach(day => {
-
-      if (resourceMap[resource][day]) {
-        resourceMap[resource][day].push(id);
-      } else {
-        resourceMap[resource][day] = [id];
-      }
+      resourceMap[resource][day] = id;
+      // if (resourceMap[resource][day]) {
+      //   resourceMap[resource][day].push(id);
+      // } else {
+      //   resourceMap[resource][day] = [id];
+      // }
 
     });
     return resourceMap;
@@ -198,7 +198,13 @@ const Resources = (): JSX.Element => {
           {`Miesiąc: ${months[currentMonth]}, Rok ${currentYear}`}
           <div style={{ display: 'flex', margin: 'auto', justifyContent: 'center', alignItems: 'center' }}>
             <ChevronLeftIcon onClick={() => handleChangeMonth('prev')} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
-            <MonthPage month={currentMonth + 1} resources={resources}/>
+            <MonthPage
+              month={currentMonth + 1}
+              resources={resources}
+              reservations={reservations}
+              resourceMap={resourceMap}
+              year={currentYear}
+            />
             <ChevronRightIcon onClick={() => handleChangeMonth('next')} style={{ cursor: 'pointer', fontSize: '44px' }}/>
           </div>
         </TabPanel>
