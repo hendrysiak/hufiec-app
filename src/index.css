@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Museo300';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Museo300') url('./fonts/Museo300-Regular.ttf') format('truetype'),
+        local('Museo300') url('./fonts/Museo-Regular-300.otf') format('opentype'),
+}
+
 body {
     background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('./assets/Agnieszka_Madetko-Kurczab_18.jpg') center center/cover no-repeat fixed;
     height: 100vh;

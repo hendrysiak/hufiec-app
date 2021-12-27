@@ -1,0 +1,64 @@
+body {
+    background: white;
+    height: 1446px;
+    width: 1022px;
+    padding: 77px 54px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    page-break-after: always;
+    font-family: Museo300, sans-serif;
+    font-size: 12px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 25px;
+}
+
+.header img {
+    height: 75px;
+}
+
+.disclaimer {
+    text-align: left;
+    font-size: 7.5px;
+    width: 165px;
+}
+
+.disclaimer p {
+    margin: 0 0 0 2px;
+}
+
+.disclaimer__recipient {
+    padding: 4px;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: white;
+    background-color: #6E9F32;
+}
+
+.main__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer img {
+    height: 60px;
+}
+
+.footer .footer__scouts {
+    height: 40px; 
+    align-self: flex-end;
+}
