@@ -88,7 +88,7 @@ const MonthPage = (props: MonthPageProps): JSX.Element => {
     renderedItems.push(
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ width: '40px', height: '40px' }}></div>
-        {props.resources.map((r, i) => <div style={{ width: '100px', height: '40px', border: '2px solid black', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }} key={i}>
+        {props.resources.map((r, i) => <div style={{ padding: '0px 4px', width: '140px', height: '40px', border: '2px solid black', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} key={i}>
           <span>{r.name}</span> {generateIcon(r.type)}
         </div>)}
       </div>);

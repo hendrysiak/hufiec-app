@@ -2,9 +2,10 @@ import { makeStyles, Tab, Tabs, Theme } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BungalowIcon from '@mui/icons-material/Bungalow';
+import BusinessIcon from '@mui/icons-material/Business';
 import HomeIcon from '@mui/icons-material/Home';
+import HouseIcon from '@mui/icons-material/House';
 import ParkIcon from '@mui/icons-material/Park';
-
 import { Box } from '@mui/material';
 import React from 'react';
 
@@ -16,7 +17,7 @@ import { TabPanel } from 'shared/TabPanel/TabPanel';
 import MonthPage, { generateListOfDay } from './MonthPage/MonthPage';
 import ReservationEditor from './ReservationEditor/ReservationEditor';
 
-export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow'): JSX.Element => {
+export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow' | 'house' | 'main'): JSX.Element => {
   switch (type) {
     case 'tent':
       return <ParkIcon />;
@@ -24,6 +25,10 @@ export const generateIcon = (type: 'tent' | 'bungalow' | 'old-bungalow'): JSX.El
       return <HomeIcon />;
     case 'old-bungalow':
       return <BungalowIcon />;
+    case 'house':
+      return <HouseIcon />;
+    case 'main':
+      return <BusinessIcon />;
   }
 };
 
@@ -150,8 +155,17 @@ const Resources = (): JSX.Element => {
     { type: 'bungalow', availablePlaces: 10, name: 'G8' }, 
     { type: 'bungalow', availablePlaces: 10, name: 'G9' }, 
     { type: 'bungalow', availablePlaces: 10, name: 'G10' }, 
-    { type: 'tent', availablePlaces: 10, name: 'Dolinka' }, 
-    { type: 'tent', availablePlaces: 10, name: 'Jałowce' }, 
+    { type: 'tent', availablePlaces: 100, name: 'Dolinka' }, 
+    { type: 'tent', availablePlaces: 100, name: 'Jałowce' }, 
+    { type: 'tent', availablePlaces: 40, name: 'PPOŻ' }, 
+    { type: 'tent', availablePlaces: 60, name: 'Dąbki' }, 
+    { type: 'house', availablePlaces: 5, name: 'Borowik' }, 
+    { type: 'house', availablePlaces: 5, name: 'Jagódka' }, 
+    { type: 'house', availablePlaces: 5, name: 'Poziomka' }, 
+    { type: 'house', availablePlaces: 5, name: 'Purchawka' }, 
+    { type: 'house', availablePlaces: 4, name: 'Żwirek' }, 
+    { type: 'house', availablePlaces: 4, name: 'Muchomorek' }, 
+    { type: 'main', availablePlaces: 50, name: 'Hufiec' }, 
   ];
 
   React.useEffect(() => {

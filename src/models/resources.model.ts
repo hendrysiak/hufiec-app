@@ -1,5 +1,5 @@
 export interface Resource {
-  type: 'tent' | 'bungalow' | 'old-bungalow';
+  type: 'tent' | 'bungalow' | 'old-bungalow' | 'house' | 'main';
   availablePlaces: number;
   name: string;
 }
