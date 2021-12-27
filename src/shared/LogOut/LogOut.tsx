@@ -4,7 +4,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import React from 'react';
 
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
 import { LogOutTimer } from 'shared/LogOutTimer/LogOutTimer';
 
