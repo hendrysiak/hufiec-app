@@ -10,8 +10,6 @@ import { IncomesBankModel } from 'models/income.models';
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
 
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 
@@ -81,8 +79,6 @@ const UnAssignedIncome = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <section className="Section">
         <div style={{ marginTop: '16px' }}>
           <Button variant="contained" color="primary" onClick={() => updateIncome()}>Zaktualizuj przelewy</Button>

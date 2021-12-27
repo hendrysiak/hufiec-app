@@ -13,9 +13,7 @@ import axios from 'axios-income';
 import { ApprovedEvent, Event } from 'models/codes.models';
 import { BudgetEntry } from 'models/global.enum';
 import { IncomePurpose, OutcomePurpose } from 'models/income.models';
-import { LogOut } from 'shared/LogOut/LogOut';
 
-import Navigation from 'shared/Navigation/Navigation';
 import { reduxGetCodes } from 'store/actions/income';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
@@ -111,8 +109,6 @@ const EventApproval = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <section className="Section">
         <Paper className="event-approbal__paper">
           <Typography component="h2" variant="h6" color="primary" gutterBottom>

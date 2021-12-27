@@ -19,8 +19,6 @@ import { useSelector } from 'react-redux';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
 import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { RootState } from 'store/models/rootstate.model';
 
@@ -157,8 +155,6 @@ const EditorTeam: FC = () => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
         <FiltersName 
           name={name}

@@ -233,7 +233,6 @@ const Team = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
       <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
         <Box display="flex" alignItems="center">
           <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
@@ -260,58 +259,6 @@ const Team = (): JSX.Element => {
           <Tab label="Stan konta" />
           <Tab label="Wyślij wiadomość" />
         </Tabs>
-        {/* <SpeedDial
-          classes={{ fab: 'rootCircle' }}
-          ariaLabel=""
-          hidden={false}
-          icon={<SpeedDialIcon classes={{ root: 'iconRoot', icon: 'icon' }}/>}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          open={open}
-          direction= "left"
-        >
-          
-          <SpeedDialAction
-            classes={{ fab: 'getAction' }}
-            key={1}
-            icon={
-              <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
-                <IconButton>
-                  <GetAppIcon/>
-                </IconButton>
-              </CSVLink>}
-            tooltipTitle={''}
-          />
-          
-          <SpeedDialAction
-            classes={{ fab: 'actionRoot' }}
-            key={2}
-            icon={<AssignmentIcon />}
-            tooltipTitle={''}
-            onClick={() => handleMenu(ShowModal.Team)}
-          />
-          <SpeedDialAction
-            classes={{ fab: 'actionRoot' }}
-            key={3}
-            icon={<MailIcon />}
-            tooltipTitle={''}
-            onClick={() => handleMenu(ShowModal.Form)}
-          />
-          <SpeedDialAction
-            classes={{ fab: 'actionRoot' }}
-            key={4}
-            icon={<AttachMoneyIcon />}
-            tooltipTitle={''}
-            onClick={() => handleMenu(ShowModal.Finances)}
-          />
-          <SpeedDialAction
-            classes={{ fab: 'actionRoot' }}
-            key={5}
-            icon={<SearchIcon />}
-            tooltipTitle={''}
-            onClick={handleOpenFilter}
-          />
-        </SpeedDial> */}
       </div>
       <TabPanel value={tab} index={0}>
         <section className="container">

@@ -27,8 +27,6 @@ import {
   OutcomeDb,
   OutcomesWithEvent,
 } from 'models/income.models';
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
 import Filters from 'shared/TableEditor/Filters';
 import TableEditor from 'shared/TableEditor/TableEditor';
 import * as actions from 'store/actions/index';
@@ -182,8 +180,6 @@ const Edit = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <Filters
         editedData={editedData}
         selectedDate={selectedDate}

@@ -5,14 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-
 import axios from 'axios-income';
 import { IncomesWithImportDate } from 'models/income.models';
 
 import ListContainer from 'shared/ListContainer/ListContainer';
 import ListEl from 'shared/ListEl/ListEl';
 
-import { LogOut } from 'shared/LogOut/LogOut';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
@@ -100,7 +98,6 @@ const SortedIncome = (): JSX.Element => {
   return (
     loading ? <div className="loader"><CircularProgress/></div> :
       <>
-        <LogOut />
         <section className="Section">
           <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
           <TextField 
