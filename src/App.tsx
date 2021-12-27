@@ -85,6 +85,7 @@ const App = (): JSX.Element => {
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
+  const Letter = React.lazy(() => import('./pages/Letter/Letter'));
 
   const routes = 
     <BrowserRouter>
@@ -102,6 +103,7 @@ const App = (): JSX.Element => {
         {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
         {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
+        {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska    " />} />}
         <Route exact path="/login" render={() => <Login />} />
         {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
       </Switch>
