@@ -10,10 +10,6 @@ import { useSelector } from 'react-redux';
 
 import { IncomeDb } from 'models/income.models';
 
-// import ListContainer from 'shared/ListContainer/ListContainer';
-import ListEl from 'shared/ListEl/ListEl';
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 import classes from './Codes.module.css';
@@ -100,10 +96,7 @@ const Codes = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <header>
-
         <TextField 
           style={{ width: '80%', marginTop: '16px' }}
           value={currentCode}

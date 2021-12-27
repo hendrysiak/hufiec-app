@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { Amount } from 'models/income.models';
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 import OneTeam from './OneTeam/OneTeam';
@@ -25,8 +23,6 @@ const AddPercent: FC = () => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       {registry && amount && Object.keys(registry).map((el, index) => <OneTeam key={index} team={el} amount={amount[el]}/> )} 
     </>
   );

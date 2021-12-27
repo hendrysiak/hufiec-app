@@ -11,9 +11,7 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { Event } from 'models/codes.models';
-import { LogOut } from 'shared/LogOut/LogOut';
 
-import Navigation from 'shared/Navigation/Navigation';
 import { RootState } from 'store/models/rootstate.model';
 
 const AddCode = (): JSX.Element => {
@@ -104,8 +102,6 @@ const AddCode = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <div style={{ overflowY: 'scroll', height: '100%' }}>
         <form id="general" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2>Dodaj kod</h2>

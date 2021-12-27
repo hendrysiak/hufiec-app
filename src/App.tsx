@@ -14,6 +14,7 @@ import { BrowserRouter,
 
 import Cookies from 'universal-cookie';
 
+import NavigationContainer from 'containers/NavigationContainer/NavigationContainer';
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
@@ -86,29 +87,33 @@ const App = (): JSX.Element => {
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
   const Letter = React.lazy(() => import('./pages/Letter/Letter'));
+  const CodeGenerator = React.lazy(() => import('./pages/AddCode/CodeGenerator/CodeGenerator'));
 
   const routes = 
     <BrowserRouter>
-      <Switch>
-        {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
-        {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
-        {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska    " />} />}
-        <Route exact path="/login" render={() => <Login />} />
-        {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
-      </Switch>
-      {user.roles && !user.roles.includes('admin') && team && <Redirect exact to={`/${team}`}/>}
-      {redirectToLogin && !roles && <Redirect exact to="/login"/>}
+      <NavigationContainer team={team}>
+        <Switch>
+          {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
+          {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska    " />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/code-generator" render={() => <CodeGenerator />} />}
+          {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
+          <Route exact path="/login" render={() => <Login />} />
+        </Switch>
+        {user.roles && !user.roles.includes('admin') && team ? <Redirect exact to={`/${team}`}/> : <></>}
+        {redirectToLogin && !roles ? <Redirect exact to="/login"/> : <></>}
+      </NavigationContainer>
     </BrowserRouter>;
 
   return (
@@ -118,7 +123,9 @@ const App = (): JSX.Element => {
           {loadingStatus 
             ? <div className="loader"><CircularProgress/></div>
             : (<div>
-              <Suspense fallback={<div className="loader"><CircularProgress/></div>}>{routes}</Suspense>
+              <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
+                {routes}
+              </Suspense>
             </div>)}
         </div>
       </MuiPickersUtilsProvider>

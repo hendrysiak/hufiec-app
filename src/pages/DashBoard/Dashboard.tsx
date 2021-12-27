@@ -6,31 +6,12 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 
-import { LogOut } from 'shared/LogOut/LogOut';
-import Navigation from 'shared/Navigation/Navigation';
-
 import { RootState } from 'store/models/rootstate.model';
 
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
 import classes from './Dashboard.module.css';
-
-// import classes from './Dashboard.module.css';
-
-// import Navigation from '../../components/Navigation/Navigation';
-// import Transfers from '../Transfers/containers/Transfers';
-// import Codes from '../../components/Codes/Codes';
-// import AddCode from '../../components/AddCode/AddCode';
-// import Teams from '../../components/Teams/Teams';
-// import ForCoders from '../../components/ForCoders/ForCoders';
-
-// import * as actions from '../../store/actions/index';
-
-// import { getTeamsWithAccountState, getCodes } from './api-handlers/account.handler'
-// import EventBilling from '../EventBilling/containers/EventBilling';
-
-// import { organizationStateVerification } from './helpers/dashboard.helpers';
 
 export interface IMessValue {
   content: string;
@@ -80,8 +61,6 @@ const Dashboard = (): JSX.Element => {
 
   return (
     <>
-      <LogOut />
-      <Navigation />
       <div>
         <h1>Aplikacja Hufcowa - v. 0.1</h1>
         <Paper style={{ background: 'transparent' }}>
