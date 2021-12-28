@@ -24,7 +24,6 @@ import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
-import { LogOut } from 'shared/LogOut/LogOut';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
@@ -64,6 +63,7 @@ const Team = (): JSX.Element => {
 
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
+
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
