@@ -1,4 +1,4 @@
-import { ApprovedEvent } from 'models/codes.models';
+import { ApprovedEvent ,CodesMap } from 'models/codes.models';
 
 import { 
   IncomesBankModel, 
@@ -21,6 +21,7 @@ export interface IncomeState {
   dbIncomes: IncomeDb[],
   dbOutcomes: OutcomeDb[],
   codes: ApprovedEvent[] | null,
+  codesMap: CodesMap | null,
   importDates: Date[] | null;
   initAccount: InitAccountState[]
 };

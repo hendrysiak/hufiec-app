@@ -49,7 +49,7 @@ const App = (): JSX.Element => {
     const downloadData = async () => {
       await getInitAccountState();
       await getAccountState();
-      await getCodes();
+      await getCodes(team);
       await getRegistry();
       await getImportDates();
     };

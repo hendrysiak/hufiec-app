@@ -14,7 +14,6 @@ import { RootState } from 'store/models/rootstate.model';
 
 import classes from './Codes.module.css';
 
-
 interface Row {
   id: string;
   lp: number;
@@ -48,9 +47,9 @@ const Codes = (): JSX.Element => {
 
   useEffect(() => {
     if (codes) {
-      const codesToUse = codes.map(code => code.code);
-      setCurrentCode(codesToUse[0]);
-      setUsedCodes(codesToUse);
+      const filteredCodes = codes.map(code => code.code);
+      setCurrentCode(filteredCodes[0]);
+      setUsedCodes(filteredCodes);
     }
   }, [codes]);
 

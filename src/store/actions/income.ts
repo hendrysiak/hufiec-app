@@ -1,9 +1,9 @@
-import { ApprovedEvent } from 'models/codes.models';
+import { ApprovedEvent, CodesMap } from 'models/codes.models';
 import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod, InitAccountState } from 'models/income.models';
 import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
-import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState } from './action.types';
+import { SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState, SetFilteredCodes } from './action.types';
 
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {
@@ -13,16 +13,23 @@ export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => {
   };
 };
 
-export const reduxGetCodes = (codes: ApprovedEvent[]): GetCodes => {
+export const reduxGetCodes = (codes: CodesMap): GetCodes => {
   return {
     type: ActionTypes.FETCH_CODES,
     codes
   };
 };
 
-export const reduxGetCodesWithTeams = (codes: ApprovedEvent[]): GetCodesWithTeams => {
+export const reduxGetCodesWithTeams = (codes: CodesMap): GetCodesWithTeams => {
   return {
     type: ActionTypes.FETCH_CODES_TEAMS,
+    codes
+  };
+};
+
+export const reduxSetFilteredCodes = (codes: ApprovedEvent[]): SetFilteredCodes => {
+  return {
+    type: ActionTypes.SET_FILTERED_CODES,
     codes
   };
 };

@@ -1,4 +1,4 @@
-import { ApprovedEvent } from 'models/codes.models';
+import { ApprovedEvent, CodesMap } from 'models/codes.models';
 import { IncomesBankModel, IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod, InitAccountState } from 'models/income.models';
 import { APIPerson, Registry } from 'models/registry.models';
 
@@ -19,11 +19,15 @@ export interface SetIncome {
 
 export interface GetCodes {
   type: ActionTypes.FETCH_CODES;
-  codes: ApprovedEvent[];
+  codes: CodesMap;
 };
 
 export interface GetCodesWithTeams {
   type: ActionTypes.FETCH_CODES_TEAMS;
+  codes: CodesMap;
+};
+export interface SetFilteredCodes {
+  type: ActionTypes.SET_FILTERED_CODES;
   codes: ApprovedEvent[];
 };
 
@@ -129,6 +133,7 @@ export type ActionType =
 | SetIncome
 | GetCodes
 | GetCodesWithTeams 
+| SetFilteredCodes
 | GetAccountState
 | GetRegistry
 | GetImportDates 
