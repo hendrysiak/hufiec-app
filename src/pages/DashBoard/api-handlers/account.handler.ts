@@ -1,4 +1,5 @@
 import axios from 'axios-income';
+import { ApprovedEvent, CodesMap } from 'models/codes.models';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { 
@@ -6,7 +7,8 @@ import {
   reduxGetCodes, 
   reduxGetRegistry, 
   reduxGetImportDates, 
-  reduxGetInitAccountState
+  reduxGetInitAccountState,
+  reduxSetFilteredCodes
 } from 'store/actions/income';
 
 import store from 'store/store';
@@ -27,10 +29,29 @@ export const getAccountState = async (): Promise<void> => {
   ));
 };
 
-export const getCodes = async (): Promise<void> => {
-  const codes = await axios.get('/codes.json');
+export const getCodes = async (team: string | null): Promise<void> => {
+  const codes = await axios.get<CodesMap>('/codes.json');
+
+  const codesToFilter: ApprovedEvent[] = [];
+  // you have to map db entries
+  if (team === null) {
+    for (const code in codes.data) {
+      const fullCode = codes.data[code].suffix ? `${codes.data[code].prefix}-${codes.data[code].suffix}` : codes.data[code].prefix;
+      codesToFilter.push({ code: fullCode });
+    }
+
+  } else {
+    for (const code in codes) {
+      
+      if (codes.data[code].teams.includes(team) || codes.data[code].wholeOrganization) {
+        const fullCode = codes.data[code].id ? `${code}-${codes.data[code].id}` : code;
+        codesToFilter.push({ code: fullCode });
+      }
+    }
+  }
 
   store.dispatch(reduxGetCodes(codes.data));
+  store.dispatch(reduxSetFilteredCodes(codesToFilter));
 };
 
 export const getRegistry = async (): Promise<void> => {

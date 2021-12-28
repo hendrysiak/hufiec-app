@@ -14,6 +14,7 @@ const initialState: IncomeState = {
   dbIncomes: [],
   dbOutcomes: [],
   codes: null,
+  codesMap: null,
   importDates: null,
   initAccount: []
 };
@@ -27,6 +28,12 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
       };
 
     case ActionTypes.FETCH_CODES:
+      return {
+        ...state,
+        codesMap: action.codes
+      };
+
+    case ActionTypes.SET_FILTERED_CODES:
       return {
         ...state,
         codes: action.codes
