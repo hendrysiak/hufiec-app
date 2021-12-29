@@ -6,6 +6,11 @@ import {
 } from '@material-ui/pickers';
 
 import React, { Suspense, useEffect, useState } from 'react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, 
   Redirect, 
@@ -43,6 +48,8 @@ const App = (): JSX.Element => {
   // const [roles, setRoles] = useState<string[] | null>(null);
   // const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
+
+  const queryClient = new QueryClient();
 
 
   useEffect(() => {
@@ -88,6 +95,7 @@ const App = (): JSX.Element => {
   const Login = React.lazy(() => import('./pages/Login/Login'));
   const Letter = React.lazy(() => import('./pages/Letter/Letter'));
   const CodeGenerator = React.lazy(() => import('./pages/AddCode/CodeGenerator/CodeGenerator'));
+  const Role = React.lazy(() => import('./pages/Role/Role'));
 
   const routes = 
     <BrowserRouter>
@@ -108,6 +116,7 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska    " />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/code-generator" render={() => <CodeGenerator />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/users" render={() => <Role />} />}
           {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
           <Route exact path="/login" render={() => <Login />} />
         </Switch>
@@ -118,17 +127,20 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className="app">
-          {loadingStatus 
-            ? <div className="loader"><CircularProgress/></div>
-            : (<div>
-              <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
-                {routes}
-              </Suspense>
-            </div>)}
-        </div>
-      </MuiPickersUtilsProvider>
+      <QueryClientProvider client={queryClient}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <div className="app">
+            {loadingStatus 
+              ? <div className="loader"><CircularProgress/></div>
+              : (<div>
+                <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
+                  {routes}
+                </Suspense>
+              </div>)}
+          </div>
+        </MuiPickersUtilsProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 
