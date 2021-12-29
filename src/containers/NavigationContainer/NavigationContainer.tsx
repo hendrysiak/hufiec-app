@@ -13,7 +13,7 @@ const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
   
   return (
     <>
-      {props.team !== null && props.team !== '' && <Navigation />}
+      {props.team !== null || props.team !== '' ? <Navigation /> : <></>}
       {props.children}
       <LogOut />
     </>
