@@ -6,6 +6,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import EditIcon from '@material-ui/icons/Edit';
 import LaunchIcon from '@material-ui/icons/Launch';
 
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
@@ -37,6 +38,7 @@ const Navigation = (): JSX.Element => {
     { link: '/editor', title: 'EDYTUJ PRZYCHODY/KOSZTY', icon: <EditIcon fontSize="small" /> },
     { link: '/editor-team', title: 'EDYTUJ DRUŻYNĘ', icon: <EditIcon fontSize="small" /> },
     { link: '/addpercent', title: 'DODAJ 1%', icon: <EditIcon fontSize="small" /> },
+    { link: '/users', title: 'ZARZĄDZAJ ROLAMI', icon: <PeopleAltIcon fontSize="small" /> },
   ];
 
   return (

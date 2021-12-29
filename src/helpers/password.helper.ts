@@ -40,3 +40,12 @@ export const DecryptCookie = (cookie: string): { login: string; password: string
   const password = cookie.slice(32);
   return { login, password };
 };
+
+export const generatePassword = (maxLength: number): string => {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let retVal = '';
+  for (let i = 0, n = charset.length; i < maxLength; ++i) {
+    retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+};
