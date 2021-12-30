@@ -51,3 +51,23 @@ export enum Rows {
   Surname = 'surname',
   Team = 'team'
 }
+
+export enum ProposalArea {
+  Registry = 'registry',
+  Income = 'income'
+}
+
+export enum ProposalKind {
+  Delete = 'delete',
+  Edit = 'edit',
+  Move = 'move',
+}
+
+export interface Proposal {
+  id: string;
+  author: string; 
+  area: ProposalArea; 
+  kind: ProposalKind; 
+  oldValues?: unknown; 
+  newValues?: unknown
+}
