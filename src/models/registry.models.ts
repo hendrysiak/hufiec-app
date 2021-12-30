@@ -6,6 +6,7 @@ export interface Person extends IObjectKeys {
   dateOfAdd: Date | null;
   dateOfDelete?: Date | null;
   team?: string;
+  evidenceNumber?: string;
 };
 
 export interface APIPerson extends Person {
