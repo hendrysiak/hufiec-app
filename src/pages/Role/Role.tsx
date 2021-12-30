@@ -13,6 +13,7 @@ import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-help
 import { Decrypt, generatePassword } from 'helpers/password.helper';
 import { IUser } from 'models/users.models';
 import { localizationDataGrid } from 'shared/localization.helper';
+import { teamsMap } from 'shared/team.helper';
 
 interface NewUser extends Omit<IUser, 'roles'> {
   evidenceNumber: string;
@@ -173,7 +174,7 @@ const Role = (): JSX.Element => {
       <Modal
         open={openAddUserModal}
       >
-        <div style={{ width: '60%', backgroundColor: 'white', transform: 'translate(30%, 20%)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ width: '80%', backgroundColor: 'white', transform: 'translate(13%, 20%)', display: 'flex', flexDirection: 'column' }}>
           <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
             <TextField
               style={{ margin: '16px', width: '40%' }}
@@ -200,9 +201,14 @@ const Role = (): JSX.Element => {
               style={{ margin: '16px', width: '40%' }}
               value={user.team}
               onChange={(e) => setNewUser({ ...user, team: e.target.value })}
+              select
               label="Drużyna"
               variant="standard"
-            />
+            >
+              {teamsMap.map((team) => (
+                <MenuItem key={team.teamId} value={team.teamId}>{team.name}</MenuItem>
+              ))}
+            </TextField>
             <TextField 
               style={{ margin: '16px', width: '40%' }}
               value={user.name}
