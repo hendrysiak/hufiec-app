@@ -1,5 +1,5 @@
 import { ActionTypes } from './action.enum';
-import { setAuthenticationState, SetRoles, SetTeam } from './action.types';
+import { setAuthenticationState, SetEvidenceNumber, SetRoles, SetTeam } from './action.types';
 
 
 export const reduxIsAuthentication = (isAuthenticated: boolean): setAuthenticationState => {
@@ -19,5 +19,11 @@ export const reduxSetTeam = (team: string): SetTeam => {
   return {
     type: ActionTypes.SET_TEAM,
     team
+  };
+};
+export const reduxSetEvidenceNumber = (evidenceNumber: string): SetEvidenceNumber => {
+  return {
+    type: ActionTypes.SET_EVIDENCE_NUMBER,
+    evidenceNumber
   };
 };
