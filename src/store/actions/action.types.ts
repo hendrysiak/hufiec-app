@@ -127,6 +127,11 @@ export interface SetTeam {
   team: string;
 }
 
+export interface SetEvidenceNumber {
+  type: ActionTypes.SET_EVIDENCE_NUMBER;
+  evidenceNumber: string;
+}
+
 export type ActionType = 
 | LoadingEnd
 | LoadingStart
@@ -153,3 +158,4 @@ export type ActionType =
 | setAuthenticationState
 | SetRoles
 | SetTeam
+| SetEvidenceNumber

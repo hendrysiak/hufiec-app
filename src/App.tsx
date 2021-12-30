@@ -22,7 +22,7 @@ import Cookies from 'universal-cookie';
 import NavigationContainer from 'containers/NavigationContainer/NavigationContainer';
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
-import { reduxIsAuthentication, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
+import { reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
 import { RootState } from 'store/models/rootstate.model';
@@ -69,6 +69,8 @@ const App = (): JSX.Element => {
         store.dispatch(reduxSetRoles(accountData.roles));
         store.dispatch(reduxSetTeam(accountData.team));
         store.dispatch(reduxIsAuthentication(true));
+        store.dispatch(reduxSetEvidenceNumber(login));
+        
         // setRoles(accountData.roles);
         setRedirectToLogin(true);
         // setTeam(accountData.team);

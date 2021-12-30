@@ -7,6 +7,7 @@ const initialState: UserState = {
   isAuthenticated: null,
   roles: null,
   team: null,
+  evidenceNumber: null,
 };
 
 const reducer = (state = initialState, action: ActionType): UserState => {
@@ -25,6 +26,11 @@ const reducer = (state = initialState, action: ActionType): UserState => {
       return {
         ...state,
         team: action.team
+      };
+    case ActionTypes.SET_EVIDENCE_NUMBER:
+      return {
+        ...state,
+        evidenceNumber: action.evidenceNumber
       };
     default:
       return state;
