@@ -1,4 +1,5 @@
 import axios from 'axios-income';
+import { Proposal } from 'models/global.enum';
 import { IncomeDb, OutcomesWithEvent, OutcomeDb, IncomesWithImportDate } from 'models/income.models';
 import { APIPerson, Person } from 'models/registry.models';
 import { reduxAddDbIncome, reduxAddDbOutcome, reduxAddMember, reduxDeleteDbIncome, reduxDeleteDbOutcome, reduxDeleteMember, reduxEditDbIncome, reduxEditDbOutcome, reduxEditMember } from 'store/actions/income';
@@ -44,7 +45,7 @@ export const deleteIncome = async (id: string): Promise<void> => {
   await axios.delete(`/incomes/${id}.json`);
 };
 
-export const addTeamMember = async (team: string, person: { name: string, surname: string}): Promise<void> => {
+export const addTeamMember = async (team: string, person: { name: string, surname: string, evidenceNumber?: string}): Promise<void> => {
   const extendedPerson: Person = { ...person, dateOfAdd: new Date(), team };
   const response = await axios.post(`/registry.json`, extendedPerson); 
 
@@ -75,4 +76,11 @@ export const permanentDeleteTeamMember = async (person: APIPerson): Promise<void
 export const updateOnePercent = async (team : string, value: string): Promise<number> => {
   const newValue = await axios.put(`/onePercent/${team}.json` , value);
   return newValue.data * 1;
+};
+
+export const saveProposal = async(
+  proposal: Proposal
+): Promise<void> => {
+  const newProposal = await axios.post('/proposal.json', proposal);
+  return newProposal.data;
 };
