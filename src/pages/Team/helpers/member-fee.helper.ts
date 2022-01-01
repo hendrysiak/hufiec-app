@@ -5,6 +5,7 @@ const feeByYear: Record<number, number> = {
   2019: 30,
   2020: 30,
   2021: 36,
+  2022: 36,
 };
 
 const countAmountOfFee = (person: APIPerson): number => {
