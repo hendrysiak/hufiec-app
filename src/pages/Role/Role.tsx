@@ -2,8 +2,6 @@ import { Button } from '@material-ui/core';
 import { AddIcon } from '@material-ui/data-grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Box, MenuItem, Modal, TextField } from '@mui/material';
-import Alert, { AlertProps } from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer } from '@mui/x-data-grid';
 
 import React from 'react';
@@ -12,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-helpers/user';
 import { Decrypt, generatePassword } from 'helpers/password.helper';
 import { IUser } from 'models/users.models';
+import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 import { teamsMap } from 'shared/team.helper';
 
@@ -31,10 +30,7 @@ const Role = (): JSX.Element => {
     surname: '',
   });
 
-  const [snackbar, setSnackbar] = React.useState<Pick<
-  AlertProps,
-  'children' | 'severity'
-  > | null>(null);
+  const { setSnackbar } = useSnackbar();
 
   const queryClient = useQueryClient();
     
@@ -117,8 +113,6 @@ const Role = (): JSX.Element => {
     );
   };
 
-  const handleCloseSnackbar = () => setSnackbar(null);
-
   const handleCellEditCommit = (params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
     updateUserMutation.mutate({ id, field, value });
@@ -166,11 +160,6 @@ const Role = (): JSX.Element => {
           Toolbar: EditToolbar
         }}
       />
-      {!!snackbar && (
-        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
-        </Snackbar>
-      )}
       <Modal
         open={openAddUserModal}
       >
