@@ -6,7 +6,7 @@ import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { IPerson } from '../EditorTeam';
 
 
-export const handleDelete = async (rows: IPerson[], id: string) => {
+export const handleDelete = async (rows: IPerson[], id: string): Promise<void> => {
   if (!rows) return;
 
   const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
@@ -14,7 +14,12 @@ export const handleDelete = async (rows: IPerson[], id: string) => {
 
   memberToDelete.dateOfDelete = new Date();
   if (memberToDelete.feeState && memberToDelete.feeState < 0) {
-    deleteTeamMember(memberToDelete);
+    try {
+      await deleteTeamMember(memberToDelete);
+      alert(`Udało się pomyślnie dodać do usunięcia ${memberToDelete.name} ${memberToDelete.surname}`);
+    } catch {
+      alert('Błąd, nie udało się usunąć');
+    }
     return;
   } 
 
