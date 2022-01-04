@@ -3,13 +3,9 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { RootState } from 'store/models/rootstate.model';
-
-
-interface CodeGeneratorProps {
-    
-}
 
 interface CodeGeneratorValues { 
   responsiblePerson: {
@@ -25,6 +21,7 @@ interface CodeGeneratorValues {
 
 const codePattern = [
   { name: 'biwak', value: 'BK', useSuffix: true },
+  { name: 'biwak szczepu', value: 'BS', useSuffix: true },
   { name: 'rajd', value: 'RD', useSuffix: true },
   { name: 'harcerski start', value: 'HS', useSuffix: false },
   { name: 'CMOK SONG', value: 'CMOK', useSuffix: false },
@@ -52,6 +49,10 @@ const MenuProps = {
   },
 };
 
+interface CodeGeneratorProps {
+  isAdmin?: boolean;
+  submitHandler?: () => void;
+}
 
 const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
   const codesMap = useSelector((state: RootState) => state.income.codesMap);
@@ -75,6 +76,12 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
 
   const [selectedCode, setSelectedCode] = React.useState(codePattern[0]);
   const [selectedTeams, setSelectedTeams] = React.useState<string[]>([]);
+
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    !props.isAdmin && setSelectedTeams([pathname.slice(1)]);
+  }, [props.isAdmin]);
 
   const handleSelectCode = (code: string) => {
     const foundedCode = codePattern.find(c => c.value === code);
@@ -238,7 +245,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                 </MenuItem>
               ))}
             </Select>
-            { <FormControlLabel
+            {props.isAdmin ? <FormControlLabel
               control={
                 <Controller
                   defaultValue={false}
@@ -256,7 +263,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                 />
               }
               label="Kod dla całego hufca?"
-            />}
+            /> : <></>}
             {!watch('wholeOrganization') ? <Box style={{ width: '100%' }}>
               <Typography>Drużyny przypisane do kodu:</Typography>
               <Select
@@ -293,7 +300,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
           <code style={{ margin: '16px', fontSize: '24px' }}>
             {`${selectedCode.value}${generateNextNumber()}`}
           </code>
-          <Button color="primary" variant="contained" onClick={handleSubmit((data) => console.log(data))}>Zaakceptuj</Button>
+          <Button color="primary" variant="contained" onClick={handleSubmit((data) => console.log({ ...data, teams: selectedTeams }))}>Zaakceptuj</Button>
         </Box>
       </Paper>
     </main>
