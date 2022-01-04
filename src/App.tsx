@@ -22,6 +22,7 @@ import Cookies from 'universal-cookie';
 import NavigationContainer from 'containers/NavigationContainer/NavigationContainer';
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
+import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
 import { reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
@@ -83,7 +84,7 @@ const App = (): JSX.Element => {
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
-  const AddCode = React.lazy(() => import( './pages/AddCode/AddCode'));
+  // const AddCode = React.lazy(() => import( './pages/AddCode/AddCode-depracated'));
   const Team = React.lazy(() => import( './pages/Team/Team'));
   const ForCoders = React.lazy(() => import( './pages/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import( './pages/EventBilling/EventBilling'));
@@ -96,8 +97,9 @@ const App = (): JSX.Element => {
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
   const Letter = React.lazy(() => import('./pages/Letter/Letter'));
-  const CodeGenerator = React.lazy(() => import('./pages/AddCode/CodeGenerator/CodeGenerator'));
+  const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
   const Role = React.lazy(() => import('./pages/Role/Role'));
+  const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
 
   const routes = 
     <BrowserRouter>
@@ -106,6 +108,7 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh"/>} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
           {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
@@ -116,8 +119,7 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska    " />} />}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/code-generator" render={() => <CodeGenerator />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska" />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/users" render={() => <Role />} />}
           {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
           <Route exact path="/login" render={() => <Login />} />
@@ -129,20 +131,22 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <div className="app">
-            {loadingStatus 
-              ? <div className="loader"><CircularProgress/></div>
-              : (<div>
-                <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
-                  {routes}
-                </Suspense>
-              </div>)}
-          </div>
-        </MuiPickersUtilsProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <SnackbarProvider>
+        <QueryClientProvider client={queryClient}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <div className="app">
+              {loadingStatus 
+                ? <div className="loader"><CircularProgress/></div>
+                : (<div>
+                  <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
+                    {routes}
+                  </Suspense>
+                </div>)}
+            </div>
+          </MuiPickersUtilsProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </SnackbarProvider>
     </>
   );
 
