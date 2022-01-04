@@ -1,11 +1,13 @@
+import { Text } from '@react-pdf/renderer';
+
 import React from 'react';
 
 const DateAndPlace = (): JSX.Element => {
   const today = new Date().toLocaleDateString();
   return (
-    <p>
+    <Text>
       {`Ruda Śląska, ${today} r.`}
-    </p>
+    </Text>
   );
 };
 

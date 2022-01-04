@@ -1,21 +1,30 @@
-import { TextField } from '@material-ui/core';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
+
 import React from 'react';
 
 import DateAndPlace from 'pages/Letter/components/DateAndPlace/DateAndPlace';
 
+interface MainProps {
+  author?: string;
+}
 
-const Main = (): JSX.Element => {
+const styles = StyleSheet.create({
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  author: {}
+});
+
+const Main = (props: MainProps): JSX.Element => {
   return (
-    <main className="main">
-      <header className="main__header">
-        <TextField
-          multiline
-          rows={3}
-          style={{ width: '300px' }}  
-        />
+    <View>
+      <View style={styles.header}>
+        <Text>{props.author}</Text>
         <DateAndPlace />
-      </header>
-    </main>
+      </View>
+    </View>
   );
 };
 
