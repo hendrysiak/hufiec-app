@@ -54,20 +54,28 @@ export enum Rows {
 
 export enum ProposalArea {
   Registry = 'registry',
-  Income = 'income'
+  Income = 'income',
+  Code = 'code',
 }
 
 export enum ProposalKind {
   Delete = 'delete',
   Edit = 'edit',
   Move = 'move',
+  Add = 'add',
+  Debt = 'debt'
 }
 
 export interface Proposal {
-  id: string;
+  id?: string;
+  team?: string | null;
+  elementId: string;
   author: string; 
   area: ProposalArea; 
   kind: ProposalKind; 
   oldValues?: unknown; 
-  newValues?: unknown
+  newValues?: unknown;
+  dateOfCreation?: Date | string;
+  letterNumber?: number; 
+  letterAuthor?: string;
 }

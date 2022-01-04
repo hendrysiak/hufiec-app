@@ -1,19 +1,25 @@
 import { AddIcon } from '@material-ui/data-grid';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import EditIcon from '@mui/icons-material/Edit';
-import { Alert, AlertProps, Box, Button, MenuItem, Modal, Snackbar, TextField } from '@mui/material';
+import { Box, Button, MenuItem, Modal, TextField } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridToolbarContainer } from '@mui/x-data-grid';
 import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { addTeamMember, editTeamMember, saveProposal } from 'helpers/editing-db.handler';
+import { useLocation } from 'react-router';
+
+import { saveProposal } from 'helpers/api-helpers/proposal';
+import { addTeamMember, editTeamMember } from 'helpers/editing-db.handler';
 import { Proposal, ProposalArea, ProposalKind } from 'models/global.enum';
 import { APIPerson, Person } from 'models/registry.models';
 
+import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 import { teamsMap } from 'shared/team.helper';
 import { RootState } from 'store/models/rootstate.model';
+
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -34,7 +40,7 @@ interface ExtendedGridCellEditCommitParams extends GridCellEditCommitParams {
   row?: Record<string, any>;
 }
 
-export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Element => {
+export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
   const team = useSelector((state: RootState) => state.user.team);
   const author = useSelector((state: RootState) => state.user.evidenceNumber);
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
@@ -47,11 +53,9 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
     surname: '',
   });
 
-  const [snackbar, setSnackbar] = React.useState<Pick<
-  AlertProps,
-  'children' | 'severity'
-  > | null>(null);
+  const { setSnackbar } = useSnackbar();
 
+  const { pathname } = useLocation();
 
   const EditToolbar = () => {
   
@@ -66,25 +70,26 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
     );
   };
 
-  const handleCloseSnackbar = () => setSnackbar(null);
-
   const handleCellEditCommit = (params: ExtendedGridCellEditCommitParams) => {
     const { row, field, value } = params;
-    if (team) {
-      editTeamMember(team, { ...row, [field]: value });
-      setSnackbar({ children: 'Użytkownik edytowany pomyślnie', severity: 'success' });
-    };
+    editTeamMember(pathname.slice(1), { ...row, [field]: value });
+    setSnackbar({ children: 'Użytkownik edytowany pomyślnie', severity: 'success' });
   };
 
   const handleDelete = (id: string) => (event: { stopPropagation: () => void; }) => {
     event.stopPropagation();
 
+    const currentUser = rows.find(r => r.id === id);
+
     if (author && window.confirm('Czy napewno chcesz zgłosić użytkownika do usunięcia?')) {
       const proposal: Proposal = {
-        id: id,
+        elementId: id,
         area: ProposalArea.Registry,
         kind: ProposalKind.Delete,
-        author: author
+        author: author,
+        team: pathname.slice(1),
+        oldValues: currentUser,
+        newValues: { dateOfDelete: new Date() }
       };
       saveProposal(proposal);
       setSnackbar({ children: 'Prośba o usunięcie pomyślnie zapisana', severity: 'success' });
@@ -93,14 +98,26 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
 
   const handleMove = async () => {
 
+    const currentUser = rows.find(r => r.id === userToMoveId);
+
     if (author && window.confirm('Czy napewno chcesz przenieść użytkownika?')) {
       try {
-        if (team) {
-          await editTeamMember(team, { id: userToMoveId, team: userNewTeam });
-          setSnackbar({ children: 'Przeniesienie zakończone sukcesem', severity: 'success' });
-        } else {
-          setSnackbar({ children: 'Błąd drużyny - odśwież', severity: 'error' });
-        }
+        const proposal: Proposal = {
+          elementId: userToMoveId,
+          area: ProposalArea.Registry,
+          kind: ProposalKind.Move,
+          author: author,
+          team: pathname.slice(1),
+          oldValues: { ...currentUser },
+          newValues: { ...currentUser, team: userNewTeam }
+        };
+        
+        await Promise.all([
+          saveProposal(proposal),
+          editTeamMember(pathname.slice(1), { id: userToMoveId, team: userNewTeam })
+        ]);
+
+        setSnackbar({ children: 'Przeniesienie zakończone sukcesem', severity: 'success' });
       }
       catch (err) {
         setSnackbar({ children: 'Nieoczekiwany błąd', severity: 'error' });
@@ -126,7 +143,7 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
 
       try {
         if (team) {
-          addTeamMember(team, fullUser);
+          addTeamMember(pathname.slice(1), fullUser);
           setSnackbar({ children: 'Użytkownik dodany pomyślnie', severity: 'success' });
         } else {
           setSnackbar({ children: 'Błąd drużyny - odśwież', severity: 'error' });
@@ -157,23 +174,36 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
       headerName: 'Akcje', 
       minWidth: 150, 
       getActions: ({ id } : { id: string }) => {
-        return [<GridActionsCellItem
-          key={id}
-          icon={<DeleteIcon />}
-          label="Usuń"
-          onClick={handleDelete(id)}
-          color="inherit"
-        />,
-        <GridActionsCellItem
-          key={id}
-          icon={<EditIcon />}
-          label="Przenieś"
-          onClick={() => {
-            setUserToMoveId(id);
-            setOpenMoveUserModal(true);
-          }}
-          color="inherit"
-        />];
+        return [
+          <GridActionsCellItem
+            key={id}
+            icon={<DeleteIcon />}
+            label="Usuń"
+            onClick={handleDelete(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            key={id}
+            icon={<EditIcon />}
+            label="Przenieś"
+            onClick={() => {
+              setUserToMoveId(id);
+              setOpenMoveUserModal(true);
+            }}
+            color="inherit"
+          />,
+          // Debt - for future implementation
+          // <GridActionsCellItem
+          //   key={id}
+          //   icon={<AttachMoneyIcon />}
+          //   label="Spa dug"
+          //   onClick={() => {
+          //     setUserToMoveId(id);
+          //     setOpenMoveUserModal(true);
+          //   }}
+          //   color="inherit"
+          // />
+        ];
       }, },
   ];
 
@@ -191,11 +221,6 @@ export const ListOfMembers = ({ rows, navHeight }: ListOfMembersProps): JSX.Elem
           Toolbar: EditToolbar
         }}
       />
-      {!!snackbar && (
-        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
-        </Snackbar>
-      )}
       <Modal
         open={openMoveUserModal}
       >
