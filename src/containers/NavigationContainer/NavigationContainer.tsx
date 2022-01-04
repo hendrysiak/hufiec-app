@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 
 import { LogOut } from 'shared/LogOut/LogOut';
 
@@ -10,12 +11,14 @@ interface NavigationContainerProps {
 }
 
 const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
+
+  const { pathname } = useLocation();
   
   return (
     <>
-      {props.team !== null || props.team !== '' ? <Navigation /> : <></>}
-      {props.children}
-      <LogOut />
+      { props.team !== null && props.team !== '' && pathname !== '/login' && pathname !== '/letter' ? <Navigation /> : <></> }
+      { props.children }
+      { pathname !== '/letter' ? <LogOut /> : <></> }
     </>
   );
 };
