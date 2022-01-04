@@ -1,16 +1,15 @@
-import { Box, TextField, MenuItem, Theme, IconButton, Button, Tabs, Tab, Tooltip } from '@material-ui/core';
+import { Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import MailIcon from '@material-ui/icons/Mail';
 import SearchIcon from '@material-ui/icons/Search';
-import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import React, { useState, useEffect, useRef, RefObject } from 'react';
+import { styled } from '@mui/material/styles';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import React, { useState, useEffect, useRef, RefObject, CSSProperties } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
@@ -23,6 +22,8 @@ import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
+import AddCode from 'pages/AddCode/AddCode';
+import Proposals from 'pages/Proposals/Proposals';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
@@ -33,6 +34,32 @@ import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { ShowModal } from './helpers/typeViewModal.enum';
+
+interface StyledTabsProps {
+  children?: React.ReactNode;
+  value: number;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
+  style?: CSSProperties;
+}
+
+const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    variant="fullWidth"
+    textColor="inherit"
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  '& .MuiTabs-indicator': {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  '& .MuiTabs-indicatorSpan': {
+    width: '100%',
+    backgroundColor: 'white',
+  },
+});
 
 
 const Team = (): JSX.Element => {
@@ -60,6 +87,7 @@ const Team = (): JSX.Element => {
   const [surname, setSurname] = useState<string>('');
   const [navHeight, setNavHeight] = useState<number | null>(null);
   const [tab, setTab] = useState(0);
+  const [innerTab, setInnerTab] = useState(0);
 
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
@@ -67,6 +95,10 @@ const Team = (): JSX.Element => {
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
+  };
+
+  const handleInnerTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setInnerTab(newValue);
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -97,16 +129,6 @@ const Team = (): JSX.Element => {
     })) : ([]);
     setRows(row);
   }, [incomesByCode]);
-
-  // const columns = [
-  //   { field: 'lp', headerName: 'LP', width: 80, },
-  //   { field: 'name', headerName: 'IMIĘ', width: 150, },
-  //   { field: 'surname', headerName: 'NAZWISKO', width: 150, },
-  //   { field: 'cash', headerName: 'KWOTA', width: 150, },
-  //   { field: 'title', headerName: 'TYTUŁ', width: 700, },
-  //   { field: 'event', headerName: 'KOD PRZYPISANY', width: 150, },
-  //   { field: 'dateOfBook', headerName: 'DATA WPŁYWU', width: 150, },
-  // ];
 
   useEffect(() => {
     //Write date checker
@@ -195,24 +217,8 @@ const Team = (): JSX.Element => {
     return dayComponent;
   };
 
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleClose = () => {
-    setOpen(false);
-    setOpenPopup(ShowModal.Empty);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
-  };
-
-  const handleMenu = (view: IViewModal) => {
-    setOpenPopup(view);
-    setOpen(false);
   };
 
   const navBar = useRef<HTMLDivElement>(null);
@@ -253,12 +259,13 @@ const Team = (): JSX.Element => {
             </CSVLink>
           </Tooltip>
         </Box>
-        <Tabs value={tab} variant="fullWidth" classes={{ indicator: classes.indicator }} onChange={handleTabChange} style={{ flex: 3 }}>
+        <StyledTabs value={tab} onChange={handleTabChange} >
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
           <Tab label="Stan konta" />
-          <Tab label="Wyślij wiadomość" />
-        </Tabs>
+          {/* <Tab label="Wyślij wiadomość" /> */}
+          <Tab label="Akcje" />
+        </StyledTabs>
       </div>
       <TabPanel value={tab} index={0}>
         <section className="container">
@@ -360,7 +367,31 @@ const Team = (): JSX.Element => {
         <TeamFinances incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
-        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+        <Tabs 
+          value={innerTab} 
+          variant="fullWidth"
+          textColor="secondary"
+          indicatorColor="secondary"
+          onChange={handleInnerTabChange}
+        >
+          <Tab label="Kody" />
+          <Tab label="Podjęte akcje" />
+          <Tab label="Wyślij wiadomość" />
+          <Tab label="Poradnik" />
+        </Tabs>
+        <TabPanel value={innerTab} index={0}>
+          <AddCode />
+        </TabPanel>
+        <TabPanel value={innerTab} index={1}>
+          <Proposals height="65vh" />
+        </TabPanel>
+        <TabPanel value={innerTab} index={2}>
+          <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+        </TabPanel>
+        <TabPanel value={innerTab} index={3}>
+          <h2>Poradnik</h2>
+        </TabPanel>
+        {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
       </TabPanel>
     </>
   );
