@@ -1,21 +1,20 @@
-import { Box, Chip, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import React from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 import { useLocation } from 'react-router';
 
 import { getProposals } from 'helpers/api-helpers/proposal';
-import { Proposal, ProposalArea } from 'models/global.enum';
-import { APIPerson } from 'models/registry.models';
-import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
+import { ProposalArea } from 'models/global.enum';
+import { Proposal } from 'models/proposal.models';
 
 import IncomeProposal from './IncomeProposal/IncomeProposal';
 import RegistryProposal from './RegistryProposal/RegistryProposal';
 
 const proposalsList = [
+  { name: 'akcje przelewów', value: 'income' },
   { name: 'akcje kodów', value: 'code' },
   { name: 'akcje ewidencji', value: 'registry' },
-  { name: 'akcje przelewów', value: 'income' },
 ];
 
 interface ProposalsProps {
@@ -35,7 +34,7 @@ const MenuProps = {
 };
 
 const Proposals = (props: ProposalsProps): JSX.Element => {
-  const [selectedProposalState, setSelectedProposalState] = React.useState({ name: 'akcje kodoów', value: 'code' });
+  const [selectedProposalState, setSelectedProposalState] = React.useState({ name: 'akcje przelewów', value: 'income' });
   const { pathname } = useLocation();
   const query = useQuery<Proposal[], Error>('proposal', () => getProposals(pathname.slice(1), props.isAdmin));
 
