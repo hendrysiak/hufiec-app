@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingBottom: '25px',
+    flex: 1,
   },
   img: {
     height: '75px',
