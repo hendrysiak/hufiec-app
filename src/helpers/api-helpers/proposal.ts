@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import axios from 'axios-income';
-import { Proposal } from 'models/global.enum';
+import { Proposal } from 'models/proposal.models';
 
 export const saveProposal = async(
   proposal: Proposal
