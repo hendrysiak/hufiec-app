@@ -9,7 +9,8 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { deleteProposal } from 'helpers/api-helpers/proposal';
 import { deleteTeamMember, permanentDeleteTeamMember } from 'helpers/editing-db.handler';
-import { Proposal, ProposalKind } from 'models/global.enum';
+import { ProposalKind } from 'models/global.enum';
+import { Proposal } from 'models/proposal.models';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
