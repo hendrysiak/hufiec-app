@@ -96,7 +96,6 @@ const App = (): JSX.Element => {
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
-  const Letter = React.lazy(() => import('./pages/Letter/Letter'));
   const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
   const Role = React.lazy(() => import('./pages/Role/Role'));
   const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
@@ -119,7 +118,6 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/letter" render={() => <Letter recipient="Hufiec ZHP Ruda Śląska" />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/users" render={() => <Role />} />}
           {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
           <Route exact path="/login" render={() => <Login />} />
