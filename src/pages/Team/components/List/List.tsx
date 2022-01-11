@@ -11,11 +11,12 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import { saveProposal } from 'helpers/api-helpers/proposal';
-import { Proposal, ProposalArea, ProposalKind } from 'models/global.enum';
+import { ProposalArea, ProposalKind } from 'models/global.enum';
 import { IncomeDb } from 'models/income.models';
 
 import './style.css';
 
+import { Proposal } from 'models/proposal.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { teamsMap } from 'shared/team.helper';
 import { RootState } from 'store/models/rootstate.model';

@@ -66,16 +66,8 @@ export enum ProposalKind {
   Debt = 'debt'
 }
 
-export interface Proposal {
-  id?: string;
-  team?: string | null;
-  elementId: string;
-  author: string; 
-  area: ProposalArea; 
-  kind: ProposalKind; 
-  oldValues?: unknown; 
-  newValues?: unknown;
-  dateOfCreation?: Date | string;
-  letterNumber?: number; 
-  letterAuthor?: string;
+export enum DecisionArea {
+  ReAccount = 're-account',
+  Code = 'code',
+  Return = 'return'
 }

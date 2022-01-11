@@ -12,14 +12,14 @@ import { useLocation } from 'react-router';
 
 import { saveProposal } from 'helpers/api-helpers/proposal';
 import { addTeamMember, editTeamMember } from 'helpers/editing-db.handler';
-import { Proposal, ProposalArea, ProposalKind } from 'models/global.enum';
+import { ProposalArea, ProposalKind } from 'models/global.enum';
+import { Proposal } from 'models/proposal.models';
 import { APIPerson, Person } from 'models/registry.models';
 
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 import { teamsMap } from 'shared/team.helper';
 import { RootState } from 'store/models/rootstate.model';
-
 
 interface IRows extends APIPerson {
   lp: string | number;
