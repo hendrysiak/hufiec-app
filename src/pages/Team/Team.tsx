@@ -259,11 +259,10 @@ const Team = (): JSX.Element => {
             </CSVLink>
           </Tooltip>
         </Box>
-        <StyledTabs value={tab} onChange={handleTabChange} >
+        <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%'}}>
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
           <Tab label="Stan konta" />
-          {/* <Tab label="Wyślij wiadomość" /> */}
           <Tab label="Akcje" />
         </StyledTabs>
       </div>
@@ -353,7 +352,12 @@ const Team = (): JSX.Element => {
           </div>
           <div className="containerDataGrid">
             {displayedIncome?.length ? (
-              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome} />
+              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome.sort((a, b) => {
+                if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
+                  return -1;
+                }
+                return 1;
+              })} />
             ) : (
               <div className="loadingInfo">brak wpłat na ten filtr</div>
             )}
