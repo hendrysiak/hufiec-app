@@ -84,7 +84,7 @@ const App = (): JSX.Element => {
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
   const Codes = React.lazy(() => import( './pages/Codes/Codes'));
-  // const AddCode = React.lazy(() => import( './pages/AddCode/AddCode-depracated'));
+  const Decision = React.lazy(() => import( './pages/Decision/Decision'));
   const Team = React.lazy(() => import( './pages/Team/Team'));
   const ForCoders = React.lazy(() => import( './pages/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import( './pages/EventBilling/EventBilling'));
@@ -108,6 +108,7 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers" render={() => <ImportIncome />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh"/>} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/decisions" render={() => <Decision />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
           {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
