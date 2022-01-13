@@ -1,13 +1,13 @@
-import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import { View, StyleSheet } from '@react-pdf/renderer';
 
 import React from 'react';
 
-import { Decision, DecisionReAccouting } from 'models/decision.model';
+import { Decision, DecisionCode, DecisionReAccouting } from 'models/decision.model';
 import { DecisionArea } from 'models/global.enum';
-import { IncomeDb } from 'models/income.models';
 
 import DateAndPlace from '../../components/DateAndPlace/DateAndPlace';
 
+import Code from './Code';
 import ReAccouting from './ReAccouting';
 
 
@@ -36,15 +36,14 @@ const Main = (props: MainProps): JSX.Element => {
     switch (props.decision.area) {
       case DecisionArea.ReAccount:
         return <ReAccouting decision={props.decision as DecisionReAccouting}/>;
+      case DecisionArea.Code:
+        return <Code decision={props.decision as DecisionCode}/>;
     }
   };
 
   return (
     <View style={styles.mainContent}>
       <View style={styles.header}>
-        {/* <View style={styles.author}>
-          {props.author?.split(',').map(el => <Text key={el}>{el}</Text>)}
-        </View> */}
         <DateAndPlace date={props.decision.decisionDate as Date} />
       </View>
       {contentGenerator()}
