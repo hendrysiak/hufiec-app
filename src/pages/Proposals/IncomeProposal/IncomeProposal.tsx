@@ -12,16 +12,19 @@ import React from 'react';
 
 import { useMutation, useQueryClient } from 'react-query';
 
+import { saveDecision } from 'helpers/api-helpers/decision';
 import { deleteProposal, editProposal } from 'helpers/api-helpers/proposal';
-import { editIncome, saveDecision } from 'helpers/editing-db.handler';
+import { editIncome } from 'helpers/editing-db.handler';
 import { Decision, ReAccoutingInfo } from 'models/decision.model';
 import { DecisionArea, ProposalArea, ProposalKind } from 'models/global.enum';
 
 import { IncomeDb } from 'models/income.models';
 import { Proposal } from 'models/proposal.models';
-import Letter from 'pages/Letter/Letter';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
+import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
+
+import Letter from 'shared/PDF/Letter/Letter';
 
 import { kindNameConverter } from '../helper';
 
@@ -107,12 +110,11 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
 
     const decision: Decision = {
       area: DecisionArea.ReAccount,
-      decissionId: '',
-      decissionDate: '',
+      decisionId: '',
+      decisionDate: '',
       reAccountingInfo,
     };
 
-    
     try {
       saveDecision(decision);
       await Promise.all([
@@ -156,11 +158,6 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
 
     return <></>;
   };
-
-  const columnAligning = {
-    align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment
-  };
-
 
   const columns = [
     { field: 'team', headerName: 'Drużyna', editable: false, width: 150, ...columnAligning },

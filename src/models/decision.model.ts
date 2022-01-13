@@ -16,8 +16,8 @@ export interface ReturnInfo {
 export interface DecisionData {
   id?: string;
   area: DecisionArea;
-  decissionId: string;
-  decissionDate: Date | string;
+  decisionId: string;
+  decisionDate: Date | string;
 }
 
 export interface DecisionReAccouting extends DecisionData {
@@ -33,7 +33,8 @@ export interface DecisionCode extends DecisionData {
   target: string;
   targetTeam?: string;
   amount: number;
-  eventDate: Date | string;
+  eventStartDate: Date | string;
+  eventEndDate?: Date | string;
 }
 
 export type Decision = DecisionReAccouting | DecisionReturn | DecisionCode;

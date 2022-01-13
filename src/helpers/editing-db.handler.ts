@@ -1,5 +1,4 @@
 import axios from 'axios-income';
-import { Decision } from 'models/decision.model';
 import { IncomeDb, OutcomesWithEvent, OutcomeDb, IncomesWithImportDate } from 'models/income.models';
 import { APIPerson, Person } from 'models/registry.models';
 import { reduxAddDbIncome, reduxAddDbOutcome, reduxAddMember, reduxDeleteDbIncome, reduxDeleteDbOutcome, reduxDeleteMember, reduxEditDbIncome, reduxEditDbOutcome, reduxEditMember } from 'store/actions/income';
@@ -78,7 +77,4 @@ export const updateOnePercent = async (team : string, value: string): Promise<nu
   return newValue.data * 1;
 };
 
-export const saveDecision = async (decision: Decision): Promise<Decision> => {
-  const newDecision = await axios.post('/decision.json', decision);
-  return newDecision.data;
-};
+

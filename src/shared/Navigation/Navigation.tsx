@@ -7,9 +7,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import LaunchIcon from '@material-ui/icons/Launch';
 
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+// import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+// import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableChartIcon from '@material-ui/icons/TableChart';
+import AllInboxIcon from '@mui/icons-material/AllInbox';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 import React, { useEffect } from 'react';
@@ -31,6 +32,7 @@ const Navigation = (): JSX.Element => {
 
   const navigation = [
     { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
+    { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
     { link: '/codes', title: 'FILTRUJ PO KODZIE', icon: <CodeIcon fontSize="small" /> },
