@@ -4,7 +4,8 @@ import React from 'react';
 
 import { ProposalArea, ProposalKind } from 'models/global.enum';
 import { IncomeDb } from 'models/income.models';
-import DateAndPlace from 'pages/Letter/components/DateAndPlace/DateAndPlace';
+
+import DateAndPlace from '../../components/DateAndPlace/DateAndPlace';
 
 import ReAccouting from './ReAccouting';
 
