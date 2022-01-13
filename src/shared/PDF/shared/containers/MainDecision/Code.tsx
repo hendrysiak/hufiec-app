@@ -1,0 +1,58 @@
+import { StyleSheet, View, Text } from '@react-pdf/renderer';
+import React from 'react';
+
+import { DecisionCode } from 'models/decision.model';
+import { eventDateGenerator } from 'shared/eventDate.helper';
+
+interface CodeProps {
+  decision: DecisionCode;
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+  },
+  title: {
+    alignSelf: 'center',
+    margin: '16px 0',
+    fontWeight: 900,
+    textAlign: 'center',
+  },			
+  mainText: {
+    textAlign: 'justify',
+  },			
+});
+
+const Code = (props: CodeProps): JSX.Element => {
+  const decisionDate = new Date(props.decision.decisionDate);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        {`
+          Decyzja Komendanta i Skarbnika Hufca ZHP Ruda Śląska 
+          nr ${props.decision.decisionId}/${decisionDate.getFullYear()} z dnia ${decisionDate.toLocaleDateString()} 
+          przyjęciu dodatkowej składki członkowskiej zadaniowej na wyjazd ${props.decision.target} 
+          `}</Text>
+      <Text style={styles.title}>§1</Text>
+      <Text style={styles.mainText}>{`
+      Działając na podstawie §52, ust. 2, pkt 8 i §78 ust. 1 pkt 2 Statutu ZHP oraz Uchwały
+      Głównej Kwatery ZHP nr 123/2012 z dnia 11 października 2012 r. w sprawie 
+      zatwierdzenia Instrukcji w sprawie dodatkowej składki członkowskiej zadaniowej 
+      Komendant oraz Skarbnik Hufca Związku Harcerstwa Polskiego Ruda Śląska im. 
+      hm. Łucji Zawada podjęli decyzję o przyjęciu dodatkowej składki 
+      zadaniowej na wyjazd na ${props.decision.target} ${props.decision.targetTeam} w wysokości ${props.decision.amount} złotych od osoby w terminie 
+      ${eventDateGenerator(props.decision)}.
+          `}</Text>
+      <Text style={styles.title}>§2</Text>
+      <Text style={styles.mainText}>
+          Decyzja wchodzi w życie z dniem podjęcia.
+      </Text>
+    </View>
+  );
+};
+
+export default Code;
