@@ -32,6 +32,9 @@ import TableEditor from 'shared/TableEditor/TableEditor';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
+import { localizationDataGrid } from 'shared/localization.helper';
+import { DataGrid } from '@mui/x-data-grid';
+import { columnAligning } from 'shared/grid.helper';
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
@@ -180,7 +183,7 @@ const Edit = (): JSX.Element => {
 
   return (
     <>
-      <Filters
+      {/* <Filters
         editedData={editedData}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -198,7 +201,7 @@ const Edit = (): JSX.Element => {
         setSurname={setSurname}
         useDate={useDate}
         setUseDate={setUseDate}
-      />
+      /> */}
       <div>
         <header>
           <TextField
@@ -225,7 +228,38 @@ const Edit = (): JSX.Element => {
 
         <main>
           <section>
-            <TableEditor
+            <DataGrid
+              columns={incomeColumn} 
+              rows={displayedIncome.map((income: IncomeDb) => {
+                return {
+                  id: income.id,
+                  year: income.year,
+                  cash: income.cash,
+                  surname: income.surname,
+                  name: income.name,
+                  team: income.team,
+                  event: income.event,
+                  title: income.title,
+                  dateOfBook: new Date(income.dateOfBook).toLocaleDateString(),
+                  importDate: new Date(income.importDate).toLocaleDateString(),
+                  letterReceived?: income.letterReceived,
+                  dateOfLetter:income.dateOfLetter ? new Date(income.dateOfLetter) : '',
+                  comment: income.comment
+                };
+              })}
+              // onCellEditCommit={handleCellEditCommit}
+              localeText={localizationDataGrid}
+              // rowHeight={156}
+              // components={{
+              //   Toolbar: EditToolbar
+              // }}
+              // checkboxSelection
+              // onSelectionModelChange={(newSelectionModel) => {
+              //   setSelectionModel(newSelectionModel);
+              // }}
+              // selectionModel={selectionModel}
+            />   
+            {/* <TableEditor
               editable={true}
               title={`Lista ${
                 editedData === BudgetEntry.Income ? 'przychodów' : 'kosztów'
@@ -242,7 +276,7 @@ const Edit = (): JSX.Element => {
               onDelete={handleDelete}
               onEdit={setEditedIndex}
               onAdd={addNewPosition}
-            />
+            /> */}
           </section>
         </main>
       </div>
