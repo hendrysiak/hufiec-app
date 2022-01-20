@@ -1,5 +1,5 @@
-import { AddIcon } from '@material-ui/data-grid';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, MenuItem, Modal, TextField } from '@mui/material';

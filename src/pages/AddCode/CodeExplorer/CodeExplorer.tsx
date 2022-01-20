@@ -107,7 +107,7 @@ const CodeExplorer = (props: CodeExplorerProps): JSX.Element => {
             endDate: c.endDate ? new Date(c.endDate).toLocaleDateString() : new Date(c.startDate).toLocaleDateString(),
             locality: c.locality || '',
             wholeOrganization: c.wholeOrganization,
-            teams: c.teams ? c.teams.join(',') : ,
+            teams: c.teams ? c.teams.join(',') : '',
             firstAccept: c.firstAccept,
             letter: c.letter,
             decision: c.decision,

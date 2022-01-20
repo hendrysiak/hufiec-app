@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, MenuItem, Modal, Select, TextField } from '@material-ui/core';
-import { AddIcon } from '@material-ui/data-grid';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';

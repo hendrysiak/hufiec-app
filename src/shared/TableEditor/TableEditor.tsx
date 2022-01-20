@@ -109,13 +109,12 @@ const TableEditor = (props: Props): JSX.Element => {
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
-        component="div"
         count={props.rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
         labelRowsPerPage="Ilośc wierszy na stronie"
+        onPageChange={handleChangePage}
       />
     </>
   );
