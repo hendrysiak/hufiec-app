@@ -112,7 +112,7 @@ const RegistryProposal = (props: RegistryProposalProps): JSX.Element => {
             <GridActionsCellItem
               key={id}
               icon={<CheckIcon />}
-              label="Delete"
+              label="Resolve"
               onClick={handleResolveRegistryProposal(id)}
               color="inherit"
             />,

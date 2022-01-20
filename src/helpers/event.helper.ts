@@ -1,0 +1,18 @@
+export const codePattern = [
+  { name: 'biwak', value: 'BK', useSuffix: true },
+  { name: 'biwak szczepu', value: 'BS', useSuffix: true },
+  { name: 'rajd', value: 'RD', useSuffix: true },
+  { name: 'harcerski start', value: 'HS', useSuffix: false },
+  { name: 'CMOK SONG', value: 'CMOK', useSuffix: false },
+  { name: 'Odrzański Spływ Wiosenny', value: 'OSW', useSuffix: false },
+  { name: 'Jesienny Spływ Wiślany', value: 'JSW', useSuffix: false },
+  { name: 'obóz', value: 'OH', useSuffix: true },
+  { name: 'przyjezdny obóz', value: 'HAL', useSuffix: true },
+  { name: 'kurs drużynowych', value: 'KD', useSuffix: true },
+  { name: 'kurs zastępowych', value: 'KZ', useSuffix: true },
+  { name: 'kurs przewodnikowski', value: 'KP', useSuffix: true },
+  { name: 'poligon', value: 'PL', useSuffix: true },
+  { name: 'zlot chorągwi', value: 'ZC', useSuffix: true },
+  { name: 'wyjazdowy festiwal', value: 'WF', useSuffix: true },
+  { name: 'Betlejemskie Światło Pokoju', value: 'BSP', useSuffix: true },
+];
