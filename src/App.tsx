@@ -113,7 +113,7 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
           {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
           {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode/>} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode isAdmin />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}

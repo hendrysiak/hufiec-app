@@ -1,7 +1,9 @@
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button } from '@mui/material';
 import { 
   DataGrid, 
+  GridActionsCellItem, 
   GridAlignment, 
   GridCellEditCommitParams, 
   GridSelectionModel, 
@@ -128,7 +130,6 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
             deleteProposalMutation.reset();
           };
         }),
-        editProposalMutation.mutate
       ]);
       setSnackbar({ children: 'Operacja wykonana pomyślnie', severity: 'success' });
 
@@ -136,6 +137,24 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
       setSnackbar({ children: 'Wystąpił nieoczekiwany błąd', severity: 'error' });
     }
 
+  };
+
+  const handleDeleteIncomeProposal = (proposalId: string) => (event: { stopPropagation: () => void; }) => {
+
+    const proposalKind = props.rows.find(p => p.id === proposalId)?.kind;
+
+    if (proposalKind === ProposalKind.Move) {
+      window.alert(`
+      Pamiętaj, że usunięcie akcji nie spowoduje przywrócenia członka. 
+      Jeśli nastąpiła pomyłka, zwróć się z prośbą o cofnięcie zmiany
+      do drużynowego drużyny docelowej lub administratora aplikacji.
+      `);
+    }
+
+    if (!window.confirm('Jesteś pewny/-a, że chcesz usunąć akcję?')) return;
+    event.stopPropagation();
+    deleteProposalMutation.mutate(proposalId);
+    deleteProposalMutation.reset();
   };
   
   const EditToolbar = () => {
@@ -186,7 +205,14 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
             oldValues={element?.oldValues}
             newValues={element?.newValues}
             author={element?.letterAuthor}
-          />
+          />,
+          <GridActionsCellItem
+            key={id}
+            icon={<CloseIcon />}
+            label="Delete"
+            onClick={handleDeleteIncomeProposal(id)}
+            color="inherit"
+          />,
         ];   
     
         return actions;    

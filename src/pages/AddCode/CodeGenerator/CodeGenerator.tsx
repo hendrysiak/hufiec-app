@@ -1,9 +1,20 @@
 import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+
 import React from 'react';
+
 import { Controller, useForm } from 'react-hook-form';
+
 import { useSelector } from 'react-redux';
+
 import { useLocation } from 'react-router';
+
+import { saveProposal } from 'helpers/api-helpers/proposal';
+import { codePattern } from 'helpers/event.helper';
+import { ICode } from 'models/codes.models';
+import { ProposalArea, ProposalKind } from 'models/global.enum';
+import { Proposal } from 'models/proposal.models';
+import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 
 import { RootState } from 'store/models/rootstate.model';
 
@@ -17,26 +28,8 @@ interface CodeGeneratorValues {
   startDate: Date;
   endDate: Date;
   wholeOrganization: boolean;
+  locality: string;
 }
-
-const codePattern = [
-  { name: 'biwak', value: 'BK', useSuffix: true },
-  { name: 'biwak szczepu', value: 'BS', useSuffix: true },
-  { name: 'rajd', value: 'RD', useSuffix: true },
-  { name: 'harcerski start', value: 'HS', useSuffix: false },
-  { name: 'CMOK SONG', value: 'CMOK', useSuffix: false },
-  { name: 'Odrzański Spływ Wiosenny', value: 'OSW', useSuffix: false },
-  { name: 'Jesienny Spływ Wiślany', value: 'JSW', useSuffix: false },
-  { name: 'obóz', value: 'OH', useSuffix: true },
-  { name: 'przyjezdny obóz', value: 'HAL', useSuffix: true },
-  { name: 'kurs drużynowych', value: 'KD', useSuffix: true },
-  { name: 'kurs zastępowych', value: 'KZ', useSuffix: true },
-  { name: 'kurs przewodnikowski', value: 'KP', useSuffix: true },
-  { name: 'poligon', value: 'PL', useSuffix: true },
-  { name: 'zlot chorągwi', value: 'ZC', useSuffix: true },
-  { name: 'wyjazdowy festiwal', value: 'WF', useSuffix: true },
-  { name: 'Betlejemskie Światło Pokoju', value: 'BSP', useSuffix: true },
-];
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,9 +50,11 @@ interface CodeGeneratorProps {
 const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
   const codesMap = useSelector((state: RootState) => state.income.codesMap);
   const registry = useSelector((state: RootState) => state.income.registry);
-  const userIsAdmin = useSelector((state: RootState) => state?.user?.roles?.includes('admin'));
+  const user = useSelector((state: RootState) => state.user);
 
-  const { control, watch, register, errors, setValue, handleSubmit } = useForm<CodeGeneratorValues>({
+  const { setSnackbar } = useSnackbar();
+
+  const { control, watch, register, errors, handleSubmit } = useForm<CodeGeneratorValues>({
     defaultValues: {
       responsiblePerson: {
         name: '',
@@ -70,10 +65,10 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
       startDate: new Date(),
       endDate: new Date(),
       wholeOrganization: true,
+      locality: 'w Rudzie Śląskiej'
     }
   });
   
-
   const [selectedCode, setSelectedCode] = React.useState(codePattern[0]);
   const [selectedTeams, setSelectedTeams] = React.useState<string[]>([]);
 
@@ -98,6 +93,10 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
     );
   };
 
+  const suffixHelper = (length: number, incrementValue: number) => {
+    return length + incrementValue > 9 ? `${length + incrementValue}` : `0${length + incrementValue}`;
+  };
+
   const generateNextNumber = () => {
     if (!codesMap) return '';
 
@@ -105,20 +104,66 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
       .filter(code => code.prefix === selectedCode?.value)
       .length;
 
-    if (currentCodePrefixAmount === 0) return selectedCode.useSuffix ? '-01' : '';
+    let suffix = '';
+
+    if (currentCodePrefixAmount === 0) suffix = selectedCode.useSuffix ? '01' : '';
     // add code properties
     if (selectedCode.useSuffix) {
-      return currentCodePrefixAmount > 9 ? `-${currentCodePrefixAmount + 1}` : `-0${currentCodePrefixAmount + 1}`;
+      let numberIncrement = 1;
+
+      if (Object.values(codesMap).some(code => code.prefix === selectedCode?.value && suffixHelper(currentCodePrefixAmount, 1) === code.suffix )) {
+        numberIncrement += 1;
+      }
+      suffix = suffixHelper(currentCodePrefixAmount, numberIncrement);
     }
-    return '';
+
+    return suffix;
+  };
+
+  const handleSave = (data: CodeGeneratorValues) => {
+    const { wholeOrganization, startDate, responsiblePerson, endDate, amount, locality } = data;
+
+    const team = props.isAdmin ? null : pathname.slice(1);
+
+    const codeToSave: Omit<ICode, 'id'> = {
+      amount,
+      startDate,
+      endDate,
+      wholeOrganization,
+      teams: team !== null ? [team] : selectedTeams,
+      prefix: selectedCode.value,
+      suffix: generateNextNumber(),
+      decision: '',
+      firstAccept: false,
+      letter: false,
+      responsiblePerson,
+      locality
+    };
+
+    const author = user.evidenceNumber;
+
+    if (author && window.confirm('Czy napewno chcesz zapisać kod?')) {
+      const proposal: Proposal = {
+        elementId: '',
+        area: ProposalArea.Code,
+        kind: ProposalKind.Add,
+        author: author,
+        team,
+        oldValues: null,
+        newValues: codeToSave
+      };
+      try {
+        saveProposal(proposal);
+        setSnackbar({ children: 'Kod pomyślnie zapisany', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wystąpił błąd przy zapisywaniu kodu', severity: 'error' });
+      }
+    }
   };
 
 
   return (
     <main>
-      <h2>
-        Generator kodów
-      </h2>
       <Box>
         <Box>
           <Box display="flex" flexDirection="column" justifyContent="space-around" alignItems="center" p={4}>
@@ -172,7 +217,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                   defaultValue={false}
                   name="oneDay"
                   control={control}
-                  render={(props) => (
+                  render={(props: { value: boolean | undefined, onChange: (checked: boolean) => void }) => (
                     <Checkbox
                       {...props}
                       checked={props.value}
@@ -232,10 +277,11 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
               /> : <></>}
             </Box>
             <Select
-              style={{ width: '100%' }}
+              style={{ width: '100%', marginTop: '16px' }}
               label="Typ imprezy"
               value={selectedCode.value}
-              onChange={(e: React.ChangeEvent<{ value: unknown }>): void => handleSelectCode(e.target.value as string)}
+              onChange={
+                (e: React.ChangeEvent<{ value: unknown }>): void => handleSelectCode(e.target.value as string)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}
             >
@@ -245,6 +291,23 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                 </MenuItem>
               ))}
             </Select>
+            <Typography style={{ marginTop: '16px' }}>Impreza organizowana w?:</Typography>
+            <TextField
+              style={{ width: '100%', marginTop: '16px' }}
+              label="Odmieniona miejscowość"
+              value={watch('locality')}
+              inputRef={register({
+                validate: (v) =>
+                  v.length > 0 ||
+                      'Miejscowość nie może być pusta',
+                required: true,
+                min: 3,                
+              })}
+              inputProps={{
+                name: 'locality',
+              }}
+              error={Boolean(errors?.locality)}
+            />
             {props.isAdmin ? <FormControlLabel
               control={
                 <Controller
@@ -298,9 +361,9 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
 
           <Typography>Wygenerowany kod:</Typography>
           <code style={{ margin: '16px', fontSize: '24px' }}>
-            {`${selectedCode.value}${generateNextNumber()}`}
+            {`${selectedCode.value}${selectedCode.useSuffix ? '-' + generateNextNumber() : generateNextNumber()}`}
           </code>
-          <Button color="primary" variant="contained" onClick={handleSubmit((data) => console.log({ ...data, teams: selectedTeams }))}>Zaakceptuj</Button>
+          <Button color="primary" variant="contained" onClick={handleSubmit((data) => handleSave(data))}>Zaakceptuj</Button>
         </Box>
       </Paper>
     </main>
@@ -308,3 +371,5 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
 };
 
 export default CodeGenerator;
+
+

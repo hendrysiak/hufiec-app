@@ -5,6 +5,7 @@ import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { editDecision, getDecisions } from 'helpers/api-helpers/decision';
+import { codePattern } from 'helpers/event.helper';
 import { Decision, DecisionCode, DecisionReAccouting, DecisionReturn } from 'models/decision.model';
 import { DecisionArea } from 'models/global.enum';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
@@ -90,12 +91,13 @@ const DecisionContainer = (props: DecisionProps) => {
   ];
 
   const generateCodeActionDescription = (decision: DecisionCode) => {
-    const team = teamsMap.find(t => t.teamId === decision.targetTeam);
+    const team = teamsMap.find(t => decision.targetTeams?.includes(t.teamId));
+    const event = codePattern.find(code => code.value === decision.prefix)?.name;
 
     return [
-      `Składka zadaniowa na kwotę ${decision.amount}`,
-      `na wyjazd drużyny ${team}`,
-      `na ${decision.target} w terminie ${eventDateGenerator(decision)}`
+      `Składka zadaniowa na kwotę ${decision.amount} zł`,
+      `na ${event} ${team ? 'drużyny ' + team : ''}`,
+      `${decision.target} w terminie ${eventDateGenerator(decision)}`
     ];
   };
 
@@ -106,7 +108,7 @@ const DecisionContainer = (props: DecisionProps) => {
   };
 
   const generateReAccountActionDescription = (decision: DecisionReAccouting) => {
-    const reAccountMap = decision.reAccountingInfo.map(info => (`kwota: ${info.cash} pismem ${info.letterNumber} na: ${info.targetCode}`));
+    const reAccountMap = decision.reAccountingInfo?.map(info => (`kwota: ${info.cash} pismem ${info.letterNumber} na: ${info.targetCode}`));
 
     return ['Przeksięgowania następujących wpłat:', ...reAccountMap];
   };

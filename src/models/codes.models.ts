@@ -14,6 +14,7 @@ export interface ICode {
   firstAccept: boolean;
   letter: boolean;
   decision: string;   
+  locality: string;
 }
 
 export type ICodeMap = Record<string, ICode>;
@@ -30,6 +31,7 @@ export interface Code {
   decision: string;   
   wholeOrganization: boolean;
   teams: string[]
+  locality: string;
 }
 
 export type CodesMap = Record<string, ICode>;

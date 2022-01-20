@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text } from '@react-pdf/renderer';
 import React from 'react';
 
+import { codePattern } from 'helpers/event.helper';
 import { DecisionCode } from 'models/decision.model';
 import { eventDateGenerator } from 'shared/eventDate.helper';
 
@@ -28,6 +29,8 @@ const styles = StyleSheet.create({
 
 const Code = (props: CodeProps): JSX.Element => {
   const decisionDate = new Date(props.decision.decisionDate);
+  const teams = !props.decision.targetTeams || props.decision.targetTeams?.length > 1 ? '' : props.decision.targetTeams[0];
+  const event = codePattern.find(code => code.value === props.decision.prefix)?.name;
 
   return (
     <View style={styles.container}>
@@ -35,7 +38,7 @@ const Code = (props: CodeProps): JSX.Element => {
         {`
           Decyzja Komendanta i Skarbnika Hufca ZHP Ruda Śląska 
           nr ${props.decision.decisionId}/${decisionDate.getFullYear()} z dnia ${decisionDate.toLocaleDateString()} 
-          przyjęciu dodatkowej składki członkowskiej zadaniowej na wyjazd ${props.decision.target} 
+          o przyjęciu dodatkowej składki członkowskiej zadaniowej na ${event ? event : 'wyjazd'} ${props.decision.target} 
           `}</Text>
       <Text style={styles.title}>§1</Text>
       <Text style={styles.mainText}>{`
@@ -43,9 +46,8 @@ const Code = (props: CodeProps): JSX.Element => {
       Głównej Kwatery ZHP nr 123/2012 z dnia 11 października 2012 r. w sprawie 
       zatwierdzenia Instrukcji w sprawie dodatkowej składki członkowskiej zadaniowej 
       Komendant oraz Skarbnik Hufca Związku Harcerstwa Polskiego Ruda Śląska im. 
-      hm. Łucji Zawada podjęli decyzję o przyjęciu dodatkowej składki 
-      zadaniowej na wyjazd na ${props.decision.target} ${props.decision.targetTeam} w wysokości ${props.decision.amount} złotych od osoby w terminie 
-      ${eventDateGenerator(props.decision)}.
+      hm. Łucji Zawada podjęli decyzję o przyjęciu dodatkowej składki zadaniowej 
+      na ${event} ${props.decision.target} ${teams} w wysokości ${props.decision.amount} złotych od osoby w terminie ${eventDateGenerator(props.decision)}.
           `}</Text>
       <Text style={styles.title}>§2</Text>
       <Text style={styles.mainText}>

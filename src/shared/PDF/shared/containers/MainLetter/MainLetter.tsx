@@ -2,11 +2,13 @@ import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 import React from 'react';
 
+import { ICode } from 'models/codes.models';
 import { ProposalArea, ProposalKind } from 'models/global.enum';
 import { IncomeDb } from 'models/income.models';
 
 import DateAndPlace from '../../components/DateAndPlace/DateAndPlace';
 
+import Code from './Code';
 import ReAccouting from './ReAccouting';
 
 interface MainProps {
@@ -40,6 +42,8 @@ const Main = (props: MainProps): JSX.Element => {
     switch (props.area) {
       case ProposalArea.Income:
         return <ReAccouting oldValues={props.oldValues as IncomeDb} newValues={props.newValues as IncomeDb}/>;
+      case ProposalArea.Code:
+        return <Code newValues={props.newValues as ICode} />;
     }
   };
 
