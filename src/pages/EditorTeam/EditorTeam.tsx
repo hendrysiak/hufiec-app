@@ -286,13 +286,12 @@ const EditorTeam: FC = () => {
       </Table>
       <TablePagination
         rowsPerPageOptions={[25, 50, 100]}
-        component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
-        labelRowsPerPage="Ilośc wierszy na stronie"
+        labelRowsPerPage="Ilość wierszy na stronie"
+        onPageChange={handleChangePage}
       />
     </>
   );

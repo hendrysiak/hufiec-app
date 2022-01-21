@@ -13,8 +13,6 @@ import { ICode } from 'models/codes.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
-import { RootState } from 'store/models/rootstate.model';
-
 interface CodeExplorerProps {
     
 }
@@ -57,7 +55,7 @@ const CodeExplorer = (props: CodeExplorerProps): JSX.Element => {
   const columns = [
     { field: 'lp', headerName: 'LP.', width: 50, ...columnAligning },
     { field: 'event', headerName: 'Kod', width: 150, ...columnAligning },
-    { field: 'responsiblePerson', headerName: 'Osoba odpowiedzialna', editable: false, width: 200, ...columnAligning },
+    { field: 'responsiblePerson', headerName: 'Osoba odpowiedzialna', width: 200, ...columnAligning },
     { field: 'startDate', headerName: 'Data rozpoczęcia', width: 150, ...columnAligning },
     { field: 'endDate', headerName: 'Data zakończenia', width: 150, ...columnAligning },
     { field: 'locality', headerName: 'Organizowana w?', width: 150, ...columnAligning },
@@ -97,16 +95,17 @@ const CodeExplorer = (props: CodeExplorerProps): JSX.Element => {
     <main style={{ height: '92vh' }}>
       <DataGrid
         columns={columns} 
-        rows={(query?.data || []).map((c: ICode) => {
+        rows={(query?.data || []).map((c: ICode, index) => {
           return {
             id: c.id,
+            lp: index + 1,
             event: c.suffix ? `${c.prefix}-${c.suffix}` : c.prefix,
-            responsiblePerson: `${c.responsiblePerson.surname} ${c.responsiblePerson.name}`,
+            responsiblePerson: `${c.responsiblePerson?.surname} ${c.responsiblePerson?.name}`,
             startDate: new Date(c.startDate).toLocaleDateString(),
             endDate: c.endDate ? new Date(c.endDate).toLocaleDateString() : new Date(c.startDate).toLocaleDateString(),
-            locality: c.locality,
+            locality: c.locality || '',
             wholeOrganization: c.wholeOrganization,
-            teams: c.teams,
+            teams: c.teams ? c.teams.join(',') : '',
             firstAccept: c.firstAccept,
             letter: c.letter,
             decision: c.decision,

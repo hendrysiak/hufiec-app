@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
-import { AddIcon } from '@material-ui/data-grid';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { Box, MenuItem, Modal, TextField } from '@mui/material';
 import { DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer } from '@mui/x-data-grid';
 
