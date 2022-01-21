@@ -23,6 +23,7 @@ interface LetterProps {
   kind: ProposalKind;
   oldValues: unknown;
   newValues: unknown;
+  letterDate: Date | string | undefined;
 }
 
 Font.register({ family: 'Museo300', src: font });
@@ -59,6 +60,7 @@ const Letter = (props: LetterProps): JSX.Element => {
                 kind={props.kind}
                 oldValues={props.oldValues}
                 newValues={props.newValues}
+                letterDate={props.letterDate}
               />
               <Footer />
             </Page>

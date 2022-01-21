@@ -285,7 +285,11 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}
             >
-              {codePattern.map((item) => (
+              {codePattern.filter(code => {
+                if (props.isAdmin) return true;
+
+                return !code.adminEvent;
+              }).map((item) => (
                 <MenuItem key={item.value} value={item.value}>
                   {item.name}
                 </MenuItem>

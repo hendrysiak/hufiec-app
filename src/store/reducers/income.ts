@@ -82,13 +82,13 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
     case ActionTypes.ADD_DB_INCOME:
       return {
         ...state,
-        dbIncomes: [...state.dbIncomes, action.income]
+        dbIncomes: [action.income, ...state.dbIncomes]
       };
 
     case ActionTypes.ADD_DB_OUTCOME:
       return {
         ...state,
-        dbOutcomes: [...state.dbOutcomes, action.outcome]
+        dbOutcomes: [action.outcome, ...state.dbOutcomes]
       };
 
     case ActionTypes.DELETE_DB_INCOME:
