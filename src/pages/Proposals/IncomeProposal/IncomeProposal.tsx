@@ -184,10 +184,11 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
     { field: 'kind', headerName: 'Rodzaj', editable: false, width: 100, ...columnAligning },
     { field: 'title', headerName: 'Tytuł przelewu', editable: false, width: 300, ...columnAligning },
     { field: 'oldValues', headerName: 'Obecne wartości', editable: false, width: 250, ...columnAligning },
-    { field: 'newValues', headerName: 'Nowe wartości', editable: false, width: 250, ...columnAligning },
-    { field: 'letterNumber', headerName: 'Numer pisma', editable: props.isAdmin && true, width: 100, ...columnAligning },
-    { field: 'letterDate', headerName: 'Data pisma', editable: props.isAdmin && true, width: 200, type: 'date', ...columnAligning },
+    { field: 'letterNumber', headerName: 'Numer pisma', editable: props.isAdmin, width: 100, ...columnAligning },
+    { field: 'letterDate', headerName: 'Data pisma', editable: true, width: 200, type: 'date', ...columnAligning },
     { field: 'letterAuthor', headerName: 'Autor pisma', editable: true, width: 400, ...columnAligning },
+    { field: 'newValues', headerName: 'Nowe wartości', editable: false, width: 250, ...columnAligning },
+    { field: 'letterReceive', headerName: 'Data doręczenia', editable: props.isAdmin, width: 150, type: 'date', ...columnAligning },
     { field: 'actions', 
       type: 'actions',
       headerName: 'Akcje', 
@@ -205,6 +206,7 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
             oldValues={element?.oldValues}
             newValues={element?.newValues}
             author={element?.letterAuthor}
+            letterDate={element?.letterDate}
           />,
           <GridActionsCellItem
             key={id}
@@ -250,6 +252,7 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
             letterNumber: r.letterNumber,
             letterDate: r.letterDate ? new Date(r.letterDate) : '',
             letterAuthor: r.letterAuthor,
+            letterReceive: r.letterReceive ? new Date(r.letterReceive) : '',
           };
         })}
         onCellEditCommit={handleCellEditCommit}

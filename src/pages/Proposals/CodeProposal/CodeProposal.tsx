@@ -211,9 +211,10 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
     { field: 'endDate', headerName: 'Koniec imprezy', editable: true, type: 'date', width: 150, ...columnAligning },
     { field: 'locality', headerName: 'Organizowana w?', editable: true, width: 200, ...columnAligning },
     { field: 'teams', headerName: 'Drużyny', width: 400, ...columnAligning },
-    { field: 'letterNumber', headerName: 'Numer pisma', editable: props.isAdmin, width: 100, ...columnAligning },
-    { field: 'letterDate', headerName: 'Data pisma', editable: props.isAdmin, width: 150, type: 'date', ...columnAligning },
+    { field: 'letterDate', headerName: 'Data pisma', editable: true, width: 150, type: 'date', ...columnAligning },
     { field: 'letterAuthor', headerName: 'Autor pisma', editable: true, width: 300, ...columnAligning },
+    { field: 'letterNumber', headerName: 'Numer pisma', editable: props.isAdmin, width: 100, ...columnAligning },
+    { field: 'letterReceive', headerName: 'Data doręczenia', editable: props.isAdmin, width: 150, type: 'date', ...columnAligning },
     { field: 'firstAccept', headerName: 'Akceptacja?', editable: false, width: 80, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
     { field: 'actions', 
       type: 'actions',
@@ -229,7 +230,6 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
           : (<GridActionsCellItem onClick={firstAcceptHandler(element)} key="firstAccept" icon={<CheckIcon />} color="inherit" label="firstAccept"/>);
 
         const actions = [
-          firstAction,
           <GridActionsCellItem
             key={id}
             icon={<CloseIcon />}
@@ -245,8 +245,13 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
             oldValues={element?.oldValues}
             newValues={element?.newValues}
             author={element?.letterAuthor}
+            letterDate={element?.letterDate}
           />,
         ];   
+
+        if (props.isAdmin) {
+          actions.unshift(firstAction);
+        }
     
         return actions;    
       }, },
@@ -272,6 +277,7 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
             letterNumber: r.letterNumber,
             letterDate: r.letterDate ? new Date(r.letterDate) : '',
             letterAuthor: r.letterAuthor,
+            letterReceive: r.letterReceive ? new Date(r.letterReceive) : '',
             firstAccept: newValues.firstAccept,
           };
         })}

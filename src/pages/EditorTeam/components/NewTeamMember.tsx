@@ -18,7 +18,9 @@ const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleClos
     });
   };
   const handleAddTeamMemebr = () => {
-    if (team && team.length && input.name.length && input.surname.length) addTeamMember(team, input);
+    if (team && input.name.length && input.surname.length) {
+      addTeamMember(team, input);
+    };
     handleCloseNewMember();
   };
 

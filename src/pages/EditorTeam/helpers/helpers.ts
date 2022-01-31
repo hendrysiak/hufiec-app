@@ -6,14 +6,14 @@ import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { IPerson } from '../EditorTeam';
 
 
-export const handleDelete = async (rows: IPerson[], id: string): Promise<void> => {
+export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolean): Promise<void> => {
   if (!rows) return;
 
   const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
   if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
 
   memberToDelete.dateOfDelete = new Date();
-  if (memberToDelete.feeState && memberToDelete.feeState < 0) {
+  if ((memberToDelete.feeState && memberToDelete.feeState < 0) || isAdmin) {
     try {
       await deleteTeamMember(memberToDelete);
       alert(`Udało się pomyślnie dodać do usunięcia ${memberToDelete.name} ${memberToDelete.surname}`);
@@ -66,3 +66,5 @@ export const controlerDate = (value: Date, newData: Partial<APIPerson> | null, r
 
   return false;
 };
+
+export const checkIfTeamHasMembers = () => {};

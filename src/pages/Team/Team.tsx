@@ -22,7 +22,7 @@ import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
-import AddCode from 'pages/AddCode/AddCode';
+import CodeGenerator from 'pages/AddCode/CodeGenerator/CodeGenerator';
 import Proposals from 'pages/Proposals/Proposals';
 import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
@@ -34,6 +34,7 @@ import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { ShowModal } from './helpers/typeViewModal.enum';
+
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -259,7 +260,7 @@ const Team = (): JSX.Element => {
             </CSVLink>
           </Tooltip>
         </Box>
-        <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%'}}>
+        <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
           <Tab label="Stan konta" />
@@ -384,7 +385,7 @@ const Team = (): JSX.Element => {
           <Tab label="Poradnik" />
         </Tabs>
         <TabPanel value={innerTab} index={0}>
-          <AddCode />
+          <CodeGenerator />
         </TabPanel>
         <TabPanel value={innerTab} index={1}>
           <Proposals height="65vh" />
@@ -394,6 +395,8 @@ const Team = (): JSX.Element => {
         </TabPanel>
         <TabPanel value={innerTab} index={3}>
           <h2>Poradnik</h2>
+          <p>Link do poradnika - tymczasowy</p>
+          <a href="https://gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
         </TabPanel>
         {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
       </TabPanel>

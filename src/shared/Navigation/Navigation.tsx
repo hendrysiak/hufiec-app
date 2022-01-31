@@ -12,6 +12,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 import React, { useEffect } from 'react';
 
@@ -35,7 +36,7 @@ const Navigation = (): JSX.Element => {
     { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
-    { link: '/codes', title: 'FILTRUJ PO KODZIE', icon: <CodeIcon fontSize="small" /> },
+    // { link: '/codes', title: 'FILTRUJ PO KODZIE', icon: <CodeIcon fontSize="small" /> },
     { link: '/add-code', title: 'KODY', icon: <AddBoxIcon fontSize="small" /> },
     // { link: '/add-approval', title: 'DODAJ ZATWIERDZENIE', icon: <PlaylistAddIcon fontSize="small" /> },
     // { link: '/add-billing', title: 'DODAJ ROZLICZENIE', icon: <PlaylistAddCheckIcon fontSize="small" /> },
@@ -43,6 +44,7 @@ const Navigation = (): JSX.Element => {
     { link: '/editor-team', title: 'EDYTUJ DRUŻYNĘ', icon: <EditIcon fontSize="small" /> },
     { link: '/addpercent', title: 'DODAJ 1%', icon: <EditIcon fontSize="small" /> },
     { link: '/users', title: 'ZARZĄDZAJ ROLAMI', icon: <PeopleAltIcon fontSize="small" /> },
+    { link: '/teams', title: 'ZARZĄDZAJ DRUŻYNAMI', icon: <GroupsIcon fontSize="small" /> },
   ];
 
   return (

@@ -1,11 +1,10 @@
 import { TextField, MenuItem } from '@material-ui/core';
 
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { GridCellEditCommitParams } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import axios from 'axios-income';
 import {
   addIncome,
   addOutcome,
@@ -14,7 +13,6 @@ import {
   editIncome,
   editOutcome,
 } from 'helpers/editing-db.handler';
-import { sortOfSurname } from 'helpers/sorting.helper';
 import {
   BudgetEntry,
   FinanceMethod,
@@ -27,83 +25,26 @@ import {
   OutcomeDb,
   OutcomesWithEvent,
 } from 'models/income.models';
-import Filters from 'shared/TableEditor/Filters';
-import TableEditor from 'shared/TableEditor/TableEditor';
+import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
+
+import BudgetDataGrid from './BudgetDataGrid';
 
 const Edit = (): JSX.Element => {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
-  const importDates = useSelector(
-    (state: RootState) => state.income.importDates
-  );
 
   const [editedData, setEditedData] = useState(BudgetEntry.Income);
-
-  const [displayedIncome, setDisplayedIncome] = useState<IncomeDb[]>([]);
-  const [displayedOutcome, setDisplayedOutcome] = useState<OutcomeDb[]>([]);
-
-  const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(
-    new Date()
-  );
-
-  //filters
-  const [event, setEvent] = useState('Brak');
-  const [team, setTeam] = useState('Brak');
-  const [founding, setFounding] = useState('Brak');
-  const [category, setCategory] = useState<OutcomeCategory | string>('Brak');
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-
-  const [editedImportDates, setEditedImportDates] = useState<Date[]>([]);
-
-  const [editedIndex, setEditedIndex] = useState(-1);
-
-  const [useDate, setUseDate] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
   }, []);
 
-  useEffect(() => {
-    dbIncomes && setDisplayedIncome(dbIncomes);
-    dbOutcomes && setDisplayedOutcome(dbOutcomes);
-  }, [dbIncomes, dbOutcomes]);
-
-
-  useEffect(() => {
-    const filteredIncomes = dbIncomes && dbIncomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && i.team !== team) return false;
-      if (event !== 'Brak' && i.event !== event) return false;
-      if (name !== '' && !(new RegExp(name, 'gi').test(`${i.name}`))) return false;
-      if (surname !== '' && !(new RegExp(surname, 'gi').test(`${i.surname}`))) return false;
-      return true;
-    });
-
-    sortOfSurname(filteredIncomes, 'ŻŻŻ');
-    filteredIncomes && setDisplayedIncome(filteredIncomes);
-  },[event, team, selectedDate, dbIncomes, useDate, editedData, name, surname, editedImportDates]);
-
-  useEffect(() => {
-    const filteredOutcomes = dbOutcomes && dbOutcomes.filter(i => {
-      if (useDate && selectedDate && new Date(i.importDate).toLocaleDateString() !== selectedDate.toLocaleDateString()) return false;
-      if (team !== 'Brak' && i.team !== team) return false;
-      if (event !== 'Brak' && i.event !== event) return false;
-      if (founding !== 'Brak' && i.foundingSource !== founding) return false;
-      if (category !== 'Brak' && i.outcomeCategory !== event) return false;
-      return true;
-    });
-    filteredOutcomes && setDisplayedOutcome(filteredOutcomes);
-  },[event, team, founding, category, selectedDate, dbOutcomes, useDate, editedData, editedImportDates]);
-
-  useEffect(() => {
-    importDates && setEditedImportDates(importDates);
-  }, [importDates]);
+  const { setSnackbar } = useSnackbar();
 
   const editedDataHandler = (value: string) => {
     const editedData =
@@ -111,30 +52,80 @@ const Edit = (): JSX.Element => {
     setEditedData(editedData);
   };
 
-  const handleEdit = (
-    index: number,
-    data: { key: string; value: string | number | Date | boolean }
-  ) => {
-    const usedData: (IncomeDb | OutcomeDb)[] =
-      editedData === BudgetEntry.Income
-        ? [...displayedIncome]
-        : [...displayedOutcome];
-    usedData[index][data.key] = data.value;
+  const editIncomeHandler = async(params: GridCellEditCommitParams) => {
+    const { id, field, value } = params;
+    const foundedIncome: IncomeDb | undefined = dbIncomes.find(i => i.id === id);
 
-    editedData === BudgetEntry.Income
-      ? setDisplayedIncome(usedData as IncomeDb[])
-      : setDisplayedOutcome(usedData as OutcomeDb[]);
+    if (foundedIncome && typeof value !== 'object') {
+      try {
+        await editIncome({ ...foundedIncome, [field]: value });
+        setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+
+      }
+    } else {
+      setSnackbar({ children: 'Brak przychodu do edycji - odśwież', severity: 'error' });
+    }
+  };
+  const editOutcomeHandler = async(params: GridCellEditCommitParams) => {
+    const { id, field, value } = params;
+    const foundedOutcome: OutcomeDb | undefined = dbOutcomes.find(i => i.id === id);
+
+    if (foundedOutcome && typeof value !== 'object') {
+      try {
+        await editOutcome({ ...foundedOutcome, [field]: value });
+        setSnackbar({ children: 'Koszt wyedytowany pomyślnie', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+
+      }
+    } else {
+      setSnackbar({ children: 'Brak kosztu do edycji - odśwież', severity: 'error' });
+    }
   };
 
-  const handleClose = (index: number): void => {
-    editedData === BudgetEntry.Income
-      ? editIncome(displayedIncome[index])
-      : editOutcome(displayedOutcome[index]);
-    setEditedIndex(-1);
+  const handleCellEditCommit = async (params: GridCellEditCommitParams) => {
+
+    if (editedData === BudgetEntry.Income) {
+      return await editIncomeHandler(params);
+    }
+
+    return await editOutcomeHandler(params);
   };
 
   const handleDelete = (id: string) => {
     editedData === BudgetEntry.Income ? deleteIncome(id) : deleteOutcome(id);
+  };
+
+  const deleteIncomeHandler = async (incomeId: string) => {
+    try {
+      await deleteIncome(incomeId);
+      setSnackbar({ children: 'Przychód usunięty pomyślnie', severity: 'success' });
+    } catch {
+      setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+    }
+  };
+
+  const deleteOutcomeHandler = async (outocmeId: string) => {
+    try {
+      await deleteOutcome(outocmeId);
+      setSnackbar({ children: 'Koszt usunięty pomyślnie', severity: 'success' });
+    } catch {
+      setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+    }
+  };
+
+  const handleDeleteBudgetEntry = (entryId: string) => async (event: { stopPropagation: () => void; }) => {
+    event.stopPropagation();
+
+    if (!window.confirm('Jesteś pewny/-a, że chcesz usunąć pozycję?')) return;
+
+    if (editedData === BudgetEntry.Income) {
+      return await deleteIncomeHandler(entryId);
+    }
+
+    return await deleteOutcomeHandler(entryId);
   };
 
   const addNewPosition = (): void => {
@@ -171,34 +162,10 @@ const Edit = (): JSX.Element => {
 
       addOutcome(newOutcome);
     }
-
-    const newImportDate = [...editedImportDates];
-    newImportDate.push(currentDate);
-    setEditedImportDates(newImportDate);
-    axios.put('/importDates.json', newImportDate);
   };
 
   return (
     <>
-      <Filters
-        editedData={editedData}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        category={category}
-        setCategory={setCategory}
-        event={event}
-        setEvent={setEvent}
-        founding={founding}
-        setFounding={setFounding}
-        team={team}
-        setTeam={setTeam}
-        name={name}
-        setName={setName}
-        surname={surname}
-        setSurname={setSurname}
-        useDate={useDate}
-        setUseDate={setUseDate}
-      />
       <div>
         <header>
           <TextField
@@ -224,24 +191,14 @@ const Edit = (): JSX.Element => {
         </header>
 
         <main>
-          <section>
-            <TableEditor
-              editable={true}
-              title={`Lista ${
-                editedData === BudgetEntry.Income ? 'przychodów' : 'kosztów'
-              } do edycji:`}
-              info={editedData}
-              editedIndex={editedIndex}
-              rows={
-                editedData === BudgetEntry.Income
-                  ? displayedIncome
-                  : displayedOutcome
-              }
-              onChange={handleEdit}
-              onClose={handleClose}
-              onDelete={handleDelete}
-              onEdit={setEditedIndex}
-              onAdd={addNewPosition}
+          <section style={{ height: '92vh' }}>
+            <BudgetDataGrid 
+              editedData={editedData}
+              displayedIncome={dbIncomes}
+              displayedOutcome={dbOutcomes}
+              handleCellEditCommit={handleCellEditCommit}
+              addNewPosition={addNewPosition}
+              handleDeleteBudgetEntry={handleDeleteBudgetEntry}
             />
           </section>
         </main>

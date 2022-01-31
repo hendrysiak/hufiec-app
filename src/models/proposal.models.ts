@@ -10,6 +10,7 @@ export interface Proposal {
   oldValues?: unknown; 
   newValues?: unknown;
   dateOfCreation?: Date | string;
+  letterReceive?: Date | string;
   letterNumber?: number; 
   letterDate?: Date | string; 
   letterAuthor?: string;

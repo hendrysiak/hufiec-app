@@ -97,7 +97,7 @@ const RegistryProposal = (props: RegistryProposalProps): JSX.Element => {
     { field: 'surname', headerName: 'Nazwisko', editable: true, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
     { field: 'name', headerName: 'Imię', editable: false, type: '', width: 100, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
     { field: 'dateOfAdd', headerName: 'Data dodania', editable: true, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
-    { field: 'dateOfDelete', headerName: 'Proponowana data usunięcia', editable: true, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
+    { field: 'dateOfDelete', headerName: 'Proponowana data usunięcia', editable: true, width: 150, align: 'center' as GridAlignment, type: 'date', headerAlign: 'center' as GridAlignment },
     { field: 'newTeam', headerName: 'Nowa drużyna', editable: true, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
     { field: 'feeState', headerName: 'Stan składek', editable: true, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment },
     { field: 'actions', 

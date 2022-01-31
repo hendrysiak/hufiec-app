@@ -3,7 +3,7 @@ import { Text } from '@react-pdf/renderer';
 import React from 'react';
 
 interface DateAndPlaceProps {
-  date?: Date;
+  date?: Date | string;
 }
 
 const DateAndPlace = (props: DateAndPlaceProps): JSX.Element => {

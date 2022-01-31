@@ -16,6 +16,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 
+import { useTeams } from 'helpers/hooks/useTeams';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
@@ -33,8 +34,15 @@ export interface IPerson extends APIPerson {
   lp?: number;
 }
 
-const EditorTeam: FC = () => {
+interface EditorTeamProps {
+  isAdmin?: boolean;
+}
+
+const EditorTeam = (props: EditorTeamProps): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
+
+  const teams = useTeams();
+
   const [rows, setRows] = useState<IPerson[]>([]);
   const [team, setTeam] = useState<string>('');
   const classes = useStyles();
@@ -264,7 +272,7 @@ const EditorTeam: FC = () => {
                       onChange={(e) => onChange(e)}
                       helperText="Przenieś do innej drużyny"
                     >
-                      {Object.keys(registry).slice(0,-1).map((team) => (
+                      {teams?.map(t => t.teamId).map((team) => (
                         <MenuItem key={team} value={team}>
                           {team}
                         </MenuItem>
@@ -275,7 +283,7 @@ const EditorTeam: FC = () => {
                   <IconButton
                     aria-label="delete"
                     color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
-                    onClick={() => handleDelete(rows, row.id)}
+                    onClick={() => handleDelete(rows, row.id, props.isAdmin)}
                   >
                     <DeleteIcon />
                   </IconButton>

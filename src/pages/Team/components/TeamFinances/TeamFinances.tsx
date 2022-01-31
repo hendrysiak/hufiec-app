@@ -44,8 +44,8 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
       .filter(income => income.event === 'SC')
       .reduce((sum: number, income) => sum + income.cash ,0); 
 
-    const sumOfCompensation = incomes.filter(i => i.event === 'KOMP').reduce((sum: number, income) => sum + income.cash , 0);
-    const sumOfOutcomes = outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + outcome.cash , 0);
+    const sumOfCompensation = incomes.filter(i => i.event === 'KOMP').reduce((sum: number, income) => sum + Number(income.cash) , 0);
+    const sumOfOutcomes = outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + Number(outcome.cash) , 0);
     
     setSumOfOutcomes(sumOfOutcomes);
     setCompensation(sumOfCompensation);

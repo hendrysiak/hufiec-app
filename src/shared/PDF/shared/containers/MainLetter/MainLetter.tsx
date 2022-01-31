@@ -17,6 +17,7 @@ interface MainProps {
   kind: ProposalKind;
   oldValues: unknown;
   newValues: unknown;
+  letterDate?: Date | string;
 }
 
 const styles = StyleSheet.create({
@@ -53,7 +54,7 @@ const Main = (props: MainProps): JSX.Element => {
         <View style={styles.author}>
           {props.author?.split(',').map(el => <Text key={el}>{el}</Text>)}
         </View>
-        <DateAndPlace />
+        <DateAndPlace date={props.letterDate} />
       </View>
       {contentGenerator()}
     </View>

@@ -48,9 +48,10 @@ const Dashboard = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const sumIncomes = incomeDb.dbIncomes.reduce((sum: number, income) => sum + income.cash,0);
-    const sumOutcomes = incomeDb.dbOutcomes.reduce((sum: number, income) => sum + income.cash,0);
-    setAmount(Number((sumIncomes + sumOutcomes).toFixed(2)));
+    const sumIncomes = incomeDb.dbIncomes.reduce((sum: number, income) => sum + Number(income.cash),0);
+    const sumOutcomes = incomeDb.dbOutcomes.reduce((sum: number, outcome) => sum + Number(outcome.cash),0);
+
+    setAmount(Number((Number(sumIncomes) + Number(sumOutcomes)).toFixed(2)));
   },[incomeDb]);
 
   useEffect(() => {

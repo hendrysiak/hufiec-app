@@ -245,8 +245,8 @@ export const List = ({ navHeight, scrollPosition, rows }:
             <p className="event">{currentValues.event}</p>
             <p className="cash">{currentValues.cash}</p>
           </li>
-          <h3 style={{ textAlign: 'center', margin: '32px' }}>NOWE WARTOŚCI</h3>
-          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
+          <h3 style={{ textAlign: 'center', margin: '16px' }}>NOWE WARTOŚCI</h3>
+          <Box style={{ width: '100%' }} p={2} display="flex" justifyContent="space-between">
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={newValues.name}
@@ -263,7 +263,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
             />
 
           </Box>
-          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
+          <Box style={{ width: '100%' }} p={2} display="flex" justifyContent="space-between">
             <TextField 
               style={{ margin: '16px', width: '40%' }}
               value={newValues.team}
@@ -290,7 +290,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
             </TextField>
 
           </Box>
-          <Box p={4} style={{ width: '100%' }} display="flex" justifyContent="space-between">
+          <Box p={2} style={{ width: '100%' }} display="flex" justifyContent="space-between">
             <Button style={{ width: '40%' }} color="secondary" variant="contained" onClick={() => {
               setOpenChangeModal(false);
               setNewValues({
