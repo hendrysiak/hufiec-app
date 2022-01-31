@@ -111,7 +111,7 @@ const App = (): JSX.Element => {
 
   const routes = 
     <BrowserRouter>
-      <NavigationContainer team={team}>
+      <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
         <Switch>
           {user.roles && user.roles.includes('admin') && <Route exact path="/" render={() => <DashBoard />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/addpercent" render={() => <AddPercent />}/>}

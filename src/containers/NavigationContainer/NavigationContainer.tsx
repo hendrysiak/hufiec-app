@@ -7,7 +7,7 @@ import Navigation from 'shared/Navigation/Navigation';
 
 interface NavigationContainerProps {
   children: React.ReactChild | React.ReactChild[];
-  team: string | null;
+  isAdmin?: boolean;
 }
 
 const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
@@ -16,7 +16,7 @@ const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
 
   return (
     <>
-      { props.team === null && props.team === '' && pathname !== '/login' && pathname !== '/letter' ? <Navigation /> : <></> }
+      { props.isAdmin && pathname !== '/login' && pathname !== '/letter' ? <Navigation /> : <></> }
       { props.children }
       { pathname !== '/letter' ? <LogOut /> : <></> }
     </>
