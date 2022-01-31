@@ -23,6 +23,7 @@ import NavigationContainer from 'containers/NavigationContainer/NavigationContai
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
+import TeamsProvider from 'providers/TeamsProvider/TeamsProvider';
 import { reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
 
 
@@ -50,7 +51,14 @@ const App = (): JSX.Element => {
   // const [team, setTeam] = useState<string | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        staleTime: 30000,
+      },
+    },
+  });
 
 
   useEffect(() => {
@@ -83,7 +91,7 @@ const App = (): JSX.Element => {
   },[]);
 
   const DashBoard = React.lazy(() => import( './pages/DashBoard/Dashboard'));
-  const Codes = React.lazy(() => import( './pages/Codes/Codes'));
+  // const Codes = React.lazy(() => import( './pages/Codes/Codes'));
   const Decision = React.lazy(() => import( './pages/Decision/Decision'));
   const Team = React.lazy(() => import( './pages/Team/Team'));
   const ForCoders = React.lazy(() => import( './pages/ForCoders/ForCoders'));
@@ -99,6 +107,7 @@ const App = (): JSX.Element => {
   const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
   const Role = React.lazy(() => import('./pages/Role/Role'));
   const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
+  const TeamsEditor = React.lazy(() => import('./pages/TeamsEditor/TeamsEditor'));
 
   const routes = 
     <BrowserRouter>
@@ -112,14 +121,15 @@ const App = (): JSX.Element => {
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />}
           {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />}
+          {/* {user.roles && user.roles.includes('admin') && <Route exact path="/codes" render={() => <Codes />} />} */}
           {user.roles && user.roles.includes('admin') && <Route exact path="/add-code" render={() => <AddCode isAdmin />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/add-approval" render={() => <EventApproval />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/add-billing" render={() => <EventBilling />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/for-coders" render={() => <ForCoders/>} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/editor" render={() => <Edit />} />}
-          {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/editor-team" render={() => <EditorTeam isAdmin={user?.roles?.includes('admin')} />} />}
           {user.roles && user.roles.includes('admin') && <Route exact path="/users" render={() => <Role />} />}
+          {user.roles && user.roles.includes('admin') && <Route exact path="/teams" render={() => <TeamsEditor />} />}
           {user.roles && (user.roles.includes('admin') || user.roles.includes('leader')) && <Route exact path="/:teamId" render={() => <Team />}/>}
           <Route exact path="/login" render={() => <Login />} />
         </Switch>
@@ -132,18 +142,20 @@ const App = (): JSX.Element => {
     <>
       <SnackbarProvider>
         <QueryClientProvider client={queryClient}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div className="app">
-              {loadingStatus 
-                ? <div className="loader"><CircularProgress/></div>
-                : (<div>
-                  <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
-                    {routes}
-                  </Suspense>
-                </div>)}
-            </div>
-          </MuiPickersUtilsProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <TeamsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <div className="app">
+                {loadingStatus 
+                  ? <div className="loader"><CircularProgress/></div>
+                  : (<div>
+                    <Suspense fallback={<div className="loader"><CircularProgress/></div>}>
+                      {routes}
+                    </Suspense>
+                  </div>)}
+              </div>
+            </MuiPickersUtilsProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </TeamsProvider>
         </QueryClientProvider>
       </SnackbarProvider>
     </>

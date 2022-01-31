@@ -1,8 +1,10 @@
 import { Button, MenuItem, Modal, TextField } from '@material-ui/core';
-import React, { useState} from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState } from 'store/models/rootstate.model';
+import React, { useState } from 'react';
+
+import { useQueryClient } from 'react-query';
+
+import { useTeams } from 'helpers/hooks/useTeams';
 
 import styles from '../EditorTeam.module.css';
 
@@ -17,8 +19,9 @@ interface SelectTeam {
   disabled?: boolean;
 }
 
-const SelectTeam = ({onChange, team, disabled = false}: SelectTeam): JSX.Element => {
-  const registry = useSelector((state: RootState) => state.income.registry);
+const SelectTeam = ({ onChange, team, disabled = false }: SelectTeam): JSX.Element => {
+  const teams = useTeams();
+
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
 
   const handleOpenNewMember = () => {
@@ -44,7 +47,7 @@ const SelectTeam = ({onChange, team, disabled = false}: SelectTeam): JSX.Element
         }}
         disabled={disabled}
       >
-        {registry && ['Cały hufiec', ...Object.keys(registry)].map((item) => (
+        {['Cały hufiec', ...(teams || []).map(t => t.teamId)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>

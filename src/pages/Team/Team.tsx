@@ -395,6 +395,8 @@ const Team = (): JSX.Element => {
         </TabPanel>
         <TabPanel value={innerTab} index={3}>
           <h2>Poradnik</h2>
+          <p>Link do poradnika - tymczasowy</p>
+          <a href="https://gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
         </TabPanel>
         {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
       </TabPanel>

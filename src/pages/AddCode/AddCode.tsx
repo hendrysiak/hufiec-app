@@ -1,13 +1,17 @@
 import { styled } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+
+import React, { CSSProperties } from 'react';
+
+import { useQuery, useQueryClient, useMutation } from 'react-query';
+
 import { getCodes, saveCode } from 'helpers/api-helpers/codes';
 import { ICode } from 'models/codes.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
-import React, { CSSProperties } from 'react';
-import { useQuery, useQueryClient, useMutation } from 'react-query';
 
 import { TabPanel } from 'shared/TabPanel/TabPanel';
+
 import CodeExplorer from './CodeExplorer/CodeExplorer';
 
 import CodeGenerator from './CodeGenerator/CodeGenerator';

@@ -6,7 +6,7 @@ export const teamsMap = [
   { 'teamId': '6682', 'name': '17 Rudzka Grunwaldzka Drużyna Harcerska "Victory"', 'nameToUse': '17 Rudzkiej Grunwaldzkiej Drużyny Harcerskiej "Victory"' },
   { 'teamId': '6689', 'name': '7 Rudzka Drużyna Harcerska "Albatrosy"', 'nameToUse': '7 Rudzkiej Drużyny Harcerskiej "Albatrosy"' },
   { 'teamId': '6692', 'name': '1 Rudzka Środowiskowa Gromada Zuchowa "Przyjaciele Zielonego Lasu"', 'nameToUse': '1 Rudzkiej Środowiskowej Gromady Zuchowej "Przyjaciele Zielonego Lasu"' },
-  { 'teamId': '6692', 'name': '3 Rudzka Gromada Zuchowa NS', 'nameToUse': '3 Rudzkiej Gromady Zuchowej NS' },
+  { 'teamId': '6693', 'name': '3 Rudzka Gromada Zuchowa NS', 'nameToUse': '3 Rudzkiej Gromady Zuchowej NS' },
   { 'teamId': '6697', 'name': '1 Rudzka Środowiskowa Drużyna Harcerska "Młode wilki"', 'nameToUse': '1 Rudzkiej Środowiskowej Drużyny Harcerskiej "Młode wilki"' },
   { 'teamId': '6698', 'name': 'I Szczep "Prima"', 'nameToUse': 'I Szczepu "Prima"' },
   { 'teamId': '6699', 'name': '1 Rudzka Środowiskowa Drużyna Wędrownicza "ZWiW', 'nameToUse': '1 Rudzkiej Środowiskowej Drużyny Wędrownicze "ZWiW"' },
