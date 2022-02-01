@@ -57,8 +57,9 @@ const Edit = (): JSX.Element => {
     const foundedIncome: IncomeDb | undefined = dbIncomes.find(i => i.id === id);
 
     if (foundedIncome && typeof value !== 'object') {
+      const convertedValue = field === 'cash' ? Number(value) : value;
       try {
-        await editIncome({ ...foundedIncome, [field]: value });
+        await editIncome({ ...foundedIncome, [field]: convertedValue });
         setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
       } catch {
         setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
@@ -73,8 +74,9 @@ const Edit = (): JSX.Element => {
     const foundedOutcome: OutcomeDb | undefined = dbOutcomes.find(i => i.id === id);
 
     if (foundedOutcome && typeof value !== 'object') {
+      const convertedValue = field === 'cash' ? Number(value) : value;
       try {
-        await editOutcome({ ...foundedOutcome, [field]: value });
+        await editOutcome({ ...foundedOutcome, [field]: convertedValue });
         setSnackbar({ children: 'Koszt wyedytowany pomyślnie', severity: 'success' });
       } catch {
         setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });

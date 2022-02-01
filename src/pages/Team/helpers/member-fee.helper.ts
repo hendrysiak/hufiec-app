@@ -51,7 +51,7 @@ export const countingMemberFee = (person: APIPerson): number => {
       ia?.name?.toLowerCase() === person?.name?.toLowerCase() && 
       ia?.surname?.toLowerCase() === person?.surname?.toLowerCase() ));
 
-  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + currentIncome.cash, 0);
+  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + Number(currentIncome.cash), 0);
   const neededFee = Math.abs(countAmountOfFee(person));
 
   const sum = initAccountStatePerPerson ?

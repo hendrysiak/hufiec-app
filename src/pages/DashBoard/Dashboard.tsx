@@ -63,7 +63,7 @@ const Dashboard = (): JSX.Element => {
   return (
     <>
       <div>
-        <h1>Aplikacja Hufcowa - v. 0.1</h1>
+        <h1>Aplikacja Hufcowa - v. 0.2</h1>
         <Paper style={{ background: 'transparent' }}>
           <AppBar position="static" className={classes.appBar}>
             <h2>Stan hufca:</h2>
