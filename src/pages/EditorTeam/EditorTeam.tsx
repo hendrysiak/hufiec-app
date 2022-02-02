@@ -11,6 +11,7 @@ import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { Tab, Tabs } from '@mui/material';
 import React, { useState, useEffect, FC } from 'react';
 
 import { CSVLink } from 'react-csv';
@@ -20,7 +21,9 @@ import { useTeams } from 'helpers/hooks/useTeams';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
+import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
 import { FiltersName } from 'shared/TableEditor/FiltersName';
+import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
 import { editTeamMember } from '../../helpers/editing-db.handler';
@@ -40,6 +43,8 @@ interface EditorTeamProps {
 
 const EditorTeam = (props: EditorTeamProps): JSX.Element => {
   const registry = useSelector((state: RootState) => state.income.registry);
+  const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+  const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
 
   const teams = useTeams();
 
@@ -55,6 +60,13 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
 
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
+
+  const [tab, setTab] = useState(0);
+
+ 
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setTab(newValue);
+  };
 
   const clearStateRow = () => {
     setActiveRow(null);
@@ -175,132 +187,147 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
           <Button variant="contained" color="primary" >Pobierz stan składek</Button>
         </CSVLink>
       </Box>
-      <Table className={classes.table} aria-label="caption table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Edytuj</TableCell>
-            <TableCell align="left">LP</TableCell>
-            <TableCell align="left">Nazwisko</TableCell>
-            <TableCell align="left">Imię</TableCell>
-            <TableCell align="left">Data dodania</TableCell>
-            <TableCell align="left">Data usunięcia</TableCell>
-            <TableCell align="left">Stan składek</TableCell>
-            <TableCell align="left"></TableCell>
-            <TableCell align="left">Usuń</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows && rows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row: IPerson) => (
-              <TableRow key={row.id}>
-                <TableCell className={classes.selectTableCell}>
-                  {row.id === activeRow ? (
-                    <>
+      <Tabs 
+        value={tab} 
+        variant="fullWidth"
+        textColor="primary"
+        indicatorColor="primary"
+        onChange={handleTabChange}
+      >
+        <Tab label="Składki i ewidencja" />
+        <Tab label="Stan finansów" />
+      </Tabs>
+      <TabPanel value={tab} index={0}>
+        <Table className={classes.table} aria-label="caption table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Edytuj</TableCell>
+              <TableCell align="left">LP</TableCell>
+              <TableCell align="left">Nazwisko</TableCell>
+              <TableCell align="left">Imię</TableCell>
+              <TableCell align="left">Data dodania</TableCell>
+              <TableCell align="left">Data usunięcia</TableCell>
+              <TableCell align="left">Stan składek</TableCell>
+              <TableCell align="left"></TableCell>
+              <TableCell align="left">Usuń</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows && rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: IPerson) => (
+                <TableRow key={row.id}>
+                  <TableCell className={classes.selectTableCell}>
+                    {row.id === activeRow ? (
+                      <>
+                        <IconButton
+                          aria-label="done"
+                          onClick={() => handleAcceptChange(row.id)}
+                        >
+                          <DoneIcon />
+                        </IconButton>
+                        <IconButton
+                          aria-label="revert"
+                          onClick={onRevert}
+                        >
+                          <RevertIcon />
+                        </IconButton>
+                      </>
+                    ) : (
                       <IconButton
-                        aria-label="done"
-                        onClick={() => handleAcceptChange(row.id)}
+                        aria-label="delete"
+                        onClick={() => onToggleEditMode(row.id)}
                       >
-                        <DoneIcon />
+                        <EditIcon />
                       </IconButton>
-                      <IconButton
-                        aria-label="revert"
-                        onClick={onRevert}
+                    )}
+                  </TableCell>
+                  <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
+                  <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
+                  <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
+                  {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
+                  <TableCell >
+                    <KeyboardDatePicker
+                      disabled={activeRow !== row.id}
+                      disableToolbar
+                      variant="inline"
+                      key={row.id}
+                      margin="normal"
+                      id="date-picker-dialog"
+                      // label="Data dodania"
+                      format="dd/MM/yyyy"
+                      value={newData?.dateOfAdd && activeRow === row.id ? 
+                        new Date(newData.dateOfAdd) : 
+                        row.dateOfAdd ? new Date(row.dateOfAdd) : null }
+                      onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date'
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <KeyboardDatePicker
+                      disabled={activeRow !== row.id}
+                      disableToolbar
+                      variant="inline"
+                      key={row.id}
+                      margin="normal"
+                      id="date-picker-dialog"
+                      // label="Data usunięcia"
+                      format="dd/MM/yyyy"
+                      value={newData?.dateOfDelete && activeRow === row.id ? 
+                        new Date(newData.dateOfDelete) : 
+                        row.dateOfDelete ? new Date(row.dateOfDelete) : null}
+                      onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date'
+                      }}
+                    /></TableCell>
+                  <TableCell>{row.feeState}</TableCell>
+                  {row.id === activeRow ? 
+                    <TableCell>
+                      <TextField
+                        name={Rows.Team}
+                        id="standard-select-currency"
+                        select
+                        label="Wybierz"
+                        value={newData?.team}
+                        onChange={(e) => onChange(e)}
+                        helperText="Przenieś do innej drużyny"
                       >
-                        <RevertIcon />
-                      </IconButton>
-                    </>
-                  ) : (
+                        {teams?.map(t => t.teamId).map((team) => (
+                          <MenuItem key={team} value={team}>
+                            {team}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </TableCell> : <TableCell></TableCell>}
+                  <TableCell className={classes.selectTableCell}>
                     <IconButton
                       aria-label="delete"
-                      onClick={() => onToggleEditMode(row.id)}
+                      color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
+                      onClick={() => handleDelete(rows, row.id, props.isAdmin)}
                     >
-                      <EditIcon />
+                      <DeleteIcon />
                     </IconButton>
-                  )}
-                </TableCell>
-                <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
-                <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
-                <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
-                {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
-                <TableCell >
-                  <KeyboardDatePicker
-                    disabled={activeRow !== row.id}
-                    disableToolbar
-                    variant="inline"
-                    key={row.id}
-                    margin="normal"
-                    id="date-picker-dialog"
-                    // label="Data dodania"
-                    format="dd/MM/yyyy"
-                    value={newData?.dateOfAdd && activeRow === row.id ? 
-                      new Date(newData.dateOfAdd) : 
-                      row.dateOfAdd ? new Date(row.dateOfAdd) : null }
-                    onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date'
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <KeyboardDatePicker
-                    disabled={activeRow !== row.id}
-                    disableToolbar
-                    variant="inline"
-                    key={row.id}
-                    margin="normal"
-                    id="date-picker-dialog"
-                    // label="Data usunięcia"
-                    format="dd/MM/yyyy"
-                    value={newData?.dateOfDelete && activeRow === row.id ? 
-                      new Date(newData.dateOfDelete) : 
-                      row.dateOfDelete ? new Date(row.dateOfDelete) : null}
-                    onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date'
-                    }}
-                  /></TableCell>
-                <TableCell>{row.feeState}</TableCell>
-                {row.id === activeRow ? 
-                  <TableCell>
-                    <TextField
-                      name={Rows.Team}
-                      id="standard-select-currency"
-                      select
-                      label="Wybierz"
-                      value={newData?.team}
-                      onChange={(e) => onChange(e)}
-                      helperText="Przenieś do innej drużyny"
-                    >
-                      {teams?.map(t => t.teamId).map((team) => (
-                        <MenuItem key={team} value={team}>
-                          {team}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </TableCell> : <TableCell></TableCell>}
-                <TableCell className={classes.selectTableCell}>
-                  <IconButton
-                    aria-label="delete"
-                    color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
-                    onClick={() => handleDelete(rows, row.id, props.isAdmin)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[25, 50, 100]}
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-        labelRowsPerPage="Ilość wierszy na stronie"
-        onPageChange={handleChangePage}
-      />
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={[25, 50, 100]}
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          labelRowsPerPage="Ilość wierszy na stronie"
+          onPageChange={handleChangePage}
+        />
+      </TabPanel>
+      <TabPanel value={tab} index={1}>
+        {team ? <TeamFinances incomes={dbIncomes.filter(i => i.team === `${team}`)} outcomes={dbOutcomes.filter(o => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
+      </TabPanel>
     </>
   );
 };

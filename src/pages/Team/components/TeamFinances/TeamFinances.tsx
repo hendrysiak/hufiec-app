@@ -29,6 +29,9 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
 
   // const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [incomesSC, setIncomesSC] = React.useState<number | null>(null);
+
+  console.log(incomes);
+  console.log(currentTeam);
   
   // useEffect(() => {
   //   open === ShowModal.Finances && setIsOpen(true);
@@ -40,8 +43,9 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
       setOnePercent(result.data);
     };
     getData();
+    const currentYear = new Date().getFullYear();
     const sumOfFees = incomes && incomes
-      .filter(income => income.event === 'SC')
+      .filter(income => income.event === 'SC' && income.year === currentYear - 1)
       .reduce((sum: number, income) => sum + income.cash ,0); 
 
     const sumOfCompensation = incomes.filter(i => i.event === 'KOMP').reduce((sum: number, income) => sum + Number(income.cash) , 0);

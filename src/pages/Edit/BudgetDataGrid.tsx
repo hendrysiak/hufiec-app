@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCellParams, GridToolbarContainer } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCellParams, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 
 import React from 'react';
 
@@ -149,6 +149,9 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
           Dodaj rekord
         </Button>
+        <GridToolbarExport csvOptions={{
+          utf8WithBom: true
+        }} />
       </GridToolbarContainer>
     );
   };
