@@ -18,10 +18,11 @@ interface Props {
   incomes: IncomeDb[];
   outcomes: OutcomeDb[];
   currentTeam: string;
+  neededFee: number;
 }
 
 
-const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element => {
+const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JSX.Element => {
 
   const [onePercent, setOnePercent] = React.useState<number>(0);
   const [compensation, setCompensation] = React.useState<number>(0);
@@ -30,9 +31,6 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
   // const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [incomesSC, setIncomesSC] = React.useState<number | null>(null);
 
-  console.log(incomes);
-  console.log(currentTeam);
-  
   // useEffect(() => {
   //   open === ShowModal.Finances && setIsOpen(true);
   // },[open]);
@@ -80,12 +78,24 @@ const TeamFinances = ({ incomes, outcomes, currentTeam } : Props): JSX.Element =
           <p>Stan</p>
         </div>
         <div className={classes.item}>
-          <p>1%</p>
+          <p>STAN KONTA ZA ROK UBIEGŁY (1% + KONTO)</p>
           <p>{onePercent}</p>
         </div>
         <div className={classes.item}>
-          <p>SKŁADKI</p>
+          <p>SKŁADKI ZEBRANE</p>
+          <p>{incomesSC}</p>
+        </div>
+        <div className={classes.item}>
+          <p>SKŁADKI NIEZEBRANE</p>
+          <p>{neededFee}</p>
+        </div>
+        <div className={classes.item}>
+          <p>SKŁADKI ZOSTAJĄCE W DRUŻYNIE</p>
           <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
+        </div>
+        <div className={classes.item}>
+          <p>SKŁADKI DO ODJĘCIA</p>
+          <p>{neededFee * 0.8}</p>
         </div>
         <div className={classes.item}>
           <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>

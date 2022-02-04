@@ -33,8 +33,8 @@ import Form from './components/Form/Form';
 import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
+import { countingMemberFee } from './helpers/member-fee.helper';
 import { ShowModal } from './helpers/typeViewModal.enum';
-
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -237,6 +237,20 @@ const Team = (): JSX.Element => {
 
   const isMobile = useMobileView(360);
 
+  const sumOfNeededFees = () => {
+    const currentYear = new Date().getFullYear();
+    const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
+
+    return currentTeamRegistry
+      .reduce((sum: number, person: APIPerson) => {
+        const fees = countingMemberFee(person, lastDayOfPreviousYear);
+
+        if (Number(fees) < 0) return sum + Number(fees);
+
+        return sum + 0;
+      }, 0);
+  };
+
 
   return (
     <>
@@ -369,7 +383,7 @@ const Team = (): JSX.Element => {
         <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
       </TabPanel>
       <TabPanel value={tab} index={2}>
-        <TeamFinances incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
+        <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
         <Tabs 

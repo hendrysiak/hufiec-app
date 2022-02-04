@@ -22,6 +22,7 @@ import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
+import { countAmountOfFee, countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
@@ -171,6 +172,20 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
         [nameKey]: value
       });
     });
+  };
+
+  const sumOfNeededFees = () => {
+    const currentYear = new Date().getFullYear();
+    const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
+
+    return rows
+      .reduce((sum: number, person: APIPerson) => {
+        const fees = countingMemberFee(person, lastDayOfPreviousYear);
+
+        if (Number(fees) < 0) return sum + Number(fees);
+
+        return sum + 0;
+      }, 0);
   };
 
   return (
@@ -326,7 +341,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
         />
       </TabPanel>
       <TabPanel value={tab} index={1}>
-        {team ? <TeamFinances incomes={dbIncomes.filter(i => i.team === `${team}`)} outcomes={dbOutcomes.filter(o => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
+        {team ? <TeamFinances neededFee={sumOfNeededFees()} incomes={dbIncomes.filter(i => i.team === `${team}`)} outcomes={dbOutcomes.filter(o => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
       </TabPanel>
     </>
   );
