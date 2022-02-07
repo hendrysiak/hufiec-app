@@ -55,7 +55,7 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
 
   });
 
-  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation;
+  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation + (neededFee * 0.8);
 
   // const handleOpen = () => {
   //   setIsOpen(true);
@@ -87,25 +87,25 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
         </div>
         <div className={classes.item}>
           <p>SKŁADKI NIEZEBRANE</p>
-          <p>{neededFee}</p>
+          <p>{neededFee.toFixed(2)}</p>
         </div>
         <div className={classes.item}>
           <p>SKŁADKI ZOSTAJĄCE W DRUŻYNIE</p>
-          <p>{(incomesSC ? incomesSC / 5 : 0)}</p>
+          <p>{(incomesSC ? incomesSC / 5 : 0).toFixed(2)}</p>
         </div>
         <div className={classes.item}>
           <p>SKŁADKI DO ODJĘCIA</p>
-          <p>{neededFee * 0.8}</p>
+          <p>{(neededFee * 0.8).toFixed(2)}</p>
         </div>
         <div className={classes.item}>
           <p>ZAKUPY/FAKTURY/POTRĄCENIA</p>
-          <p>{sumOfOutcomes}</p>
+          <p>{sumOfOutcomes.toFixed(2)}</p>
         </div>
         <div className={classes.item}>
           <p>WPŁYWY/WYRÓWNANIA</p>
-          <p>{compensation}</p>
+          <p>{compensation.toFixed(2)}</p>
         </div>
-        <h1 className={classes.sum}>RAZEM: {sum} zł</h1>
+        <h1 className={classes.sum}>RAZEM: {sum.toFixed(2)} zł</h1>
       </section>
       {/* </Modal> */}
     </>
