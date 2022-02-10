@@ -2,13 +2,13 @@ import { Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { Box, MenuItem, Modal, TextField } from '@mui/material';
-import { DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer } from '@mui/x-data-grid';
+import { DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer, GridColumns } from '@mui/x-data-grid';
 
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-helpers/user';
-import { Decrypt, generatePassword } from 'helpers/password.helper';
+import { Encrypt, generatePassword } from 'helpers/password.helper';
 import { IUser } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
@@ -66,7 +66,7 @@ const Role = (): JSX.Element => {
 
   const columns = [
     { field: 'evidenceNumber', headerName: 'Nr ewidencji', width: 200, editable: false },
-    { field: 'role', headerName: 'Rola', width: 150, editable: true },
+    { field: 'roles', headerName: 'Rola', type: 'singleSelect', valueOptions: ['admin', 'leader'], width: 150, editable: true },
     { field: 'team', headerName: 'Drużyna', width: 150, editable: true },
     { field: 'name', headerName: 'Imię', width: 200, editable: true },
     { field: 'surname', headerName: 'Nazwisko', width: 200, editable: true },
@@ -92,7 +92,7 @@ const Role = (): JSX.Element => {
       return {
         id: evNum,
         evidenceNumber: evNum,
-        role: user.roles[0],
+        roles: user.roles[0],
         team: user?.team ? user?.team : '',
         name: user?.name ?? '',
         surname: user?.surname ?? '',
@@ -115,7 +115,12 @@ const Role = (): JSX.Element => {
 
   const handleCellEditCommit = (params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
-    updateUserMutation.mutate({ id, field, value });
+    if (field === 'roles') {
+      updateUserMutation.mutate({ id, field, value: [value] });
+    } else {
+      updateUserMutation.mutate({ id, field, value });
+    }
+
     updateUserMutation.reset();
   };
 
@@ -137,7 +142,7 @@ const Role = (): JSX.Element => {
           name: user.name,
           surname: user.surname,
           team: user.team,
-          password: Decrypt(newPassword),                                                                 
+          password: Encrypt(newPassword),                                                                 
         }
       };
   
