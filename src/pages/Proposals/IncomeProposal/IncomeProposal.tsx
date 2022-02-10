@@ -118,20 +118,26 @@ const IncomeProposal = (props: IncomeProposalProps): JSX.Element => {
     };
 
     try {
-      saveDecision(decision);
-      await Promise.all([
-        ...selectedToReaccount.map(p => {
-          return editIncome(p.newValues as IncomeDb);
+      if (decision.reAccountingInfo.every(el => el.letterNumber)) {
+
+  
+        saveDecision(decision);
+        await Promise.all([
+          ...selectedToReaccount.map(p => {
+            return editIncome(p.newValues as IncomeDb);
           
-        }),
-        ...selectedToReaccount.map(p => {
-          if (p.id) {
-            deleteProposalMutation.mutate(p.id);
-            deleteProposalMutation.reset();
-          };
-        }),
-      ]);
-      setSnackbar({ children: 'Operacja wykonana pomyślnie', severity: 'success' });
+          }),
+          ...selectedToReaccount.map(p => {
+            if (p.id) {
+              deleteProposalMutation.mutate(p.id);
+              deleteProposalMutation.reset();
+            };
+          }),
+        ]);
+        setSnackbar({ children: 'Operacja wykonana pomyślnie', severity: 'success' });
+      } else {
+        setSnackbar({ children: 'Przynajmniej jedno pismo nie ma numeru', severity: 'error' });
+      }
 
     } catch {
       setSnackbar({ children: 'Wystąpił nieoczekiwany błąd', severity: 'error' });
