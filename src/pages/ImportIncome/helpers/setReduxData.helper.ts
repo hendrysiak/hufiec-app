@@ -1,12 +1,23 @@
+import convert, { ElementCompact, Element } from 'xml-js';
+
 import { reduxSetIncome } from 'store/actions/income';
 import store from 'store/store';
 
 import { sortBilingFromING } from './bank.helper';
-import { getJsonFromServer } from './getData.helper';
 
-export const setIncomeInRedux = async (url: string): Promise<void> => {
-  const resultJSON = await getJsonFromServer(url);
-  const sortedJSON = sortBilingFromING(resultJSON);
+// export const setIncomeInRedux = async (url: string): Promise<void> => {
+export const setIncomeInRedux = async (file: File): Promise<void> => {
+  const reader = new FileReader();
+  const onload = () => {
+    const result = reader.result;
+    
+    if (typeof result === 'string') {
+      const convertedJson: any = convert.xml2js(result, { compact: true });
+      const sortedJSON = sortBilingFromING(convertedJson.Document);
+      store.dispatch(reduxSetIncome(sortedJSON));
+    }
+  };
 
-  store.dispatch(reduxSetIncome(sortedJSON));
+  reader.onload = onload;
+  reader.readAsText(file, 'windows-1250');
 };
