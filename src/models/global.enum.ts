@@ -49,7 +49,9 @@ export enum Rows {
   Lp = 'lp',
   Name = 'name',
   Surname = 'surname',
-  Team = 'team'
+  Team = 'team',
+  Disability = 'disability',
+  Instructor = 'instructor'
 }
 
 export enum ProposalArea {

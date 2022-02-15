@@ -7,6 +7,8 @@ export interface Person extends IObjectKeys {
   dateOfDelete?: Date | null;
   team?: string;
   evidenceNumber?: string;
+  disability?: boolean;
+  instructor?: boolean;
 };
 
 export interface APIPerson extends Person {
