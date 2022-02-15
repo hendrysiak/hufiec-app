@@ -9,6 +9,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import React from 'react';
 
+import { useTeams } from 'helpers/hooks/useTeams';
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import store from 'store/store';
 
@@ -34,7 +35,7 @@ interface Props {
 }
 
 const EditableRow = (props: Props): JSX.Element => {
-  const teams = store.getState().income.registry;
+  const teams = useTeams();
   const codes = store.getState().income.codes?.map(c => c.code);
 
   const currentYear = new Date().getFullYear();

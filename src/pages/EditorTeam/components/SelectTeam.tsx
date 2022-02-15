@@ -47,7 +47,7 @@ const SelectTeam = ({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
         }}
         disabled={disabled}
       >
-        {['Cały hufiec', ...(teams || []).map(t => t.teamId)].map((item) => (
+        {['Cały hufiec', 'Instruktorzy', ...(teams || []).map(t => t.teamId)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
