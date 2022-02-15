@@ -2,8 +2,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, MenuItem, Modal, TextField } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridToolbarContainer } from '@mui/x-data-grid';
+import { Box, Button, Checkbox, FormControlLabel, MenuItem, Modal, TextField } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCellParams, GridToolbarContainer } from '@mui/x-data-grid';
 import React from 'react';
 
 import { useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import { useLocation } from 'react-router';
 
 import { saveProposal } from 'helpers/api-helpers/proposal';
 import { addTeamMember, editTeamMember } from 'helpers/editing-db.handler';
+import { checkColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import { ProposalArea, ProposalKind } from 'models/global.enum';
 import { Proposal } from 'models/proposal.models';
 import { APIPerson, Person } from 'models/registry.models';
@@ -47,10 +48,12 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
   const [openMoveUserModal, setOpenMoveUserModal] = React.useState(false);
   const [userToMoveId, setUserToMoveId] = React.useState('');
   const [userNewTeam, setUserNewTeam] = React.useState('');
-  const [user, setNewUser] = React.useState<Omit<NewUser, 'role' | 'team'>>({
+  const [user, setNewUser] = React.useState<Omit<NewUser, 'role' | 'team' | 'dateOfAdd'>>({
     evidenceNumber: '',
     name: '',
     surname: '',
+    disability: false,
+    instructor: false,
   });
 
   const { setSnackbar } = useSnackbar();
@@ -139,6 +142,8 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
         evidenceNumber: user.evidenceNumber as string,
         name: user.name as string,
         surname: user.surname as string,
+        disability: user.disability,
+        instructor: user.instructor,
       };
 
       try {
@@ -156,6 +161,8 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
         evidenceNumber: '',
         name: '',
         surname: '',
+        disability: false,
+        instructor: false
       });
       setOpenAddUserModal(false);
     }
@@ -166,8 +173,10 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
     { field: 'surname', headerName: 'Nazwisko', editable: true, width: 150 },
     { field: 'name', headerName: 'Imię', editable: true, width: 150 },
     { field: 'fee', headerName: 'Składki', editable: false, width: 150 },
-    { field: 'isDeleted', headerName: 'Usunięty/-a', editable: false, type: '', width: 100 },
+    { field: 'isDeleted', headerName: 'Usunięty/-a', editable: false, width: 100 },
     { field: 'evidenceNumber', headerName: 'Nr ewidencji', editable: true, width: 150 },
+    { field: 'disability', headerName: 'NS?', editable: false, type: 'boolean', width: 80, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
+    { field: 'instructor', headerName: 'Instruktor?', editable: true, type: 'boolean', width: 100, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
     // eslint-disable-next-line react/display-name
     { field: 'actions', 
       type: 'actions',
@@ -278,6 +287,26 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
               label="Nazwisko"
               variant="standard"
             />
+            <FormControlLabel
+              className="dateCheckbox"
+              control={<Checkbox
+                checked={Boolean(user.disability)}
+                onChange={(e) => setNewUser({ ...user, disability: e.target.checked })}
+                name="disability"
+                color="primary"
+              />}
+              label="NS?"
+            />
+            <FormControlLabel
+              className="dateCheckbox"
+              control={<Checkbox
+                checked={Boolean(user.instructor)}
+                onChange={(e) => setNewUser({ ...user, instructor: e.target.checked })}
+                name="instructor"
+                color="primary"
+              />}
+              label="Instruktor?"
+            />
           </Box>
           <Box p={4} style={{ width: '100%' }} display="flex" justifyContent="space-between">
             <Button style={{ width: '40%' }} color="secondary" variant="contained" onClick={() => {
@@ -286,6 +315,8 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
                 evidenceNumber: '',
                 name: '',
                 surname: '',
+                disability: false,
+                instructor: false,
               });
             }}>
             Anuluj

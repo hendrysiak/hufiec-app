@@ -10,6 +10,7 @@ import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import { IPerson } from '../EditorTeam';
 import { useStyles } from '../stylesTable';
+import { checkOldColumnRenderer } from 'helpers/render/checkColumnRenderer';
 
 interface IProps {
   row: IPerson;
@@ -21,6 +22,12 @@ interface IProps {
 
 export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) => {
   const classes = useStyles();
+
+  const renderCell = (value: unknown) => {
+    if (typeof value === 'boolean' || typeof value === 'undefined') return checkOldColumnRenderer(value);
+    return `${value}`;
+  };
+
   return (
     <TableCell align="left" className={classes.tableCell}>
       {row.id === id && name ? (
@@ -32,7 +39,7 @@ export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) =>
           disabled={name === Rows.Lp}
         />
       ) : (
-        name && row[name]
+        name && renderCell(row[name])
       )}
     </TableCell>
   );

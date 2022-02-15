@@ -10,3 +10,8 @@ export const checkColumnRenderer = (params: GridRenderCellParams<string | boolea
     {params.value ? <CheckIcon /> : <CloseIcon />}
   </Box>
 );
+export const checkOldColumnRenderer = (param: boolean | undefined | null): JSX.Element => (
+  <Box style={{ width: '100%' }} display="flex" justifyContent="center">
+    {param ? <CheckIcon /> : <CloseIcon />}
+  </Box>
+);

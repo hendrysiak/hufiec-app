@@ -1,4 +1,5 @@
 import { Button, TextField } from '@material-ui/core';
+import { Checkbox, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 
 import { addTeamMember } from 'helpers/editing-db.handler';
@@ -9,7 +10,7 @@ import classes from '../EditorTeam.module.css';
 
 
 const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleCloseNewMember: () => void }): JSX.Element => {
-  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null });
+  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null, disability: false, instructor: false });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput({
@@ -28,6 +29,25 @@ const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleClos
     <form className={classes.positionModal}>
       <TextField name="name" id="standard-basic" label="IMIĘ" onChange={handleInputChange} />
       <TextField name="surname" id="standard-basic" label="NAZWISKO" onChange={handleInputChange} />
+      {/* <FormControlLabel
+        control={<Checkbox
+          checked={input.disability}
+          onChange={(e) => setInput({ ...input, disability: e.target.checked })}
+          name="disability"
+          color="primary"
+        />}
+        label="NS?"
+      /> */}
+      <FormControlLabel
+        className="dateCheckbox"
+        control={<Checkbox
+          checked={input.instructor}
+          onChange={(e) => setInput({ ...input, instructor: e.target.checked })}
+          name="instructor"
+          color="primary"
+        />}
+        label="Instruktor?"
+      />
       <Button className={classes.btnAddNewMember} variant="contained" color="primary" onClick={handleAddTeamMemebr} >DODAJ</Button>
     </form>
   );

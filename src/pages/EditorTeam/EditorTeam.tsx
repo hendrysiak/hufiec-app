@@ -49,7 +49,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
 
   const teams = useTeams();
 
-  const [rows, setRows] = useState<IPerson[]>([]);
+  const [rows, setRows] = useState<(IPerson & { feeState: number })[]>([]);
   const [team, setTeam] = useState<string>('');
   const classes = useStyles();
 
@@ -146,6 +146,11 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
         usedRegistry = [...usedRegistry, ...Object.values(registry[currentTeam])];
       }
 
+    } else if (team === 'Instruktorzy') {
+      for (const currentTeam in registry) {
+        usedRegistry = [...usedRegistry, ...Object.values(registry[currentTeam])].filter(person => person.instructor);
+      }
+
     } else usedRegistry = registry[team] ? [...Object.values(registry[team])] : [];
 
     if (usedRegistry) {
@@ -220,6 +225,8 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
               <TableCell align="left">LP</TableCell>
               <TableCell align="left">Nazwisko</TableCell>
               <TableCell align="left">Imię</TableCell>
+              <TableCell align="left">NS?</TableCell>
+              <TableCell align="left">Instruktor?</TableCell>
               <TableCell align="left">Data dodania</TableCell>
               <TableCell align="left">Data usunięcia</TableCell>
               <TableCell align="left">Stan składek</TableCell>
@@ -230,7 +237,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
           <TableBody>
             {rows && rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: IPerson) => (
+              .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell className={classes.selectTableCell}>
                     {row.id === activeRow ? (
@@ -260,6 +267,8 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
                   <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
                   <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
                   <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
+                  <CustomTableCell {...{ row, name: Rows.Disability, onChange, id: activeRow, newData }} />
+                  <CustomTableCell {...{ row, name: Rows.Instructor, onChange, id: activeRow, newData }} />
                   {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
                   <TableCell >
                     <KeyboardDatePicker
