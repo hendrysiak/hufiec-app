@@ -9,6 +9,8 @@ const feeByYear: Record<number, number> = {
 };
 
 export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
+  if (person.disability) return 0;
+  
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
   const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
 
