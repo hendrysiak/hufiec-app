@@ -84,6 +84,8 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
 
     const currentUser = rows.find(r => r.id === id);
 
+    if (currentUser?.dateOfDelete) return setSnackbar({ children: 'Próbujesz usunąć usuniętego użytkownika', severity: 'error' });
+
     if (author && window.confirm('Czy napewno chcesz zgłosić użytkownika do usunięcia?')) {
       const proposal: Proposal = {
         elementId: id,
