@@ -1,3 +1,10 @@
+/**
+ * TODO:
+ * zaimplementować budowanie initAccountState i kasowanie przelewów za składki
+ * przepisać algorytm czyszzący zamknięty rok
+ * powiększyć komunikaty ze snackbar
+ */
+
 import './App.css';
 import DateFnsUtils from '@date-io/date-fns';
 import CircularProgress from '@material-ui/core/CircularProgress';
