@@ -9,6 +9,7 @@ export const codePattern = [
   { name: 'obóz', value: 'OH', useSuffix: true, adminEvent: false },
   { name: 'przyjezdny obóz', value: 'HAL', useSuffix: true, adminEvent: true },
   { name: 'kurs drużynowych', value: 'KD', useSuffix: true, adminEvent: false },
+  { name: 'kurs pierwszej pomocy', value: 'KPP', useSuffix: true, adminEvent: false },
   { name: 'kurs zastępowych', value: 'KZ', useSuffix: true, adminEvent: false },
   { name: 'kurs przewodnikowski', value: 'KP', useSuffix: true, adminEvent: false },
   { name: 'poligon', value: 'PL', useSuffix: true, adminEvent: true },

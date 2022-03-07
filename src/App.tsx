@@ -3,6 +3,9 @@
  * zaimplementować budowanie initAccountState i kasowanie przelewów za składki
  * przepisać algorytm czyszzący zamknięty rok
  * powiększyć komunikaty ze snackbar
+ * nie działa edycja daty pisma na widoku akcji kodów
+ * dodać możliwość generacji ręcznej kodu lub dodatkowe opcje
+ * edycja wartości newValues
  */
 
 import './App.css';
