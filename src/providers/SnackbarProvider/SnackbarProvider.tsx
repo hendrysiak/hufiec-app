@@ -33,7 +33,7 @@ const SnackBarProvider = (props: Props): JSX.Element => {
       {props.children}
       {!!snackbar && (
         <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
-          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+          <Alert {...snackbar} variant="filled" onClose={handleCloseSnackbar} />
         </Snackbar>
       )}
     </SnackBarContext.Provider>

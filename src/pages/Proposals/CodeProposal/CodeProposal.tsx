@@ -180,6 +180,7 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
       'letterNumber',
       'letterDate',
       'letterAuthor',
+      'letterReceive'
     ];
 
     

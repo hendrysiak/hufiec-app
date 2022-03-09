@@ -96,7 +96,7 @@ const DecisionContainer = (props: DecisionProps) => {
 
     return [
       `Składka zadaniowa na kwotę ${decision.amount} zł`,
-      `na ${event} ${team ? 'drużyny ' + team : ''}`,
+      `na ${event} ${team ? 'drużyny ' + team.nameToUse : ''}`,
       `${decision.target} w terminie ${eventDateGenerator(decision)}`
     ];
   };
