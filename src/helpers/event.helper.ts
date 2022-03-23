@@ -1,5 +1,6 @@
 export const codePattern = [
   { name: 'biwak', value: 'BK', useSuffix: true, adminEvent: false },
+  { name: 'Olimpiada Sportowa', value: 'SPORT', useSuffix: false, adminEvent: true },
   { name: 'biwak szczepu', value: 'BS', useSuffix: true, adminEvent: false },
   { name: 'rajd', value: 'RD', useSuffix: true, adminEvent: false },
   { name: 'harcerski start', value: 'HS', useSuffix: false, adminEvent: true },
