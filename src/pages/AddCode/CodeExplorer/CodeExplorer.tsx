@@ -13,11 +13,9 @@ import { ICode } from 'models/codes.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
-interface CodeExplorerProps {
-    
-}
 
-const CodeExplorer = (props: CodeExplorerProps): JSX.Element => {
+
+const CodeExplorer = (): JSX.Element => {
   const query = useQuery<ICode[], Error>('codes', () => getCodes());
   const queryClient = useQueryClient();
   

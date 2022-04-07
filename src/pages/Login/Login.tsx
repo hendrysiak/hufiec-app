@@ -15,6 +15,7 @@ import { getAccount } from 'helpers/account.helper';
 import { Decrypt, EncryptCookie } from 'helpers/password.helper';
 import {
   reduxIsAuthentication,
+  reduxSetEvidenceNumber,
   reduxSetRoles,
   reduxSetTeam,
 } from 'store/actions/user';
@@ -42,6 +43,7 @@ const Login = (): JSX.Element => {
       if (password === Decrypt(accountData.password)) {
         store.dispatch(reduxSetRoles(accountData.roles));
         store.dispatch(reduxIsAuthentication(true));
+        store.dispatch(reduxSetEvidenceNumber(login));
         store.dispatch(reduxSetTeam(accountData.team));
         cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: timeToLogout });
         // if(accountData.team) return history.push(`/info${accountData.team}`);

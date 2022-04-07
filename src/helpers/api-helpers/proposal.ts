@@ -24,11 +24,11 @@ export const getProposals = async (team?: string, isAdmin?: boolean): Promise<Pr
 };
 
 export const deleteProposal = async (proposalId: string): Promise<void> => {
-  await axios.delete(`/proposal/${proposalId}/.json`);
+  await axios.delete(`/proposal/${proposalId}.json`);
 };
 
 export const editProposal = async (proposal: Proposal): Promise<Proposal> => {
-  const updatedProposal = await axios.patch(`/proposal/${proposal.id}/.json`, proposal);
+  const updatedProposal = await axios.patch(`/proposal/${proposal.id}.json`, proposal);
 
   return updatedProposal.data;
 };

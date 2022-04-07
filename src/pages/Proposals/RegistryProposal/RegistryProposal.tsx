@@ -54,22 +54,37 @@ const RegistryProposal = (props: RegistryProposalProps): JSX.Element => {
     if (!window.confirm('Jesteś pewny/-a, że rozwiązać akcję?')) return;
     event.stopPropagation();
     const proposal = props.rows.find(r => r.id === proposalId);
-    const user = proposal?.oldValues as APIPerson;
-    const feeState = countingMemberFee(user);
 
-    try {
-      if (feeState < 0) {
-        user.dateOfDelete = (proposal?.newValues as { dateOfDelete: Date}).dateOfDelete;
-        await deleteTeamMember(user);
-      } else {
-        await permanentDeleteTeamMember(user);
+    if (proposal?.kind !== ProposalKind.Delete) {
+      if (!window.confirm('Akcja edycji członka jest jedynie w celu informacyjnym - upewnij się, że w Tipi jest wszystko ustawione jak należy, a rozwiązanie akcji jedynie usunie ją z listy (przeniesienia dokonał już drużynowy)')) return;
+      try {
+        setSnackbar({ children: 'Pomyślnie usunięto członka', severity: 'success' });
+        deleteProposalMutation.mutate(proposalId);
+        deleteProposalMutation.reset();
+      } catch (err) {
+        setSnackbar({ children: 'Wystąpił błąd przy usuwaniu członka', severity: 'error' });
       }
-      setSnackbar({ children: 'Pomyślnie usunięto członka', severity: 'success' });
-      deleteProposalMutation.mutate(proposalId);
-      deleteProposalMutation.reset();
-    } catch (err) {
-      setSnackbar({ children: 'Wystąpił błąd przy usuwaniu członka', severity: 'error' });
+
+    } else {
+
+      const user = proposal?.oldValues as APIPerson;
+      const feeState = countingMemberFee(user);
+  
+      try {
+        if (feeState < 0) {
+          user.dateOfDelete = (proposal?.newValues as { dateOfDelete: Date}).dateOfDelete;
+          await deleteTeamMember(user);
+        } else {
+          await permanentDeleteTeamMember(user);
+        }
+        setSnackbar({ children: 'Pomyślnie usunięto członka', severity: 'success' });
+        deleteProposalMutation.mutate(proposalId);
+        deleteProposalMutation.reset();
+      } catch (err) {
+        setSnackbar({ children: 'Wystąpił błąd przy usuwaniu członka', severity: 'error' });
+      }
     }
+
   };
 
   const handleDeleteRegistryProposal = (proposalId: string) => (event: { stopPropagation: () => void; }) => {

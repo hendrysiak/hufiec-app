@@ -13,7 +13,7 @@ import React from 'react';
 
 import { useMutation, useQueryClient } from 'react-query';
 
-import { deleteCode, saveCode } from 'helpers/api-helpers/codes';
+import { deleteCode, editCode, saveCode } from 'helpers/api-helpers/codes';
 import { saveDecision } from 'helpers/api-helpers/decision';
 import { deleteProposal, editProposal } from 'helpers/api-helpers/proposal';
 import { checkColumnRenderer } from 'helpers/render/checkColumnRenderer';
@@ -82,8 +82,9 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
 
       try {
         const code = await saveCode({ ...values });
+
         setSnackbar({ children: 'Kod zapisany pomyślnie', severity: 'success' });
-        editProposalMutation.mutate({ ...element, elementId: code.id, newValues: values });
+        editProposalMutation.mutate({ ...element, elementId: code.name, newValues: values });
         editProposalMutation.reset();
       } catch {
         setSnackbar({ children: 'Bład przy zapisywaniu kodu', severity: 'error' });
@@ -127,7 +128,7 @@ const CodeProposal = (props: CodeProposalProps): JSX.Element => {
 
     try {
       saveDecision(decision);
-      await saveCode({ ...selectedCodeToSave, letter: true });
+      await editCode({ ...selectedCodeToSave, id: proposal.elementId, letter: true });
 
       if (proposal.id) {
         deleteProposalMutation.mutate(proposal.id);
