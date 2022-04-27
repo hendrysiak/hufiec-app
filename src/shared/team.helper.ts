@@ -31,6 +31,7 @@ export const teamsMap = [
   { 'teamId': '15948', 'name': '6 Rudzka Drużyna Harcerska', 'nameToUse': '6 Rudzkiej Drużyny Harcerskiej' },
   { 'teamId': '17203', 'name': '79 Drużyna Harcerska w Przyszowicach', 'nameToUse': '79 Drużyny Harcerskiej w Przyszowicach' },
   { 'teamId': '17905', 'name': 'NS', 'nameToUse': 'NS' },
+  { 'teamId': '19163', 'name': 'Próbna Gromada przy Szkole Podstawowej nr 40', 'nameToUse': 'Próbnej Gromady przy Szkole Podstawowej nr 40' },
   { 'teamId': '110202', 'name': 'HUFIEC', 'nameToUse': 'Hufca ZHP w Rudzie Śląskiej' },
 ].sort((a, b) => Number(a.teamId) - Number(b.teamId));
 
