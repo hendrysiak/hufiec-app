@@ -4,10 +4,12 @@ import Paper from '@material-ui/core/Paper';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+
 import axios from 'axios-income';
 
 import { RootState } from 'store/models/rootstate.model';
 
+import appInfo from '../../../package.json';
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
@@ -63,7 +65,7 @@ const Dashboard = (): JSX.Element => {
   return (
     <>
       <div>
-        <h1>Aplikacja Hufcowa - v. 0.2</h1>
+        <h1>{`Aplikacja Hufcowa - ${appInfo.version}`}</h1>
         <Paper style={{ background: 'transparent' }}>
           <AppBar position="static" className={classes.appBar}>
             <h2>Stan hufca:</h2>

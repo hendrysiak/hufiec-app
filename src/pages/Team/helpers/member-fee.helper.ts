@@ -8,19 +8,20 @@ const feeByYear: Record<number, number> = {
   2022: 36,
 };
 
+const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() + 3) / 3);
+
 export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
   if (person.disability) return 0;
-  
+
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
   const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
 
   if (dateOfAdd > lastDate) return 0;
 
-  const quarterOfStart = Math.floor((new Date(dateOfAdd).getMonth() + 3) / 3);
-  const quarterOfEnd = Math.floor((new Date(lastDate).getMonth() + 3) / 3);
-  const quartersForCounting = quarterOfEnd - quarterOfStart + 1;
+  const quarterOfStart = getQuarterForDate(dateOfAdd);
+  const quarterOfEnd = getQuarterForDate(lastDate);
 
-  const amountOfFeesInLastYear = quartersForCounting * feeByYear[lastDate.getFullYear()];
+  const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
   
   const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
  
@@ -30,7 +31,9 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
   const numberOfQuartersInStartYear = 4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
   const feeValueInStartYear = feeByYear[dateOfAdd.getFullYear()];
 
-  if (numberOfYearsPassed === 1) {
+  if (numberOfYearsPassed < 1) {
+    return amountOfFeesInLastYear;
+  } else if (numberOfYearsPassed === 1) {
     return numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
   } else {
     const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
@@ -50,9 +53,6 @@ export const countingMemberFee = (person: APIPerson, endOfPeriod?: Date): number
   const feeIncomeByPerson = incomes.filter(i => i.name?.toLowerCase() === person?.name?.toLowerCase() 
     && i.surname?.toLowerCase() === person?.surname?.toLowerCase()  
     && i.event === 'SC');
-
-  // console.log(feeIncomeByPerson);
-  // console.log(endOfPeriod);
 
   let preparedFees;
 
