@@ -20,20 +20,22 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
 
   const quarterOfStart = getQuarterForDate(dateOfAdd);
   const quarterOfEnd = getQuarterForDate(lastDate);
+  
+  const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
 
   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
   
-  const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
- 
-  if (checkIfMemberComeInCurrentYear) return amountOfFeesInLastYear;
+  if (checkIfMemberComeInCurrentYear) {
+    const quartersInCurrentYear = quarterOfEnd - quarterOfStart === 0 ? 1 : quarterOfEnd - quarterOfStart;
+
+    return quartersInCurrentYear * feeByYear[lastDate.getFullYear()];
+  }
 
   const numberOfYearsPassed = lastDate.getFullYear() - dateOfAdd.getFullYear();
   const numberOfQuartersInStartYear = 4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
   const feeValueInStartYear = feeByYear[dateOfAdd.getFullYear()];
 
-  if (numberOfYearsPassed < 1) {
-    return amountOfFeesInLastYear;
-  } else if (numberOfYearsPassed === 1) {
+  if (numberOfYearsPassed === 1) {
     return numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
   } else {
     const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
