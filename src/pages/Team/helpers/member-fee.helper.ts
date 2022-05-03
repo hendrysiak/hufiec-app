@@ -26,7 +26,7 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
   
   if (checkIfMemberComeInCurrentYear) {
-    const quartersInCurrentYear = quarterOfEnd - quarterOfStart === 0 ? 1 : quarterOfEnd - quarterOfStart;
+    const quartersInCurrentYear = quarterOfEnd - quarterOfStart + 1;
 
     return quartersInCurrentYear * feeByYear[lastDate.getFullYear()];
   }
