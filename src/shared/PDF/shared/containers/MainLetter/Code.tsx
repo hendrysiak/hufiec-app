@@ -3,9 +3,9 @@ import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import React from 'react';
 
 import { codePattern } from 'helpers/event.helper';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { ICode } from 'models/codes.models';
 import { eventDateGenerator } from 'shared/eventDate.helper';
-import { teamsMap } from 'shared/team.helper';
 
 interface CodeProps {
   newValues: ICode;
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 
 const Code = (props: CodeProps): JSX.Element => {
   const event = codePattern.find(c => c.value === props.newValues.prefix)?.name;
+  const teamsMap = useTeams();
   const team = !props.newValues.teams || props.newValues.teams.length > 1 ? '' : teamsMap.find(team => team.teamId === props.newValues.teams[0])?.nameToUse;
   
   return (

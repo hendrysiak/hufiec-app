@@ -5,12 +5,12 @@ import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCell
 
 import React from 'react';
 
+import { useTeams } from 'helpers/hooks/useTeams';
 import { checkColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
-import { teamsMap } from 'shared/team.helper';
 
 interface BudgetDataGridProps {
   displayedIncome: IncomeDb[];
@@ -25,7 +25,7 @@ interface BudgetDataGridProps {
 
 
 const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
-
+  const teamsMap = useTeams();
   const availableTeams = teamsMap.map(t => t.teamId);
 
 

@@ -43,7 +43,7 @@ export const getCodes = async (team: string | null): Promise<void> => {
   } else {
     for (const code in codes) {
       
-      if (codes.data[code].teams.includes(team) || codes.data[code].wholeOrganization) {
+      if (codes.data[code].teams.includes(Number(team)) || codes.data[code].wholeOrganization) {
         const fullCode = codes.data[code].id ? `${code}-${codes.data[code].id}` : code;
         codesToFilter.push({ code: fullCode });
       }
@@ -61,7 +61,7 @@ export const getRegistry = async (): Promise<void> => {
   for (const id in registry.data ) {
     const { team, ...currentPerson } = registry.data[id];
     currentPerson['id'] = id;
-    currentPerson['team'] = team; 
+    currentPerson['team'] = Number(team); 
 
 
     if (mappedRegistry[team]) mappedRegistry[team][id] = {...registry.data[id], id:id };
@@ -71,7 +71,7 @@ export const getRegistry = async (): Promise<void> => {
         mappedRegistry['errorTeam'][id] = {...registry.data[id], id: id};
       } else {
         mappedRegistry[team] = {};
-        mappedRegistry[team][id] = {...registry.data[id], id: currentPerson.id};
+        mappedRegistry[team][id] = { ...registry.data[id], id: currentPerson.id };
       }
     }
   }

@@ -10,7 +10,7 @@ export interface ICode {
   startDate: Date;
   endDate: Date;
   wholeOrganization: boolean;
-  teams: string[];
+  teams: number[];
   firstAccept: boolean;
   letter: boolean;
   decision: string;   

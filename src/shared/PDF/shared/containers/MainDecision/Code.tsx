@@ -2,9 +2,9 @@ import { StyleSheet, View, Text } from '@react-pdf/renderer';
 import React from 'react';
 
 import { codePattern } from 'helpers/event.helper';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { DecisionCode } from 'models/decision.model';
 import { eventDateGenerator } from 'shared/eventDate.helper';
-import { teamsMap } from 'shared/team.helper';
 
 interface CodeProps {
   decision: DecisionCode;
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 });
 
 const Code = (props: CodeProps): JSX.Element => {
+  const teamsMap = useTeams();
   const decisionDate = new Date(props.decision.decisionDate);
   const teams = !props.decision.targetTeams || props.decision.targetTeams?.length > 1 ? '' : teamsMap.find(t => t.teamId === props.decision.targetTeams[0])?.nameToUse;
   const event = codePattern.find(code => code.value === props.decision.prefix)?.name;

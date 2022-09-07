@@ -9,7 +9,7 @@ import { Person } from 'models/registry.models';
 import classes from '../EditorTeam.module.css';
 
 
-const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleCloseNewMember: () => void }): JSX.Element => {
+const NewTeamMember = ({ team, handleCloseNewMember }: {team: number; handleCloseNewMember: () => void }): JSX.Element => {
   const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null, disability: false, instructor: false });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {

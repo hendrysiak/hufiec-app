@@ -12,6 +12,7 @@ import { useLocation } from 'react-router';
 
 import { saveProposal } from 'helpers/api-helpers/proposal';
 import { addTeamMember, editTeamMember } from 'helpers/editing-db.handler';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { checkColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import { ProposalArea, ProposalKind } from 'models/global.enum';
 import { Proposal } from 'models/proposal.models';
@@ -19,7 +20,6 @@ import { APIPerson, Person } from 'models/registry.models';
 
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
-import { teamsMap } from 'shared/team.helper';
 import { RootState } from 'store/models/rootstate.model';
 
 interface IRows extends APIPerson {
@@ -44,6 +44,7 @@ interface ExtendedGridCellEditCommitParams extends GridCellEditCommitParams {
 export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
   const team = useSelector((state: RootState) => state.user.team);
   const author = useSelector((state: RootState) => state.user.evidenceNumber);
+  const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
   const [openMoveUserModal, setOpenMoveUserModal] = React.useState(false);
   const [userToMoveId, setUserToMoveId] = React.useState('');
@@ -75,7 +76,7 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
 
   const handleCellEditCommit = (params: ExtendedGridCellEditCommitParams) => {
     const { row, field, value } = params;
-    editTeamMember(pathname.slice(1), { ...row, [field]: value });
+    editTeamMember(Number(pathname.slice(1)), { ...row, [field]: value });
     setSnackbar({ children: 'Użytkownik edytowany pomyślnie', severity: 'success' });
   };
 
@@ -92,7 +93,7 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
         area: ProposalArea.Registry,
         kind: ProposalKind.Delete,
         author: author,
-        team: pathname.slice(1),
+        team: Number(pathname.slice(1)),
         oldValues: currentUser,
         newValues: { dateOfDelete: new Date() }
       };
@@ -112,14 +113,14 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
           area: ProposalArea.Registry,
           kind: ProposalKind.Move,
           author: author,
-          team: pathname.slice(1),
+          team: Number(pathname.slice(1)),
           oldValues: { ...currentUser },
           newValues: { ...currentUser, team: userNewTeam }
         };
         
         await Promise.all([
           saveProposal(proposal),
-          editTeamMember(pathname.slice(1), { id: userToMoveId, team: userNewTeam })
+          editTeamMember(Number(pathname.slice(1)), { id: userToMoveId, team: Number(userNewTeam) })
         ]);
 
         setSnackbar({ children: 'Przeniesienie zakończone sukcesem', severity: 'success' });
@@ -150,7 +151,7 @@ export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {
 
       try {
         if (team) {
-          addTeamMember(pathname.slice(1), fullUser);
+          addTeamMember(Number(pathname.slice(1)), fullUser);
           setSnackbar({ children: 'Użytkownik dodany pomyślnie', severity: 'success' });
         } else {
           setSnackbar({ children: 'Błąd drużyny - odśwież', severity: 'error' });

@@ -14,7 +14,7 @@ export const teamContext = React.createContext<string>('');
 
 interface SelectTeam {
   children?: React.ReactNode;
-  team: string; 
+  team: number; 
   onChange: (e: string) => void;
   disabled?: boolean;
 }

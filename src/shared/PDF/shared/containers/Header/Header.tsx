@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 const Header = (props: HeaderProps): JSX.Element => {
   return (
-    <View style={styles.header}>
+    <View style={styles.header} fixed>
       <Image src={logo} style={styles.img}/>
       <Disclaimer recipient={props.recipient} />
     </View>

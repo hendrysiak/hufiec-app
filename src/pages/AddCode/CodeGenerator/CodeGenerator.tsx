@@ -70,12 +70,12 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
   });
   
   const [selectedCode, setSelectedCode] = React.useState(codePattern[0]);
-  const [selectedTeams, setSelectedTeams] = React.useState<string[]>([]);
+  const [selectedTeams, setSelectedTeams] = React.useState<number[]>([]);
 
   const { pathname } = useLocation();
 
   React.useEffect(() => {
-    !props.isAdmin && setSelectedTeams([pathname.slice(1)]);
+    !props.isAdmin && setSelectedTeams([Number(pathname.slice(1))]);
   }, [props.isAdmin]);
 
   const handleSelectCode = (code: string) => {
@@ -87,9 +87,11 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
     const {
       target: { value },
     } = event;
+    const newValues = typeof value === 'string' ? value.split(',').map(team => Number(team)) : [Number(value)];
+
     setSelectedTeams(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      newValues
     );
   };
 
@@ -123,7 +125,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
   const handleSave = (data: CodeGeneratorValues) => {
     const { wholeOrganization, startDate, responsiblePerson, endDate, amount, locality } = data;
 
-    const team = props.isAdmin ? null : pathname.slice(1);
+    const team = props.isAdmin ? null : Number(pathname.slice(1));
 
     const codeToSave: Omit<ICode, 'id'> = {
       amount,
@@ -352,7 +354,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                     key={team}
                     value={team}
                   >
-                    <Checkbox checked={selectedTeams.indexOf(team) > -1} />
+                    <Checkbox checked={selectedTeams.indexOf(Number(team)) > -1} />
                     <ListItemText primary={team} />
                   </MenuItem>
                 ))}

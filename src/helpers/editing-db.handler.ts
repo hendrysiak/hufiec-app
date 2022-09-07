@@ -44,19 +44,19 @@ export const deleteIncome = async (id: string): Promise<void> => {
   await axios.delete(`/incomes/${id}.json`);
 };
 
-export const addTeamMember = async (team: string, person: { name: string, surname: string, evidenceNumber?: string}): Promise<void> => {
-  const extendedPerson: Person = { ...person, dateOfAdd: new Date(), team };
+export const addTeamMember = async (team: number, person: { name: string, surname: string, evidenceNumber?: string}): Promise<void> => {
+  const extendedPerson: Person = { ...person, dateOfAdd: new Date(), team: Number(team) };
   const response = await axios.post(`/registry.json`, extendedPerson); 
 
   store.dispatch(reduxAddMember({ ...extendedPerson, id: response.data.name }));
 };
 
-export const editTeamMember = async (team: string, person: Partial<APIPerson> | null): Promise<void> => {
+export const editTeamMember = async (team: number, person: Partial<APIPerson> | null): Promise<void> => {
   
   if (!person) return;
 
   await axios.patch(`/registry/${person.id}.json`, { ...person }); 
-  store.dispatch(reduxEditMember(person, team));
+  store.dispatch(reduxEditMember(person, Number(team)));
 
 };
 
@@ -64,7 +64,7 @@ export const deleteTeamMember = async (person: APIPerson): Promise<void> => {
   const { team, ...mappedPerson } = person;
 
   axios.patch(`/registry/${person.id}.json`, mappedPerson); 
-  team && store.dispatch(reduxEditMember(person, team));
+  team && store.dispatch(reduxEditMember(person, Number(team)));
 };
 
 export const permanentDeleteTeamMember = async (person: APIPerson): Promise<void> => {

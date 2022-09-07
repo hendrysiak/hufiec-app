@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { editDecision, getDecisions } from 'helpers/api-helpers/decision';
 import { codePattern } from 'helpers/event.helper';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { Decision, DecisionCode, DecisionReAccouting, DecisionReturn } from 'models/decision.model';
 import { DecisionArea } from 'models/global.enum';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
@@ -13,7 +14,6 @@ import { eventDateGenerator } from 'shared/eventDate.helper';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
 import DecisionDownload from 'shared/PDF/Decision/DecisionDownload';
-import { teamsMap } from 'shared/team.helper';
 
 interface DecisionProps {
   isAdmin?: boolean;
@@ -21,6 +21,7 @@ interface DecisionProps {
 
 const DecisionContainer = (props: DecisionProps) => {
   const query = useQuery<Decision[], Error>('decision', () => getDecisions());
+  const teamsMap = useTeams();
   const queryClient = useQueryClient();
 
   const { setSnackbar } = useSnackbar();

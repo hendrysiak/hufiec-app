@@ -2,7 +2,7 @@ import { ProposalArea, ProposalKind } from './global.enum';
 
 export interface Proposal {
   id?: string;
-  team?: string | null;
+  team?: number | null;
   elementId: string;
   author: string; 
   area: ProposalArea; 

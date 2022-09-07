@@ -18,8 +18,9 @@ import './style.css';
 
 import { Proposal } from 'models/proposal.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
-import { teamsMap } from 'shared/team.helper';
 import { RootState } from 'store/models/rootstate.model';
+// eslint-disable-next-line import/order
+import { useTeams } from 'helpers/hooks/useTeams';
 
 enum ActionPagination {
   Next = 'next',
@@ -30,6 +31,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
 {navHeight: number | null, scrollPosition: number, rows: IncomeDb[]}): JSX.Element => {
   const codes = useSelector((state: RootState) => state.income.codes)?.map(c => c?.code);
   const user = useSelector((state: RootState) => state.user);
+  const teamsMap = useTeams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [displayRows, setDisplayRows] = useState<IncomeDb[]>(rows);
@@ -84,7 +86,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
           kind: ProposalKind.Edit,
           oldValues: currentValues, 
           newValues: newValues,
-          team: pathname.slice(1),
+          team: Number(pathname.slice(1)),
           dateOfCreation: new Date(),
         };
 
