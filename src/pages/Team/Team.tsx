@@ -9,7 +9,7 @@ import Tabs from '@mui/material/Tabs';
 import makeStyles from '@mui/styles/makeStyles';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React, { useState, useEffect, useRef, RefObject, CSSProperties } from 'react';
-import { CSVLink } from 'react-csv';
+import { CSVLink, CSVDownload } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
   useLocation
@@ -180,7 +180,6 @@ const Team = (): JSX.Element => {
       width: 0,
       border: '2px solid',
       borderRadius: 4,
-      borderColor: theme.palette.primary.main,
       right: '50%',
       transform: 'translateX(1px)',
       top: '80%'
@@ -267,18 +266,18 @@ const Team = (): JSX.Element => {
             <SearchIcon fontSize="large" color="inherit" />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Wyeksportuj widok do CSV" classes={{
-          tooltip: classes.customTooltip
-        }}>
-          <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+        <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+          <Tooltip title="Wyeksportuj widok do CSV" classes={{
+            tooltip: classes.customTooltip
+          }}>
             <IconButton
               aria-label="account-state"
               classes={{ root: classes.button }}
               size="large">
               <GetAppIcon fontSize="large" color="inherit" />
             </IconButton>
-          </CSVLink>
-        </Tooltip>
+          </Tooltip>
+        </CSVLink>
       </Box>
       <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
         <Tab label="Lista wpłat" />

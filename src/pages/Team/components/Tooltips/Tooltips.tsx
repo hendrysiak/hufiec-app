@@ -53,13 +53,13 @@ const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport 
           <TeamFinances incomes={incomes} outcomes={outcomes} currentTeam={currentTeam} open={open}/>
         </IconButton>
       </Tooltip> */}
-      <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
+      {/* <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
         <CSVLink data={dataToExport} filename={`${currentTeam}.csv`}>
           <IconButton aria-label="account-state" size="large">
             <GetAppIcon/>
           </IconButton>
         </CSVLink>
-      </Tooltip>
+      </Tooltip> */}
     </div>
   </>;
 };
