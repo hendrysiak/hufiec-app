@@ -1,8 +1,8 @@
 
 import { TextField, MenuItem, FormControlLabel, Checkbox } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { KeyboardDatePicker } from '@mui/lab/pickers';
+import { MaterialUiPickersDate } from '@mui/lab/pickers/typings/date';
 
 import React from 'react';
 import { useSelector } from 'react-redux';

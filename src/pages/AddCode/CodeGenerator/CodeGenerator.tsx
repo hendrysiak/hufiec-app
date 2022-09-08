@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@mui/lab';
 
 import React from 'react';
 

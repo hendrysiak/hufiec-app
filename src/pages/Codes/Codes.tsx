@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 
 import GetAppIcon from '@mui/icons-material/GetApp';
 import React, { useEffect, useMemo, useState } from 'react';

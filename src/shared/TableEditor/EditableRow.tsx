@@ -5,8 +5,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import EventIcon from '@mui/icons-material/Event';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import MailIcon from '@mui/icons-material/Mail';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { KeyboardDatePicker } from '@mui/lab/pickers';
+import { MaterialUiPickersDate } from '@mui/lab/typings/date';
 import React from 'react';
 
 import { useTeams } from 'helpers/hooks/useTeams';

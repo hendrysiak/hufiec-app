@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@mui/lab';
 import { Tab, Tabs } from '@mui/material';
 import React, { useState, useEffect, FC } from 'react';
 
