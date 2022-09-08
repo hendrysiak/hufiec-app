@@ -1,9 +1,10 @@
 import './App.css';
-import DateFnsUtils from '@date-io/date-fns';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
-  MuiPickersUtilsProvider,
-} from '@mui/lab';
+  LocalizationProvider ,
+} from '@mui/x-date-pickers/';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import React, { Suspense, useEffect, useState } from 'react';
 import {
@@ -143,7 +144,7 @@ const App = (): JSX.Element => {
       <SnackbarProvider>
         <QueryClientProvider client={queryClient}>
           <TeamsProvider>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
               <div className="app">
                 {loadingStatus 
                   ? <div className="loader"><CircularProgress/></div>
@@ -153,7 +154,7 @@ const App = (): JSX.Element => {
                     </Suspense>
                   </div>)}
               </div>
-            </MuiPickersUtilsProvider>
+            </LocalizationProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </TeamsProvider>
         </QueryClientProvider>

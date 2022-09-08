@@ -21,6 +21,7 @@ import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { RootState } from 'store/models/rootstate.model';
 // eslint-disable-next-line import/order
 import { useTeams } from 'helpers/hooks/useTeams';
+import { SelectChangeEvent } from '@mui/material';
 
 enum ActionPagination {
   Next = 'next',
@@ -205,8 +206,8 @@ export const List = ({ navHeight, scrollPosition, rows }:
             <p className="textRowPag">Ilość wierszy na stronie:</p> 
             <FormControl>
               <Select
-                value={rowsPerPage}
-                onChange={(e: React.ChangeEvent<{ value: unknown }>): void => handleRowsPerPage(e.target.value as string)}
+                value={`${rowsPerPage}`}
+                onChange={(e: SelectChangeEvent): void => handleRowsPerPage(e.target.value as string)}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}
               >

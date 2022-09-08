@@ -1,12 +1,11 @@
-import { Checkbox, FormControlLabel, IconButton, MenuItem, TableRow, TextField, Tooltip } from '@mui/material';
-import TableCell from '@mui/material/TableCell';
 import CloseIcon from '@mui/icons-material/Close';
 
 import EventIcon from '@mui/icons-material/Event';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import MailIcon from '@mui/icons-material/Mail';
-import { KeyboardDatePicker } from '@mui/lab/pickers';
-import { MaterialUiPickersDate } from '@mui/lab/typings/date';
+import { Checkbox, FormControlLabel, IconButton, MenuItem, TableRow, TextField, Tooltip } from '@mui/material';
+import TableCell from '@mui/material/TableCell';
+import { DesktopDatePicker } from '@mui/x-date-pickers/';
 import React from 'react';
 
 import { useTeams } from 'helpers/hooks/useTeams';
@@ -40,7 +39,7 @@ const EditableRow = (props: Props): JSX.Element => {
 
   const currentYear = new Date().getFullYear();
 
-  const dateOfLetterHandler = (index: number, value: MaterialUiPickersDate) => {
+  const dateOfLetterHandler = (index: number, value: any) => {
     if (!props.letterReceived) return alert('Żeby podac datę pisma, proszę zaznaczyć iż wpłynęło.');
     props.onChange(index, { key: 'dateOfLetter', value: value || '' });
   };
@@ -209,19 +208,12 @@ const EditableRow = (props: Props): JSX.Element => {
         />}
       </TableCell>
       <TableCell colSpan={3}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          margin="normal"
-          id="date-picker-dialog"
-          // label="Data dodania"
-          format="dd/MM/yyyy"
+        <DesktopDatePicker
+          renderInput={(params) => <TextField {...params} />}
+          inputFormat="dd/MM/yyyy"
           value={props.dateOfLetter ? new Date(props.dateOfLetter) : null}
           // onChange={(e) => props.onChange(props.index, { key: 'dateOfLetter', value: e || '' })}
           onChange={(e) => dateOfLetterHandler(props.index, e)}
-          KeyboardButtonProps={{
-            'aria-label': 'change date'
-          }}
           label="Data wpłynięcia pisma"
         />
       </TableCell>

@@ -1,8 +1,7 @@
 
 import { TextField, MenuItem, FormControlLabel, Checkbox } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { KeyboardDatePicker } from '@mui/lab/pickers';
-import { MaterialUiPickersDate } from '@mui/lab/pickers/typings/date';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -16,10 +15,11 @@ import './style.css';
 import { FiltersName } from './FiltersName';
 
 
+
 type Props = {
   editedData: BudgetEntry;
-  selectedDate: MaterialUiPickersDate | null;
-  setSelectedDate: (date: MaterialUiPickersDate) => void;
+  selectedDate: any | null;
+  setSelectedDate: (date: any) => void;
   team: string;
   setTeam: (team: string) => void;
   name: string;
@@ -52,7 +52,6 @@ const Filters = (props: Props): JSX.Element => {
       width: 0,
       border: '2px solid',
       borderRadius: 4,
-      borderColor: theme.palette.primary.main,
       right: '50%',
       transform: 'translateX(1px)',
       top: '80%'
@@ -62,7 +61,7 @@ const Filters = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   const renderDayInPicker = (
-    date: MaterialUiPickersDate, 
+    date: any, 
     selectedDate: unknown, 
     dayInCurrentMonth: unknown, 
     dayComponent: JSX.Element) => {
@@ -80,7 +79,7 @@ const Filters = (props: Props): JSX.Element => {
     return dayComponent;    
   };
     
-  const handleDateChange = (date: MaterialUiPickersDate) => {
+  const handleDateChange = (date: any) => {
     props.setSelectedDate(date);
   };
   
@@ -207,20 +206,13 @@ const Filters = (props: Props): JSX.Element => {
     <>
       <div className="filters">
         {props.editedData === BudgetEntry.Income ? filtersToIncomes : filtersToOutcomes}
-        <KeyboardDatePicker
-          disableToolbar
+        <DesktopDatePicker
           disableFuture={true}
-          inputVariant="outlined"
-          format="dd/MM/yyyy"
-          margin="normal"
-          id="date-picker-inline"
+          inputFormat="dd/MM/yyyy"
           label="Wybierz datę importu"
-          renderDay={renderDayInPicker}
+          renderInput={(params) => <TextField {...params} />}
           value={props.selectedDate}
           onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
         />
         <FormControlLabel
           control={<Checkbox 

@@ -65,7 +65,7 @@ const DecisionContainer = (props: DecisionProps) => {
       // eslint-disable-next-line react/display-name
       renderCell: (params: GridRenderCellParams<string[]>) => (
         <div style={{ height: 156, overflowY: 'auto' }}>
-          {params.value.map((el: string) => <Typography key={el}>{el}</Typography>)}
+          {params?.value?.map((el: string) => <Typography key={el}>{el}</Typography>)}
         </div>
       ),
       ...columnAligning, 

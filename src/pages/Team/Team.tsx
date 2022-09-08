@@ -1,14 +1,13 @@
+import GetAppIcon from '@mui/icons-material/GetApp';
+import SearchIcon from '@mui/icons-material/Search';
 import { Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import makeStyles from '@mui/styles/makeStyles';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import SearchIcon from '@mui/icons-material/Search';
-import { KeyboardDatePicker } from '@mui/lab';
-import { MaterialUiPickersDate } from '@mui/lab/typings/date';
 import { styled } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import makeStyles from '@mui/styles/makeStyles';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React, { useState, useEffect, useRef, RefObject, CSSProperties } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
@@ -35,6 +34,7 @@ import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { countingMemberFee } from './helpers/member-fee.helper';
 import { ShowModal } from './helpers/typeViewModal.enum';
+
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -204,7 +204,7 @@ const Team = (): JSX.Element => {
 
   const classes = useStyles();
 
-  const renderDayInPicker = (date: MaterialUiPickersDate,
+  const renderDayInPicker = (date: any,
     selectedDate: unknown,
     dayInCurrentMonth: unknown,
     dayComponent: JSX.Element) => {
@@ -331,21 +331,13 @@ const Team = (): JSX.Element => {
               margin="normal"
 
             />
-            <KeyboardDatePicker
+            <DesktopDatePicker
               className="datePicker"
-              disableToolbar
               disableFuture={true}
-              inputVariant="outlined"
-              format="dd/MM/yyyy"
-              margin="normal"
-              id="date-picker-inline"
               label="Wybierz datę wpływu"
-              renderDay={renderDayInPicker}
               value={selectedDate}
               onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
+              renderInput={(params) => <TextField {...params} />}
             />
             <FormControlLabel
               className="dateCheckbox"

@@ -1,4 +1,8 @@
-import { Box, MenuItem, TablePagination, TextField } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
+import { Box, MenuItem, TablePagination, TextField , Tab, Tabs } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
@@ -6,12 +10,8 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
-import EditIcon from '@mui/icons-material/EditOutlined';
-import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
-import { KeyboardDatePicker } from '@mui/lab';
-import { Tab, Tabs } from '@mui/material';
+
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React, { useState, useEffect, FC } from 'react';
 
 import { CSVLink } from 'react-csv';
@@ -261,41 +261,29 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
                 <CustomTableCell {...{ row, name: Rows.Instructor, onChange, id: activeRow, newData }} />
                 {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
                 <TableCell >
-                  <KeyboardDatePicker
+                  <DesktopDatePicker
                     disabled={activeRow !== row.id}
-                    disableToolbar
-                    variant="inline"
                     key={row.id}
-                    margin="normal"
-                    id="date-picker-dialog"
                     // label="Data dodania"
-                    format="dd/MM/yyyy"
+                    inputFormat="dd/MM/yyyy"
                     value={newData?.dateOfAdd && activeRow === row.id ? 
                       new Date(newData.dateOfAdd) : 
                       row.dateOfAdd ? new Date(row.dateOfAdd) : null }
                     onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date'
-                    }}
+                    renderInput={(params) => <TextField {...params} />}
                   />
                 </TableCell>
                 <TableCell>
-                  <KeyboardDatePicker
+                  <DesktopDatePicker
                     disabled={activeRow !== row.id}
-                    disableToolbar
-                    variant="inline"
                     key={row.id}
-                    margin="normal"
-                    id="date-picker-dialog"
                     // label="Data usunięcia"
-                    format="dd/MM/yyyy"
+                    inputFormat="dd/MM/yyyy"
                     value={newData?.dateOfDelete && activeRow === row.id ? 
                       new Date(newData.dateOfDelete) : 
                       row.dateOfDelete ? new Date(row.dateOfDelete) : null}
                     onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date'
-                    }}
+                    renderInput={(params) => <TextField {...params} />}
                   /></TableCell>
                 <TableCell>{row.feeState}</TableCell>
                 {row.id === activeRow ? 
