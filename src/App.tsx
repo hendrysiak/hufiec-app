@@ -1,12 +1,3 @@
-/**
- * TODO:
- * zaimplementować budowanie initAccountState i kasowanie przelewów za składki
- * przepisać algorytm czyszczący zamknięty rok
- * dodać możliwość generacji ręcznej kodu lub dodatkowe opcje
- * błąd z wyższym kodem biwaku
- * problem z usuwaniem
- */
-
 import './App.css';
 import DateFnsUtils from '@date-io/date-fns';
 import CircularProgress from '@material-ui/core/CircularProgress';
