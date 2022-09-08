@@ -3,7 +3,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
   MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+} from '@mui/lab';
 
 import React, { Suspense, useEffect, useState } from 'react';
 import {
