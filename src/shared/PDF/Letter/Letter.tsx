@@ -1,6 +1,8 @@
 import DownloadIcon from '@mui/icons-material/Download';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
+import { GridActionsCellItem } from '@mui/x-data-grid';
 import { Document, Page, Font, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 
 
@@ -44,11 +46,12 @@ const pageStyle = StyleSheet.create({
 });
 
 const Letter = (props: LetterProps): JSX.Element => {
+  const [downloadEnabled, setDownloadEnabled] = React.useState(false);
 
 
   return (
     <>
-      <PDFDownloadLink
+      {downloadEnabled ? <PDFDownloadLink
         document={
           <Document>
             <Page size="A4" orientation="portrait" style={pageStyle.page}>
@@ -80,6 +83,12 @@ const Letter = (props: LetterProps): JSX.Element => {
             {loading ? <CircularProgress /> : <Tooltip placement="top" title="Pobierz pismo"><DownloadIcon /></Tooltip>}
           </div>)}
       </PDFDownloadLink>
+        : <GridActionsCellItem
+          icon={<PlayArrowIcon />}
+          label="Check"
+          onClick={() => setDownloadEnabled(true)}
+          color="inherit"
+        />}
     </>
   );
 };

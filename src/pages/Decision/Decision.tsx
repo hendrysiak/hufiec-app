@@ -133,7 +133,7 @@ const DecisionContainer = (props: DecisionProps) => {
   };
 
   return (
-    <main style={{ height: '100vh' }}>
+    <main>
       <h1>Decyzje</h1>
       <Box
         sx={{

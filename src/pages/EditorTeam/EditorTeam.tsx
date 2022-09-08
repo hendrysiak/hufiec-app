@@ -87,7 +87,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
     if (!newData || !window.confirm('Na pewno zapisać zmiany?')) return;
 
     try {
-      await editTeamMember(team, newData);
+      await editTeamMember(Number(team), newData);
       alert('Edycja zakończona sukcesem.');
       clearStateRow();
       return;
@@ -109,7 +109,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
       return ({
         ...prev,
         id,
-        team
+        team: Number(team)
       });
     });
   };
@@ -202,7 +202,7 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
           surname={surname}
           setSurname={setSurname}
         />
-        <SelectTeam onChange={handleChangeSelect} team={team} disabled={activeRow ? true : false}/>
+        <SelectTeam onChange={handleChangeSelect} team={Number(team)} disabled={activeRow ? true : false}/>
         <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
           <Button variant="contained" color="primary" >Pobierz stan składek</Button>
         </CSVLink>

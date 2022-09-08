@@ -29,7 +29,7 @@ export const getAccountState = async (): Promise<void> => {
   ));
 };
 
-export const getCodes = async (team: string | null): Promise<void> => {
+export const getCodes = async (team: number | null): Promise<void> => {
   const codes = await axios.get<CodesMap>('/codes.json');
 
   const codesToFilter: ApprovedEvent[] = [];

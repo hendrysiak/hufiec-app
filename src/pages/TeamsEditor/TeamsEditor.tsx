@@ -114,7 +114,7 @@ const TeamsEditor = (): JSX.Element => {
         id: '',
         name: '',
         nameToUse: '',
-        teamId: '',
+        teamId: 0,
       });
       saveTeamMutation?.reset();
 
