@@ -1,9 +1,11 @@
-import { TextField, MenuItem , makeStyles, createStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import { TextField, MenuItem } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { DataGrid } from '@material-ui/data-grid';
 
-import GetAppIcon from '@material-ui/icons/GetApp';
+import GetAppIcon from '@mui/icons-material/GetApp';
 import React, { useEffect, useMemo, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
@@ -93,51 +95,49 @@ const Codes = (): JSX.Element => {
   const tooltipsClasses = tooltipStyles();
 
 
-  return (
-    <>
-      <header>
-        <TextField 
-          style={{ width: '80%', marginTop: '16px' }}
-          value={currentCode}
-          onChange={(e) => setCurrentCode(e.target.value)}
-          placeholder="Wybierz kod z listy"
-          select={true}
-          size="small"
-          variant="outlined"
-          margin="normal"
-          SelectProps={{
-            MenuProps: { disableScrollLock: true }
-          }}
-        >
-          {usedCodes && [...usedCodes, 'Błedy niewyjaśnione'].map((item) => (
-            <MenuItem key={item} value={item}>{item}</MenuItem>
-          ))}
-        </TextField>
-        <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
-          <CSVLink data={dataToExport} filename={`${currentCode}.csv`}>
-            <IconButton aria-label="account-state">
-              <GetAppIcon/>
-            </IconButton>
-          </CSVLink>
-        </Tooltip>
-        <h2>Lista po kodzie</h2>
+  return <>
+    <header>
+      <TextField 
+        style={{ width: '80%', marginTop: '16px' }}
+        value={currentCode}
+        onChange={(e) => setCurrentCode(e.target.value)}
+        placeholder="Wybierz kod z listy"
+        select={true}
+        size="small"
+        variant="outlined"
+        margin="normal"
+        SelectProps={{
+          MenuProps: { disableScrollLock: true }
+        }}
+      >
+        {usedCodes && [...usedCodes, 'Błedy niewyjaśnione'].map((item) => (
+          <MenuItem key={item} value={item}>{item}</MenuItem>
+        ))}
+      </TextField>
+      <Tooltip title="Wyeksportuj widok do CSV" classes={tooltipsClasses}>
+        <CSVLink data={dataToExport} filename={`${currentCode}.csv`}>
+          <IconButton aria-label="account-state" size="large">
+            <GetAppIcon/>
+          </IconButton>
+        </CSVLink>
+      </Tooltip>
+      <h2>Lista po kodzie</h2>
 
-      </header>
-      <main className={classes.Main}>
-        {/* {children && <ListContainer
-            title={currentCode}
-          >
-            {children}
-          </ListContainer>} */}
-        {rows?.length ? (
-          <DataGrid rows={rows} columns={columns} pageSize={rows.length - 1} autoHeight={true}/> 
-        ) : (
-          <div>Brak wpłat na kod</div>
-        )
-        }
-      </main>
-    </>
-  );
+    </header>
+    <main className={classes.Main}>
+      {/* {children && <ListContainer
+          title={currentCode}
+        >
+          {children}
+        </ListContainer>} */}
+      {rows?.length ? (
+        <DataGrid rows={rows} columns={columns} pageSize={rows.length - 1} autoHeight={true}/> 
+      ) : (
+        <div>Brak wpłat na kod</div>
+      )
+      }
+    </main>
+  </>;
 };
 
 export default Codes;

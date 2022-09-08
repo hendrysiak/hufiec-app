@@ -1,4 +1,4 @@
-import { Input, TableCell } from '@material-ui/core';
+import { Input, TableCell } from '@mui/material';
 
 import React from 'react';
 

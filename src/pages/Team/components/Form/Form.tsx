@@ -1,6 +1,6 @@
-import { Button, MenuItem, TextField } from '@material-ui/core';
-import Modal from '@material-ui/core/Modal';
-import MailIcon from '@material-ui/icons/Mail';
+import { Button, MenuItem, TextField } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import MailIcon from '@mui/icons-material/Mail';
 
 import React, { useEffect, useState } from 'react';
 

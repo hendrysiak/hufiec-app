@@ -1,8 +1,8 @@
-import { TextField, MenuItem, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
+import { TextField, MenuItem, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AddIcon from '@mui/icons-material/Add';
 
 
 import React, { useState, useEffect } from 'react';
@@ -54,7 +54,7 @@ const AddCode = (): JSX.Element => {
         code: code.code,
         teams: code.teams ? code.teams.join(', ') : '',
         add:      <Tooltip title="Dodaj drużynę" aria-label="add-team">
-          <IconButton><AddIcon onClick={() => addTeam(code)}/></IconButton>
+          <IconButton size="large"><AddIcon onClick={() => addTeam(code)}/></IconButton>
         </Tooltip>
       };
     });

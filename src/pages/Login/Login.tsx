@@ -2,9 +2,9 @@ import {
   Button,
   Input,
   Paper,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 

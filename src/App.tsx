@@ -1,6 +1,6 @@
 import './App.css';
 import DateFnsUtils from '@date-io/date-fns';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';

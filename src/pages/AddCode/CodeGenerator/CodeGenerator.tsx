@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import React from 'react';

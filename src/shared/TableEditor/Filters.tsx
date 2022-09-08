@@ -1,6 +1,6 @@
 
-import { TextField, MenuItem, FormControlLabel, Checkbox } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField, MenuItem, FormControlLabel, Checkbox } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 

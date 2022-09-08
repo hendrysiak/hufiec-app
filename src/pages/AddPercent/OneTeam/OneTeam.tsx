@@ -1,4 +1,4 @@
-import { Button, Input } from '@material-ui/core';
+import { Button, Input } from '@mui/material';
 import React, { useState } from 'react';
 
 import { updateOnePercent } from 'helpers/editing-db.handler';

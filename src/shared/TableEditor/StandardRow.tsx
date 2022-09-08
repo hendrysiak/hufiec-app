@@ -1,16 +1,16 @@
-import { TableRow, TableCell, IconButton, Tooltip } from '@material-ui/core';
+import { TableRow, TableCell, IconButton, Tooltip } from '@mui/material';
 
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import EditIcon from '@material-ui/icons/Edit';
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 
-import EventIcon from '@material-ui/icons/Event';
-import InsertCommentIcon from '@material-ui/icons/InsertComment';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import EventIcon from '@mui/icons-material/Event';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import MailIcon from '@material-ui/icons/Mail';
+import MailIcon from '@mui/icons-material/Mail';
 
 import React from 'react';
 
@@ -63,12 +63,12 @@ const StandardRow = (props: Props): JSX.Element => {
     ? (<><TableRow>
       <TableCell>
         <Tooltip title="Edytuj koszt" aria-label="add-team">
-          <IconButton>
+          <IconButton size="large">
             <EditIcon onClick={props.onEdit}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Usuń koszt" aria-label="add-team">
-          <IconButton>
+          <IconButton size="large">
             <DeleteForeverIcon onClick={() => props.onDelete(props.row.id)}/>
           </IconButton>
         </Tooltip>
@@ -87,12 +87,12 @@ const StandardRow = (props: Props): JSX.Element => {
     : (<><TableRow>
       <TableCell>
         <Tooltip title="Edytuj przychód" aria-label="add-team">
-          <IconButton>
+          <IconButton size="large">
             <EditIcon onClick={props.onEdit}/>
           </IconButton>
         </Tooltip>
         <Tooltip title="Usuń koszt" aria-label="add-team">
-          <IconButton>
+          <IconButton size="large">
             <DeleteForeverIcon onClick={() => handleDelete(props.row)}/>
           </IconButton>
         </Tooltip>
@@ -107,17 +107,17 @@ const StandardRow = (props: Props): JSX.Element => {
       <TableCell>{props.row.title}</TableCell>
       <TableCell>
         {props.row.letterReceived ? <Tooltip title="Wpłynęło pismo" aria-label="letter-received">
-          <IconButton><MailIcon/></IconButton>
+          <IconButton size="large"><MailIcon/></IconButton>
         </Tooltip> : <></>}
         {props.row.dateOfLetter && props.row.dateOfLetter !== '' && props.row.dateOfLetter !== null ? <Tooltip title="Dodano datę pisma" aria-label="date-of-letter">
-          <IconButton><EventIcon/></IconButton>
+          <IconButton size="large"><EventIcon/></IconButton>
         </Tooltip> : <></>}
         {props.row.comment && props.row.comment !== '' ? <Tooltip title="Dodano komentarz" aria-label="added-comment">
-          <IconButton><InsertCommentIcon/></IconButton>
+          <IconButton size="large"><InsertCommentIcon/></IconButton>
         </Tooltip> : <></>}
       </TableCell>
       <TableCell padding="checkbox">
-        <IconButton onClick={() => setIsExpanded(!isExpanded)}>
+        <IconButton onClick={() => setIsExpanded(!isExpanded)} size="large">
           {isExpanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
       </TableCell>

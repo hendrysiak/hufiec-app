@@ -1,4 +1,4 @@
-import { Button, MenuItem, Modal, TextField } from '@material-ui/core';
+import { Button, MenuItem, Modal, TextField } from '@mui/material';
 
 import React, { useState } from 'react';
 

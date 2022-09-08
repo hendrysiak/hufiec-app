@@ -1,4 +1,4 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem } from '@mui/material';
 
 import { GridCellEditCommitParams } from '@mui/x-data-grid';
 import React, { useState, useEffect } from 'react';
