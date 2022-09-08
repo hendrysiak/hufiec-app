@@ -1,4 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 

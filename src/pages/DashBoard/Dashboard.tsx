@@ -1,6 +1,6 @@
-import { AppBar, Button } from '@material-ui/core';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Paper from '@material-ui/core/Paper';
+import { AppBar, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 

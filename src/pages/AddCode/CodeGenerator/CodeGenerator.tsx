@@ -1,6 +1,6 @@
-import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@material-ui/core';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
@@ -17,6 +17,7 @@ import { Proposal } from 'models/proposal.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 
 import { RootState } from 'store/models/rootstate.model';
+import { SelectChangeEvent } from '@mui/material';
 
 interface CodeGeneratorValues { 
   responsiblePerson: {
@@ -238,20 +239,15 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                 name="startDate"
                 control={control}
                 render={(props) => (
-                  <KeyboardDatePicker
+                  <DesktopDatePicker
                     {...props}
-                    style={{ width: '100%', marginRight: watch('oneDay') ? '0px' : '16px' }}
-                    disableToolbar
-                    disableFuture={false}
-                    format="dd/MM/yyyy"
-                    margin="normal"
+                    renderInput={(params) => <TextField {...params} style={{ width: '100%', marginRight: watch('oneDay') ? '0px' : '16px' }} />}
+                    inputFormat="dd/MM/yyyy"
                     label="Data startu"
                     value={props.value}
                     onChange={ props.onChange}
                     //   renderDay={renderDayInPicker}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
+
                   />
                 )}
               />
@@ -260,20 +256,14 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
                 name="endDate"
                 control={control}
                 render={(props) => (
-                  <KeyboardDatePicker
+                  <DesktopDatePicker
                     {...props}
-                    style={{ width: '100%', marginLeft: '16px' }}
-                    disableToolbar
-                    disableFuture={false}
-                    format="dd/MM/yyyy"
-                    margin="normal"
+                    renderInput={(params) => <TextField {...params} style={{ width: '100%', marginLeft: '16px' }} />}
+                    inputFormat="dd/MM/yyyy"
                     label="Data startu"
                     value={props.value}
                     onChange={ props.onChange}
                     //   renderDay={renderDayInPicker}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
                   />
                 )}
               /> : <></>}
@@ -283,7 +273,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
               label="Typ imprezy"
               value={selectedCode.value}
               onChange={
-                (e: React.ChangeEvent<{ value: unknown }>): void => handleSelectCode(e.target.value as string)}
+                (e: SelectChangeEvent<string>): void => handleSelectCode(e.target.value as string)}
               displayEmpty
               inputProps={{ 'aria-label': 'Without label' }}
             >

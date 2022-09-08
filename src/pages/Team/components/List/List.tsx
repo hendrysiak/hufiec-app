@@ -1,6 +1,6 @@
-import { Box, Button, FormControl, MenuItem, Modal, Select, TextField } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Box, Button, FormControl, MenuItem, Modal, Select, TextField } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
@@ -21,6 +21,7 @@ import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { RootState } from 'store/models/rootstate.model';
 // eslint-disable-next-line import/order
 import { useTeams } from 'helpers/hooks/useTeams';
+import { SelectChangeEvent } from '@mui/material';
 
 enum ActionPagination {
   Next = 'next',
@@ -185,11 +186,14 @@ export const List = ({ navHeight, scrollPosition, rows }:
               <p className="cash">{el.cash}</p>
               <p className="cash">
                 <Tooltip title="Podejmij akcję">
-                  <IconButton aria-label="account-state" onClick={() => {
-                    setOpenChangeModal(true);
-                    setCurrentValues(el);
-                    setNewValues(el);
-                  }}>
+                  <IconButton
+                    aria-label="account-state"
+                    onClick={() => {
+                      setOpenChangeModal(true);
+                      setCurrentValues(el);
+                      setNewValues(el);
+                    }}
+                    size="large">
                     <EditIcon fontSize="large" color="inherit" />
                   </IconButton>
                 </Tooltip>
@@ -202,8 +206,8 @@ export const List = ({ navHeight, scrollPosition, rows }:
             <p className="textRowPag">Ilość wierszy na stronie:</p> 
             <FormControl>
               <Select
-                value={rowsPerPage}
-                onChange={(e: React.ChangeEvent<{ value: unknown }>): void => handleRowsPerPage(e.target.value as string)}
+                value={`${rowsPerPage}`}
+                onChange={(e: SelectChangeEvent): void => handleRowsPerPage(e.target.value as string)}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}
               >

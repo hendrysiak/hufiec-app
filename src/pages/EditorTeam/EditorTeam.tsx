@@ -1,17 +1,17 @@
-import { Box, MenuItem, TablePagination, TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
-import EditIcon from '@material-ui/icons/EditOutlined';
-import RevertIcon from '@material-ui/icons/NotInterestedOutlined';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { Tab, Tabs } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
+import { Box, MenuItem, TablePagination, TextField , Tab, Tabs } from '@mui/material';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React, { useState, useEffect, FC } from 'react';
 
 import { CSVLink } from 'react-csv';
@@ -193,167 +193,144 @@ const EditorTeam = (props: EditorTeamProps): JSX.Element => {
       }, 0);
   };
 
-  return (
-    <>
-      <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
-        <FiltersName 
-          name={name}
-          setName={setName}
-          surname={surname}
-          setSurname={setSurname}
-        />
-        <SelectTeam onChange={handleChangeSelect} team={Number(team)} disabled={activeRow ? true : false}/>
-        <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
-          <Button variant="contained" color="primary" >Pobierz stan składek</Button>
-        </CSVLink>
-      </Box>
-      <Tabs 
-        value={tab} 
-        variant="fullWidth"
-        textColor="primary"
-        indicatorColor="primary"
-        onChange={handleTabChange}
-      >
-        <Tab label="Składki i ewidencja" />
-        <Tab label="Stan finansów" />
-      </Tabs>
-      <TabPanel value={tab} index={0}>
-        <Table className={classes.table} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">Edytuj</TableCell>
-              <TableCell align="left">LP</TableCell>
-              <TableCell align="left">Nazwisko</TableCell>
-              <TableCell align="left">Imię</TableCell>
-              <TableCell align="left">NS?</TableCell>
-              <TableCell align="left">Instruktor?</TableCell>
-              <TableCell align="left">Data dodania</TableCell>
-              <TableCell align="left">Data usunięcia</TableCell>
-              <TableCell align="left">Stan składek</TableCell>
-              <TableCell align="left"></TableCell>
-              <TableCell align="left">Usuń</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows && rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell className={classes.selectTableCell}>
-                    {row.id === activeRow ? (
-                      <>
-                        <IconButton
-                          aria-label="done"
-                          onClick={() => handleAcceptChange(row.id)}
-                        >
-                          <DoneIcon />
-                        </IconButton>
-                        <IconButton
-                          aria-label="revert"
-                          onClick={onRevert}
-                        >
-                          <RevertIcon />
-                        </IconButton>
-                      </>
-                    ) : (
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => onToggleEditMode(row.id)}
-                      >
-                        <EditIcon />
+  return <>
+    <Box display="flex" justifyContent="center" alignItems="center" p={4}>     
+      <FiltersName 
+        name={name}
+        setName={setName}
+        surname={surname}
+        setSurname={setSurname}
+      />
+      <SelectTeam onChange={handleChangeSelect} team={Number(team)} disabled={activeRow ? true : false}/>
+      <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
+        <Button variant="contained" color="primary" >Pobierz stan składek</Button>
+      </CSVLink>
+    </Box>
+    <Tabs 
+      value={tab} 
+      variant="fullWidth"
+      textColor="primary"
+      indicatorColor="primary"
+      onChange={handleTabChange}
+    >
+      <Tab label="Składki i ewidencja" />
+      <Tab label="Stan finansów" />
+    </Tabs>
+    <TabPanel value={tab} index={0}>
+      <Table className={classes.table} aria-label="caption table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="left">Edytuj</TableCell>
+            <TableCell align="left">LP</TableCell>
+            <TableCell align="left">Nazwisko</TableCell>
+            <TableCell align="left">Imię</TableCell>
+            <TableCell align="left">NS?</TableCell>
+            <TableCell align="left">Instruktor?</TableCell>
+            <TableCell align="left">Data dodania</TableCell>
+            <TableCell align="left">Data usunięcia</TableCell>
+            <TableCell align="left">Stan składek</TableCell>
+            <TableCell align="left"></TableCell>
+            <TableCell align="left">Usuń</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows && rows
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => (
+              <TableRow key={row.id}>
+                <TableCell className={classes.selectTableCell}>
+                  {row.id === activeRow ? (
+                    <>
+                      <IconButton aria-label="done" onClick={() => handleAcceptChange(row.id)} size="large">
+                        <DoneIcon />
                       </IconButton>
-                    )}
-                  </TableCell>
-                  <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
-                  <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
-                  <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
-                  <CustomTableCell {...{ row, name: Rows.Disability, onChange, id: activeRow, newData }} />
-                  <CustomTableCell {...{ row, name: Rows.Instructor, onChange, id: activeRow, newData }} />
-                  {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
-                  <TableCell >
-                    <KeyboardDatePicker
-                      disabled={activeRow !== row.id}
-                      disableToolbar
-                      variant="inline"
-                      key={row.id}
-                      margin="normal"
-                      id="date-picker-dialog"
-                      // label="Data dodania"
-                      format="dd/MM/yyyy"
-                      value={newData?.dateOfAdd && activeRow === row.id ? 
-                        new Date(newData.dateOfAdd) : 
-                        row.dateOfAdd ? new Date(row.dateOfAdd) : null }
-                      onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date'
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <KeyboardDatePicker
-                      disabled={activeRow !== row.id}
-                      disableToolbar
-                      variant="inline"
-                      key={row.id}
-                      margin="normal"
-                      id="date-picker-dialog"
-                      // label="Data usunięcia"
-                      format="dd/MM/yyyy"
-                      value={newData?.dateOfDelete && activeRow === row.id ? 
-                        new Date(newData.dateOfDelete) : 
-                        row.dateOfDelete ? new Date(row.dateOfDelete) : null}
-                      onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date'
-                      }}
-                    /></TableCell>
-                  <TableCell>{row.feeState}</TableCell>
-                  {row.id === activeRow ? 
-                    <TableCell>
-                      <TextField
-                        name={Rows.Team}
-                        id="standard-select-currency"
-                        select
-                        label="Wybierz"
-                        value={newData?.team}
-                        onChange={(e) => onChange(e)}
-                        helperText="Przenieś do innej drużyny"
-                      >
-                        {teams?.map(t => t.teamId).map((team) => (
-                          <MenuItem key={team} value={team}>
-                            {team}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </TableCell> : <TableCell></TableCell>}
-                  <TableCell className={classes.selectTableCell}>
-                    <IconButton
-                      aria-label="delete"
-                      color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
-                      onClick={() => handleDelete(rows, row.id, props.isAdmin)}
-                    >
-                      <DeleteIcon />
+                      <IconButton aria-label="revert" onClick={onRevert} size="large">
+                        <RevertIcon />
+                      </IconButton>
+                    </>
+                  ) : (
+                    <IconButton aria-label="delete" onClick={() => onToggleEditMode(row.id)} size="large">
+                      <EditIcon />
                     </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[25, 50, 100]}
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-          labelRowsPerPage="Ilość wierszy na stronie"
-          onPageChange={handleChangePage}
-        />
-      </TabPanel>
-      <TabPanel value={tab} index={1}>
-        {team ? <TeamFinances neededFee={sumOfNeededFees()} incomes={dbIncomes.filter(i => i.team === `${team}`)} outcomes={dbOutcomes.filter(o => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
-      </TabPanel>
-    </>
-  );
+                  )}
+                </TableCell>
+                <CustomTableCell {...{ row, name: Rows.Lp, onChange, id: activeRow, newData }} />
+                <CustomTableCell {...{ row, name: Rows.Surname, onChange, id: activeRow, newData }} />
+                <CustomTableCell {...{ row, name: Rows.Name, onChange, id: activeRow, newData }} />
+                <CustomTableCell {...{ row, name: Rows.Disability, onChange, id: activeRow, newData }} />
+                <CustomTableCell {...{ row, name: Rows.Instructor, onChange, id: activeRow, newData }} />
+                {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
+                <TableCell >
+                  <DesktopDatePicker
+                    disabled={activeRow !== row.id}
+                    key={row.id}
+                    // label="Data dodania"
+                    inputFormat="dd/MM/yyyy"
+                    value={newData?.dateOfAdd && activeRow === row.id ? 
+                      new Date(newData.dateOfAdd) : 
+                      row.dateOfAdd ? new Date(row.dateOfAdd) : null }
+                    onChange={(e) => handleDateChange(e, row, 'dateOfAdd')}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </TableCell>
+                <TableCell>
+                  <DesktopDatePicker
+                    disabled={activeRow !== row.id}
+                    key={row.id}
+                    // label="Data usunięcia"
+                    inputFormat="dd/MM/yyyy"
+                    value={newData?.dateOfDelete && activeRow === row.id ? 
+                      new Date(newData.dateOfDelete) : 
+                      row.dateOfDelete ? new Date(row.dateOfDelete) : null}
+                    onChange={(e) => handleDateChange(e, row, 'dateOfDelete')}
+                    renderInput={(params) => <TextField {...params} />}
+                  /></TableCell>
+                <TableCell>{row.feeState}</TableCell>
+                {row.id === activeRow ? 
+                  <TableCell>
+                    <TextField
+                      name={Rows.Team}
+                      id="standard-select-currency"
+                      select
+                      label="Wybierz"
+                      value={newData?.team}
+                      onChange={(e) => onChange(e)}
+                      helperText="Przenieś do innej drużyny"
+                    >
+                      {teams?.map(t => t.teamId).map((team) => (
+                        <MenuItem key={team} value={team}>
+                          {team}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </TableCell> : <TableCell></TableCell>}
+                <TableCell className={classes.selectTableCell}>
+                  <IconButton
+                    aria-label="delete"
+                    color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}
+                    onClick={() => handleDelete(rows, row.id, props.isAdmin)}
+                    size="large">
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+      <TablePagination
+        rowsPerPageOptions={[25, 50, 100]}
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage="Ilość wierszy na stronie"
+        onPageChange={handleChangePage}
+      />
+    </TabPanel>
+    <TabPanel value={tab} index={1}>
+      {team ? <TeamFinances neededFee={sumOfNeededFees()} incomes={dbIncomes.filter(i => i.team === `${team}`)} outcomes={dbOutcomes.filter(o => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
+    </TabPanel>
+  </>;
 };
 
 export default EditorTeam;

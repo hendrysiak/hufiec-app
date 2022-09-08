@@ -1,5 +1,5 @@
-import Modal from '@material-ui/core/Modal';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import Modal from '@mui/material/Modal';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import React, { useEffect, useState } from 'react';
 
 import { sortOfSurname } from 'helpers/sorting.helper';

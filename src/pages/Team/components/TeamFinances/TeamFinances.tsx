@@ -1,5 +1,5 @@
-import Modal from '@material-ui/core/Modal';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import Modal from '@mui/material/Modal';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import React, { useEffect } from 'react';
 
 import axios from 'axios-income';

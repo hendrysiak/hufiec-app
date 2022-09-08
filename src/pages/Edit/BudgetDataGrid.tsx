@@ -38,10 +38,10 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
     { field: 'team', headerName: 'Drużyna', editable: true, type: 'singleSelect', valueOptions: availableTeams, width: 100, ...columnAligning },
     { field: 'event', headerName: 'Kod', editable: true, width: 100, ...columnAligning },
     { field: 'title', headerName: 'Tytuł', width: 500, ...columnAligning },
-    { field: 'dateOfBook', headerName: 'Data przelewu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(params.value).toLocaleDateString()}</div>) },
-    { field: 'importDate', headerName: 'Data importu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(params.value).toLocaleDateString()}</div>) },
+    { field: 'dateOfBook', headerName: 'Data przelewu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
+    { field: 'importDate', headerName: 'Data importu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
     { field: 'letterReceived', headerName: 'Pismo', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
-    { field: 'dateOfLetter', headerName: 'Data pisma', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
+    { field: 'dateOfLetter', headerName: 'Data pisma', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
     { field: 'comment', headerName: 'Komentarz', width: 400, ...columnAligning },
     { field: 'actions', 
       type: 'actions',
@@ -157,9 +157,9 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
   };
 
 
-  return <DataGrid
-    columns={props.editedData === BudgetEntry.Income ? incomeColumn : outcomeColumn} 
-    rows={props.editedData === BudgetEntry.Income ? incomeRows : outcomeRows}
+  return BudgetEntry.Income ? <DataGrid
+    columns={incomeColumn} 
+    rows={incomeRows}
     onCellEditCommit={props.handleCellEditCommit}
     localeText={localizationDataGrid}
     // rowHeight={156}
@@ -171,7 +171,22 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
     //   setSelectionModel(newSelectionModel);
     // }}
     // selectionModel={selectionModel}
-  />;   
+  />   
+    : <DataGrid
+      columns={outcomeColumn} 
+      rows={outcomeRows}
+      onCellEditCommit={props.handleCellEditCommit}
+      localeText={localizationDataGrid}
+      // rowHeight={156}
+      components={{
+        Toolbar: EditToolbar
+      }}
+    // checkboxSelection
+    // onSelectionModelChange={(newSelectionModel) => {
+    //   setSelectionModel(newSelectionModel);
+    // }}
+    // selectionModel={selectionModel}
+    />;   
 
 };
 
