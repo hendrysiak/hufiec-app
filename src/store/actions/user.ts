@@ -15,7 +15,7 @@ export const reduxSetRoles = (roles: string[]): SetRoles => {
     roles
   };
 };
-export const reduxSetTeam = (team: string): SetTeam => {
+export const reduxSetTeam = (team: number): SetTeam => {
   return {
     type: ActionTypes.SET_TEAM,
     team

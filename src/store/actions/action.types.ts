@@ -105,7 +105,7 @@ export interface AddMember {
 export interface EditMember {
   type: ActionTypes.EDIT_MEMBER;
   member: Partial<APIPerson>;
-  team: string;
+  team: number;
 }
 
 export interface DeleteMember {
@@ -124,7 +124,7 @@ export interface SetRoles {
 }
 export interface SetTeam {
   type: ActionTypes.SET_TEAM;
-  team: string;
+  team: number;
 }
 
 export interface SetEvidenceNumber {

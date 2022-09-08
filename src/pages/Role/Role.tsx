@@ -8,11 +8,11 @@ import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-helpers/user';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { Encrypt, generatePassword } from 'helpers/password.helper';
 import { IUser } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
-import { teamsMap } from 'shared/team.helper';
 
 interface NewUser extends Omit<IUser, 'roles'> {
   evidenceNumber: string;
@@ -21,6 +21,7 @@ interface NewUser extends Omit<IUser, 'roles'> {
 
 const Role = (): JSX.Element => {
   const query = useQuery<Record<string, IUser>, Error>('users', fetchUsers);
+  const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
   const [user, setNewUser] = React.useState<NewUser>({
     evidenceNumber: '',
