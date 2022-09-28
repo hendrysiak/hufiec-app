@@ -1,7 +1,11 @@
+import { Buffer } from 'buffer';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
+
+global.window.Buffer = Buffer as unknown as Buffer;
 
 import './index.css';
 import App from './App';
