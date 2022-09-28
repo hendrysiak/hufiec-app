@@ -1,3 +1,4 @@
+import { ErrorType } from 'models/error.types.model';
 import { FinanceMethod } from 'models/global.enum';
 import { 
   IncomesBankModel, 
@@ -8,10 +9,10 @@ import {
   IncomesWithYear, 
   OutcomesBankModel, 
   OutcomesWithFinanceMethod, 
-  OutcomesWithImportDate
+  OutcomesWithImportDate,
+  OutcomesWithEvent,
 } from 'models/income.models';
 import { Registry } from 'models/registry.models';
-
 
 export const sortingTransferToIncomesAndOutcomes = (
   incomes: IncomesBankModel[]
@@ -52,7 +53,7 @@ export const sortingIncomesByTeams = (teams: Registry, incomes: IncomesBankModel
   });
 
   return updatedIncomes.map(income => {
-    if (!income.hasOwnProperty('team')) return { ...income, team: null };
+    if (!income.hasOwnProperty('team')) return { ...income, team: null, errors: income?.errors ? [...income.errors, ErrorType.TeamError] : [ErrorType.TeamError] };
     else return { ...income };
   });
 };
@@ -70,19 +71,36 @@ export const sortingIncomesByCode = (codes: string[], incomes: IncomesWithTeam[]
   });
 
   return sortedIncomesByCode.map(income => {
-    if (!income.hasOwnProperty('event')) return { ...income, event: null };
+    if (!income.hasOwnProperty('event')) return { ...income, event: null, errors: income?.errors ? [...income.errors, ErrorType.EventError] : [ErrorType.EventError] };
     else return { ...income };
   });
+};
+
+export const sortingOutcomesByCode = (codes: string[], outcomes: OutcomesBankModel[]): OutcomesWithEvent[] => {
+  const sortedIncomesByCode = outcomes.map(outcome => {
+    let updatedOutcome = outcome as OutcomesBankModel;
+
+    codes.forEach(code => {
+      const regex = new RegExp(`${code}`, 'mi'); 
+      if (regex.test(outcome.title)) updatedOutcome = { ...outcome, event: code };
+    });
+    return updatedOutcome;
+  });
+
+  return sortedIncomesByCode.map(outcome => {
+    if (!outcome.hasOwnProperty('event')) return { ...outcome, event: null };
+    else return { ...outcome };
+  }) as OutcomesWithEvent[];
 };
 
 export const matchingIncomesToTeamMember = (teams: Registry, incomes: IncomesWithEvent[]): IncomesWithPerson[] => {
   const matchedIncomesToMember = incomes.map(income => {
     let updatedIncome = income as IncomesWithPerson;
-    if (income.team === null) updatedIncome = { ...income, name: null, surname: null };
+    if (income.team === null) updatedIncome = { ...income, name: null, surname: null, errors: income?.errors ? [...income.errors, ErrorType.NameError] : [ErrorType.NameError] };
     else {
 
       const currentTeamMembers = Object.values(teams[income.team]);
-      const findedMember = currentTeamMembers.find(member => {
+      const foundedMember = currentTeamMembers.find(member => {
 
         const nameRegex = new RegExp(member.name, 'mi');
         const surnameRegex = new RegExp(member.surname, 'mi');
@@ -90,7 +108,12 @@ export const matchingIncomesToTeamMember = (teams: Registry, incomes: IncomesWit
         if (nameRegex.test(income.title) && surnameRegex.test(income.title)) return true;
       });
 
-      if (findedMember) updatedIncome = { ...income, name: findedMember.name, surname: findedMember.surname };
+      
+      if (foundedMember) {
+        updatedIncome = { ...income, name: foundedMember.name, surname: foundedMember.surname };
+      } else {
+        updatedIncome = { ...income, name: null, surname: null, errors: income?.errors ? [...income.errors, ErrorType.NameError] : [ErrorType.NameError] };
+      }
 
     }
     return updatedIncome;
@@ -113,11 +136,11 @@ export const matchingIncomeByYear = (incomes: IncomesWithPerson[]): IncomesWithY
 };
 
 const setDateOfImport = (
-  data: (OutcomesBankModel | IncomesWithYear)[]
+  data: (OutcomesWithEvent | IncomesWithYear)[]
 ): (OutcomesWithImportDate | IncomesWithImportDate)[] => {
 
   const date = new Date();
-  const updatedData = data.map((d: OutcomesBankModel | IncomesWithYear) => {
+  const updatedData = data.map((d: OutcomesWithEvent | IncomesWithYear) => {
     return { ...d, importDate: date };
   });
     
@@ -148,7 +171,8 @@ export const sortingIncome = (
   const byMembers = matchingIncomesToTeamMember(teams, byCode);
   const byYear = matchingIncomeByYear(byMembers);
 
-  const outcomesWithDate = setDateOfImport(outcomes);
+  const outcomesWithCode = sortingOutcomesByCode(updatedCodes, outcomes);
+  const outcomesWithDate = setDateOfImport(outcomesWithCode);
 
   return {
     sortedIncomes: setDateOfImport(byYear) as IncomesWithImportDate[],
