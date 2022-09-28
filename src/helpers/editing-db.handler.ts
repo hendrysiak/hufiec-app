@@ -1,5 +1,5 @@
 import axios from 'axios-income';
-import { IncomeDb, OutcomesWithEvent, OutcomeDb, IncomesWithImportDate } from 'models/income.models';
+import { IncomeDb, OutcomesWithEvent, OutcomeDb, IncomesWithImportDate, OutcomeWithBilingNr } from 'models/income.models';
 import { APIPerson, Person } from 'models/registry.models';
 import { reduxAddDbIncome, reduxAddDbOutcome, reduxAddMember, reduxDeleteDbIncome, reduxDeleteDbOutcome, reduxDeleteMember, reduxEditDbIncome, reduxEditDbOutcome, reduxEditMember } from 'store/actions/income';
 import store from 'store/store';
@@ -10,7 +10,7 @@ export const editOutcome = async (data: OutcomeDb): Promise<void> => {
   store.dispatch(reduxEditDbOutcome(data));
 };
 
-export const addOutcome = async (data: OutcomesWithEvent): Promise<void> => {
+export const addOutcome = async (data: OutcomeWithBilingNr): Promise<void> => {
 
   const response = await axios.post(`/outcomes.json`, data);
   const name = response.data.name;

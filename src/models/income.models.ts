@@ -1,3 +1,4 @@
+import { ErrorType } from './error.types.model';
 import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
 import { IObjectKeys } from './object.helper.model';
 
@@ -5,6 +6,7 @@ export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: Date | string;
+  errors?: ErrorType[];
 };
 
 export interface IncomesWithTeam extends IncomesBankModel {
@@ -39,9 +41,14 @@ export interface OutcomesBankModel extends IObjectKeys{
   cash: number;
   title: string;
   dateOfBook: Date | string;
+  errors?: ErrorType[];
 };
 
-export interface OutcomesWithImportDate extends OutcomesBankModel{
+export interface OutcomesWithEvent extends OutcomesBankModel {
+  event: string | null;
+}
+
+export interface OutcomesWithImportDate extends OutcomesWithEvent{
   importDate: Date | string;
 };
 
@@ -55,12 +62,11 @@ export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   team: string;
 }
 
-export interface OutcomesWithEvent extends OutcomesWithData {
-  event: string | null;
+export interface OutcomeWithBilingNr extends OutcomesWithData {
   bilingNr: string | null;
 }
 
-export interface OutcomeDb extends OutcomesWithEvent {
+export interface OutcomeDb extends OutcomeWithBilingNr {
   id: string;
 }
 
