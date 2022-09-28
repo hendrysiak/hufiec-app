@@ -1,3 +1,5 @@
+import AddIcon from '@mui/icons-material/Add';
+import GetAppIcon from '@mui/icons-material/GetApp';
 import { Tooltip, IconButton } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,8 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
-import AddIcon from '@mui/icons-material/Add';
-import GetAppIcon from '@mui/icons-material/GetApp';
 import React from 'react';
 
 import { CSVLink } from 'react-csv';
@@ -88,7 +88,7 @@ const TableEditor = (props: Props): JSX.Element => {
                   index={index + page * rowsPerPage}
                   outcomeCategory={row.outcomeCategory as OutcomeCategory}
                   team={row.team}
-                  year={row.year}
+                  year={row.year as string}
                   title={row.title}
                   onChange={props.onChange}
                   onClose={props.onClose}

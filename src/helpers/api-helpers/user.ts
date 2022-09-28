@@ -1,3 +1,5 @@
+import { GridCellEditCommitParams } from '@mui/x-data-grid';
+
 import axios from 'axios-income';
 import { IUser } from 'models/users.models';
 
@@ -11,7 +13,8 @@ export const createUser = async (data: Record<string, IUser>) => {
   return response.data;
 };
 
-export const updateUser = async (data: any) => {
+// // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const updateUser = async (data: GridCellEditCommitParams) => {
   const { data: response } = await axios.patch(`/users/${data.id}.json`, { [data.field]: data.value });
   return response.data;
 };

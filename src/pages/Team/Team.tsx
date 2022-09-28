@@ -203,19 +203,19 @@ const Team = (): JSX.Element => {
 
   const classes = useStyles();
 
-  const renderDayInPicker = (date: any,
-    selectedDate: unknown,
-    dayInCurrentMonth: unknown,
-    dayComponent: JSX.Element) => {
-    if (importDates && date && importDates.includes(date)) {
-      return (<div className={classes.dayWithDotContainer}>
-        {dayComponent}
-        <div className={classes.dayWithDot} />
-      </div>);
-    }
+  // const renderDayInPicker = (date: any,
+  //   selectedDate: unknown,
+  //   dayInCurrentMonth: unknown,
+  //   dayComponent: JSX.Element) => {
+  //   if (importDates && date && importDates.includes(date)) {
+  //     return (<div className={classes.dayWithDotContainer}>
+  //       {dayComponent}
+  //       <div className={classes.dayWithDot} />
+  //     </div>);
+  //   }
 
-    return dayComponent;
-  };
+  //   return dayComponent;
+  // };
 
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
