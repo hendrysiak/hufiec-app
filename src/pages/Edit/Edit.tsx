@@ -24,6 +24,7 @@ import {
   IncomesWithImportDate,
   OutcomeDb,
   OutcomesWithEvent,
+  OutcomeWithBilingNr,
 } from 'models/income.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import * as actions from 'store/actions/index';
@@ -52,12 +53,18 @@ const Edit = (): JSX.Element => {
     setEditedData(editedData);
   };
 
+  const convertValue = (value: number | string, field: string) => {
+    if (field === 'cash') return Number(value) ;
+    if (field === 'errors') return (value as string).split(',');
+    return value;
+  };
+
   const editIncomeHandler = async(params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
     const foundedIncome: IncomeDb | undefined = dbIncomes.find(i => i.id === id);
 
     if (foundedIncome && typeof value !== 'object') {
-      const convertedValue = field === 'cash' ? Number(value) : value;
+      const convertedValue = convertValue(value, field);
       try {
         await editIncome({ ...foundedIncome, [field]: convertedValue });
         setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
@@ -74,7 +81,7 @@ const Edit = (): JSX.Element => {
     const foundedOutcome: OutcomeDb | undefined = dbOutcomes.find(i => i.id === id);
 
     if (foundedOutcome && typeof value !== 'object') {
-      const convertedValue = field === 'cash' ? Number(value) : value;
+      const convertedValue = convertValue(value, field);
       try {
         await editOutcome({ ...foundedOutcome, [field]: convertedValue });
         setSnackbar({ children: 'Koszt wyedytowany pomyślnie', severity: 'success' });
@@ -148,7 +155,7 @@ const Edit = (): JSX.Element => {
 
       addIncome(newIncome);
     } else {
-      const newOutcome: OutcomesWithEvent = {
+      const newOutcome: OutcomeWithBilingNr = {
         cash: 0,
         event: null,
         importDate: currentDate,
