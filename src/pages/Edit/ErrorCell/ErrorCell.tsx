@@ -18,7 +18,7 @@ export const ErrorIcon = ({ error }: { error: ErrorType }): JSX.Element => {
   if (error === ErrorType.TeamError) errorIcon = <GroupRemoveIcon />;
   
   
-  return (<Tooltip title={ErrorTypesMap[error]} placement="top">{errorIcon}</Tooltip>);
+  return (<Tooltip style={{ margin: '0 8px' }} title={ErrorTypesMap[error]} placement="top">{errorIcon}</Tooltip>);
 };
   
   
@@ -54,5 +54,13 @@ export const ErrorCheckboxesEditCell = ({ params } : { params: GridRenderCellPar
 export const ErrorCheckboxesViewCell = ({ params } : { params: GridRenderCellParams<string> }): JSX.Element => {
   return (<Box>
     {params.value?.split(',')?.map((error: string) => <ErrorIcon key={error} error={error as ErrorType} />)}
+  </Box>);
+};
+
+export const ErrorDispllayCell = ({ errors, className }: { errors: ErrorType[] | undefined, className?: string }): JSX.Element => {
+  if (!errors) return <Box className={className}></Box>;
+
+  return (<Box className={className} display="flex" justifyContent="center" >
+    {errors.map((error: string) => <ErrorIcon key={error} error={error as ErrorType} />)}
   </Box>);
 };
