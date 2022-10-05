@@ -169,9 +169,10 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
     <main>
       <Box>
         <Box>
-          <Box display="flex" flexDirection="column" justifyContent="space-around" alignItems="center" p={4}>
+          <Box display="flex" flexDirection="column" justifyContent="space-around" alignItems="center" px={4}>
             <Typography>Osoba odpowiedzialna:</Typography>
             <TextField
+              margin="normal"
               style={{ width: '100%' }}
               label="Imię"
               value={watch('responsiblePerson.name')}
@@ -188,6 +189,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
               error={Boolean(errors?.responsiblePerson?.name)}
             />
             <TextField
+              margin="normal"
               style={{ width: '100%' }}
               label="Nazwisko"
               value={watch('responsiblePerson.surname')}
