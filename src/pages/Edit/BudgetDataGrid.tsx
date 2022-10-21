@@ -43,7 +43,7 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
     { field: 'title', headerName: 'Tytuł', width: 500, ...columnAligning },
     { field: 'dateOfBook', headerName: 'Data przelewu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
     { field: 'importDate', headerName: 'Data importu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
-    { field: 'letterReceived', headerName: 'Pismo', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
+    { field: 'letterReceived', headerName: 'Pismo', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
     { field: 'dateOfLetter', headerName: 'Data pisma', editable: true, type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
     { field: 'comment', headerName: 'Komentarz', editable: true, width: 400, ...columnAligning },
     { field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params}/>, renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} /> },
@@ -164,7 +164,7 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
   };
 
 
-  return BudgetEntry.Income ? <DataGrid
+  return props.editedData === BudgetEntry.Income ? <DataGrid
     columns={incomeColumn} 
     rows={incomeRows}
     onCellEditCommit={props.handleCellEditCommit}
