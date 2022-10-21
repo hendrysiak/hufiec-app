@@ -2,7 +2,8 @@ import ExploreOffIcon from '@mui/icons-material/ExploreOff';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
-import { Tooltip, FormGroup, FormControlLabel, Checkbox, Box } from '@mui/material';
+import { Tooltip, FormGroup, FormControlLabel, Checkbox, Box, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { GridRenderCellParams, useGridApiContext } from '@mui/x-data-grid';
 
@@ -10,7 +11,8 @@ import React from 'react';
 
 import { ErrorType, ErrorTypesMap } from 'models/error.types.model';
 
-export const ErrorIcon = ({ error }: { error: ErrorType }): JSX.Element => {
+
+export const ErrorIcon = ({ error, classObject }: { error: ErrorType, classObject?: Record<string, string> }): JSX.Element => {
   let errorIcon = <></>;
   if (error === ErrorType.EventError) errorIcon = <ExploreOffIcon />;
   if (error === ErrorType.NameError) errorIcon = <PersonOffIcon />;
@@ -18,7 +20,7 @@ export const ErrorIcon = ({ error }: { error: ErrorType }): JSX.Element => {
   if (error === ErrorType.TeamError) errorIcon = <GroupRemoveIcon />;
   
   
-  return (<Tooltip style={{ margin: '0 8px' }} title={ErrorTypesMap[error]} placement="top">{errorIcon}</Tooltip>);
+  return (<Tooltip classes={classObject} style={{ margin: '0 8px' }} title={ErrorTypesMap[error]} placement="top">{errorIcon}</Tooltip>);
 };
   
   
@@ -58,9 +60,21 @@ export const ErrorCheckboxesViewCell = ({ params } : { params: GridRenderCellPar
 };
 
 export const ErrorDispllayCell = ({ errors, className }: { errors: ErrorType[] | undefined, className?: string }): JSX.Element => {
+  const useStyles = makeStyles(() => ({
+    customTooltip: {
+      // I used the rgba color for the standard "secondary" color
+      fontSize: '16px',
+      color: 'white'
+    }
+  }));
+
+  const classes = useStyles();
+
   if (!errors) return <Box className={className}></Box>;
 
   return (<Box className={className} display="flex" justifyContent="center" >
-    {errors.map((error: string) => <ErrorIcon key={error} error={error as ErrorType} />)}
+    {errors.map((error: string) => <ErrorIcon key={error} error={error as ErrorType} classObject={{
+      tooltip: classes.customTooltip
+    }}/>)}
   </Box>);
 };
