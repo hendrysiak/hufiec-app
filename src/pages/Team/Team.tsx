@@ -1,4 +1,5 @@
 import GetAppIcon from '@mui/icons-material/GetApp';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
@@ -29,6 +30,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 import Form from './components/Form/Form';
+import { HelpDrawer } from './components/HelpDrawer/HelpDrawer';
 import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
@@ -89,6 +91,8 @@ const Team = (): JSX.Element => {
   const [navHeight, setNavHeight] = useState<number | null>(null);
   const [tab, setTab] = useState(0);
   const [innerTab, setInnerTab] = useState(0);
+
+  const [openHelp, setOpenHelp] = React.useState<boolean>(false);
 
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
@@ -203,20 +207,6 @@ const Team = (): JSX.Element => {
 
   const classes = useStyles();
 
-  // const renderDayInPicker = (date: any,
-  //   selectedDate: unknown,
-  //   dayInCurrentMonth: unknown,
-  //   dayComponent: JSX.Element) => {
-  //   if (importDates && date && importDates.includes(date)) {
-  //     return (<div className={classes.dayWithDotContainer}>
-  //       {dayComponent}
-  //       <div className={classes.dayWithDot} />
-  //     </div>);
-  //   }
-
-  //   return dayComponent;
-  // };
-
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
   };
@@ -278,6 +268,17 @@ const Team = (): JSX.Element => {
             </IconButton>
           </Tooltip>
         </CSVLink>
+        <Tooltip title="Pomoc" classes={{
+          tooltip: classes.customTooltip
+        }}>
+          <IconButton
+            aria-label="account-state"
+            onClick={() => setOpenHelp(!openHelp)}
+            classes={{ root: classes.button }}
+            size="large">
+            <HelpOutlineIcon fontSize="large" color="inherit" />
+          </IconButton>
+        </Tooltip>
       </Box>
       <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
         <Tab label="Lista wpłat" />
@@ -411,6 +412,7 @@ const Team = (): JSX.Element => {
       </TabPanel>
       {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
     </TabPanel>
+    <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
   </>;
 };
 
