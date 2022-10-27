@@ -1,6 +1,9 @@
 {
   "name": "hufiec-app",
-  "version": "0.2.31",
+  "version": "0.2.4",
+  "engines": {
+    "node": "18.x"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
