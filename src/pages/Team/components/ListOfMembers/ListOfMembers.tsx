@@ -1,6 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, Checkbox, FormControlLabel, MenuItem, Modal, TextField } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCellParams, GridToolbarContainer } from '@mui/x-data-grid';
@@ -38,7 +38,7 @@ interface NewUser extends Person {
 }
 
 interface ExtendedGridCellEditCommitParams extends GridCellEditCommitParams {
-  row?: Record<string, any>;
+  row?: Record<string, unknown>;
 }
 
 export const ListOfMembers = ({ rows }: ListOfMembersProps): JSX.Element => {

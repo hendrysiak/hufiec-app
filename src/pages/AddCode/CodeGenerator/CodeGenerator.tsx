@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Chip, FormControlLabel, ListItemText, MenuItem, Paper, Select, TextField, Typography , SelectChangeEvent } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import React from 'react';
@@ -17,7 +17,7 @@ import { Proposal } from 'models/proposal.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 
 import { RootState } from 'store/models/rootstate.model';
-import { SelectChangeEvent } from '@mui/material';
+
 
 interface CodeGeneratorValues { 
   responsiblePerson: {
@@ -84,7 +84,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
     if (foundedCode) setSelectedCode(foundedCode);
   };
 
-  const handleChange = (event: { target: { value: any; }; }) => {
+  const handleChange = (event: { target: { value: unknown; }; }) => {
     const {
       target: { value },
     } = event;
@@ -169,9 +169,10 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
     <main>
       <Box>
         <Box>
-          <Box display="flex" flexDirection="column" justifyContent="space-around" alignItems="center" p={4}>
+          <Box display="flex" flexDirection="column" justifyContent="space-around" alignItems="center" px={4}>
             <Typography>Osoba odpowiedzialna:</Typography>
             <TextField
+              margin="normal"
               style={{ width: '100%' }}
               label="Imię"
               value={watch('responsiblePerson.name')}
@@ -188,6 +189,7 @@ const CodeGenerator = (props: CodeGeneratorProps): JSX.Element => {
               error={Boolean(errors?.responsiblePerson?.name)}
             />
             <TextField
+              margin="normal"
               style={{ width: '100%' }}
               label="Nazwisko"
               value={watch('responsiblePerson.surname')}

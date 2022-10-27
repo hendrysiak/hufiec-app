@@ -22,7 +22,8 @@
     "jsx": "react",
     "baseUrl": "src",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["./src/types"]
   },
   "include": [
     "src",

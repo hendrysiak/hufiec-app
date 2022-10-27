@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+
 import { Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridRenderCellParams, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 
@@ -11,6 +12,8 @@ import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'mo
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
+
+import { ErrorCheckboxesViewCell, ErrorCheckboxesEditCell } from './ErrorCell/ErrorCell';
 
 interface BudgetDataGridProps {
   displayedIncome: IncomeDb[];
@@ -26,8 +29,7 @@ interface BudgetDataGridProps {
 
 const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
   const teamsMap = useTeams();
-  const availableTeams = teamsMap.map(t => t.teamId);
-
+  const availableTeams = teamsMap.map(t => t.teamId.toString());
 
   const incomeColumn = [
     { field: 'lp', headerName: 'LP.', width: 50, ...columnAligning },
@@ -40,9 +42,10 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
     { field: 'title', headerName: 'Tytuł', width: 500, ...columnAligning },
     { field: 'dateOfBook', headerName: 'Data przelewu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
     { field: 'importDate', headerName: 'Data importu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string>) => (<div>{new Date(`${params?.value}`)?.toLocaleDateString()}</div>) },
-    { field: 'letterReceived', headerName: 'Pismo', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
-    { field: 'dateOfLetter', headerName: 'Data pisma', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
-    { field: 'comment', headerName: 'Komentarz', width: 400, ...columnAligning },
+    { field: 'letterReceived', headerName: 'Pismo', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params) },
+    { field: 'dateOfLetter', headerName: 'Data pisma', editable: true, type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
+    { field: 'comment', headerName: 'Komentarz', editable: true, width: 400, ...columnAligning },
+    { field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params}/>, renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} /> },
     { field: 'actions', 
       type: 'actions',
       headerName: 'Akcje', 
@@ -78,7 +81,8 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
     { field: 'importDate', headerName: 'Data importu', type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params.value ? new Date(params.value).toLocaleDateString() : ''}</div>) },
     { field: 'foundingSource', headerName: 'Sposób finansowania', editable: true, width: 150, ...columnAligning, type: 'singleSelect', valueOptions: Object.values(FoundingSources), },
     { field: 'outcomeCategory', headerName: 'Kategoria wydatku', editable: true, width: 150, ...columnAligning, type: 'singleSelect', valueOptions: Object.values(OutcomeCategory) },
-    { field: 'comment', headerName: 'Komentarz', width: 400,editable: true, ...columnAligning },
+    { field: 'comment', headerName: 'Komentarz', editable: true, width: 400, ...columnAligning },
+    { field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning },
     { field: 'actions', 
       type: 'actions',
       headerName: 'Akcje', 
@@ -117,7 +121,8 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
       importDate: income.importDate,
       letterReceived: income.letterReceived,
       dateOfLetter:income.dateOfLetter ? new Date(income.dateOfLetter) : '',
-      comment: income.comment
+      comment: income.comment,
+      errors: income?.errors ? income.errors.join(',') : '',
     };
   });
 
@@ -136,7 +141,8 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
       importDate: outcome.importDate,
       foundingSource: outcome.foundingSource,
       outcomeCategory: outcome.outcomeCategory,
-      comment: outcome.comment
+      comment: outcome.comment,
+      errors: outcome?.errors ? outcome.errors.join(', ') : '',
     };
   });
 
@@ -157,7 +163,7 @@ const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
   };
 
 
-  return BudgetEntry.Income ? <DataGrid
+  return props.editedData === BudgetEntry.Income ? <DataGrid
     columns={incomeColumn} 
     rows={incomeRows}
     onCellEditCommit={props.handleCellEditCommit}
