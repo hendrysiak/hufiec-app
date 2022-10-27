@@ -1,16 +1,10 @@
-import Modal from '@mui/material/Modal';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import React, { useEffect, useState } from 'react';
 
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
-import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
-
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
-
-// import classes from './TeamPage.module.css';
 
 interface IRows extends APIPerson {
   lp: string | number;

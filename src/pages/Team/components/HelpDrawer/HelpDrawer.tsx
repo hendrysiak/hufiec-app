@@ -12,6 +12,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import React from 'react';
 
+import TeamCode from '../../../../assets/docs/team-code.png';
+
 // if (error === ErrorType.EventError) errorIcon = <ExploreOffIcon />;
 // if (error === ErrorType.NameError) errorIcon = <PersonOffIcon />;
 // if (error === ErrorType.YearError) errorIcon = <HourglassDisabledIcon />;
@@ -147,6 +149,7 @@ export const HelpDrawer = ({
             <Divider/>
             <ListSubheader component="div">Jaki mam kod jednostki?</ListSubheader>
             <ListItem>Jeśli wejdziesz do Tipi i odwiedzisz swoją drużynę, to w adresie w przeglądarce zobaczysz kod jednostki:</ListItem>
+            <ListItem><img style={{ maxWidth: '100%' }} src={TeamCode} /></ListItem>
             <Divider/>
             <ListSubheader component="div">Jaki rok podajemy przy przelewie?</ListSubheader>
             <ListItem>Dokładny rok, którego dotyczy przelew. I tak zaległości za rok poprzedni wysyłamy z kodem roku poprzedniego, a za rok bieżący – z kodem roku bieżącego.</ListItem>

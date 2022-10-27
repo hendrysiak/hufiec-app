@@ -29,8 +29,7 @@ interface BudgetDataGridProps {
 
 const BudgetDataGrid = (props: BudgetDataGridProps): JSX.Element => {
   const teamsMap = useTeams();
-  const availableTeams = teamsMap.map(t => t.teamId);
-
+  const availableTeams = teamsMap.map(t => t.teamId.toString());
 
   const incomeColumn = [
     { field: 'lp', headerName: 'LP.', width: 50, ...columnAligning },
