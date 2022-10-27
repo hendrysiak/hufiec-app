@@ -1,6 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid, GridActionsCellItem, GridAlignment } from '@mui/x-data-grid';
 
 import React from 'react';

@@ -1,15 +1,15 @@
+import MailIcon from '@mui/icons-material/Mail';
 import { Button, MenuItem, TextField } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import MailIcon from '@mui/icons-material/Mail';
 
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios-income';
 
+import { useMobileView } from 'helpers/hooks/useMobileView';
 import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 import classes from './Form.module.css';
-import { useMobileView } from 'helpers/hooks/useMobileView';
 
 const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: string, navHeight: number }): JSX.Element => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);

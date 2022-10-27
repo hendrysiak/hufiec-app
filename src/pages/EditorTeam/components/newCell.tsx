@@ -2,15 +2,13 @@ import { Input, TableCell } from '@mui/material';
 
 import React from 'react';
 
-import { deleteTeamMember, permanentDeleteTeamMember } from 'helpers/editing-db.handler';
+import { checkOldColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import { Rows } from 'models/global.enum';
 
 import { APIPerson } from 'models/registry.models';
-import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import { IPerson } from '../EditorTeam';
 import { useStyles } from '../stylesTable';
-import { checkOldColumnRenderer } from 'helpers/render/checkColumnRenderer';
 
 interface IProps {
   row: IPerson;

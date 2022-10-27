@@ -1,8 +1,7 @@
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Tooltip, IconButton } from '@mui/material';
 
 import makeStyles from '@mui/styles/makeStyles';
-
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import React from 'react';
 
