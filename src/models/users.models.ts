@@ -1,12 +1,14 @@
-export enum UserRoles {
-  Admin = 'admin',
+export type UserRoles = 'admin' | 'leader';
 
-}
+export interface User {
+  uid: string;
+  email: string;
+};
 
-export interface IUser {
+export interface AuthUser {
   team?: string;
-  roles: string[];
+  role: UserRoles;
   name?: string;
   surname?: string;
-  password?: string;
+  evidenceNumber?: string;
 }

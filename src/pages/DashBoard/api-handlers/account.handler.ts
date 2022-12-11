@@ -64,11 +64,11 @@ export const getRegistry = async (): Promise<void> => {
     currentPerson['team'] = Number(team); 
 
 
-    if (mappedRegistry[team]) mappedRegistry[team][id] = {...registry.data[id], id:id };
+    if (mappedRegistry[team]) mappedRegistry[team][id] = { ...registry.data[id], id:id };
     else {
       if (!team) {
         mappedRegistry['errorTeam'] = { ...mappedRegistry['errorTeam'] };
-        mappedRegistry['errorTeam'][id] = {...registry.data[id], id: id};
+        mappedRegistry['errorTeam'][id] = { ...registry.data[id], id: id };
       } else {
         mappedRegistry[team] = {};
         mappedRegistry[team][id] = { ...registry.data[id], id: currentPerson.id };

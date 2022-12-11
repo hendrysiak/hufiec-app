@@ -32,7 +32,7 @@ const Navigation = (): JSX.Element => {
   },[]);
 
   const navigation = [
-    { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
+    { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
     { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },

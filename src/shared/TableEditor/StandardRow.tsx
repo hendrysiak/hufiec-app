@@ -1,7 +1,4 @@
-import { TableRow, TableCell, IconButton, Tooltip } from '@mui/material';
 
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -11,6 +8,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import MailIcon from '@mui/icons-material/Mail';
+import { TableRow, TableCell, IconButton, Tooltip } from '@mui/material';
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import React from 'react';
 

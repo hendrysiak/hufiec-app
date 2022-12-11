@@ -10,22 +10,17 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-helpers/user';
 import { useTeams } from 'helpers/hooks/useTeams';
 import { Encrypt, generatePassword } from 'helpers/password.helper';
-import { IUser } from 'models/users.models';
+import { AuthUser, UserRoles } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 
-interface NewUser extends Omit<IUser, 'roles'> {
-  evidenceNumber: string;
-  role: string;
-}
-
 const Role = (): JSX.Element => {
-  const query = useQuery<Record<string, IUser>, Error>('users', fetchUsers);
+  const query = useQuery<Record<string, AuthUser>, Error>('users', fetchUsers);
   const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
-  const [user, setNewUser] = React.useState<NewUser>({
+  const [user, setNewUser] = React.useState<AuthUser>({
     evidenceNumber: '',
-    role: '',
+    role: 'leader',
     team: '',
     name: '',
     surname: '',
@@ -88,12 +83,12 @@ const Role = (): JSX.Element => {
   ];
 
   const rows = !query?.data ? [] : Object.entries(query.data)
-    .map(([evNum, user]: [string, IUser]) => {
+    .map(([evNum, user]: [string, AuthUser]) => {
         
       return {
         id: evNum,
         evidenceNumber: evNum,
-        roles: user.roles[0],
+        roles: user.role,
         team: user?.team ? user?.team : '',
         name: user?.name ?? '',
         surname: user?.surname ?? '',
@@ -137,14 +132,14 @@ const Role = (): JSX.Element => {
     if (window.confirm(`Zapisz hasło dla użytkownika i zatwierdź:
       ${newPassword}
     `)) {
-      const fullUser: Record<string, IUser> = {
-        [user.evidenceNumber]: {
-          roles: [user.role],
-          name: user.name,
-          surname: user.surname,
-          team: user.team,
-          password: Encrypt(newPassword),                                                                 
-        }
+      const fullUser: Record<string, AuthUser> = {
+        // [user.evidenceNumber]: {
+        //   roles: [user.role],
+        //   name: user.name,
+        //   surname: user.surname,
+        //   team: user.team,
+        //   password: Encrypt(newPassword),                                                                 
+        // }
       };
   
       createUserMutation.mutate(fullUser);
@@ -181,7 +176,7 @@ const Role = (): JSX.Element => {
             <TextField 
               style={{ margin: '16px', width: '40%' }}
               value={user.role}
-              onChange={(e) => setNewUser({ ...user, role: e.target.value })}
+              onChange={(e) => setNewUser({ ...user, role: e.target.value as UserRoles })}
               label="Rola"
               variant="standard"
               select
@@ -226,7 +221,7 @@ const Role = (): JSX.Element => {
               setOpenAddUserModal(false);
               setNewUser({
                 evidenceNumber: '',
-                role: '',
+                role: 'leader',
                 team: '',
                 name: '',
                 surname: '',

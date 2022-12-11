@@ -15,7 +15,6 @@ import './style.css';
 import { FiltersName } from './FiltersName';
 
 
-
 type Props = {
   editedData: BudgetEntry;
   selectedDate: any | null;

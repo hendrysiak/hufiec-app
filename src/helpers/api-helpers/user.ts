@@ -1,14 +1,19 @@
 import { GridCellEditCommitParams } from '@mui/x-data-grid';
 
 import axios from 'axios-income';
-import { IUser } from 'models/users.models';
+import { AuthUser } from 'models/users.models';
 
-export const fetchUsers = async (): Promise<Record<string, IUser>> => {
-  const response = await axios.get<Record<string, IUser>>('/users.json');
+export const getAccount = async (uid?: string): Promise<AuthUser | null> => {
+  const result = await axios.get(`/users/${uid}.json`);
+  return result.data;
+};
+
+export const fetchUsers = async (): Promise<Record<string, AuthUser>> => {
+  const response = await axios.get<Record<string, AuthUser>>('/users.json');
   return response.data;
 };
 
-export const createUser = async (data: Record<string, IUser>) => {
+export const createUser = async (data: Record<string, AuthUser>) => {
   const { data: response } = await axios.patch('/users.json', data);
   return response.data;
 };

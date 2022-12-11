@@ -1,5 +1,5 @@
-import { Button, TextField } from '@mui/material';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Button, TextField , Checkbox, FormControlLabel } from '@mui/material';
+
 import React, { useState } from 'react';
 
 import { addTeamMember } from 'helpers/editing-db.handler';

@@ -7,12 +7,12 @@ import React from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { LogOutTimer } from 'shared/LogOutTimer/LogOutTimer';
-
+import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 
 import classes from './LogOut.module.css';
 
 export const LogOut = (): JSX.Element => {
+  const { signOutFromApp } = useAuth();
 
   const useStyles = makeStyles(() => ({
     button: {
@@ -24,13 +24,13 @@ export const LogOut = (): JSX.Element => {
 
   const currentPath = useLocation();
 
-  const disableLogout = /\/login/.test(currentPath.pathname);
+  const disableLogout = currentPath.pathname === '/login';
   
   return disableLogout ? <></> : (<>
-    <LogOutTimer className={classes.timer}/>
+    {/* <LogOutTimer className={classes.timer}/> */}
     <div className={`${classes.container} ${classes.close}`}>
       <Tooltip title="Wyloguj" aria-label="log-out">
-        <IconButton classes={{ root: materialClasses.button }} size="large"><ExitToAppIcon className="clicked" /></IconButton>
+        <IconButton onClick={() => signOutFromApp()?.then(() => window.location.reload())} classes={{ root: materialClasses.button }} size="large"><ExitToAppIcon className="clicked" /></IconButton>
       </Tooltip>
     </div>
   </>);
