@@ -16,7 +16,6 @@ import CodeExplorer from './CodeExplorer/CodeExplorer';
 
 import CodeGenerator from './CodeGenerator/CodeGenerator';
 
-
 interface AddCodeProps {
   isAdmin?: boolean;
 }
@@ -46,26 +45,25 @@ const StyledTabs = styled((props: StyledTabsProps) => (
     backgroundColor: 'white',
   },
 });
-  
-const AddCode = (props: AddCodeProps): JSX.Element => {
+
+function AddCode(props: AddCodeProps): JSX.Element {
   const [tab, setTab] = React.useState(0);
 
   const query = useQuery<ICode[], Error>('codes', () => getCodes());
   const queryClient = useQueryClient();
-  
+
   const { setSnackbar } = useSnackbar();
-  
+
   const saveCodeMutation = useMutation(saveCode, {
-    
+
     onSuccess: () => {
       queryClient.invalidateQueries('codes');
       setSnackbar({ children: 'Kod zapisany pomyślnie', severity: 'success' });
     },
     onError: () => {
       setSnackbar({ children: 'Wystąpił błąd przy zapisywaniu kodu', severity: 'error' });
-    }
+    },
   });
-
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -85,6 +83,6 @@ const AddCode = (props: AddCodeProps): JSX.Element => {
 
     </>
   );
-};
+}
 
 export default AddCode;

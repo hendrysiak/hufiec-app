@@ -1,7 +1,9 @@
 import GetAppIcon from '@mui/icons-material/GetApp';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip } from '@mui/material';
+import {
+  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
@@ -9,11 +11,13 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import makeStyles from '@mui/styles/makeStyles';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import React, { useState, useEffect, useRef, RefObject, CSSProperties } from 'react';
+import React, {
+  useState, useEffect, useRef, RefObject, CSSProperties,
+} from 'react';
 import { CSVLink, CSVDownload } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
@@ -36,7 +40,6 @@ import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { countingMemberFee } from './helpers/member-fee.helper';
 import { ShowModal } from './helpers/typeViewModal.enum';
-
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -64,8 +67,7 @@ const StyledTabs = styled((props: StyledTabsProps) => (
   },
 });
 
-
-const Team = (): JSX.Element => {
+function Team(): JSX.Element {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
@@ -97,7 +99,6 @@ const Team = (): JSX.Element => {
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
 
-
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
@@ -114,30 +115,28 @@ const Team = (): JSX.Element => {
     const teamRegistry = registry
       && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(Object.values(teamRegistry));
-    const incomesToDisplay = dbIncomes 
-      && currentTeam 
-      && dbIncomes.filter(income => income.team === currentTeam);
+    const incomesToDisplay = dbIncomes
+      && currentTeam
+      && dbIncomes.filter((income) => income.team === currentTeam);
     const outcomesToDisplay = dbOutcomes
       && currentTeam
-      && dbOutcomes.filter(income => income.team === currentTeam);
+      && dbOutcomes.filter((income) => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
     outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
   }, [registry, dbIncomes, dbOutcomes, currentTeam]);
 
   useEffect(() => {
-    const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
-      return ({
-        ...el,
-        lp: index + 1,
-        dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
-      });
-    })) : ([]);
+    const row = incomesByCode?.length ? (incomesByCode.map((el, index) => ({
+      ...el,
+      lp: index + 1,
+      dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0],
+    }))) : ([]);
     setRows(row);
   }, [incomesByCode]);
 
   useEffect(() => {
-    //Write date checker
-    const filteredIncomes = rows && rows.filter(i => {
+    // Write date checker
+    const filteredIncomes = rows && rows.filter((i) => {
       if (
         useDate
         && selectedDate
@@ -171,12 +170,11 @@ const Team = (): JSX.Element => {
 
     sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
-
   }, [event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
-      position: 'relative'
+      position: 'relative',
     },
     dayWithDot: {
       position: 'absolute',
@@ -186,19 +184,19 @@ const Team = (): JSX.Element => {
       borderRadius: 4,
       right: '50%',
       transform: 'translateX(1px)',
-      top: '80%'
+      top: '80%',
     },
     customTooltip: {
       // I used the rgba color for the standard "secondary" color
       fontSize: '16px',
-      color: 'white'
+      color: 'white',
     },
     icon: {
       width: '24px',
-      height: '24px'
+      height: '24px',
     },
     button: {
-      color: 'white'
+      color: 'white',
     },
     indicator: {
       backgroundColor: 'white',
@@ -240,180 +238,199 @@ const Team = (): JSX.Element => {
       }, 0);
   };
 
-
-  return <>
-    <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
-      <Box display="flex" alignItems="center">
-        <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
-        <Tooltip title="Otwórz filtry" classes={{
-          tooltip: classes.customTooltip
-        }}>
-          <IconButton
-            aria-label="account-state"
-            onClick={handleOpenFilter}
-            classes={{ root: classes.button }}
-            size="large">
-            <SearchIcon fontSize="large" color="inherit" />
-          </IconButton>
-        </Tooltip>
-        <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
-          <Tooltip title="Wyeksportuj widok do CSV" classes={{
-            tooltip: classes.customTooltip
-          }}>
+  return (
+    <>
+      <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
+        <Box display="flex" alignItems="center">
+          <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+          <Tooltip
+            title="Otwórz filtry"
+            classes={{
+              tooltip: classes.customTooltip,
+            }}
+          >
             <IconButton
               aria-label="account-state"
+              onClick={handleOpenFilter}
               classes={{ root: classes.button }}
-              size="large">
-              <GetAppIcon fontSize="large" color="inherit" />
+              size="large"
+            >
+              <SearchIcon fontSize="large" color="inherit" />
             </IconButton>
           </Tooltip>
-        </CSVLink>
-        <Tooltip title="Pomoc" classes={{
-          tooltip: classes.customTooltip
-        }}>
-          <IconButton
-            aria-label="account-state"
-            onClick={() => setOpenHelp(!openHelp)}
-            classes={{ root: classes.button }}
-            size="large">
-            <HelpOutlineIcon fontSize="large" color="inherit" />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
-        <Tab label="Lista wpłat" />
-        <Tab label="Stan składek" />
-        <Tab label="Stan konta" />
-        <Tab label="Akcje" />
-      </StyledTabs>
-    </div>
-    <TabPanel value={tab} index={0}>
-      <section className="container">
-        <div className={`header ${openFilter ? '' : 'filterClose'}`}>
-          <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po wydarzeniu"
-              value={event}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
-              select={true}
-              size="small"
-              variant="outlined"
-              margin="normal"
-              SelectProps={{
-                MenuProps: { disableScrollLock: true }
+          <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+            <Tooltip
+              title="Wyeksportuj widok do CSV"
+              classes={{
+                tooltip: classes.customTooltip,
               }}
             >
-              <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
-              {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
-                item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
-              ))}
-            </TextField>
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po imieniu"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Wpisz imię"
-              size="small"
-              variant="outlined"
-              margin="normal"
-            />
+              <IconButton
+                aria-label="account-state"
+                classes={{ root: classes.button }}
+                size="large"
+              >
+                <GetAppIcon fontSize="large" color="inherit" />
+              </IconButton>
+            </Tooltip>
+          </CSVLink>
+          <Tooltip
+            title="Pomoc"
+            classes={{
+              tooltip: classes.customTooltip,
+            }}
+          >
+            <IconButton
+              aria-label="account-state"
+              onClick={() => setOpenHelp(!openHelp)}
+              classes={{ root: classes.button }}
+              size="large"
+            >
+              <HelpOutlineIcon fontSize="large" color="inherit" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
+          <Tab label="Lista wpłat" />
+          <Tab label="Stan składek" />
+          <Tab label="Stan konta" />
+          <Tab label="Akcje" />
+        </StyledTabs>
+      </div>
+      <TabPanel value={tab} index={0}>
+        <section className="container">
+          <div className={`header ${openFilter ? '' : 'filterClose'}`}>
+            <div className={`filters ${openFilter ? '' : 'filterClose'}`}>
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po wydarzeniu"
+                value={event}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
+                select
+                size="small"
+                variant="outlined"
+                margin="normal"
+                SelectProps={{
+                  MenuProps: { disableScrollLock: true },
+                }}
+              >
+                <MenuItem value="">Wszystkie wydarzenia</MenuItem>
+                {codes && ['', ...codes.map((code) => code.code)].map((item, index: number) => (
+                  item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
+                ))}
+              </TextField>
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po imieniu"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Wpisz imię"
+                size="small"
+                variant="outlined"
+                margin="normal"
+              />
 
-            <TextField
-              classes={{ root: 'teamInput' }}
-              label="Po nazwisku"
-              value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-              placeholder="Wpisz nazwisko"
-              size="small"
-              variant="outlined"
-              margin="normal"
-
-            />
-            <DesktopDatePicker
-              className="datePicker"
-              disableFuture={true}
-              label="Wybierz datę wpływu"
-              value={selectedDate}
-              onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-            <FormControlLabel
-              className="dateCheckbox"
-              control={<Checkbox
-                checked={useDate}
-                onChange={(e) => setUseDate(e.target.checked)}
-                name="checkedA"
-                color="primary"
-              />}
-              label="Sortuj po dacie"
-            />
-            <Button onClick={handleOpenFilter} variant="contained" color="secondary">
-              ZAMKNIJ FILTRY
-            </Button>
+              <TextField
+                classes={{ root: 'teamInput' }}
+                label="Po nazwisku"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                placeholder="Wpisz nazwisko"
+                size="small"
+                variant="outlined"
+                margin="normal"
+              />
+              <DesktopDatePicker
+                className="datePicker"
+                disableFuture
+                label="Wybierz datę wpływu"
+                value={selectedDate}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              <FormControlLabel
+                className="dateCheckbox"
+                control={(
+                  <Checkbox
+                    checked={useDate}
+                    onChange={(e) => setUseDate(e.target.checked)}
+                    name="checkedA"
+                    color="primary"
+                  />
+)}
+                label="Sortuj po dacie"
+              />
+              <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+                ZAMKNIJ FILTRY
+              </Button>
+            </div>
+            <div style={{ display: 'none' }}>
+              <Tooltips
+                open={openPopup}
+                members={currentTeamRegistry}
+                incomes={incomesByCode}
+                outcomes={outcomesByCode}
+                currentTeam={currentTeam}
+                dataToExport={displayedIncome}
+              />
+            </div>
           </div>
-          <div style={{ display: 'none' }}><Tooltips
-            open={openPopup}
-            members={currentTeamRegistry}
-            incomes={incomesByCode}
-            outcomes={outcomesByCode}
-            currentTeam={currentTeam}
-            dataToExport={displayedIncome}
-          />
+          <div className="containerDataGrid">
+            {displayedIncome?.length ? (
+              <List
+                navHeight={navHeight}
+                scrollPosition={scrollPosition}
+                rows={displayedIncome.sort((a, b) => {
+                  if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
+                    return -1;
+                  }
+                  return 1;
+                })}
+              />
+            ) : (
+              <div className="loadingInfo">brak wpłat na ten filtr</div>
+            )}
           </div>
-        </div>
-        <div className="containerDataGrid">
-          {displayedIncome?.length ? (
-            <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome.sort((a, b) => {
-              if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
-                return -1;
-              }
-              return 1;
-            })} />
-          ) : (
-            <div className="loadingInfo">brak wpłat na ten filtr</div>
-          )}
-        </div>
-      </section>
-    </TabPanel>
-    <TabPanel value={tab} index={1}>
-      <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
-    </TabPanel>
-    <TabPanel value={tab} index={2}>
-      <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
-    </TabPanel>
-    <TabPanel value={tab} index={3}>
-      <Tabs 
-        value={innerTab} 
-        variant="fullWidth"
-        textColor="secondary"
-        indicatorColor="secondary"
-        onChange={handleInnerTabChange}
-      >
-        <Tab label="Kody" />
-        <Tab label="Podjęte akcje" />
-        <Tab label="Wyślij wiadomość" />
-        <Tab label="Poradnik" />
-      </Tabs>
-      <TabPanel value={innerTab} index={0}>
-        <CodeGenerator />
+        </section>
       </TabPanel>
-      <TabPanel value={innerTab} index={1}>
-        <Proposals height="65vh" />
+      <TabPanel value={tab} index={1}>
+        <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
       </TabPanel>
-      <TabPanel value={innerTab} index={2}>
-        <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+      <TabPanel value={tab} index={2}>
+        <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
-      <TabPanel value={innerTab} index={3}>
-        <h2>Poradnik</h2>
-        <p>Link do poradnika - tymczasowy</p>
-        <a href="https://gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
+      <TabPanel value={tab} index={3}>
+        <Tabs
+          value={innerTab}
+          variant="fullWidth"
+          textColor="secondary"
+          indicatorColor="secondary"
+          onChange={handleInnerTabChange}
+        >
+          <Tab label="Kody" />
+          <Tab label="Podjęte akcje" />
+          <Tab label="Wyślij wiadomość" />
+          <Tab label="Poradnik" />
+        </Tabs>
+        <TabPanel value={innerTab} index={0}>
+          <CodeGenerator />
+        </TabPanel>
+        <TabPanel value={innerTab} index={1}>
+          <Proposals height="65vh" />
+        </TabPanel>
+        <TabPanel value={innerTab} index={2}>
+          <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+        </TabPanel>
+        <TabPanel value={innerTab} index={3}>
+          <h2>Poradnik</h2>
+          <p>Link do poradnika - tymczasowy</p>
+          <a href="https://gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
+        </TabPanel>
+        {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
       </TabPanel>
-      {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
-    </TabPanel>
-    <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
-  </>;
-};
+      <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
+    </>
+  );
+}
 
 export default Team;

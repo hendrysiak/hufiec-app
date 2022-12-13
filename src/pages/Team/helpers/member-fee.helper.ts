@@ -21,11 +21,11 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
 
   const quarterOfStart = getQuarterForDate(dateOfAdd);
   const quarterOfEnd = getQuarterForDate(lastDate);
-  
+
   const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
 
   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
-  
+
   if (checkIfMemberComeInCurrentYear) {
     const quartersInCurrentYear = quarterOfEnd - quarterOfStart + 1;
 
@@ -38,44 +38,41 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
 
   if (numberOfYearsPassed === 1) {
     return numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
-  } else {
-    const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
-    let allFees = 0;
-    for (let i = 1; i < numberOfYearsPassed; i++) {
-
-      allFees = allFees + (feeByYear[dateOfAdd.getFullYear() + i] * 4);
-    }
-    return startAndEndYearFeeValue + allFees;
   }
-
+  const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
+  let allFees = 0;
+  for (let i = 1; i < numberOfYearsPassed; i++) {
+    allFees += (feeByYear[dateOfAdd.getFullYear() + i] * 4);
+  }
+  return startAndEndYearFeeValue + allFees;
 };
 
 export const countingMemberFee = (person: APIPerson, endOfPeriod?: Date): number => {
   const incomes = store.getState().income.dbIncomes;
 
-  const feeIncomeByPerson = incomes.filter(i => i.name?.toLowerCase() === person?.name?.toLowerCase() 
-    && i.surname?.toLowerCase() === person?.surname?.toLowerCase()  
+  const feeIncomeByPerson = incomes.filter((i) => i.name?.toLowerCase() === person?.name?.toLowerCase()
+    && i.surname?.toLowerCase() === person?.surname?.toLowerCase()
     && i.event === 'SC');
 
   let preparedFees;
 
   if (endOfPeriod) {
     const year = endOfPeriod.getFullYear();
-    preparedFees = feeIncomeByPerson.filter(income => Number(income.year) === Number(year));
+    preparedFees = feeIncomeByPerson.filter((income) => Number(income.year) === Number(year));
   } else {
     preparedFees = feeIncomeByPerson;
-  };
+  }
 
-  const initAccountStatePerPerson = store?.getState().income?.initAccount?.find(ia => (
-      ia?.name?.toLowerCase() === person?.name?.toLowerCase() && 
-      ia?.surname?.toLowerCase() === person?.surname?.toLowerCase() ));
+  const initAccountStatePerPerson = store?.getState().income?.initAccount?.find((ia) => (
+    ia?.name?.toLowerCase() === person?.name?.toLowerCase()
+      && ia?.surname?.toLowerCase() === person?.surname?.toLowerCase()));
 
   const allFeeIncomesValue = preparedFees.reduce((sum, currentIncome) => sum + Number(currentIncome.cash), 0);
   const neededFee = Math.abs(countAmountOfFee(person, endOfPeriod));
 
-  const sum = initAccountStatePerPerson ?
-    initAccountStatePerPerson.balance + allFeeIncomesValue - neededFee :
-    allFeeIncomesValue - neededFee;
+  const sum = initAccountStatePerPerson
+    ? initAccountStatePerPerson.balance + allFeeIncomesValue - neededFee
+    : allFeeIncomesValue - neededFee;
 
   return sum;
 };

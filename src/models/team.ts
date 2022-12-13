@@ -3,7 +3,7 @@ export interface Team {
   nameToUse: string;
   teamId: number;
   id: string;
-};
+}
 
 export interface ITeam {
   [id: string]: Team;

@@ -7,7 +7,7 @@ export interface IncomesBankModel extends IObjectKeys {
   title: string;
   dateOfBook: Date | string;
   errors?: ErrorType[];
-};
+}
 
 export interface IncomesWithTeam extends IncomesBankModel {
   team: string | null;
@@ -37,24 +37,24 @@ export interface IncomeDb extends IncomesWithImportDate {
   comment?: string;
 }
 
-export interface OutcomesBankModel extends IObjectKeys{
+export interface OutcomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: Date | string;
   errors?: ErrorType[];
-};
+}
 
 export interface OutcomesWithEvent extends OutcomesBankModel {
   event: string | null;
 }
 
-export interface OutcomesWithImportDate extends OutcomesWithEvent{
+export interface OutcomesWithImportDate extends OutcomesWithEvent {
   importDate: Date | string;
-};
+}
 
 export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
   financeMethod: FinanceMethod
-};
+}
 
 export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   outcomeCategory: OutcomeCategory;
@@ -73,20 +73,20 @@ export interface OutcomeDb extends OutcomeWithBilingNr {
 export interface IncomePurpose {
   cash: string;
   source: string;
-};
+}
 
 export interface IncomePurposeDB {
   cash: number;
   purpose: string;
-};
+}
 export interface OutcomePurpose {
   cash: string;
   purpose: string;
-};
+}
 export interface OutcomePurposeDB {
   cash: number;
   purpose: string;
-};
+}
 
 export interface Amount {
   [key: string]: number

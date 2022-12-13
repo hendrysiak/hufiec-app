@@ -8,8 +8,10 @@ interface TabPanelProps {
   style?: Record<string, string>
 }
 
-export const TabPanel = (props: TabPanelProps): JSX.Element => {
-  const { children, value, index, ...other } = props;
+export function TabPanel(props: TabPanelProps): JSX.Element {
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
@@ -26,4 +28,4 @@ export const TabPanel = (props: TabPanelProps): JSX.Element => {
       )}
     </div>
   );
-};
+}

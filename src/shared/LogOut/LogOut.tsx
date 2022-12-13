@@ -11,12 +11,12 @@ import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 
 import classes from './LogOut.module.css';
 
-export const LogOut = (): JSX.Element => {
+export function LogOut(): JSX.Element {
   const { signOutFromApp } = useAuth();
 
   const useStyles = makeStyles(() => ({
     button: {
-      color: 'white'
+      color: 'white',
     },
   }));
 
@@ -25,14 +25,15 @@ export const LogOut = (): JSX.Element => {
   const currentPath = useLocation();
 
   const disableLogout = currentPath.pathname === '/login';
-  
-  return disableLogout ? <></> : (<>
-    {/* <LogOutTimer className={classes.timer}/> */}
-    <div className={`${classes.container} ${classes.close}`}>
-      <Tooltip title="Wyloguj" aria-label="log-out">
-        <IconButton onClick={() => signOutFromApp()?.then(() => window.location.reload())} classes={{ root: materialClasses.button }} size="large"><ExitToAppIcon className="clicked" /></IconButton>
-      </Tooltip>
-    </div>
-  </>);
 
-};
+  return disableLogout ? <></> : (
+    <>
+      {/* <LogOutTimer className={classes.timer}/> */}
+      <div className={`${classes.container} ${classes.close}`}>
+        <Tooltip title="Wyloguj" aria-label="log-out">
+          <IconButton onClick={() => signOutFromApp()?.then(() => window.location.reload())} classes={{ root: materialClasses.button }} size="large"><ExitToAppIcon className="clicked" /></IconButton>
+        </Tooltip>
+      </div>
+    </>
+  );
+}

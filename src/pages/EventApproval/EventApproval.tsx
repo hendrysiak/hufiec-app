@@ -18,7 +18,7 @@ import { reduxGetCodes } from 'store/actions/income';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
-const EventApproval = (): JSX.Element => {
+function EventApproval(): JSX.Element {
   return <></>;
   // const codes = useSelector((state: RootState) => state.income.codes);
 
@@ -27,8 +27,8 @@ const EventApproval = (): JSX.Element => {
   // const [currentCode, setCurrentCode] = useState<string>();
   // const [usedCodes, setUsedCodes] = useState<ApprovedEvent[]>();
 
-  // const eventSummary 
-  //   = newIncomes.reduce((a,b) => a + Number(b.cash), 0) 
+  // const eventSummary
+  //   = newIncomes.reduce((a,b) => a + Number(b.cash), 0)
   //   - newOutcomes.reduce((a,b) => a + Number(b.cash), 0);
 
   // useEffect(() => {
@@ -57,12 +57,12 @@ const EventApproval = (): JSX.Element => {
   // };
 
   // const editIncomeOrOutcome = (
-  //   arrayOfApprovalPosition: IncomePurpose[] | OutcomePurpose[], 
-  //   index: number, 
-  //   data: {cash?: string; purpose?: string; source?: string;}, 
+  //   arrayOfApprovalPosition: IncomePurpose[] | OutcomePurpose[],
+  //   index: number,
+  //   data: {cash?: string; purpose?: string; source?: string;},
   //   infoAboutData: string
   // ) => {
-  
+
   //   const copiedArray = [...arrayOfApprovalPosition];
 
   //   if (infoAboutData === BudgetEntry.Income) {
@@ -115,8 +115,8 @@ const EventApproval = (): JSX.Element => {
   //         <Typography component="h2" variant="h6" color="primary" gutterBottom>
   //           Stan finansowy imprezy:
   //         </Typography>
-  //         {eventSummary >= 0 
-  //           ? <span style={{ color: 'green' }}>{`${eventSummary}`}</span> 
+  //         {eventSummary >= 0
+  //           ? <span style={{ color: 'green' }}>{`${eventSummary}`}</span>
   //           : <span style={{ color: 'red' }}>{`${eventSummary}`}</span>}
   //       </Paper>
   //       <header>
@@ -154,9 +154,9 @@ const EventApproval = (): JSX.Element => {
   //                       margin="dense"
   //                       onChange={
   //                         (e) => editIncomeOrOutcome(
-  //                           newIncomes, 
-  //                           index, 
-  //                           { cash: e.target.value }, 
+  //                           newIncomes,
+  //                           index,
+  //                           { cash: e.target.value },
   //                           BudgetEntry.Income
   //                         )}
   //                       style={{ maxWidth: '200px', marginRight: '16px' }}
@@ -167,9 +167,9 @@ const EventApproval = (): JSX.Element => {
   //                       margin="dense"
   //                       onChange={
   //                         (e) => editIncomeOrOutcome(
-  //                           newIncomes, 
-  //                           index, 
-  //                           { source: e.target.value }, 
+  //                           newIncomes,
+  //                           index,
+  //                           { source: e.target.value },
   //                           BudgetEntry.Income
   //                         )}
   //                       style={{ width: '600px' }}
@@ -195,9 +195,9 @@ const EventApproval = (): JSX.Element => {
   //                       value={i.cash}
   //                       margin="dense"
   //                       onChange={(e) => editIncomeOrOutcome(
-  //                         newOutcomes, 
-  //                         index, 
-  //                         { cash: e.target.value }, 
+  //                         newOutcomes,
+  //                         index,
+  //                         { cash: e.target.value },
   //                         BudgetEntry.Outcome
   //                       )}
   //                       style={{ maxWidth: '200px', marginRight: '16px' }}
@@ -207,9 +207,9 @@ const EventApproval = (): JSX.Element => {
   //                       value={i.purpose}
   //                       margin="dense"
   //                       onChange={(e) => editIncomeOrOutcome(
-  //                         newOutcomes, 
-  //                         index, 
-  //                         { purpose: e.target.value }, 
+  //                         newOutcomes,
+  //                         index,
+  //                         { purpose: e.target.value },
   //                         BudgetEntry.Outcome
   //                       )}
   //                       style={{ width: '600px' }}
@@ -228,6 +228,6 @@ const EventApproval = (): JSX.Element => {
   //     </section>
   //   </>
   // );
-};
+}
 
 export default EventApproval;

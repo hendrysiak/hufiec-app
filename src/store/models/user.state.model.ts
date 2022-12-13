@@ -3,4 +3,4 @@ export interface UserState {
   roles: string[] | null,
   team: number | null,
   evidenceNumber: string | null,
-};
+}

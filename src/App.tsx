@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 import Cookies from 'universal-cookie';
@@ -29,8 +29,9 @@ import { AuthUserProvider, useAuth } from 'providers/AuthUserProvider/AuthUserPr
 import { PermissionsProvider } from 'providers/PermissionsProvider/PermissionsProvider';
 import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
 import TeamsProvider from 'providers/TeamsProvider/TeamsProvider';
-import { reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam } from 'store/actions/user';
-
+import {
+  reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam,
+} from 'store/actions/user';
 
 import { RootState } from 'store/models/rootstate.model';
 
@@ -39,14 +40,13 @@ import {
   getCodes,
   getRegistry,
   getImportDates,
-  getInitAccountState
+  getInitAccountState,
 } from './pages/DashBoard/api-handlers/account.handler';
 
 import * as actions from './store/actions/index';
 import store from './store/store';
 
-
-const App = (): JSX.Element => {
+function App(): JSX.Element {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
   const team = useSelector((state: RootState) => state.user.team);
@@ -63,7 +63,6 @@ const App = (): JSX.Element => {
     },
   });
 
-
   useEffect(() => {
     const downloadData = async () => {
       await getInitAccountState();
@@ -76,7 +75,7 @@ const App = (): JSX.Element => {
     console.log(authUser);
     if (authUser) {
       downloadData();
-    };
+    }
     store.dispatch(actions.reduxLoadingEnd());
     // const dataLogin = DecryptCookie(cookies.get('token'));
     // const checkLogin = async (login: string, password: string) => {
@@ -116,7 +115,7 @@ const App = (): JSX.Element => {
   const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
   const TeamsEditor = React.lazy(() => import('./pages/TeamsEditor/TeamsEditor'));
 
-  const routes =
+  const routes = (
     <BrowserRouter>
       <PermissionsProvider>
         <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
@@ -143,33 +142,33 @@ const App = (): JSX.Element => {
           </Switch>
         </NavigationContainer>
       </PermissionsProvider>
-    </BrowserRouter>;
+    </BrowserRouter>
+  );
 
   return (
-    <>
-      <SnackbarProvider>
-        <QueryClientProvider client={queryClient}>
-          <AuthUserProvider>
-            <TeamsProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <div className="app">
-                  {loadingStatus
-                    ? <div className="loader"><CircularProgress /></div>
-                    : (<div>
+    <SnackbarProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthUserProvider>
+          <TeamsProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <div className="app">
+                {loadingStatus
+                  ? <div className="loader"><CircularProgress /></div>
+                  : (
+                    <div>
                       <Suspense fallback={<div className="loader"><CircularProgress /></div>}>
                         {routes}
                       </Suspense>
-                    </div>)}
-                </div>
-              </LocalizationProvider>
-            </TeamsProvider>
-          </AuthUserProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SnackbarProvider>
-    </>
+                    </div>
+                  )}
+              </div>
+            </LocalizationProvider>
+          </TeamsProvider>
+        </AuthUserProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </SnackbarProvider>
   );
-
-};
+}
 
 export default App;

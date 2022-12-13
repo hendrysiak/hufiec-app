@@ -1,11 +1,11 @@
 export enum FinanceMethod {
   Transfer = 'transfer',
-  Cash = 'cash'
-};
+  Cash = 'cash',
+}
 
 export enum BudgetEntry {
   Income = 'income',
-  Outcome = 'outcome'
+  Outcome = 'outcome',
 }
 
 export enum OutcomeCategory {
@@ -17,8 +17,8 @@ export enum OutcomeCategory {
   Board = 'wyżywienie',
   Maintenance = 'konserwacja',
   Media = 'media',
-  Fee = 'składki'
-};
+  Fee = 'składki',
+}
 
 export enum FoundingSources {
   OneProcent = '1 %',
@@ -26,8 +26,8 @@ export enum FoundingSources {
   TeamAccount = 'konto drużyny',
   SelfPayment = 'wpłaty własne',
   OwnResources = 'własne środki',
-  Other = 'inne'
-};
+  Other = 'inne',
+}
 
 // TODO: implement checking route
 
@@ -51,7 +51,7 @@ export enum Rows {
   Surname = 'surname',
   Team = 'team',
   Disability = 'disability',
-  Instructor = 'instructor'
+  Instructor = 'instructor',
 }
 
 export enum ProposalArea {
@@ -65,11 +65,11 @@ export enum ProposalKind {
   Edit = 'edit',
   Move = 'move',
   Add = 'add',
-  Debt = 'debt'
+  Debt = 'debt',
 }
 
 export enum DecisionArea {
   ReAccount = 're-account',
   Code = 'code',
-  Return = 'return'
+  Return = 'return',
 }

@@ -7,18 +7,20 @@ type Props = {
   link: string;
   exact: boolean;
   children: React.ReactNode;
-}
+};
 
-const NavigationItem = (props: Props): JSX.Element => (
-  <li className={classes.NavigationItem}>
-    <NavLink
-      to={props.link}
-      exact={props.exact}
-      activeClassName={classes.active}
-    >
-      {props.children}
-    </NavLink>
-  </li>
-);
+function NavigationItem(props: Props): JSX.Element {
+  return (
+    <li className={classes.NavigationItem}>
+      <NavLink
+        to={props.link}
+        exact={props.exact}
+        activeClassName={classes.active}
+      >
+        {props.children}
+      </NavLink>
+    </li>
+  );
+}
 
 export default NavigationItem;

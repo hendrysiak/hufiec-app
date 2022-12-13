@@ -1,4 +1,6 @@
-import { ActionCodeSettings, Auth, User, UserCredential } from 'firebase/auth';
+import {
+  ActionCodeSettings, Auth, User, UserCredential,
+} from 'firebase/auth';
 
 import React, { createContext, useContext } from 'react';
 
@@ -17,10 +19,10 @@ const authUserContext = createContext<AuthUserContextValues>({
   loading: true,
   signInToApp: async () => null,
   signOutFromApp: async () => {},
-  resetPassword: async () => {}
+  resetPassword: async () => {},
 });
 
-export function AuthUserProvider({ children }: { children: React.ReactElement}) {
+export function AuthUserProvider({ children }: { children: React.ReactElement }) {
   const auth = useFirebaseAuth();
   return <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>;
 }

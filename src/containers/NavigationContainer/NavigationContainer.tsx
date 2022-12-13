@@ -10,8 +10,7 @@ interface NavigationContainerProps {
   isAdmin?: boolean;
 }
 
-const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
-
+function NavigationContainer(props: NavigationContainerProps): JSX.Element {
   const { pathname } = useLocation();
 
   return (
@@ -21,6 +20,6 @@ const NavigationContainer = (props: NavigationContainerProps): JSX.Element => {
       { pathname !== '/letter' ? <LogOut /> : <></> }
     </>
   );
-};
+}
 
 export default NavigationContainer;

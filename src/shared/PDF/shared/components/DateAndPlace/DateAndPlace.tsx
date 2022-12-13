@@ -6,13 +6,13 @@ interface DateAndPlaceProps {
   date?: Date | string;
 }
 
-const DateAndPlace = (props: DateAndPlaceProps): JSX.Element => {
+function DateAndPlace(props: DateAndPlaceProps): JSX.Element {
   const today = new Date().toLocaleDateString();
   return (
     <Text>
       {`Ruda Śląska, ${props.date && new Date(props.date).toLocaleDateString() || today} r.`}
     </Text>
   );
-};
+}
 
 export default DateAndPlace;

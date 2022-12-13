@@ -2,8 +2,9 @@ import AddIcon from '@mui/icons-material/Add';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, FormControl, MenuItem, Modal, Select, TextField , IconButton, Tooltip , SelectChangeEvent } from '@mui/material';
-
+import {
+  Box, Button, FormControl, MenuItem, Modal, Select, TextField, IconButton, Tooltip, SelectChangeEvent,
+} from '@mui/material';
 
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -26,12 +27,12 @@ import { useTeams } from 'helpers/hooks/useTeams';
 
 enum ActionPagination {
   Next = 'next',
-  Prev = 'prev'
+  Prev = 'prev',
 }
 
-export const List = ({ navHeight, scrollPosition, rows }: 
-{navHeight: number | null, scrollPosition: number, rows: IncomeDb[]}): JSX.Element => {
-  const codes = useSelector((state: RootState) => state.income.codes)?.map(c => c?.code);
+export function List({ navHeight, scrollPosition, rows }:
+{ navHeight: number | null, scrollPosition: number, rows: IncomeDb[] }): JSX.Element {
+  const codes = useSelector((state: RootState) => state.income.codes)?.map((c) => c?.code);
   const user = useSelector((state: RootState) => state.user);
   const teamsMap = useTeams();
   const [page, setPage] = useState(0);
@@ -69,16 +70,15 @@ export const List = ({ navHeight, scrollPosition, rows }:
 
   const { pathname } = useLocation();
 
-  const handleRowsPerPage = (value: string) => { 
+  const handleRowsPerPage = (value: string) => {
     setRowsPerPage(Number(value));
 
     if ((page * rowsPerPage) > displayRows.length) {
       setPage(0);
     }
-
   };
 
-  const handleChangeIncome = async() => {
+  const handleChangeIncome = async () => {
     try {
       if (user.evidenceNumber) {
         const newProposal: Proposal = {
@@ -86,8 +86,8 @@ export const List = ({ navHeight, scrollPosition, rows }:
           author: user.evidenceNumber,
           area: ProposalArea.Income,
           kind: ProposalKind.Edit,
-          oldValues: currentValues, 
-          newValues: newValues,
+          oldValues: currentValues,
+          newValues,
           team: Number(pathname.slice(1)),
           dateOfCreation: new Date(),
         };
@@ -97,7 +97,6 @@ export const List = ({ navHeight, scrollPosition, rows }:
       } else {
         setSnackbar({ children: 'Wystąpił błąd - odśwież', severity: 'error' });
       }
-      
     } catch (err) {
       setSnackbar({ children: 'Nieoczekiwany błąd - spróbuj ponownie', severity: 'error' });
     }
@@ -126,27 +125,26 @@ export const List = ({ navHeight, scrollPosition, rows }:
     } else {
       setHeightFirstLi(0);
       serBarFixed(false);
-    };
-  },[scrollPosition]);
+    }
+  }, [scrollPosition]);
 
   useEffect(() => {
     const min = page * rowsPerPage;
     const max = min + rowsPerPage;
-    const copyRows = [...rows].slice(min,max);
+    const copyRows = [...rows].slice(min, max);
     setDisplayRows(copyRows);
-  },[rowsPerPage, page, rows]);
-  
+  }, [rowsPerPage, page, rows]);
+
   useEffect(() => {
-    window.scrollTo(0,0);
-  },[page]);
+    window.scrollTo(0, 0);
+  }, [page]);
 
   const handleChangePage = (action: string) => {
-    
     if (action === ActionPagination.Next && rows.length > page * rowsPerPage + rowsPerPage) {
-      setPage(prev => prev + 1);
+      setPage((prev) => prev + 1);
     }
     if (action === ActionPagination.Prev && page > 0) {
-      setPage(prev => prev - 1);
+      setPage((prev) => prev - 1);
     }
   };
 
@@ -173,40 +171,47 @@ export const List = ({ navHeight, scrollPosition, rows }:
           <p className="cash">AKCJA</p>
           <p className="cash">BŁĄD</p>
         </li>
-        {displayRows.map((el: IncomeDb, index: number) => {
-          return (
-            <li 
-              key={index} 
-              style={{ marginTop: `${index === 0 && barFixed ? heightFirstLi + 'px' : '0'}` }} 
-              className={`li ${controlEntireDataRow(el) ? '' : 'incompleteData'}`}>
-              <div className="containerGroup">
-                <p className="name">{el.surname} {el.name}</p>
-                <p className="date">{el.dateOfBook} </p>
-                <p className="title">{el.title}</p>
-              </div>
-              <p className="event">{el.event}</p>
-              <p className="cash">{el.cash}</p>
-              <p className="cash">
-                <Tooltip title="Podejmij akcję">
-                  <IconButton
-                    aria-label="account-state"
-                    onClick={() => {
-                      setOpenChangeModal(true);
-                      setCurrentValues(el);
-                      setNewValues(el);
-                    }}
-                    size="large">
-                    <EditIcon fontSize="large" color="inherit" />
-                  </IconButton>
-                </Tooltip>
+        {displayRows.map((el: IncomeDb, index: number) => (
+          <li
+            key={index}
+            style={{ marginTop: `${index === 0 && barFixed ? `${heightFirstLi}px` : '0'}` }}
+            className={`li ${controlEntireDataRow(el) ? '' : 'incompleteData'}`}
+          >
+            <div className="containerGroup">
+              <p className="name">
+                {el.surname}
+                {' '}
+                {el.name}
               </p>
-              <ErrorDispllayCell errors={el.errors} className="cash" />
-            </li>
-          );
-        })}
+              <p className="date">
+                {el.dateOfBook}
+                {' '}
+              </p>
+              <p className="title">{el.title}</p>
+            </div>
+            <p className="event">{el.event}</p>
+            <p className="cash">{el.cash}</p>
+            <p className="cash">
+              <Tooltip title="Podejmij akcję">
+                <IconButton
+                  aria-label="account-state"
+                  onClick={() => {
+                    setOpenChangeModal(true);
+                    setCurrentValues(el);
+                    setNewValues(el);
+                  }}
+                  size="large"
+                >
+                  <EditIcon fontSize="large" color="inherit" />
+                </IconButton>
+              </Tooltip>
+            </p>
+            <ErrorDispllayCell errors={el.errors} className="cash" />
+          </li>
+        ))}
         <li className="li paginationContainer">
           <div className="paginationItem">
-            <p className="textRowPag">Ilość wierszy na stronie:</p> 
+            <p className="textRowPag">Ilość wierszy na stronie:</p>
             <FormControl>
               <Select
                 value={`${rowsPerPage}`}
@@ -221,19 +226,32 @@ export const List = ({ navHeight, scrollPosition, rows }:
             </FormControl>
           </div>
           <div className="paginationItem">
-            od {page * rowsPerPage + 1} do {page * rowsPerPage + rowsPerPage < rows.length ? 
-              page * rowsPerPage + rowsPerPage : rows.length } of {rows.length}
+            od
+            {' '}
+            {page * rowsPerPage + 1}
+            {' '}
+            do
+            {' '}
+            {page * rowsPerPage + rowsPerPage < rows.length
+              ? page * rowsPerPage + rowsPerPage : rows.length }
+            {' '}
+            of
+            {' '}
+            {rows.length}
           </div>
           <div className="paginationItem">
-            <ChevronLeftIcon onClick={() => handleChangePage(ActionPagination.Prev)} style={{ cursor: 'pointer', fontSize: '44px' }}/> 
-            <ChevronRightIcon onClick={() => handleChangePage(ActionPagination.Next)} style={{ cursor: 'pointer', fontSize: '44px' }}/>
+            <ChevronLeftIcon onClick={() => handleChangePage(ActionPagination.Prev)} style={{ cursor: 'pointer', fontSize: '44px' }} />
+            <ChevronRightIcon onClick={() => handleChangePage(ActionPagination.Next)} style={{ cursor: 'pointer', fontSize: '44px' }} />
           </div>
         </li>
       </ul>
       <Modal
         open={openChangeModal}
       >
-        <div style={{ width: '80%', backgroundColor: 'white', transform: 'translate(13%, 10%)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{
+          width: '80%', backgroundColor: 'white', transform: 'translate(13%, 10%)', display: 'flex', flexDirection: 'column',
+        }}
+        >
           <h3 style={{ textAlign: 'center', margin: '32px' }}>STARE WARTOŚCI</h3>
           <li className="first">
             <div className="containerGroup">
@@ -244,11 +262,19 @@ export const List = ({ navHeight, scrollPosition, rows }:
             <p className="event">KOD</p>
             <p className="cash">KWOTA</p>
           </li>
-          <li 
-            className={`li ${controlEntireDataRow(currentValues) ? '' : 'incompleteData'}`}>
+          <li
+            className={`li ${controlEntireDataRow(currentValues) ? '' : 'incompleteData'}`}
+          >
             <div className="containerGroup">
-              <p className="name">{currentValues.surname} {currentValues.name}</p>
-              <p className="date">{currentValues.dateOfBook} </p>
+              <p className="name">
+                {currentValues.surname}
+                {' '}
+                {currentValues.name}
+              </p>
+              <p className="date">
+                {currentValues.dateOfBook}
+                {' '}
+              </p>
               <p className="title">{currentValues.title}</p>
             </div>
             <p className="event">{currentValues.event}</p>
@@ -263,7 +289,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
               label="Imię"
               variant="standard"
             />
-            <TextField 
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={newValues.surname}
               onChange={(e) => setNewValues({ ...newValues, surname: e.target.value })}
@@ -273,7 +299,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
 
           </Box>
           <Box style={{ width: '100%' }} p={2} display="flex" justifyContent="space-between">
-            <TextField 
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={newValues.team}
               onChange={(e) => setNewValues({ ...newValues, team: e.target.value })}
@@ -285,7 +311,7 @@ export const List = ({ navHeight, scrollPosition, rows }:
                 <MenuItem key={team.teamId} value={team.teamId}>{team.name}</MenuItem>
               ))}
             </TextField>
-            <TextField 
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={newValues.event}
               onChange={(e) => setNewValues({ ...newValues, event: e.target.value })}
@@ -300,29 +326,34 @@ export const List = ({ navHeight, scrollPosition, rows }:
 
           </Box>
           <Box p={2} style={{ width: '100%' }} display="flex" justifyContent="space-between">
-            <Button style={{ width: '40%' }} color="secondary" variant="contained" onClick={() => {
-              setOpenChangeModal(false);
-              setNewValues({
-                cash: 0,
-                title: '',
-                dateOfBook: new Date(),
-                event: '',
-                id: '',
-                importDate: new Date(),
-                name: '',
-                surname: '',
-                team: '',
-                year: new Date().getFullYear(),
-              });
-            }}>
-            Anuluj
+            <Button
+              style={{ width: '40%' }}
+              color="secondary"
+              variant="contained"
+              onClick={() => {
+                setOpenChangeModal(false);
+                setNewValues({
+                  cash: 0,
+                  title: '',
+                  dateOfBook: new Date(),
+                  event: '',
+                  id: '',
+                  importDate: new Date(),
+                  name: '',
+                  surname: '',
+                  team: '',
+                  year: new Date().getFullYear(),
+                });
+              }}
+            >
+              Anuluj
             </Button>
-            <Button style={{ width: '40%' }}color="primary" variant="contained" startIcon={<AddIcon />} onClick={handleChangeIncome}>
-            Dodaj
+            <Button style={{ width: '40%' }} color="primary" variant="contained" startIcon={<AddIcon />} onClick={handleChangeIncome}>
+              Dodaj
             </Button>
           </Box>
         </div>
       </Modal>
     </div>
   );
-};
+}

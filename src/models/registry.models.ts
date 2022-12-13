@@ -9,7 +9,7 @@ export interface Person extends IObjectKeys {
   evidenceNumber?: string;
   disability?: boolean;
   instructor?: boolean;
-};
+}
 
 export interface APIPerson extends Person {
   id: string;
@@ -17,4 +17,4 @@ export interface APIPerson extends Person {
 
 export interface Registry {
   [key: string]: Record<string, APIPerson>
-};
+}

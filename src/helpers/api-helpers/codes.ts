@@ -1,4 +1,3 @@
-
 import { AxiosResponse } from 'axios';
 
 import axios from 'axios-income';
@@ -10,8 +9,8 @@ export const getCodes = async (): Promise<ICode[]> => {
 
   const mappedCodes = Object
     .entries(codes.data)
-    .map(([id, code]: [string, Omit<ICode, 'id'>]) => ({ id: id, ...code }));
-    
+    .map(([id, code]: [string, Omit<ICode, 'id'>]) => ({ id, ...code }));
+
   return mappedCodes;
 };
 

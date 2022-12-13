@@ -17,18 +17,16 @@ import store from 'store/store';
 
 import { sortingIncome } from '../../helpers/sorting.helper';
 
-const SortedIncome = (): JSX.Element => {
-  
+function SortedIncome(): JSX.Element {
   const dbCodes = useSelector((state: RootState) => state.income.codes);
 
   const init = useSelector((state: RootState) => state.income.initIncome);
 
-    
   const incomesToSend = useSelector((state: RootState) => state.income.sortedIncomes);
   const outcomesToSend = useSelector((state: RootState) => state.income.sortedOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
   const importDates = useSelector((state: RootState) => state.income.importDates);
-    
+
   const [currentTeam, setCurrentTeam] = useState('6673');
   const [displayedIncome, setDisplayedIncome] = useState<IncomesWithImportDate[]>([]);
   const [codes, setCodes] = useState<string[]>([]);
@@ -38,22 +36,19 @@ const SortedIncome = (): JSX.Element => {
 
   useEffect(() => {
     if (dbCodes) {
-      const codesToSend = dbCodes.map(code => code.code);
+      const codesToSend = dbCodes.map((code) => code.code);
       setCodes(codesToSend);
     }
-  },[dbCodes]);
+  }, [dbCodes]);
 
   useEffect(() => {
     if (incomesToSend && Object.values(incomesToSend).length > 0) {
       let sortedIncome;
-      if (!currentTeam) 
-        sortedIncome = Object.values(incomesToSend).filter(income => !income.team);
-      else sortedIncome = Object.values(incomesToSend).filter(income => income.team === currentTeam);
+      if (!currentTeam) { sortedIncome = Object.values(incomesToSend).filter((income) => !income.team); } else sortedIncome = Object.values(incomesToSend).filter((income) => income.team === currentTeam);
       setDisplayedIncome(sortedIncome);
-    };
-  },[currentTeam]);
+    }
+  }, [currentTeam]);
 
-  
   const assignIncome = () => {
     if (codes && init && registry) {
       const { sortedIncomes, sortedOutcomes } = sortingIncome(init, registry, codes);
@@ -65,51 +60,50 @@ const SortedIncome = (): JSX.Element => {
 
   useEffect(() => {
     assignIncome();
-  }, [codes, init, registry]); 
+  }, [codes, init, registry]);
 
   const sendingHandler = () => {
     setLoading(true);
     const updatedIncomes: IncomesWithImportDate[] = [];
     if (incomesToSend) {
-      Object.values(incomesToSend).forEach(i => {
-
+      Object.values(incomesToSend).forEach((i) => {
         updatedIncomes.push(i);
       });
 
-      updatedIncomes.forEach(async uI => await axios.post('/incomes.json', uI));
+      updatedIncomes.forEach(async (uI) => axios.post('/incomes.json', uI));
     }
 
     if (outcomesToSend) {
       const updatedOutcomes = [...Object.values(outcomesToSend)];
 
-      updatedOutcomes.forEach(async uO => await axios.post('/outcomes.json', uO));
-    };
+      updatedOutcomes.forEach(async (uO) => axios.post('/outcomes.json', uO));
+    }
 
     const date = new Date();
 
     const importDatesToUpdate = importDates && importDates.length > 0 ? importDates : [];
     const updatedImportDates = [...importDatesToUpdate, date];
-    (async () => await axios.put('/importDates.json', updatedImportDates))();
+    (async () => axios.put('/importDates.json', updatedImportDates))();
 
     setLoading(false);
     history.push('/');
   };
 
   return (
-    loading ? <div className="loader"><CircularProgress/></div> :
-      <>
+    loading ? <div className="loader"><CircularProgress /></div>
+      : (
         <section className="Section">
           <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
-          <TextField 
+          <TextField
             value={currentTeam}
             onChange={(e) => setCurrentTeam(e.target.value)}
             placeholder="Wybierz jednostkę z listy"
-            select={true}
+            select
             size="small"
             variant="outlined"
             margin="normal"
             SelectProps={{
-              MenuProps: { disableScrollLock: true }
+              MenuProps: { disableScrollLock: true },
             }}
           >
             {registry && [...Object.keys(registry), 'Błędne dopasowanie do jednostki'].map((item) => (
@@ -123,29 +117,29 @@ const SortedIncome = (): JSX.Element => {
               const children = displayedIncome.map((income, index) => {
                 if (income.event === event) {
                   return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
-                } else if (event === 'unAssigned' && (
-                  !income.hasOwnProperty('event') ||
-              !income.hasOwnProperty('year') ||
-              !income.hasOwnProperty('team') ||
-              !income.hasOwnProperty('name') ||
-              !income.hasOwnProperty('surname')
+                } if (event === 'unAssigned' && (
+                  !income.hasOwnProperty('event')
+              || !income.hasOwnProperty('year')
+              || !income.hasOwnProperty('team')
+              || !income.hasOwnProperty('name')
+              || !income.hasOwnProperty('surname')
                 )) {
                   return <ListEl error={false} key={index} title={income.title} cash={income.cash} />;
                 }
               });
-              return (<ListContainer
-                key={index}
-                title={item}
-              >
-                {children}
-              </ListContainer>);
+              return (
+                <ListContainer
+                  key={index}
+                  title={item}
+                >
+                  {children}
+                </ListContainer>
+              );
             })}
           </main>
         </section>
-      </>
+      )
   );
-  
-};
-
+}
 
 export default SortedIncome;

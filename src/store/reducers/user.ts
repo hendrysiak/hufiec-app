@@ -1,4 +1,3 @@
-
 import { ActionTypes } from 'store/actions/action.enum';
 import { ActionType } from 'store/actions/action.types';
 import { UserState } from 'store/models/user.state.model';
@@ -15,26 +14,25 @@ const reducer = (state = initialState, action: ActionType): UserState => {
     case ActionTypes.SET_AUTHENTICATION_STATE:
       return {
         ...state,
-        isAuthenticated: action.isAuthenticated
+        isAuthenticated: action.isAuthenticated,
       };
     case ActionTypes.SET_ROLES:
       return {
         ...state,
-        roles: action.roles
+        roles: action.roles,
       };
     case ActionTypes.SET_TEAM:
       return {
         ...state,
-        team: action.team
+        team: action.team,
       };
     case ActionTypes.SET_EVIDENCE_NUMBER:
       return {
         ...state,
-        evidenceNumber: action.evidenceNumber
+        evidenceNumber: action.evidenceNumber,
       };
     default:
       return state;
-
   }
 };
 

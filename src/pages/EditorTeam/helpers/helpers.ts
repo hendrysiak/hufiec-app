@@ -5,7 +5,6 @@ import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import { IPerson } from '../EditorTeam';
 
-
 export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolean): Promise<void> => {
   if (!rows) return;
 
@@ -21,43 +20,36 @@ export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolea
       alert('Błąd, nie udało się usunąć');
     }
     return;
-  } 
+  }
 
   try {
     await permanentDeleteTeamMember(memberToDelete);
     alert(`Udało się pomysślnie usunąć ${memberToDelete.name} ${memberToDelete.surname}`);
-  }
-  catch {
+  } catch {
     alert('Błąd, nie udało się usunąć');
-  }     
+  }
 };
 
-export const filterMembers = (usedRegistry: APIPerson[], name: string, surname: string) => {
-  return usedRegistry.filter(member => 
-    member.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase()) && 
-    member.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
-    .map((member, index) => {
-      return (
-        {
-          lp: index + 1,
-          ...member,
-          feeState: countingMemberFee(member)
-        }
-      );
-    });
-};
+export const filterMembers = (usedRegistry: APIPerson[], name: string, surname: string) => usedRegistry.filter((member) => member.name?.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+    && member.surname?.toLocaleLowerCase().includes(surname.toLocaleLowerCase()))
+  .map((member, index) => (
+    {
+      lp: index + 1,
+      ...member,
+      feeState: countingMemberFee(member),
+    }
+  ));
 
 export const controlerDate = (value: Date, newData: Partial<APIPerson> | null, row: IPerson, nameKey: string) => {
-
   const minDate = newData?.dateOfAdd ? newData.dateOfAdd : row.dateOfAdd;
   const maxDate = newData?.dateOfDelete ? newData.dateOfDelete : row.dateOfDelete;
-  
+
   if (maxDate && nameKey === 'dateOfAdd') {
     if (value.getTime() > new Date(maxDate).getTime()) {
       return true;
     }
   }
-  
+
   if (minDate && nameKey === 'dateOfDelete') {
     if (new Date(minDate).getTime() > value.getTime()) {
       return true;

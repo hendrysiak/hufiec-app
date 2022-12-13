@@ -11,8 +11,8 @@ import { sortBilingFromING } from './bank.helper';
 export const setIncomeInRedux = async (file: File): Promise<void> => {
   const reader = new FileReader();
   const onload = () => {
-    const result = reader.result;
-    
+    const { result } = reader;
+
     if (typeof result === 'string') {
       const convertedJson = convert.xml2js(result, { compact: true }) as Record<string, INGBilingDocument>;
       const sortedJSON = sortBilingFromING(convertedJson.Document);

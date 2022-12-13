@@ -24,7 +24,7 @@ const checkErrorCode = (error: string | null) => {
   }
 };
 
-const Login = (): JSX.Element => {
+function Login(): JSX.Element {
   const [formReset, setFormReset] = useState<boolean>(false);
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -35,7 +35,6 @@ const Login = (): JSX.Element => {
   // const [email, setEmail] = useState<string>('');
   // const cookies = new Cookies();
 
-
   const checkLogin = async (login: string, password: string) => {
     setLoadingLogin(true);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -45,15 +44,15 @@ const Login = (): JSX.Element => {
       setLoadingLogin(false);
     } else {
       setLogin(login);
-    };
-    
+    }
+
     try {
       const user = await signInToApp(login, password);
     } catch (err: unknown) {
       setLoadingLogin(false);
       if (err instanceof FirebaseError) {
         setError(err.code);
-      };
+      }
     }
     setLoadingLogin(false);
   };
@@ -69,35 +68,36 @@ const Login = (): JSX.Element => {
 
   return (
     <>
-      {loadingLogin ? <CircularProgress className={classes.circularProgress}/> : 
-        <form className={classes.form} onSubmit={onSubmit}>
-          <Input
+      {loadingLogin ? <CircularProgress className={classes.circularProgress} />
+        : (
+          <form className={classes.form} onSubmit={onSubmit}>
+            <Input
             // type="text/submit"
-            type="te"
-            className={classes.input}
-            id="standard-basic"
-            placeholder="Login"
-            disabled={formReset}
-            onChange={(e) => setLogin(e.target.value)}
-          />
-          <Input
-            type="password"
-            className={classes.input}
-            id="standard-basic"
-            placeholder="Hasło"
-            disabled={formReset}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            className={classes.btn}
-            variant="contained"
-            color="primary"
-            disabled={formReset}
-          >
-            ZALOGUJ
-          </Button>
-          {/* <FormControlLabel 
+              type="te"
+              className={classes.input}
+              id="standard-basic"
+              placeholder="Login"
+              disabled={formReset}
+              onChange={(e) => setLogin(e.target.value)}
+            />
+            <Input
+              type="password"
+              className={classes.input}
+              id="standard-basic"
+              placeholder="Hasło"
+              disabled={formReset}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+              disabled={formReset}
+            >
+              ZALOGUJ
+            </Button>
+            {/* <FormControlLabel
             label="Zapomniałem Hasła"
             control={
               <Checkbox
@@ -116,7 +116,8 @@ const Login = (): JSX.Element => {
             </Button>
           </>
           } */}
-        </form>}
+          </form>
+        )}
       <Button
         type="submit"
         variant="contained"
@@ -126,9 +127,9 @@ const Login = (): JSX.Element => {
         PRZYWRÓĆ HASŁO
       </Button>
       <p style={{ color: 'red' }}>{checkErrorCode(error)}</p>
-      <p>{'Żeby zresetowac hasło, wypełnij pole "LOGIN" właściwym mailem przypisanym do konta'}</p>
+      <p>Żeby zresetowac hasło, wypełnij pole "LOGIN" właściwym mailem przypisanym do konta</p>
     </>
   );
-};
+}
 
 export default Login;

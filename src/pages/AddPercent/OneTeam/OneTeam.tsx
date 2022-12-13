@@ -5,8 +5,7 @@ import { updateOnePercent } from 'helpers/editing-db.handler';
 
 import classes from '../AddPercent.module.css';
 
-
-const OneTeam = ({ team, amount }: {team: string, amount: number}) => {
+function OneTeam({ team, amount }: { team: string, amount: number }) {
   const [inputValue, setInputValue] = useState<string>('');
   const [currentAmount, setCurrentAmount] = useState<number | undefined>();
 
@@ -23,14 +22,26 @@ const OneTeam = ({ team, amount }: {team: string, amount: number}) => {
       alert('Coś poszło nie tak, spróbuj dodać ponownie.');
     }
   };
-  
+
   return (
     <div className={classes.oneRow}>
-      <p>DRUŻYNA <span className={classes.bold}>{team}</span> - OBECNIE: {currentAmount !== undefined ? currentAmount : amount} zł</p>
-      <label htmlFor=""> Nowa kwota: <Input type="number" placeholder="kwota" onChange={handleInput} value={inputValue}/></label> 
+      <p>
+        DRUŻYNA
+        <span className={classes.bold}>{team}</span>
+        {' '}
+        - OBECNIE:
+        {currentAmount !== undefined ? currentAmount : amount}
+        {' '}
+        zł
+      </p>
+      <label htmlFor="">
+        {' '}
+        Nowa kwota:
+        <Input type="number" placeholder="kwota" onChange={handleInput} value={inputValue} />
+      </label>
       <Button onClick={() => handleSendNewValue()} variant="contained" color="primary">ZAPISZ</Button>
     </div>
   );
-};
+}
 
 export default OneTeam;

@@ -20,8 +20,7 @@ export const localizationDataGrid = {
   toolbarFiltersLabel: 'Pokaż filtry',
   toolbarFiltersTooltipHide: 'Ukryj filtry',
   toolbarFiltersTooltipShow: 'Pokaż filtry',
-  toolbarFiltersTooltipActive: (count: number): string =>
-    count !== 1 ? `${count} aktywne filtry` : `${count} aktywny filtr`,
+  toolbarFiltersTooltipActive: (count: number): string => (count !== 1 ? `${count} aktywne filtry` : `${count} aktywny filtr`),
 
   // Export selector toolbar button text
   toolbarExport: 'Eksport',
@@ -75,23 +74,20 @@ export const localizationDataGrid = {
   columnMenuSortDesc: 'Sortuj malejąco',
 
   // Column header text
-  columnHeaderFiltersTooltipActive: (count: number): string =>
-    count !== 1 ? `${count} aktywne filtry` : `${count} aktywny filtr`,
+  columnHeaderFiltersTooltipActive: (count: number): string => (count !== 1 ? `${count} aktywne filtry` : `${count} aktywny filtr`),
   columnHeaderFiltersLabel: 'Pokaż filtry',
   columnHeaderSortIconLabel: 'Sortuj',
 
   // Rows selected footer text
-  footerRowSelected: (count: number): string =>
-    count !== 1
-      ? `${count.toLocaleString()} rows selected`
-      : `${count.toLocaleString()} row selected`,
+  footerRowSelected: (count: number): string => (count !== 1
+    ? `${count.toLocaleString()} rows selected`
+    : `${count.toLocaleString()} row selected`),
 
   // Total rows footer text
   footerTotalRows: 'Łacznie wierszy:',
 
   // Total visible rows footer text
-  footerTotalVisibleRows: (visibleCount: number, totalCount: number): string =>
-    `${visibleCount.toLocaleString()} of ${totalCount.toLocaleString()}`,
+  footerTotalVisibleRows: (visibleCount: number, totalCount: number): string => `${visibleCount.toLocaleString()} of ${totalCount.toLocaleString()}`,
 
   // Checkbox selection text
   checkboxSelectionHeaderName: 'Wybieranie checkiem',

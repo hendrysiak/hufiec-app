@@ -2,17 +2,16 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
-import { Document, Page, Font, Text, View, StyleSheet, PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-
+import {
+  Document, Page, Font, Text, View, StyleSheet, PDFDownloadLink, PDFViewer,
+} from '@react-pdf/renderer';
 
 import React from 'react';
 
 import font from 'fonts/Museo300-Regular.ttf';
 
-
 import Footer from '../shared/containers/Footer/Footer';
 import Header from '../shared/containers/Header/Header';
-
 
 // Using this way because of overidding body styles
 interface LetterProps {
@@ -37,13 +36,11 @@ const pageStyle = StyleSheet.create({
     overflow: 'hidden',
     fontFamily: 'Museo300',
     pageBreakAfter: 'always' as const,
-    fontSize: '12px'
-  }
+    fontSize: '12px',
+  },
 });
 
-const DecisionDownload = (props: LetterProps): JSX.Element => {
-
-
+function DecisionDownload(props: LetterProps): JSX.Element {
   return (
     <>
       {/* <PDFViewer> */}
@@ -51,7 +48,7 @@ const DecisionDownload = (props: LetterProps): JSX.Element => {
           <Page size="A4" orientation="portrait" style={pageStyle.page}>
             <View>
             <Header recipient={props.recipient} />
-            {<Main 
+            {<Main
                 author={props.author}
                 area={props.area}
                 kind={props.kind}
@@ -62,8 +59,8 @@ const DecisionDownload = (props: LetterProps): JSX.Element => {
           </Page>
         </Document> */}
       {/* {({ blob, url, loading, error }) => (
-          <div 
-            style={{ 
+          <div
+            style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center'
@@ -74,6 +71,6 @@ const DecisionDownload = (props: LetterProps): JSX.Element => {
       {/* </PDFViewer> */}
     </>
   );
-};
+}
 
 export default DecisionDownload;

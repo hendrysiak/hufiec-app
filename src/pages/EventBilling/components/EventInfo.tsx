@@ -13,12 +13,12 @@ type Props = {
   title: string;
   cashToBiling: number;
   cashFromIncomes: number;
-}
+};
 
-const EventInfo = (props: Props): JSX.Element => {
+function EventInfo(props: Props): JSX.Element {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
         {props.title}
       </Typography>
@@ -39,8 +39,8 @@ const EventInfo = (props: Props): JSX.Element => {
           Przejdź do analizy wpływów po kodzie
         </Link>
       </div>
-    </React.Fragment>
+    </>
   );
-};
+}
 
 export default EventInfo;

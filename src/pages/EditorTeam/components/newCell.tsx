@@ -18,7 +18,9 @@ interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, b: IPerson) => void;
 }
 
-export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) => {
+export function CustomTableCell({
+  row, name, onChange, id, newData,
+}: IProps) {
   const classes = useStyles();
 
   const renderCell = (value: unknown) => {
@@ -32,7 +34,7 @@ export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) =>
         <Input
           value={newData && newData[name] ? newData[name] : row[name]}
           name={name}
-          onChange={e => onChange(e, row)}
+          onChange={(e) => onChange(e, row)}
           className={classes.input}
           disabled={name === Rows.Lp}
         />
@@ -41,5 +43,4 @@ export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) =>
       )}
     </TableCell>
   );
-};
-
+}

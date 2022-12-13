@@ -1,4 +1,6 @@
-import { Button, MenuItem, Modal, TextField } from '@mui/material';
+import {
+  Button, MenuItem, Modal, TextField,
+} from '@mui/material';
 
 import React, { useState } from 'react';
 
@@ -14,12 +16,12 @@ export const teamContext = React.createContext<string>('');
 
 interface SelectTeam {
   children?: React.ReactNode;
-  team: number; 
+  team: number;
   onChange: (e: string) => void;
   disabled?: boolean;
 }
 
-const SelectTeam = ({ onChange, team, disabled = false }: SelectTeam): JSX.Element => {
+function SelectTeam({ onChange, team, disabled = false }: SelectTeam): JSX.Element {
   const teams = useTeams();
 
   const [openNewMember, setOpenNewMember] = useState<boolean>(false);
@@ -39,20 +41,20 @@ const SelectTeam = ({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
         value={team}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Wybierz drużynę z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
         disabled={disabled}
       >
-        {['Cały hufiec', 'Instruktorzy', ...(teams || []).map(t => t.teamId)].map((item) => (
+        {['Cały hufiec', 'Instruktorzy', ...(teams || []).map((t) => t.teamId)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
-      <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={team ? false : true}>
-            NOWY CZŁONEK
+      <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={!team}>
+        NOWY CZŁONEK
       </Button>
       <Modal
         open={openNewMember}
@@ -60,10 +62,10 @@ const SelectTeam = ({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <NewTeamMember team={team} handleCloseNewMember={handleCloseNewMember}/>
+        <NewTeamMember team={team} handleCloseNewMember={handleCloseNewMember} />
       </Modal>
     </div>
   );
-};
+}
 
 export default SelectTeam;

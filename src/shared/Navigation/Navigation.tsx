@@ -1,4 +1,3 @@
-
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -16,20 +15,19 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 
 import React, { useEffect } from 'react';
 
-
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
-const Navigation = (): JSX.Element => {
+function Navigation(): JSX.Element {
   const [isOpen, setIsOpen] = React.useState(false);
-  
+
   useEffect(() => {
     document.body.addEventListener('click', (event: MouseEvent): void => {
       const target = event.target as HTMLElement;
-      if (target 
+      if (target
         && !(target.classList.contains('nav__open') || target.classList.contains('nav__open--icon'))
       ) setIsOpen(false);
-    });    
-  },[]);
+    });
+  }, []);
 
   const navigation = [
     { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
@@ -48,24 +46,24 @@ const Navigation = (): JSX.Element => {
   ];
 
   return (
-    <>
-      <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
-        <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
-          {isOpen ? <CloseIcon/> : <LaunchIcon className="nav__open--icon" />}
-        </div>
-        {navigation.map((nEl, index: number) => (
-          <NavigationItem 
-            key={index}
-            link={nEl.link}
-            exact
-          >
-            <>{nEl.icon}<span>{`${nEl.title}`}</span></>
-          </NavigationItem>))}
+    <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
+      <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
+        {isOpen ? <CloseIcon /> : <LaunchIcon className="nav__open--icon" />}
       </div>
-
-    </>
+      {navigation.map((nEl, index: number) => (
+        <NavigationItem
+          key={index}
+          link={nEl.link}
+          exact
+        >
+          <>
+            {nEl.icon}
+            <span>{`${nEl.title}`}</span>
+          </>
+        </NavigationItem>
+      ))}
+    </div>
   );
-
-};
+}
 
 export default Navigation;

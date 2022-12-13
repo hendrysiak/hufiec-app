@@ -24,17 +24,18 @@ interface IProps {
   currentTeam: string;
 }
 
-const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport }: IProps): JSX.Element => {
-  const tooltipStyles = useMemo(() => makeStyles(() => 
-    createStyles({
-      tooltip: {
-        fontSize: 32
-      },
-    })), []);
+function Tooltips({
+  open, members, incomes, outcomes, currentTeam, dataToExport,
+}: IProps): JSX.Element {
+  const tooltipStyles = useMemo(() => makeStyles(() => createStyles({
+    tooltip: {
+      fontSize: 32,
+    },
+  })), []);
 
   const tooltipsClasses = tooltipStyles();
-  
-  return <>
+
+  return (
     <div className={classes.tooltips}>
       {/* <Tooltip title="" classes={tooltipsClasses}>
         <IconButton aria-label="members">
@@ -59,7 +60,7 @@ const Tooltips = ({ open, members, incomes, outcomes, currentTeam, dataToExport 
         </CSVLink>
       </Tooltip> */}
     </div>
-  </>;
-};
+  );
+}
 
 export default Tooltips;

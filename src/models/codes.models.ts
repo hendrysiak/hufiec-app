@@ -13,7 +13,7 @@ export interface ICode {
   teams: number[];
   firstAccept: boolean;
   letter: boolean;
-  decision: string;   
+  decision: string;
   locality: string;
 }
 
@@ -28,7 +28,7 @@ export interface Code {
   amount: number;
   startDate: Date;
   endDate: Date;
-  decision: string;   
+  decision: string;
   wholeOrganization: boolean;
   teams: string[]
   locality: string;
@@ -42,4 +42,4 @@ export type Event = {
 };
 export interface ApprovedEvent extends Event {
   approvalInfo?: string;
-};
+}

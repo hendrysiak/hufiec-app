@@ -9,29 +9,30 @@ interface Props {
   clicked?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-const ListEl = (props: Props): JSX.Element => {
- 
+function ListEl(props: Props): JSX.Element {
   const useStyles = makeStyles(() => ({
     root: {
       '& > * ': {
         width: '75%',
-      }
+      },
     },
     first: {
-      width: '15%'
-    }
+      width: '15%',
+    },
   }));
 
   const classes = useStyles();
 
   return (
     <li className={classes.root} style={{ display: 'flex', justifyContent: 'space-around' }}>
-      {props.cash && <TextField 
+      {props.cash && (
+      <TextField
         className={classes.first}
         value={props.cash}
         error={props.error}
         margin="dense"
-      />}
+      />
+      )}
       <TextField
         size="medium"
         value={props.title}
@@ -41,6 +42,6 @@ const ListEl = (props: Props): JSX.Element => {
       />
     </li>
   );
-};
+}
 
 export default ListEl;

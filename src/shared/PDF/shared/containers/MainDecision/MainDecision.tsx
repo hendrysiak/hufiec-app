@@ -10,7 +10,6 @@ import DateAndPlace from '../../components/DateAndPlace/DateAndPlace';
 import Code from './Code';
 import ReAccouting from './ReAccouting';
 
-
 interface MainProps {
   decision: Decision;
 }
@@ -26,18 +25,17 @@ const styles = StyleSheet.create({
   },
   author: {
     display: 'flex',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 });
 
-const Main = (props: MainProps): JSX.Element => {
-
+function Main(props: MainProps): JSX.Element {
   const contentGenerator = () => {
     switch (props.decision.area) {
       case DecisionArea.ReAccount:
-        return <ReAccouting decision={props.decision as DecisionReAccouting}/>;
+        return <ReAccouting decision={props.decision as DecisionReAccouting} />;
       case DecisionArea.Code:
-        return <Code decision={props.decision as DecisionCode}/>;
+        return <Code decision={props.decision as DecisionCode} />;
     }
   };
 
@@ -49,6 +47,6 @@ const Main = (props: MainProps): JSX.Element => {
       {contentGenerator()}
     </View>
   );
-};
+}
 
 export default Main;

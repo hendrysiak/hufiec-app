@@ -4,7 +4,6 @@ import React from 'react';
 import hufiecLogo from 'assets/generator/hufiec-logo.jpg';
 import scoutLogo from 'assets/generator/scout-logo.png';
 
-
 const styles = StyleSheet.create({
   footer: {
     display: 'flex',
@@ -12,21 +11,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   img: {
-    height: '60px'
+    height: '60px',
   },
   scouts: {
     height: '40px',
-    alignSelf: 'flex-end'
-  }
+    alignSelf: 'flex-end',
+  },
 });
 
-const Footer = (): JSX.Element => {
+function Footer(): JSX.Element {
   return (
     <View style={styles.footer}>
-      <Image src={hufiecLogo} style={styles.img}/>
-      <Image src={scoutLogo} style={styles.scouts}/>
+      <Image src={hufiecLogo} style={styles.img} />
+      <Image src={scoutLogo} style={styles.scouts} />
     </View>
   );
-};
+}
 
 export default Footer;

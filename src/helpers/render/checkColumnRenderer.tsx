@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import { GridRenderCellParams } from '@mui/x-data-grid';
 import React from 'react';
 
-
 export const checkColumnRenderer = (params: GridRenderCellParams<string | boolean | undefined>): JSX.Element => (
   <Box style={{ width: '100%' }} display="flex" justifyContent="center">
     {params.value ? <CheckIcon /> : <CloseIcon />}
