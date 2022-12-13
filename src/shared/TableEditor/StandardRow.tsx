@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import MailIcon from '@mui/icons-material/Mail';
 import { TableRow, TableCell, IconButton, Tooltip } from '@mui/material';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import React from 'react';

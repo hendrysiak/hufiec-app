@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 
 import { getTeams } from 'helpers/api-helpers/team';
+import { useUserData } from 'helpers/hooks/useUserData';
 import { Team } from 'models/team';
 
 interface TeamsValues {
@@ -21,8 +22,11 @@ type TeamsProviderProps = {
 };
 
 const TeamsProvider = (props: TeamsProviderProps): JSX.Element => {
+  const user = useUserData();
 
-  const query = useQuery<Team[], Error>('teams', () => getTeams());
+  const query = useQuery<Team[], Error>('teams', () => getTeams(), {
+    enabled: !!user
+  });
     
   return <TeamContext.Provider
     value={{

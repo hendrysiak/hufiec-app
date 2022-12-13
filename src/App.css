@@ -7,12 +7,12 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 .app__container {
     margin-left: 5vw;
-    width: 95%;
+    width: 100%;
 }
 
 .nav {

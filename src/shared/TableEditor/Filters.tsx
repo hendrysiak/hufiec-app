@@ -18,7 +18,7 @@ import { FiltersName } from './FiltersName';
 type Props = {
   editedData: BudgetEntry;
   selectedDate: any | null;
-  setSelectedDate: (date: any) => void;
+  setSelectedDate: (date: Date | string) => void;
   team: string;
   setTeam: (team: string) => void;
   name: string;
@@ -36,12 +36,11 @@ type Props = {
 }
 
 const Filters = (props: Props): JSX.Element => {
-  const importDates = useSelector((state: RootState) => state.income.importDates);
   const registry = useSelector((state: RootState) => state.income.registry);
 
   const codes = useSelector((state: RootState) => state.income.codes);
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
     dayWithDotContainer: {
       position: 'relative'
     },
@@ -59,24 +58,24 @@ const Filters = (props: Props): JSX.Element => {
   
   const classes = useStyles();
 
-  const renderDayInPicker = (
-    date: any, 
-    selectedDate: unknown, 
-    dayInCurrentMonth: unknown, 
-    dayComponent: JSX.Element) => {
+  // const renderDayInPicker = (
+  //   date: any, 
+  //   selectedDate: unknown, 
+  //   dayInCurrentMonth: unknown, 
+  //   dayComponent: JSX.Element) => {
 
-    const mappedImportDates = importDates?.map(id => new Date(id).toLocaleDateString());
+  //   const mappedImportDates = importDates?.map(id => new Date(id).toLocaleDateString());
 
-    if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleDateString())) {
+  //   if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleDateString())) {
       
-      return (<div className={classes.dayWithDotContainer}>
-        {dayComponent}
-        <div className={classes.dayWithDot}/>
-      </div>);
-    }
+  //     return (<div className={classes.dayWithDotContainer}>
+  //       {dayComponent}
+  //       <div className={classes.dayWithDot}/>
+  //     </div>);
+  //   }
 
-    return dayComponent;    
-  };
+  //   return dayComponent;    
+  // };
     
   const handleDateChange = (date: any) => {
     props.setSelectedDate(date);

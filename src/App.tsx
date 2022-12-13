@@ -15,7 +15,6 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
-  Redirect,
   Route,
   Switch
 } from 'react-router-dom';
@@ -26,7 +25,7 @@ import NavigationContainer from 'containers/NavigationContainer/NavigationContai
 import { getAccount } from 'helpers/account.helper';
 import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 
-import { AuthUserProvider } from 'providers/AuthUserProvider/AuthUserProvider';
+import { AuthUserProvider, useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 import { PermissionsProvider } from 'providers/PermissionsProvider/PermissionsProvider';
 import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
 import TeamsProvider from 'providers/TeamsProvider/TeamsProvider';
@@ -50,12 +49,10 @@ import store from './store/store';
 const App = (): JSX.Element => {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
-  const cookies = new Cookies();
-  const roles = useSelector((state: RootState) => state.user.roles);
   const team = useSelector((state: RootState) => state.user.team);
+  const { authUser } = useAuth();
   // const [roles, setRoles] = useState<string[] | null>(null);
   // const [team, setTeam] = useState<string | null>(null);
-  const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -75,26 +72,30 @@ const App = (): JSX.Element => {
       await getRegistry();
       await getImportDates();
     };
-    downloadData();
-    store.dispatch(actions.reduxLoadingEnd());
-    const dataLogin = DecryptCookie(cookies.get('token'));
-    const checkLogin = async (login: string, password: string) => {
-      const accountData = await getAccount(login);
-      if (password === accountData.password) {
-        store.dispatch(reduxSetRoles(accountData.roles));
-        store.dispatch(reduxSetTeam(accountData.team));
-        store.dispatch(reduxIsAuthentication(true));
-        store.dispatch(reduxSetEvidenceNumber(login));
 
-        // setRoles(accountData.roles);
-        setRedirectToLogin(true);
-        // setTeam(accountData.team);
-        return;
-      } else setRedirectToLogin(true);
-      return;
+    console.log(authUser);
+    if (authUser) {
+      downloadData();
     };
-    dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
-  }, []);
+    store.dispatch(actions.reduxLoadingEnd());
+    // const dataLogin = DecryptCookie(cookies.get('token'));
+    // const checkLogin = async (login: string, password: string) => {
+    //   const accountData = await getAccount(login);
+    //   if (password === accountData?.password) {
+    //     store.dispatch(reduxSetRoles([accountData.role]));
+    //     store.dispatch(reduxSetTeam(accountData?.team));
+    //     store.dispatch(reduxIsAuthentication(true));
+    //     store.dispatch(reduxSetEvidenceNumber(login));
+
+    //     // setRoles(accountData.roles);
+    //     setRedirectToLogin(true);
+    //     // setTeam(accountData.team);
+    //     return;
+    //   } else setRedirectToLogin(true);
+    //   return;
+    // };
+    // dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
+  }, [authUser?.uid]);
 
   const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
   // const Codes = React.lazy(() => import( './pages/Codes/Codes'));
@@ -148,8 +149,8 @@ const App = (): JSX.Element => {
     <>
       <SnackbarProvider>
         <QueryClientProvider client={queryClient}>
-          <TeamsProvider>
-            <AuthUserProvider>
+          <AuthUserProvider>
+            <TeamsProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <div className="app">
                   {loadingStatus
@@ -161,9 +162,9 @@ const App = (): JSX.Element => {
                     </div>)}
                 </div>
               </LocalizationProvider>
-            </AuthUserProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </TeamsProvider>
+            </TeamsProvider>
+          </AuthUserProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </SnackbarProvider>
     </>

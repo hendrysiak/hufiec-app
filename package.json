@@ -55,7 +55,7 @@
     "test:coverage": "npm test -- --coverage",
     "eject": "react-scripts eject",
     "lint:css": "stylelint './src/**/*.ts'",
-    "lint": "eslint --fix src/**/*.ts src/**/*.tsx"
+    "lint": "eslint --fix ./src/**/*.ts ./src/**/*.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
