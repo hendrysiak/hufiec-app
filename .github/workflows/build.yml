@@ -30,8 +30,15 @@ jobs:
         run: |
           npm i --force
           npm run build
+      - name: Install SSH Client 🔑
+        uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}  
       - name: deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./build
+              BASE_BRANCH: master
+              BRANCH: gh-pages
+              CLEAN: true
+              FOLDER: ./dist
+              SSH: true
