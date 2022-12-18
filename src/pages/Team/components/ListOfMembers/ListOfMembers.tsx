@@ -235,7 +235,7 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
   ];
 
   return (
-    <div style={{ height: '80vh' }}>
+    <div style={{ height: '90vh' }}>
       <DataGrid
         columns={columns}
         rows={rows.map((r) => ({ ...r, id: r.id, evidenceNumber: r.evidenceNumber ?? '' }))}

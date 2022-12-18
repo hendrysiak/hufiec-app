@@ -1,6 +1,5 @@
 {
   "name": "hufiec-app",
-  "homepage": "https://hendrysiak.github.io/hufiec-app",
   "version": "0.3.0",
   "engines": {
     "node": "18.x"

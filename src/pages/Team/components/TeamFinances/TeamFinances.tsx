@@ -69,6 +69,7 @@ function TeamFinances({
         open={isOpen}
         onClose={handleClose}
       > */}
+      <div style={{ height: '94vh' }}>
       <section className={classes.positionModal}>
         <div className={classes.header}>
           <p>Konto</p>
@@ -109,6 +110,7 @@ function TeamFinances({
           zł
         </h1>
       </section>
+      </div>
       {/* </Modal> */}
     </>
   );

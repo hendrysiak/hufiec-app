@@ -40,7 +40,7 @@ export const getCodes = async (team: number | null): Promise<void> => {
     }
   } else {
     for (const code in codes) {
-      if (codes.data[code].teams.includes(Number(team)) || codes.data[code].wholeOrganization) {
+      if (codes.data[code]?.teams.includes(Number(team)) || codes.data[code]?.wholeOrganization) {
         const fullCode = codes.data[code].id ? `${code}-${codes.data[code].id}` : code;
         codesToFilter.push({ code: fullCode });
       }
