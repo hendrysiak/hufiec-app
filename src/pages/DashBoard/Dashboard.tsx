@@ -32,7 +32,7 @@ function Dashboard(): JSX.Element {
   const [loadingMess, setLoadingMess] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
   const getMessages = async () => {
-    const result = await axios.get('/ticket.json/');
+    const result = await axios.get('/ticket.json');
     setLoadingMess(true);
     return setMessages(result.data);
   };
@@ -55,8 +55,6 @@ function Dashboard(): JSX.Element {
   }, [incomeDb]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
     getMessages();
   }, []);
 

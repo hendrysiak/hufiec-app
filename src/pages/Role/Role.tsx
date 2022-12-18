@@ -20,11 +20,16 @@ import { AuthUser, UserRoles } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 
+interface NewUser extends AuthUser {
+  uid: string;
+}
+
 function Role(): JSX.Element {
   const query = useQuery<Record<string, AuthUser>, Error>('users', fetchUsers);
   const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
-  const [user, setNewUser] = React.useState<AuthUser>({
+  const [user, setNewUser] = React.useState<NewUser>({
+    uid: '',
     evidenceNumber: '',
     role: 'leader',
     team: '',
@@ -67,7 +72,10 @@ function Role(): JSX.Element {
 
   const columns = [
     {
-      field: 'evidenceNumber', headerName: 'Nr ewidencji', width: 200, editable: false,
+      field: 'uid', headerName: 'uid', width: 200, editable: true,
+    },
+    {
+      field: 'evidenceNumber', headerName: 'Nr ewidencji', width: 200, editable: true,
     },
     {
       field: 'roles', headerName: 'Rola', type: 'singleSelect', valueOptions: ['admin', 'leader'], width: 150, editable: true,
@@ -98,9 +106,10 @@ function Role(): JSX.Element {
   ];
 
   const rows = !query?.data ? [] : Object.entries(query.data)
-    .map(([evNum, user]: [string, AuthUser]) => ({
-      id: evNum,
-      evidenceNumber: evNum,
+    .map(([uid, user]: [string, AuthUser]) => ({
+      id: uid,
+      uid: uid,
+      evidenceNumber: user.evidenceNumber,
       roles: user.role,
       team: user?.team ? user?.team : '',
       name: user?.name ?? '',
@@ -137,25 +146,19 @@ function Role(): JSX.Element {
   };
 
   const handleAdd = () => {
-    const newPassword = generatePassword(10);
-
-    if (window.confirm(`Zapisz hasło dla użytkownika i zatwierdź:
-      ${newPassword}
-    `)) {
       const fullUser: Record<string, AuthUser> = {
-        // [user.evidenceNumber]: {
-        //   roles: [user.role],
-        //   name: user.name,
-        //   surname: user.surname,
-        //   team: user.team,
-        //   password: Encrypt(newPassword),
-        // }
+        [user.uid]: {
+          role: user.role,
+          name: user.name,
+          surname: user.surname,
+          team: user.team,
+          evidenceNumber: user.evidenceNumber,
+        }
       };
 
       createUserMutation.mutate(fullUser);
       createUserMutation.reset();
       setOpenAddUserModal(false);
-    }
   };
 
   return (
@@ -180,11 +183,20 @@ function Role(): JSX.Element {
           <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
             <TextField
               style={{ margin: '16px', width: '40%' }}
+              value={user.uid}
+              onChange={(e) => setNewUser({ ...user, uid: e.target.value })}
+              label="UID"
+              variant="standard"
+            />
+            <TextField
+              style={{ margin: '16px', width: '40%' }}
               value={user.evidenceNumber}
               onChange={(e) => setNewUser({ ...user, evidenceNumber: e.target.value })}
               label="Numer ewidencji"
               variant="standard"
             />
+          </Box>
+          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.role}
@@ -197,8 +209,6 @@ function Role(): JSX.Element {
                 <MenuItem key={item} value={item}>{item}</MenuItem>
               ))}
             </TextField>
-          </Box>
-          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.team}
@@ -211,6 +221,8 @@ function Role(): JSX.Element {
                 <MenuItem key={team.teamId} value={team.teamId}>{team.name}</MenuItem>
               ))}
             </TextField>
+          </Box>
+          <Box style={{ width: '100%' }} display="flex" justifyContent="center">
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.name}
@@ -218,8 +230,6 @@ function Role(): JSX.Element {
               label="Imię"
               variant="standard"
             />
-          </Box>
-          <Box p={4} style={{ width: '100%' }} display="flex" justifyContent="center">
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.surname}
@@ -236,6 +246,7 @@ function Role(): JSX.Element {
               onClick={() => {
                 setOpenAddUserModal(false);
                 setNewUser({
+                  uid: '',
                   evidenceNumber: '',
                   role: 'leader',
                   team: '',

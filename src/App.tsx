@@ -120,6 +120,7 @@ function App(): JSX.Element {
       <PermissionsProvider>
         <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
           <Switch>
+            <Route exact path="/" render={() => <Login />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
             <Route exact path="/addpercent" render={() => <AddPercent />} />
             <Route exact path="/transfers" render={() => <ImportIncome />} />
@@ -137,7 +138,6 @@ function App(): JSX.Element {
             <Route exact path="/editor-team" render={() => <EditorTeam isAdmin={user?.roles?.includes('admin')} />} />
             <Route exact path="/users" render={() => <Role />} />
             <Route exact path="/teams" render={() => <TeamsEditor />} />
-            <Route exact path="/login" render={() => <Login />} />
             <Route exact path="/:teamId" render={() => <Team />} />
           </Switch>
         </NavigationContainer>

@@ -42,12 +42,12 @@ export function PermissionsProvider({ children } : { children: React.ReactElemen
       location.pathname !== `/${user.team}` ? history?.push(`/${user.team}`) : null;
     }
 
-    if (user && user?.role === 'admin' && location.pathname === '/login') {
+    if (user && user?.role === 'admin' && location.pathname === '/') {
       history?.push('/dashboard');
     }
 
     if (!user) {
-      history?.push('/login');
+      history?.push('/');
     }
   }, [location.pathname, user]);
 
