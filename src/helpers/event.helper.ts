@@ -30,6 +30,9 @@ export const codePattern = [
     name: 'przyjezdny obóz', value: 'HAL', useSuffix: true, adminEvent: true,
   },
   {
+    name: 'forma HAZ', value: 'HAZ', useSuffix: true, adminEvent: true,
+  },
+  {
     name: 'kurs drużynowych', value: 'KD', useSuffix: true, adminEvent: false,
   },
   {
