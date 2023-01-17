@@ -50,7 +50,7 @@ export const getCodes = async (team: number | null): Promise<void> => {
     }
   }
 
-  store.dispatch(reduxGetCodes(codes.data));
+  store.dispatch(reduxGetCodes(codesMap));
   store.dispatch(reduxSetFilteredCodes(codesToFilter));
 };
 
