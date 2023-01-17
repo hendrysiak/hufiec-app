@@ -30,6 +30,7 @@ export const getAccountState = async (): Promise<void> => {
 
 export const getCodes = async (team: number | null): Promise<void> => {
   const codes = await axios.get<CodesMap>('/codes.json');
+  const codesMap = codes.data;
 
   const codesToFilter: ApprovedEvent[] = [];
   // you have to map db entries
@@ -40,8 +41,10 @@ export const getCodes = async (team: number | null): Promise<void> => {
     }
   } else {
     for (const code in codes) {
-      if (codes.data[code]?.teams.includes(Number(team)) || codes.data[code]?.wholeOrganization) {
-        const fullCode = codes.data[code].id ? `${code}-${codes.data[code].id}` : code;
+      if (codes.data[code]?.teams?.includes(Number(team)) || codes.data[code]?.wholeOrganization) {
+        const prefix = codesMap[code].prefix;
+        const suffix = codesMap[code].suffix ? `-${codesMap[code].suffix}` : '';
+        const fullCode = prefix + suffix;
         codesToFilter.push({ code: fullCode });
       }
     }
