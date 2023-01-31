@@ -32,8 +32,6 @@ export const getCodes = async (team: number | null): Promise<void> => {
   const codes = await axios.get<CodesMap>('/codes.json');
   const codesMap = codes.data;
 
-  console.log(codesMap);
-
   const codesToFilter: ApprovedEvent[] = [];
   // you have to map db entries
   if (team === null) {
@@ -42,8 +40,8 @@ export const getCodes = async (team: number | null): Promise<void> => {
       codesToFilter.push({ code: fullCode });
     }
   } else {
-    for (const code in codesMap) {
-      if (codesMap[code]?.teams?.includes(Number(team)) || codesMap[code]?.wholeOrganization) {
+    for (const code in codes) {
+      if (codes.data[code]?.teams?.includes(Number(team)) || codes.data[code]?.wholeOrganization) {
         const prefix = codesMap[code].prefix;
         const suffix = codesMap[code].suffix ? `-${codesMap[code].suffix}` : '';
         const fullCode = prefix + suffix;
@@ -51,8 +49,6 @@ export const getCodes = async (team: number | null): Promise<void> => {
       }
     }
   }
-
-  console.log(codesToFilter);
 
   store.dispatch(reduxGetCodes(codesMap));
   store.dispatch(reduxSetFilteredCodes(codesToFilter));
