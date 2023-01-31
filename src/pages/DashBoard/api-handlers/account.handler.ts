@@ -40,8 +40,8 @@ export const getCodes = async (team: number | null): Promise<void> => {
       codesToFilter.push({ code: fullCode });
     }
   } else {
-    for (const code in codes) {
-      if (codes.data[code]?.teams?.includes(Number(team)) || codes.data[code]?.wholeOrganization) {
+    for (const code in codesMap) {
+      if (codesMap[code]?.teams?.includes(Number(team)) || codesMap[code]?.wholeOrganization) {
         const prefix = codesMap[code].prefix;
         const suffix = codesMap[code].suffix ? `-${codesMap[code].suffix}` : '';
         const fullCode = prefix + suffix;
