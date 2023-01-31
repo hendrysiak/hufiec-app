@@ -199,6 +199,9 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
       field: 'responsiblePerson', headerName: 'Osoba odpowiedzialna', editable: false, width: 150, ...columnAligning,
     },
     {
+      field: 'author', headerName: 'Zgłaszający', editable: false, width: 150, align: 'center' as GridAlignment, headerAlign: 'center' as GridAlignment,
+    },
+    {
       field: 'amount', headerName: 'Kwota', editable: true, width: 100, ...columnAligning,
     },
     {
@@ -282,6 +285,7 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
           id: r.id,
           event: `${newValues.prefix}${newValues.suffix ? `-${newValues.suffix}` : ''}`,
           responsiblePerson: `${newValues.responsiblePerson.name} ${newValues.responsiblePerson.surname}`,
+          author: r.author,
           amount: newValues.amount,
           startDate: new Date(newValues.startDate).toLocaleDateString(),
           endDate: newValues.endDate ? new Date(newValues.endDate).toLocaleDateString() : '',
