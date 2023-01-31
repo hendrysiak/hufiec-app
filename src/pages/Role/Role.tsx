@@ -162,7 +162,7 @@ function Role(): JSX.Element {
   };
 
   return (
-    <div style={{ height: '90vh', width: '80%', margin: '0 auto' }}>
+    <main>
       <h2>Menager użytkowników</h2>
       <DataGrid
         columns={columns}
@@ -263,7 +263,7 @@ function Role(): JSX.Element {
           </Box>
         </div>
       </Modal>
-    </div>
+    </main>
   );
 }
 
