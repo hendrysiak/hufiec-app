@@ -54,20 +54,11 @@ export const countingMemberFee = (person: APIPerson, endOfPeriod?: Date): number
     && i.surname?.toLowerCase() === person?.surname?.toLowerCase()
     && i.event === 'SC');
 
-  let preparedFees;
-
-  if (endOfPeriod) {
-    const year = endOfPeriod.getFullYear();
-    preparedFees = feeIncomeByPerson.filter((income) => Number(income.year) === Number(year));
-  } else {
-    preparedFees = feeIncomeByPerson;
-  }
-
   const initAccountStatePerPerson = store?.getState().income?.initAccount?.find((ia) => (
     ia?.name?.toLowerCase() === person?.name?.toLowerCase()
       && ia?.surname?.toLowerCase() === person?.surname?.toLowerCase()));
 
-  const allFeeIncomesValue = preparedFees.reduce((sum, currentIncome) => sum + Number(currentIncome.cash), 0);
+  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + Number(currentIncome.cash), 0);
   const neededFee = Math.abs(countAmountOfFee(person, endOfPeriod));
 
   const sum = initAccountStatePerPerson
