@@ -24,7 +24,7 @@ import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
-import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
+import { countAmountOfFee, countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
@@ -220,6 +220,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
               <TableCell align="left">Data dodania</TableCell>
               <TableCell align="left">Data usunięcia</TableCell>
               <TableCell align="left">Stan składek</TableCell>
+              <TableCell align="left">Składki należne</TableCell>
               <TableCell align="left" />
               <TableCell align="left">Usuń</TableCell>
             </TableRow>
@@ -293,6 +294,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                     />
                   </TableCell>
                   <TableCell>{row.feeState}</TableCell>
+                  <TableCell>{countAmountOfFee(row)}</TableCell>
                   {row.id === activeRow
                     ? (
                       <TableCell>

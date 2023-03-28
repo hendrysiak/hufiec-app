@@ -19,6 +19,11 @@ interface Props {
   neededFee: number;
 }
 
+const percentOfFeesForTeam = {
+  2023: 0.2,
+  2022: 0.16
+}
+
 function TeamFinances({
   incomes, outcomes, currentTeam, neededFee,
 } : Props): JSX.Element {
@@ -44,15 +49,23 @@ function TeamFinances({
       .filter((income) => income.event === 'SC' && income.year === currentYear - 1)
       .reduce((sum: number, income) => sum + income.cash, 0);
 
+    const sumOfFeesForTeam = incomes && incomes
+      .filter((income) => income.event === 'SC')
+      .reduce((sum: number, income) => {
+        if (income.year === 2023) {
+          return sum + income.cash * 0.2
+        } else return sum + income.cash * 0.16
+      }, 0);
+
     const sumOfCompensation = incomes.filter((i) => i.event === 'KOMP').reduce((sum: number, income) => sum + Number(income.cash), 0);
     const sumOfOutcomes = outcomes.filter((o) => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + Number(outcome.cash), 0);
 
     setSumOfOutcomes(sumOfOutcomes);
     setCompensation(sumOfCompensation);
-    setIncomesSC(sumOfFees);
+    setIncomesSC(sumOfFeesForTeam);
   });
 
-  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation + (neededFee * 0.8);
+  const sum = (incomesSC ?? 0) + onePercent + sumOfOutcomes + compensation + (neededFee * 0.8);
 
   // const handleOpen = () => {
   //   setIsOpen(true);
