@@ -81,13 +81,13 @@ function BudgetDataGrid({
       field: 'letterReceived', headerName: 'Pismo', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
     },
     {
+      field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params} />, renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} />,
+    },
+    {
       field: 'dateOfLetter', headerName: 'Data pisma', editable: true, type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>),
     },
     {
       field: 'comment', headerName: 'Komentarz', editable: true, width: 400, ...columnAligning,
-    },
-    {
-      field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params} />, renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} />,
     },
     {
       field: 'actions',
@@ -189,9 +189,9 @@ function BudgetDataGrid({
     dateOfBook: income.dateOfBook,
     importDate: income.importDate,
     letterReceived: income.letterReceived,
+    errors: income?.errors ? income.errors.join(',') : '',
     dateOfLetter: income.dateOfLetter ? new Date(income.dateOfLetter) : '',
     comment: income.comment,
-    errors: income?.errors ? income.errors.join(',') : '',
   }));
 
   const outcomeRows = displayedOutcome.map((outcome: OutcomeDb, index: number) => ({

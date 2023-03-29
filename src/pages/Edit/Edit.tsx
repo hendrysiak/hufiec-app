@@ -63,6 +63,8 @@ function Edit(): JSX.Element {
     const { id, field, value } = params;
     const foundedIncome: IncomeDb | undefined = dbIncomes.find((i) => i.id === id);
 
+    
+
     if (foundedIncome && typeof value !== 'object') {
       const convertedValue = convertValue(value, field);
       try {
@@ -71,6 +73,14 @@ function Edit(): JSX.Element {
       } catch {
         setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
       }
+    } else if (foundedIncome && field.toLowerCase().match('date')) {
+      try {
+        await editIncome({ ...foundedIncome, [field]: new Date(value).toISOString() });
+        setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+      }
+  
     } else {
       setSnackbar({ children: 'Brak przychodu do edycji - odśwież', severity: 'error' });
     }
