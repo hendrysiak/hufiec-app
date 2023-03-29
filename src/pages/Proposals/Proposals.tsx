@@ -1,4 +1,6 @@
-import { Box, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import {
+  Box, MenuItem, Select, SelectChangeEvent, Typography,
+} from '@mui/material';
 import React from 'react';
 import { useQuery } from 'react-query';
 
@@ -21,7 +23,7 @@ const proposalsList = [
 interface ProposalsProps {
   isAdmin?: boolean;
   height: string;
-};
+}
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,13 +36,13 @@ const MenuProps = {
   },
 };
 
-const Proposals = (props: ProposalsProps): JSX.Element => {
+function Proposals(props: ProposalsProps): JSX.Element {
   const [selectedProposalState, setSelectedProposalState] = React.useState({ name: 'akcje przelewów', value: 'income' });
   const { pathname } = useLocation();
   const query = useQuery<Proposal[], Error>('proposal', () => getProposals(pathname.slice(1), props.isAdmin));
 
   const handleFilterActions = (value: string): void => {
-    const foundedAction = proposalsList.find(p => p.value === value); 
+    const foundedAction = proposalsList.find((p) => p.value === value);
 
     if (foundedAction) setSelectedProposalState(foundedAction);
   };
@@ -48,20 +50,26 @@ const Proposals = (props: ProposalsProps): JSX.Element => {
   const renderCorrectProposalTable = () => {
     switch (selectedProposalState.value) {
       case 'code':
-        return ( <CodeProposal 
-          rows={!query?.data ? [] : query.data.filter(data => data.area === ProposalArea.Code)} 
-          isAdmin={props.isAdmin}
-        /> );
+        return (
+          <CodeProposal
+            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Code)}
+            isAdmin={props.isAdmin}
+          />
+        );
       case 'registry':
-        return ( <RegistryProposal 
-          rows={!query?.data ? [] : query.data.filter(data => data.area === ProposalArea.Registry)} 
-          isAdmin={props.isAdmin}
-        /> );
+        return (
+          <RegistryProposal
+            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Registry)}
+            isAdmin={props.isAdmin}
+          />
+        );
       case 'income':
-        return <IncomeProposal 
-          rows={!query?.data ? [] : query.data.filter(data => data.area === ProposalArea.Income)} 
-          isAdmin={props.isAdmin}
-        />;
+        return (
+          <IncomeProposal
+            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Income)}
+            isAdmin={props.isAdmin}
+          />
+        );
       default:
         return <></>;
     }
@@ -91,6 +99,6 @@ const Proposals = (props: ProposalsProps): JSX.Element => {
       {renderCorrectProposalTable()}
     </main>
   );
-};
+}
 
 export default Proposals;

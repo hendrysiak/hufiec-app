@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell } from '@material-ui/core';
+import { TableHead, TableRow, TableCell } from '@mui/material';
 
 import React from 'react';
 
@@ -6,11 +6,10 @@ import { BudgetEntry } from 'models/global.enum';
 
 type Props = {
   info: BudgetEntry;
-}
+};
 
 const HeadRow = (props: Props): JSX.Element => {
-
-  const head = props.info === BudgetEntry.Outcome 
+  const head = props.info === BudgetEntry.Outcome
     ? (
       <TableHead>
         <TableRow>

@@ -20,8 +20,16 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-h3 {
+h1, h2, h3 {
     margin: 0
+}
+
+main {
+    height: 93vh;
+}
+
+#root {
+    height: 100vh;
 }
 
 .GridArea {

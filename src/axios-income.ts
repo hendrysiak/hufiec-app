@@ -1,7 +1,22 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_DB_URL,
-});
+import { auth } from 'helpers/db/firebase/firebase';
 
-export default instance;
+const getAxiosInstance = (() => {
+  const getIdToken = async () => auth.currentUser?.getIdToken();
+
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_DB_URL,
+  });
+
+  instance.interceptors.request.use(async (config) => {
+    config.params = {
+      auth: await getIdToken(),
+    };
+    return config;
+  });
+
+  return instance;
+})();
+
+export default getAxiosInstance;

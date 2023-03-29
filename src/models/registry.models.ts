@@ -5,11 +5,11 @@ export interface Person extends IObjectKeys {
   surname: string;
   dateOfAdd: Date | null;
   dateOfDelete?: Date | null;
-  team?: string;
+  team?: number;
   evidenceNumber?: string;
   disability?: boolean;
   instructor?: boolean;
-};
+}
 
 export interface APIPerson extends Person {
   id: string;
@@ -17,4 +17,4 @@ export interface APIPerson extends Person {
 
 export interface Registry {
   [key: string]: Record<string, APIPerson>
-};
+}

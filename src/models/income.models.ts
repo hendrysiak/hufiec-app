@@ -1,3 +1,4 @@
+import { ErrorType } from './error.types.model';
 import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
 import { IObjectKeys } from './object.helper.model';
 
@@ -5,7 +6,8 @@ export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: Date | string;
-};
+  errors?: ErrorType[];
+}
 
 export interface IncomesWithTeam extends IncomesBankModel {
   team: string | null;
@@ -35,19 +37,24 @@ export interface IncomeDb extends IncomesWithImportDate {
   comment?: string;
 }
 
-export interface OutcomesBankModel extends IObjectKeys{
+export interface OutcomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: Date | string;
-};
+  errors?: ErrorType[];
+}
 
-export interface OutcomesWithImportDate extends OutcomesBankModel{
+export interface OutcomesWithEvent extends OutcomesBankModel {
+  event: string | null;
+}
+
+export interface OutcomesWithImportDate extends OutcomesWithEvent {
   importDate: Date | string;
-};
+}
 
 export interface OutcomesWithFinanceMethod extends OutcomesWithImportDate {
   financeMethod: FinanceMethod
-};
+}
 
 export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   outcomeCategory: OutcomeCategory;
@@ -55,32 +62,31 @@ export interface OutcomesWithData extends OutcomesWithFinanceMethod {
   team: string;
 }
 
-export interface OutcomesWithEvent extends OutcomesWithData {
-  event: string | null;
+export interface OutcomeWithBilingNr extends OutcomesWithData {
   bilingNr: string | null;
 }
 
-export interface OutcomeDb extends OutcomesWithEvent {
+export interface OutcomeDb extends OutcomeWithBilingNr {
   id: string;
 }
 
 export interface IncomePurpose {
   cash: string;
   source: string;
-};
+}
 
 export interface IncomePurposeDB {
   cash: number;
   purpose: string;
-};
+}
 export interface OutcomePurpose {
   cash: string;
   purpose: string;
-};
+}
 export interface OutcomePurposeDB {
   cash: number;
   purpose: string;
-};
+}
 
 export interface Amount {
   [key: string]: number

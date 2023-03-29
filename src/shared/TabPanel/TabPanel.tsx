@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import React from "react";
+import { Box } from '@mui/material';
+import React from 'react';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -8,8 +8,10 @@ interface TabPanelProps {
   style?: Record<string, string>
 }
 
-export const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
+export function TabPanel(props: TabPanelProps): JSX.Element {
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
@@ -26,4 +28,4 @@ export const TabPanel = (props: TabPanelProps) => {
       )}
     </div>
   );
-};
+}

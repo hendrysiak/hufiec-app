@@ -8,5 +8,5 @@ export const useTeams = (): Team[] => {
 
   return query
     .data?.map((team) => ({ ...team, teamId: Number(team.teamId) }))
-        .sort((a, b) => a.teamId - b.teamId) || [];
+    .sort((a, b) => a.teamId - b.teamId) || [];
 };

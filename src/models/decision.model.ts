@@ -32,7 +32,7 @@ export interface DecisionReturn extends DecisionData {
 export interface DecisionCode extends DecisionData {
   prefix: string;
   target: string;
-  targetTeams: string[];
+  targetTeams: number[];
   amount: number;
   eventStartDate: Date | string;
   eventEndDate?: Date | string;

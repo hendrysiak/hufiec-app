@@ -1,37 +1,40 @@
-import { Tooltip, IconButton, makeStyles } from '@material-ui/core';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Tooltip, IconButton } from '@mui/material';
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import makeStyles from '@mui/styles/makeStyles';
 
 import React from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
-import { LogOutTimer } from 'shared/LogOutTimer/LogOutTimer';
-
+import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 
 import classes from './LogOut.module.css';
 
-export const LogOut = (): JSX.Element => {
+export function LogOut(): JSX.Element {
+  const { signOutFromApp } = useAuth();
 
   const useStyles = makeStyles(() => ({
     button: {
-      color: 'white'
+      color: 'white',
     },
   }));
 
   const materialClasses = useStyles();
 
   const currentPath = useLocation();
+  const history = useHistory();
 
-  const disableLogout = /\/login/.test(currentPath.pathname);
-  
-  return disableLogout ? <></> : (<>
-    <LogOutTimer className={classes.timer}/>
-    <div className={`${classes.container} ${classes.close}`}>
-      <Tooltip title="Wyloguj" aria-label="log-out">
-        <IconButton classes={{ root: materialClasses.button }} ><ExitToAppIcon className="clicked" /></IconButton>
-      </Tooltip>
-    </div>
-  </>);
+  const disableLogout = currentPath.pathname === '/';
 
-};
+  return disableLogout ? <></> : (
+    <>
+      {/* <LogOutTimer className={classes.timer}/> */}
+      <div className={`${classes.container} ${classes.close}`}>
+        <Tooltip title="Wyloguj" aria-label="log-out">
+          <IconButton onClick={() => signOutFromApp()?.then(() => history.push('/'))} classes={{ root: materialClasses.button }} size="large"><ExitToAppIcon className="clicked" /></IconButton>
+        </Tooltip>
+      </div>
+    </>
+  );
+}

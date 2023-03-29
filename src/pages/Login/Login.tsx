@@ -1,59 +1,58 @@
+import { FirebaseError } from '@firebase/util';
+
 import {
   Button,
   Input,
   Paper,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
-import Cookies from 'universal-cookie';
-
-import { timeToLogout } from 'constans/Constans';
-import { getAccount } from 'helpers/account.helper';
-import { Decrypt, EncryptCookie } from 'helpers/password.helper';
-import {
-  reduxIsAuthentication,
-  reduxSetEvidenceNumber,
-  reduxSetRoles,
-  reduxSetTeam,
-} from 'store/actions/user';
-
-
-import store from 'store/store';
+import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 
 import classes from './Login.module.css';
 
-const Login = (): JSX.Element => {
-  const history = useHistory();
+const checkErrorCode = (error: string | null) => {
+  switch (error) {
+    case 'auth/wrong-password':
+      return 'Nieprawidłowy login lub hasło';
+    case 'auth/invalid-email':
+      return 'Niepoprawny login';
+    default:
+      return null;
+  }
+};
+
+function Login(): JSX.Element {
   const [formReset, setFormReset] = useState<boolean>(false);
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const { signInToApp, resetPassword } = useAuth();
 
   // const [email, setEmail] = useState<string>('');
-  const cookies = new Cookies();
-
+  // const cookies = new Cookies();
 
   const checkLogin = async (login: string, password: string) => {
     setLoadingLogin(true);
-    const accountData = await getAccount(login);
-    try {
-      if (password === Decrypt(accountData.password)) {
-        store.dispatch(reduxSetRoles(accountData.roles));
-        store.dispatch(reduxIsAuthentication(true));
-        store.dispatch(reduxSetEvidenceNumber(login));
-        store.dispatch(reduxSetTeam(accountData.team));
-        cookies.set('token', EncryptCookie(login, password), { path: '/', maxAge: timeToLogout });
-        // if(accountData.team) return history.push(`/info${accountData.team}`);
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
-        if (accountData.roles.includes('admin')) return history.push('/');
-        return history.push(`/${accountData.team}`);
-      }
-    } catch (err) {
+    if (!emailRegex.test(login)) {
+      setError('auth/invalid-email');
       setLoadingLogin(false);
-      console.error(err);
+    } else {
+      setLogin(login);
+    }
+
+    try {
+      const user = await signInToApp(login, password);
+    } catch (err: unknown) {
+      setLoadingLogin(false);
+      if (err instanceof FirebaseError) {
+        setError(err.code);
+      }
     }
     setLoadingLogin(false);
   };
@@ -69,34 +68,36 @@ const Login = (): JSX.Element => {
 
   return (
     <>
-      {loadingLogin ? <CircularProgress className={classes.circularProgress}/> : 
-        <form className={classes.form} onSubmit={onSubmit}>
-          <Input
-            type="text/submit"
-            className={classes.input}
-            id="standard-basic"
-            placeholder="Login"
-            disabled={formReset}
-            onChange={(e) => setLogin(e.target.value)}
-          />
-          <Input
-            type="password"
-            className={classes.input}
-            id="standard-basic"
-            placeholder="Hasło"
-            disabled={formReset}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            className={classes.btn}
-            variant="contained"
-            color="primary"
-            disabled={formReset}
-          >
-            ZALOGUJ
-          </Button>
-          {/* <FormControlLabel 
+      {loadingLogin ? <CircularProgress className={classes.circularProgress} />
+        : (
+          <form className={classes.form} onSubmit={onSubmit}>
+            <Input
+            // type="text/submit"
+              type="te"
+              className={classes.input}
+              id="standard-basic"
+              placeholder="Login"
+              disabled={formReset}
+              onChange={(e) => setLogin(e.target.value)}
+            />
+            <Input
+              type="password"
+              className={classes.input}
+              id="standard-basic"
+              placeholder="Hasło"
+              disabled={formReset}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+              disabled={formReset}
+            >
+              ZALOGUJ
+            </Button>
+            {/* <FormControlLabel
             label="Zapomniałem Hasła"
             control={
               <Checkbox
@@ -115,9 +116,20 @@ const Login = (): JSX.Element => {
             </Button>
           </>
           } */}
-        </form>}
+          </form>
+        )}
+      <Button
+        type="submit"
+        variant="contained"
+        color="secondary"
+        onClick={() => resetPassword(login)}
+      >
+        PRZYWRÓĆ HASŁO
+      </Button>
+      <p style={{ color: 'red' }}>{checkErrorCode(error)}</p>
+      <p>Żeby zresetowac hasło, wypełnij pole "LOGIN" właściwym mailem przypisanym do konta</p>
     </>
   );
-};
+}
 
 export default Login;

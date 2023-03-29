@@ -1,21 +1,26 @@
+import {
+  TextField, MenuItem, Button, Paper, Typography, ListItemText, ListItem,
+} from '@mui/material';
 
-import { TextField, MenuItem, Button, Paper, Typography, ListItemText, ListItem } from '@material-ui/core';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
+import Grid from '@mui/material/Grid';
 
-import Grid from '@material-ui/core/Grid';
-
-import List from '@material-ui/core/List';
-import Modal from '@material-ui/core/Modal';
+import List from '@mui/material/List';
+import Modal from '@mui/material/Modal';
 
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios-income';
 import { ApprovedEvent } from 'models/codes.models';
-import { BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory } from 'models/global.enum';
-import { IncomePurpose, IncomeDb, OutcomeDb, OutcomesWithEvent } from 'models/income.models';
+import {
+  BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory,
+} from 'models/global.enum';
+import {
+  IncomePurpose, IncomeDb, OutcomeDb, OutcomesWithEvent,
+} from 'models/income.models';
 
 import TableEditor from 'shared/TableEditor/TableEditor';
 import { RootState } from 'store/models/rootstate.model';
@@ -26,7 +31,7 @@ import EventInfo from './components/EventInfo';
 
 import classes from './EventBilling.module.css';
 
-const EventBilling = (): JSX.Element => {
+function EventBilling(): JSX.Element {
   return <></>;
   // const codes = useSelector((state: RootState) => state.income.codes);
   // const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
@@ -38,7 +43,7 @@ const EventBilling = (): JSX.Element => {
   // const [cashToBiling, setCashToBiling] = useState<number>(0);
 
   // const [currentCode, setCurrentCode] = useState<string>();
-  
+
   // const [modalToAddOutcomeVisible, setModalToAddOutcomeVisibility] = useState<boolean>(false);
 
   // //Add outcome from account handlers - to move to another component
@@ -52,18 +57,18 @@ const EventBilling = (): JSX.Element => {
   //       if (c.approvalInfo) return true;
   //       else return false;
   //     });
-      
+
   //     if (filteredCodes && filteredCodes.length > 0) {
   //       const getApprovalinfo = async () => {
   //         const approvalInfo = await axios.get(`/approval/${filteredCodes[0].approvalInfo}.json`);
-  //         const currentEventApprovalCash 
+  //         const currentEventApprovalCash
   //         = approvalInfo.data.incomes.reduce((sum: number, element: IncomePurpose) => sum + element.cash, 0);
 
   //         setCashToBiling(currentEventApprovalCash);
   //       };
   //       getApprovalinfo();
   //       setCurrentCode(filteredCodes[0].code);
-  //     } 
+  //     }
   //     setUsedCodes(filteredCodes);
   //   }
   // }, [codes]);
@@ -71,7 +76,7 @@ const EventBilling = (): JSX.Element => {
   // useEffect(() => {
   //   const currentEventOutcomesFromDB = dbOutcomes?.filter(o => o.event && o.event === currentCode);
   //   currentEventOutcomesFromDB && setUsedOutcomes(currentEventOutcomesFromDB);
-  // }, [dbOutcomes, currentCode]); 
+  // }, [dbOutcomes, currentCode]);
 
   // const handleChoosingOutcomes = (title: string): void => {
   //   const copiedOutcomes = [...choosedOutcomes];
@@ -111,7 +116,7 @@ const EventBilling = (): JSX.Element => {
   // const handleEditOutcome = (index: number, data: { key: string, value: string | number | Date | boolean }) => {
   //   const outcomeToUpdate = [...usedOutcomes];
   //   outcomeToUpdate[index][data.key] = data.value;
-    
+
   //   setUsedOutcomes(outcomeToUpdate);
   // };
 
@@ -124,11 +129,11 @@ const EventBilling = (): JSX.Element => {
   //   deleteOutcome(id);
   // };
 
-  // const approvalCash 
-  // = cashToBiling 
+  // const approvalCash
+  // = cashToBiling
   // - usedOutcomes.reduce((sum: number, uo: OutcomeDb) => sum - uo.cash, 0);
 
-  // const incomesCach = dbIncomes 
+  // const incomesCach = dbIncomes
   //   ? dbIncomes
   //     .filter(i => i.event === currentCode)
   //     .reduce((sum: number, income: IncomeDb) => sum + income.cash, 0) : 0;
@@ -142,16 +147,16 @@ const EventBilling = (): JSX.Element => {
 
   // return (
   //   <>
-  //     <Modal 
-  //       open={modalToAddOutcomeVisible}  
+  //     <Modal
+  //       open={modalToAddOutcomeVisible}
   //       onClose={() => setModalToAddOutcomeVisibility(false)}>
   //       <div className="biling__modal--add-outcome">
   //         <Button variant="contained" color="primary" onClick={() => setModalToAddAccountOutcomeVisibility(true)}>Dodaj koszt z konta</Button>
   //         <Button variant="contained" color="primary" onClick={() => handleAddCashOutcomeToBiling()}>Dodaj koszt gotówkowy</Button>
   //       </div>
   //     </Modal>
-  //     <Modal 
-  //       open={modalToAddAccountOutcome}  
+  //     <Modal
+  //       open={modalToAddAccountOutcome}
   //       onClose={() => setModalToAddAccountOutcomeVisibility(false)}>
   //       <Paper className="biling__modal--account">
   //         <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -220,8 +225,8 @@ const EventBilling = (): JSX.Element => {
   //             {/* Recent Deposits */}
   //             <Grid item xs={12} md={4} lg={3}>
   //               {/* <Paper className={fixedHeightPaper}> */}
-  //               <EventInfo 
-  //                 title={currentCode || 'Wybierz imprezę'} 
+  //               <EventInfo
+  //                 title={currentCode || 'Wybierz imprezę'}
   //                 cashToBiling={approvalCash}
   //                 cashFromIncomes={incomesCach}
   //               />
@@ -229,7 +234,7 @@ const EventBilling = (): JSX.Element => {
   //             </Grid>
   //             {/* Recent Orders */}
   //             <Grid item xs={12}>
-  //               <TableEditor 
+  //               <TableEditor
   //                 editable={false}
   //                 title={'Rozliczenie imprezy'}
   //                 info={BudgetEntry.Outcome}
@@ -251,6 +256,6 @@ const EventBilling = (): JSX.Element => {
   //     </section>
   //   </>
   // );
-};
+}
 
 export default EventBilling;

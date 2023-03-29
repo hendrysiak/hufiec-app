@@ -1,7 +1,7 @@
 export {
   reduxEditIncome,
   reduxAssignIncomesToAccount,
-  reduxAssignOutcomesToAccount
+  reduxAssignOutcomesToAccount,
 }
   from './income';
 
@@ -14,6 +14,6 @@ export {
 export {
   reduxIsAuthentication,
   reduxSetRoles,
-  reduxSetTeam
+  reduxSetTeam,
 }
   from './user';

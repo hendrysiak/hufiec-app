@@ -1,5 +1,3 @@
-import Modal from '@material-ui/core/Modal';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import React, { useEffect } from 'react';
 
 import axios from 'axios-income';
@@ -21,9 +19,14 @@ interface Props {
   neededFee: number;
 }
 
+const percentOfFeesForTeam = {
+  2023: 0.2,
+  2022: 0.16
+}
 
-const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JSX.Element => {
-
+function TeamFinances({
+  incomes, outcomes, currentTeam, neededFee,
+} : Props): JSX.Element {
   const [onePercent, setOnePercent] = React.useState<number>(0);
   const [compensation, setCompensation] = React.useState<number>(0);
   const [sumOfOutcomes, setSumOfOutcomes] = React.useState<number>(0);
@@ -34,7 +37,7 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
   // useEffect(() => {
   //   open === ShowModal.Finances && setIsOpen(true);
   // },[open]);
-   
+
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get(`/onePercent/${currentTeam}.json`);
@@ -43,19 +46,26 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
     getData();
     const currentYear = new Date().getFullYear();
     const sumOfFees = incomes && incomes
-      .filter(income => income.event === 'SC' && income.year === currentYear - 1)
-      .reduce((sum: number, income) => sum + income.cash ,0); 
+      .filter((income) => income.event === 'SC' && income.year === currentYear - 1)
+      .reduce((sum: number, income) => sum + income.cash, 0);
 
-    const sumOfCompensation = incomes.filter(i => i.event === 'KOMP').reduce((sum: number, income) => sum + Number(income.cash) , 0);
-    const sumOfOutcomes = outcomes.filter(o => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + Number(outcome.cash) , 0);
-    
+    const sumOfFeesForTeam = incomes && incomes
+      .filter((income) => income.event === 'SC')
+      .reduce((sum: number, income) => {
+        if (income.year === 2023) {
+          return sum + income.cash * 0.2
+        } else return sum + income.cash * 0.16
+      }, 0);
+
+    const sumOfCompensation = incomes.filter((i) => i.event === 'KOMP').reduce((sum: number, income) => sum + Number(income.cash), 0);
+    const sumOfOutcomes = outcomes.filter((o) => o.foundingSource === FoundingSources.TeamAccount).reduce((sum: number, outcome) => sum + Number(outcome.cash), 0);
+
     setSumOfOutcomes(sumOfOutcomes);
     setCompensation(sumOfCompensation);
-    setIncomesSC(sumOfFees);
-
+    setIncomesSC(sumOfFeesForTeam);
   });
 
-  const sum = (incomesSC ? incomesSC / 5 : 0) + onePercent + sumOfOutcomes + compensation + (neededFee * 0.8);
+  const sum = (incomesSC ?? 0) + onePercent + sumOfOutcomes + compensation + (neededFee * 0.8);
 
   // const handleOpen = () => {
   //   setIsOpen(true);
@@ -72,7 +82,8 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
         open={isOpen}
         onClose={handleClose}
       > */}
-      <section className={classes.positionModal }>
+      <div style={{ height: '94vh' }}>
+      <section className={classes.positionModal}>
         <div className={classes.header}>
           <p>Konto</p>
           <p>Stan</p>
@@ -105,11 +116,17 @@ const TeamFinances = ({ incomes, outcomes, currentTeam, neededFee } : Props): JS
           <p>WPŁYWY/WYRÓWNANIA</p>
           <p>{compensation.toFixed(2)}</p>
         </div>
-        <h1 className={classes.sum}>RAZEM: {sum.toFixed(2)} zł</h1>
+        <h1 className={classes.sum}>
+          RAZEM:
+          {sum.toFixed(2)}
+          {' '}
+          zł
+        </h1>
       </section>
+      </div>
       {/* </Modal> */}
     </>
   );
-};
+}
 
 export default TeamFinances;

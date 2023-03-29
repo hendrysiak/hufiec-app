@@ -1,30 +1,37 @@
-import { Button } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, MenuItem, Modal, TextField } from '@mui/material';
-import { DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer, GridColumns } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Button, Box, MenuItem, Modal, TextField,
+} from '@mui/material';
+
+import {
+  DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer, GridColumns,
+} from '@mui/x-data-grid';
 
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { createUser, deleteUser, fetchUsers, updateUser } from 'helpers/api-helpers/user';
+import {
+  createUser, deleteUser, fetchUsers, updateUser,
+} from 'helpers/api-helpers/user';
+import { useTeams } from 'helpers/hooks/useTeams';
 import { Encrypt, generatePassword } from 'helpers/password.helper';
-import { IUser } from 'models/users.models';
+import { AuthUser, UserRoles } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
-import { teamsMap } from 'shared/team.helper';
 
-interface NewUser extends Omit<IUser, 'roles'> {
-  evidenceNumber: string;
-  role: string;
+interface NewUser extends AuthUser {
+  uid: string;
 }
 
-const Role = (): JSX.Element => {
-  const query = useQuery<Record<string, IUser>, Error>('users', fetchUsers);
+function Role(): JSX.Element {
+  const query = useQuery<Record<string, AuthUser>, Error>('users', fetchUsers);
+  const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
   const [user, setNewUser] = React.useState<NewUser>({
+    uid: '',
     evidenceNumber: '',
-    role: '',
+    role: 'leader',
     team: '',
     name: '',
     surname: '',
@@ -33,7 +40,7 @@ const Role = (): JSX.Element => {
   const { setSnackbar } = useSnackbar();
 
   const queryClient = useQueryClient();
-    
+
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users');
@@ -41,7 +48,7 @@ const Role = (): JSX.Element => {
     },
     onError: () => {
       setSnackbar({ children: 'Wystąpił błąd', severity: 'error' });
-    }
+    },
   });
 
   const createUserMutation = useMutation(createUser, {
@@ -51,7 +58,7 @@ const Role = (): JSX.Element => {
     },
     onError: () => {
       setSnackbar({ children: 'Wystąpił błąd', severity: 'error' });
-    }
+    },
   });
   const deleteUserMutation = useMutation(deleteUser, {
     onSuccess: () => {
@@ -60,50 +67,58 @@ const Role = (): JSX.Element => {
     },
     onError: () => {
       setSnackbar({ children: 'Wystąpił błąd', severity: 'error' });
-    }
+    },
   });
 
-
   const columns = [
-    { field: 'evidenceNumber', headerName: 'Nr ewidencji', width: 200, editable: false },
-    { field: 'roles', headerName: 'Rola', type: 'singleSelect', valueOptions: ['admin', 'leader'], width: 150, editable: true },
-    { field: 'team', headerName: 'Drużyna', width: 150, editable: true },
-    { field: 'name', headerName: 'Imię', width: 200, editable: true },
-    { field: 'surname', headerName: 'Nazwisko', width: 200, editable: true },
+    {
+      field: 'uid', headerName: 'uid', width: 200, editable: true,
+    },
+    {
+      field: 'evidenceNumber', headerName: 'Nr ewidencji', width: 200, editable: true,
+    },
+    {
+      field: 'roles', headerName: 'Rola', type: 'singleSelect', valueOptions: ['admin', 'leader'], width: 150, editable: true,
+    },
+    {
+      field: 'team', headerName: 'Drużyna', width: 150, editable: true,
+    },
+    {
+      field: 'name', headerName: 'Imię', width: 200, editable: true,
+    },
+    {
+      field: 'surname', headerName: 'Nazwisko', width: 200, editable: true,
+    },
     // eslint-disable-next-line react/display-name
-    { field: 'actions', 
+    {
+      field: 'actions',
       type: 'actions',
-      headerName: 'Akcje', 
-      width: 100, 
-      getActions: ({ id } : { id: string }) => {
-        return [<GridActionsCellItem
-          key={id}
-          icon={<DeleteIcon />}
-          label="Delete"
-          onClick={handleDelete(id)}
-          color="inherit"
-        />];
-      }, },
+      headerName: 'Akcje',
+      width: 100,
+      getActions: ({ id } : { id: string }) => [<GridActionsCellItem
+        key={id}
+        icon={<DeleteIcon />}
+        label="Delete"
+        onClick={handleDelete(id)}
+        color="inherit"
+      />],
+    },
   ];
 
   const rows = !query?.data ? [] : Object.entries(query.data)
-    .map(([evNum, user]: [string, IUser]) => {
-        
-      return {
-        id: evNum,
-        evidenceNumber: evNum,
-        roles: user.roles[0],
-        team: user?.team ? user?.team : '',
-        name: user?.name ?? '',
-        surname: user?.surname ?? '',
-      };
-    });
+    .map(([uid, user]: [string, AuthUser]) => ({
+      id: uid,
+      uid: uid,
+      evidenceNumber: user.evidenceNumber,
+      roles: user.role,
+      team: user?.team ? user?.team : '',
+      name: user?.name ?? '',
+      surname: user?.surname ?? '',
+    }));
 
-
-  const EditToolbar = () => {
-  
+  function EditToolbar() {
     const handleClick = () => setOpenAddUserModal(true);
-  
+
     return (
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
@@ -111,7 +126,7 @@ const Role = (): JSX.Element => {
         </Button>
       </GridToolbarContainer>
     );
-  };
+  }
 
   const handleCellEditCommit = (params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
@@ -131,45 +146,48 @@ const Role = (): JSX.Element => {
   };
 
   const handleAdd = () => {
-    const newPassword = generatePassword(10);
-
-    if (window.confirm(`Zapisz hasło dla użytkownika i zatwierdź:
-      ${newPassword}
-    `)) {
-      const fullUser: Record<string, IUser> = {
-        [user.evidenceNumber]: {
-          roles: [user.role],
+      const fullUser: Record<string, AuthUser> = {
+        [user.uid]: {
+          role: user.role,
           name: user.name,
           surname: user.surname,
           team: user.team,
-          password: Encrypt(newPassword),                                                                 
+          evidenceNumber: user.evidenceNumber,
         }
       };
-  
+
       createUserMutation.mutate(fullUser);
       createUserMutation.reset();
       setOpenAddUserModal(false);
-    }
   };
 
-
   return (
-    <div style={{ height: '90vh', width: '80%', margin: '0 auto' }}>
+    <main>
       <h2>Menager użytkowników</h2>
       <DataGrid
-        columns={columns} 
+        columns={columns}
         rows={rows}
         onCellEditCommit={handleCellEditCommit}
         localeText={localizationDataGrid}
         components={{
-          Toolbar: EditToolbar
+          Toolbar: EditToolbar,
         }}
       />
       <Modal
         open={openAddUserModal}
       >
-        <div style={{ width: '80%', backgroundColor: 'white', transform: 'translate(13%, 20%)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{
+          width: '80%', backgroundColor: 'white', transform: 'translate(13%, 20%)', display: 'flex', flexDirection: 'column',
+        }}
+        >
           <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
+            <TextField
+              style={{ margin: '16px', width: '40%' }}
+              value={user.uid}
+              onChange={(e) => setNewUser({ ...user, uid: e.target.value })}
+              label="UID"
+              variant="standard"
+            />
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.evidenceNumber}
@@ -177,10 +195,12 @@ const Role = (): JSX.Element => {
               label="Numer ewidencji"
               variant="standard"
             />
-            <TextField 
+          </Box>
+          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.role}
-              onChange={(e) => setNewUser({ ...user, role: e.target.value })}
+              onChange={(e) => setNewUser({ ...user, role: e.target.value as UserRoles })}
               label="Rola"
               variant="standard"
               select
@@ -189,9 +209,7 @@ const Role = (): JSX.Element => {
                 <MenuItem key={item} value={item}>{item}</MenuItem>
               ))}
             </TextField>
-          </Box>
-          <Box style={{ width: '100%' }} p={4} display="flex" justifyContent="space-between">
-            <TextField 
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.team}
               onChange={(e) => setNewUser({ ...user, team: e.target.value })}
@@ -203,16 +221,16 @@ const Role = (): JSX.Element => {
                 <MenuItem key={team.teamId} value={team.teamId}>{team.name}</MenuItem>
               ))}
             </TextField>
-            <TextField 
+          </Box>
+          <Box style={{ width: '100%' }} display="flex" justifyContent="center">
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.name}
               onChange={(e) => setNewUser({ ...user, name: e.target.value })}
               label="Imię"
               variant="standard"
             />
-          </Box>
-          <Box p={4} style={{ width: '100%' }} display="flex" justifyContent="center">
-            <TextField 
+            <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.surname}
               onChange={(e) => setNewUser({ ...user, surname: e.target.value })}
@@ -221,26 +239,32 @@ const Role = (): JSX.Element => {
             />
           </Box>
           <Box p={4} style={{ width: '100%' }} display="flex" justifyContent="space-between">
-            <Button style={{ width: '40%' }} color="secondary" variant="contained" onClick={() => {
-              setOpenAddUserModal(false);
-              setNewUser({
-                evidenceNumber: '',
-                role: '',
-                team: '',
-                name: '',
-                surname: '',
-              });
-            }}>
-            Anuluj
+            <Button
+              style={{ width: '40%' }}
+              color="secondary"
+              variant="contained"
+              onClick={() => {
+                setOpenAddUserModal(false);
+                setNewUser({
+                  uid: '',
+                  evidenceNumber: '',
+                  role: 'leader',
+                  team: '',
+                  name: '',
+                  surname: '',
+                });
+              }}
+            >
+              Anuluj
             </Button>
-            <Button style={{ width: '40%' }}color="primary" variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
-            Dodaj
+            <Button style={{ width: '40%' }} color="primary" variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
+              Dodaj
             </Button>
           </Box>
         </div>
       </Modal>
-    </div>
+    </main>
   );
-};
+}
 
 export default Role;

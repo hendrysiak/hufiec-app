@@ -1,6 +1,6 @@
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -13,12 +13,12 @@ type Props = {
   title: string;
   cashToBiling: number;
   cashFromIncomes: number;
-}
+};
 
-const EventInfo = (props: Props): JSX.Element => {
+function EventInfo(props: Props): JSX.Element {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
         {props.title}
       </Typography>
@@ -39,8 +39,8 @@ const EventInfo = (props: Props): JSX.Element => {
           Przejdź do analizy wpływów po kodzie
         </Link>
       </div>
-    </React.Fragment>
+    </>
   );
-};
+}
 
 export default EventInfo;

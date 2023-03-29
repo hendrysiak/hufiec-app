@@ -1,7 +1,7 @@
-import { TextField, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem } from '@mui/material';
 
 import { GridCellEditCommitParams } from '@mui/x-data-grid';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -23,7 +23,7 @@ import {
   IncomeDb,
   IncomesWithImportDate,
   OutcomeDb,
-  OutcomesWithEvent,
+  OutcomeWithBilingNr,
 } from 'models/income.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import * as actions from 'store/actions/index';
@@ -32,7 +32,7 @@ import store from 'store/store';
 
 import BudgetDataGrid from './BudgetDataGrid';
 
-const Edit = (): JSX.Element => {
+function Edit(): JSX.Element {
   const isAuth = useSelector((state: RootState) => state.user.isAuthenticated);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
@@ -41,46 +41,61 @@ const Edit = (): JSX.Element => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    token && !isAuth && store.dispatch(actions.reduxIsAuthentication(true));
-  }, []);
+    if (token && !isAuth) {
+      store.dispatch(actions.reduxIsAuthentication(true));
+    }
+  }, [isAuth]);
 
   const { setSnackbar } = useSnackbar();
 
   const editedDataHandler = (value: string) => {
-    const editedData =
-      value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
-    setEditedData(editedData);
+    const newEditedData = value === 'Przychody' ? BudgetEntry.Income : BudgetEntry.Outcome;
+    setEditedData(newEditedData);
   };
 
-  const editIncomeHandler = async(params: GridCellEditCommitParams) => {
+  const convertValue = (value: number | string, field: string) => {
+    if (field === 'cash') return Number(value);
+    if (field === 'errors') return (value as string).split(',');
+    return value;
+  };
+
+  const editIncomeHandler = async (params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
-    const foundedIncome: IncomeDb | undefined = dbIncomes.find(i => i.id === id);
+    const foundedIncome: IncomeDb | undefined = dbIncomes.find((i) => i.id === id);
+
+    
 
     if (foundedIncome && typeof value !== 'object') {
-      const convertedValue = field === 'cash' ? Number(value) : value;
+      const convertedValue = convertValue(value, field);
       try {
         await editIncome({ ...foundedIncome, [field]: convertedValue });
         setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
       } catch {
         setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
-
       }
+    } else if (foundedIncome && field.toLowerCase().match('date')) {
+      try {
+        await editIncome({ ...foundedIncome, [field]: new Date(value).toISOString() });
+        setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
+      }
+  
     } else {
       setSnackbar({ children: 'Brak przychodu do edycji - odśwież', severity: 'error' });
     }
   };
-  const editOutcomeHandler = async(params: GridCellEditCommitParams) => {
+  const editOutcomeHandler = async (params: GridCellEditCommitParams) => {
     const { id, field, value } = params;
-    const foundedOutcome: OutcomeDb | undefined = dbOutcomes.find(i => i.id === id);
+    const foundedOutcome: OutcomeDb | undefined = dbOutcomes.find((i) => i.id === id);
 
     if (foundedOutcome && typeof value !== 'object') {
-      const convertedValue = field === 'cash' ? Number(value) : value;
+      const convertedValue = convertValue(value, field);
       try {
         await editOutcome({ ...foundedOutcome, [field]: convertedValue });
         setSnackbar({ children: 'Koszt wyedytowany pomyślnie', severity: 'success' });
       } catch {
         setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });
-
       }
     } else {
       setSnackbar({ children: 'Brak kosztu do edycji - odśwież', severity: 'error' });
@@ -88,17 +103,16 @@ const Edit = (): JSX.Element => {
   };
 
   const handleCellEditCommit = async (params: GridCellEditCommitParams) => {
-
     if (editedData === BudgetEntry.Income) {
-      return await editIncomeHandler(params);
+      return editIncomeHandler(params);
     }
 
-    return await editOutcomeHandler(params);
+    return editOutcomeHandler(params);
   };
 
-  const handleDelete = (id: string) => {
-    editedData === BudgetEntry.Income ? deleteIncome(id) : deleteOutcome(id);
-  };
+  // const handleDelete = (id: string) => {
+  //   editedData === BudgetEntry.Income ? deleteIncome(id) : deleteOutcome(id);
+  // };
 
   const deleteIncomeHandler = async (incomeId: string) => {
     try {
@@ -118,16 +132,20 @@ const Edit = (): JSX.Element => {
     }
   };
 
-  const handleDeleteBudgetEntry = (entryId: string) => async (event: { stopPropagation: () => void; }) => {
+  const handleDeleteBudgetEntry = (
+    entryId: string,
+  ) => async (
+    event: { stopPropagation: () => void; },
+  ) => {
     event.stopPropagation();
 
     if (!window.confirm('Jesteś pewny/-a, że chcesz usunąć pozycję?')) return;
 
     if (editedData === BudgetEntry.Income) {
-      return await deleteIncomeHandler(entryId);
+      return deleteIncomeHandler(entryId);
     }
 
-    return await deleteOutcomeHandler(entryId);
+    return deleteOutcomeHandler(entryId);
   };
 
   const addNewPosition = (): void => {
@@ -148,7 +166,7 @@ const Edit = (): JSX.Element => {
 
       addIncome(newIncome);
     } else {
-      const newOutcome: OutcomesWithEvent = {
+      const newOutcome: OutcomeWithBilingNr = {
         cash: 0,
         event: null,
         importDate: currentDate,
@@ -167,46 +185,44 @@ const Edit = (): JSX.Element => {
   };
 
   return (
-    <>
-      <div>
-        <header>
-          <TextField
-            style={{ width: '79%', marginTop: '16px' }}
-            label="Co edytujesz?"
-            value={editedData === 'income' ? 'Przychody' : 'Koszty'}
-            onChange={(e) => editedDataHandler(e.target.value)}
-            placeholder="Wybierz kod z listy"
-            select={true}
-            size="small"
-            variant="outlined"
-            margin="normal"
-            SelectProps={{
-              MenuProps: { disableScrollLock: true },
-            }}
-          >
-            {['Przychody', 'Koszty'].map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </TextField>
-        </header>
+    <div>
+      <header>
+        <TextField
+          style={{ width: '79%', marginTop: '16px' }}
+          label="Co edytujesz?"
+          value={editedData === 'income' ? 'Przychody' : 'Koszty'}
+          onChange={(e) => editedDataHandler(e.target.value)}
+          placeholder="Wybierz kod z listy"
+          select
+          size="small"
+          variant="outlined"
+          margin="normal"
+          SelectProps={{
+            MenuProps: { disableScrollLock: true },
+          }}
+        >
+          {['Przychody', 'Koszty'].map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </TextField>
+      </header>
 
-        <main>
-          <section style={{ height: '92vh' }}>
-            <BudgetDataGrid 
-              editedData={editedData}
-              displayedIncome={dbIncomes}
-              displayedOutcome={dbOutcomes}
-              handleCellEditCommit={handleCellEditCommit}
-              addNewPosition={addNewPosition}
-              handleDeleteBudgetEntry={handleDeleteBudgetEntry}
-            />
-          </section>
-        </main>
-      </div>
-    </>
+      <main>
+        <section style={{ height: '92vh' }}>
+          <BudgetDataGrid
+            editedData={editedData}
+            displayedIncome={dbIncomes}
+            displayedOutcome={dbOutcomes}
+            handleCellEditCommit={handleCellEditCommit}
+            addNewPosition={addNewPosition}
+            handleDeleteBudgetEntry={handleDeleteBudgetEntry}
+          />
+        </section>
+      </main>
+    </div>
   );
-};
+}
 
 export default Edit;

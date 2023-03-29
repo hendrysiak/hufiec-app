@@ -1,12 +1,12 @@
-import { ApprovedEvent ,CodesMap } from 'models/codes.models';
+import { ApprovedEvent, CodesMap } from 'models/codes.models';
 
-import { 
-  IncomesBankModel, 
-  IncomesWithImportDate,  
+import {
+  IncomesBankModel,
+  IncomesWithImportDate,
   IncomeDb,
-  OutcomeDb,  
-  OutcomesWithFinanceMethod, 
-  InitAccountState
+  OutcomeDb,
+  OutcomesWithFinanceMethod,
+  InitAccountState,
 } from 'models/income.models';
 
 import { Registry } from 'models/registry.models';
@@ -24,4 +24,4 @@ export interface IncomeState {
   codesMap: CodesMap | null,
   importDates: Date[] | null;
   initAccount: InitAccountState[]
-};
+}

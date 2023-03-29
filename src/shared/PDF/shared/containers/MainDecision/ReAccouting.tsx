@@ -6,7 +6,6 @@ import { DecisionReAccouting } from 'models/decision.model';
 
 import PositionToReAccount from './components/PositionToReAccount';
 
-
 interface ReAccoutingProps {
   decision: DecisionReAccouting
 }
@@ -23,13 +22,13 @@ const styles = StyleSheet.create({
     margin: '16px 0',
     fontWeight: 900,
     textAlign: 'center',
-  },			
+  },
   mainText: {
     textAlign: 'justify',
   },
   sign: {
     alignSelf: 'flex-end',
-    margin: '32px 0'
+    margin: '32px 0',
   },
   tableContainer: {
     margin: '0 50px',
@@ -52,14 +51,14 @@ const styles = StyleSheet.create({
     minWidth: '50px',
   },
   cell2: {
-    minWidth: '70px'
+    minWidth: '70px',
   },
   cell3: {
-    minWidth: '200px'
-  }			
+    minWidth: '200px',
+  },
 });
 
-const ReAccouting = (props: ReAccoutingProps): JSX.Element => {
+function ReAccouting(props: ReAccoutingProps): JSX.Element {
   const decisionDate = new Date(props.decision.decisionDate);
 
   return (
@@ -69,13 +68,16 @@ const ReAccouting = (props: ReAccoutingProps): JSX.Element => {
         Decyzja Komendanta i Skarbnika Hufca ZHP Ruda Śląska 
         nr ${props.decision.decisionId}/${decisionDate.getFullYear()} z dnia ${decisionDate.toLocaleDateString()} 
         o rozpatrzeniu pism w sprawie przeksięgowań wpłat zgodnie z numerami pism
-        `}</Text>
+        `}
+      </Text>
       <Text style={styles.title}>§1</Text>
-      <Text style={styles.mainText}>{`
+      <Text style={styles.mainText}>
+        {`
       Działając na podstawie §53, ust. 1, pkt 5 Komendant oraz Skarbnik Hufca Związku 
       Harcerstwa Polskiego Ruda Śląska im. hm. Łucji Zawada podjęli decyzję o pozytywnym 
       rozpatrzeniu  następujących pism:
-        `}</Text>
+        `}
+      </Text>
       <View style={styles.tableContainer}>
         <View style={styles.rowContainer}>
           <Text style={styles.cell}>lp.</Text>
@@ -90,7 +92,8 @@ const ReAccouting = (props: ReAccoutingProps): JSX.Element => {
               key={info.letterNumber}
               index={index}
               reAccountingInfo={info}
-            />))}
+            />
+          ))}
       </View>
       <Text style={styles.title}>§2</Text>
       <Text style={styles.mainText}>
@@ -98,6 +101,6 @@ const ReAccouting = (props: ReAccoutingProps): JSX.Element => {
       </Text>
     </View>
   );
-};
+}
 
 export default ReAccouting;

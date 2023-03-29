@@ -5,7 +5,6 @@ import logo from 'assets/generator/logo.png';
 
 import Disclaimer from '../../components/Disclaimer/Disclaimer';
 
-
 interface HeaderProps {
   recipient: string;
 }
@@ -20,16 +19,16 @@ const styles = StyleSheet.create({
   },
   img: {
     height: '75px',
-  }
+  },
 });
 
-const Header = (props: HeaderProps): JSX.Element => {
+function Header(props: HeaderProps): JSX.Element {
   return (
-    <View style={styles.header}>
-      <Image src={logo} style={styles.img}/>
+    <View style={styles.header} fixed>
+      <Image src={logo} style={styles.img} />
       <Disclaimer recipient={props.recipient} />
     </View>
   );
-};
+}
 
 export default Header;

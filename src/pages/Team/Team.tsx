@@ -1,19 +1,23 @@
-import { Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip } from '@material-ui/core';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles } from '@material-ui/core/styles';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import SearchIcon from '@material-ui/icons/Search';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import SearchIcon from '@mui/icons-material/Search';
+import {
+  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip,
+} from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import React, { useState, useEffect, useRef, RefObject, CSSProperties } from 'react';
-import { CSVLink } from 'react-csv';
+import makeStyles from '@mui/styles/makeStyles';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
+import React, {
+  useState, useEffect, useRef, RefObject, CSSProperties,
+} from 'react';
+import { CSVLink, CSVDownload } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 
 import { useDebounce } from 'helpers/hooks/useDebounce';
@@ -30,6 +34,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
 import Form from './components/Form/Form';
+import { HelpDrawer } from './components/HelpDrawer/HelpDrawer';
 import { List } from './components/List/List';
 import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
@@ -62,8 +67,7 @@ const StyledTabs = styled((props: StyledTabsProps) => (
   },
 });
 
-
-const Team = (): JSX.Element => {
+function Team(): JSX.Element {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
@@ -90,9 +94,10 @@ const Team = (): JSX.Element => {
   const [tab, setTab] = useState(0);
   const [innerTab, setInnerTab] = useState(0);
 
+  const [openHelp, setOpenHelp] = React.useState<boolean>(false);
+
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
-
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -110,30 +115,28 @@ const Team = (): JSX.Element => {
     const teamRegistry = registry
       && registry[currentTeam];
     teamRegistry && setCurrentTeamRegistry(Object.values(teamRegistry));
-    const incomesToDisplay = dbIncomes 
-      && currentTeam 
-      && dbIncomes.filter(income => income.team === currentTeam);
+    const incomesToDisplay = dbIncomes
+      && currentTeam
+      && dbIncomes.filter((income) => income.team === currentTeam);
     const outcomesToDisplay = dbOutcomes
       && currentTeam
-      && dbOutcomes.filter(income => income.team === currentTeam);
+      && dbOutcomes.filter((income) => income.team === currentTeam);
     incomesToDisplay && setIncomeByCode(incomesToDisplay);
     outcomesToDisplay && setOutcomeByCode(outcomesToDisplay);
   }, [registry, dbIncomes, dbOutcomes, currentTeam]);
 
   useEffect(() => {
-    const row = incomesByCode?.length ? (incomesByCode.map((el, index) => {
-      return ({
-        ...el,
-        lp: index + 1,
-        dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0]
-      });
-    })) : ([]);
+    const row = incomesByCode?.length ? (incomesByCode.map((el, index) => ({
+      ...el,
+      lp: index + 1,
+      dateOfBook: el.dateOfBook.toLocaleString().split(',')[0].split('T')[0],
+    }))) : ([]);
     setRows(row);
   }, [incomesByCode]);
 
   useEffect(() => {
-    //Write date checker
-    const filteredIncomes = rows && rows.filter(i => {
+    // Write date checker
+    const filteredIncomes = rows && rows.filter((i) => {
       if (
         useDate
         && selectedDate
@@ -167,12 +170,11 @@ const Team = (): JSX.Element => {
 
     sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
-
   }, [event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
-      position: 'relative'
+      position: 'relative',
     },
     dayWithDot: {
       position: 'absolute',
@@ -180,22 +182,21 @@ const Team = (): JSX.Element => {
       width: 0,
       border: '2px solid',
       borderRadius: 4,
-      borderColor: theme.palette.primary.main,
       right: '50%',
       transform: 'translateX(1px)',
-      top: '80%'
+      top: '80%',
     },
     customTooltip: {
       // I used the rgba color for the standard "secondary" color
       fontSize: '16px',
-      color: 'white'
+      color: 'white',
     },
     icon: {
       width: '24px',
-      height: '24px'
+      height: '24px',
     },
     button: {
-      color: 'white'
+      color: 'white',
     },
     indicator: {
       backgroundColor: 'white',
@@ -203,20 +204,6 @@ const Team = (): JSX.Element => {
   }));
 
   const classes = useStyles();
-
-  const renderDayInPicker = (date: MaterialUiPickersDate,
-    selectedDate: unknown,
-    dayInCurrentMonth: unknown,
-    dayComponent: JSX.Element) => {
-    if (importDates && date && importDates.includes(date)) {
-      return (<div className={classes.dayWithDotContainer}>
-        {dayComponent}
-        <div className={classes.dayWithDot} />
-      </div>);
-    }
-
-    return dayComponent;
-  };
 
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
@@ -251,27 +238,56 @@ const Team = (): JSX.Element => {
       }, 0);
   };
 
-
   return (
     <>
       <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
         <Box display="flex" alignItems="center">
           <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
-          <Tooltip title="Otwórz filtry" classes={{
-            tooltip: classes.customTooltip
-          }}>
-            <IconButton aria-label="account-state" onClick={handleOpenFilter} classes={{ root: classes.button }}>
+          <Tooltip
+            title="Otwórz filtry"
+            classes={{
+              tooltip: classes.customTooltip,
+            }}
+          >
+            <IconButton
+              aria-label="account-state"
+              onClick={handleOpenFilter}
+              classes={{ root: classes.button }}
+              size="large"
+            >
               <SearchIcon fontSize="large" color="inherit" />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Wyeksportuj widok do CSV" classes={{
-            tooltip: classes.customTooltip
-          }}>
-            <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
-              <IconButton aria-label="account-state" classes={{ root: classes.button }}>
+          <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
+            <Tooltip
+              title="Wyeksportuj widok do CSV"
+              classes={{
+                tooltip: classes.customTooltip,
+              }}
+            >
+              <IconButton
+                aria-label="account-state"
+                classes={{ root: classes.button }}
+                size="large"
+              >
                 <GetAppIcon fontSize="large" color="inherit" />
               </IconButton>
-            </CSVLink>
+            </Tooltip>
+          </CSVLink>
+          <Tooltip
+            title="Pomoc"
+            classes={{
+              tooltip: classes.customTooltip,
+            }}
+          >
+            <IconButton
+              aria-label="account-state"
+              onClick={() => setOpenHelp(!openHelp)}
+              classes={{ root: classes.button }}
+              size="large"
+            >
+              <HelpOutlineIcon fontSize="large" color="inherit" />
+            </IconButton>
           </Tooltip>
         </Box>
         <StyledTabs value={tab} onChange={handleTabChange} style={{ width: '100%' }}>
@@ -290,16 +306,16 @@ const Team = (): JSX.Element => {
                 label="Po wydarzeniu"
                 value={event}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEvent(e.target.value)}
-                select={true}
+                select
                 size="small"
                 variant="outlined"
                 margin="normal"
                 SelectProps={{
-                  MenuProps: { disableScrollLock: true }
+                  MenuProps: { disableScrollLock: true },
                 }}
               >
-                <MenuItem value={''}>{`Wszystkie wydarzenia`}</MenuItem>
-                {codes && ['', ...codes.map(code => code.code)].map((item, index: number) => (
+                <MenuItem value="">Wszystkie wydarzenia</MenuItem>
+                {codes && ['', ...codes.map((code) => code.code)].map((item, index: number) => (
                   item ? <MenuItem key={index} value={item}>{item}</MenuItem> : null
                 ))}
               </TextField>
@@ -323,56 +339,54 @@ const Team = (): JSX.Element => {
                 size="small"
                 variant="outlined"
                 margin="normal"
-
               />
-              <KeyboardDatePicker
+              <DesktopDatePicker
                 className="datePicker"
-                disableToolbar
-                disableFuture={true}
-                inputVariant="outlined"
-                format="dd/MM/yyyy"
-                margin="normal"
-                id="date-picker-inline"
+                disableFuture
                 label="Wybierz datę wpływu"
-                renderDay={renderDayInPicker}
                 value={selectedDate}
                 onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
+                renderInput={(params) => <TextField {...params} />}
               />
               <FormControlLabel
                 className="dateCheckbox"
-                control={<Checkbox
-                  checked={useDate}
-                  onChange={(e) => setUseDate(e.target.checked)}
-                  name="checkedA"
-                  color="primary"
-                />}
+                control={(
+                  <Checkbox
+                    checked={useDate}
+                    onChange={(e) => setUseDate(e.target.checked)}
+                    name="checkedA"
+                    color="primary"
+                  />
+)}
                 label="Sortuj po dacie"
               />
               <Button onClick={handleOpenFilter} variant="contained" color="secondary">
                 ZAMKNIJ FILTRY
               </Button>
             </div>
-            <div style={{ display: 'none' }}><Tooltips
-              open={openPopup}
-              members={currentTeamRegistry}
-              incomes={incomesByCode}
-              outcomes={outcomesByCode}
-              currentTeam={currentTeam}
-              dataToExport={displayedIncome}
-            />
+            <div style={{ display: 'none' }}>
+              <Tooltips
+                open={openPopup}
+                members={currentTeamRegistry}
+                incomes={incomesByCode}
+                outcomes={outcomesByCode}
+                currentTeam={currentTeam}
+                dataToExport={displayedIncome}
+              />
             </div>
           </div>
           <div className="containerDataGrid">
             {displayedIncome?.length ? (
-              <List navHeight={navHeight} scrollPosition={scrollPosition} rows={displayedIncome.sort((a, b) => {
-                if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
-                  return -1;
-                }
-                return 1;
-              })} />
+              <List
+                navHeight={navHeight}
+                scrollPosition={scrollPosition}
+                rows={displayedIncome.sort((a, b) => {
+                  if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
+                    return -1;
+                  }
+                  return 1;
+                })}
+              />
             ) : (
               <div className="loadingInfo">brak wpłat na ten filtr</div>
             )}
@@ -386,8 +400,8 @@ const Team = (): JSX.Element => {
         <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
       </TabPanel>
       <TabPanel value={tab} index={3}>
-        <Tabs 
-          value={innerTab} 
+        <Tabs
+          value={innerTab}
           variant="fullWidth"
           textColor="secondary"
           indicatorColor="secondary"
@@ -414,8 +428,9 @@ const Team = (): JSX.Element => {
         </TabPanel>
         {/* <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} /> */}
       </TabPanel>
+      <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
     </>
   );
-};
+}
 
 export default Team;

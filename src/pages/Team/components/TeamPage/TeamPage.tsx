@@ -1,16 +1,10 @@
-import Modal from '@material-ui/core/Modal';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import React, { useEffect, useState } from 'react';
 
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
-import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
-
 import { ListOfMembers } from '../ListOfMembers/ListOfMembers';
-
-// import classes from './TeamPage.module.css';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -24,7 +18,7 @@ interface IProps {
   navHeight: number;
 }
 
-const TeamPage = ({ members, navHeight } : IProps): JSX.Element => {
+function TeamPage({ members, navHeight } : IProps): JSX.Element {
   // const [isOpen, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = useState<IRows[]>([]);
   // const columns = [
@@ -47,22 +41,17 @@ const TeamPage = ({ members, navHeight } : IProps): JSX.Element => {
   //   setOpen(false);
   // };
 
- 
   useEffect(() => {
     sortOfSurname(members, 'ŻŻŻ');
-    const rows = members ? (members.map((el, index) => {
-      return ({
-        ...el,
-        lp: index + 1,
-        fee: countingMemberFee(el),
-        isDeleted: el.dateOfDelete ? 'Tak' : 'Nie'
-      });
-    })) : ([]);
-
+    const rows = members ? (members.map((el, index) => ({
+      ...el,
+      lp: index + 1,
+      fee: countingMemberFee(el),
+      isDeleted: el.dateOfDelete ? 'Tak' : 'Nie',
+    }))) : ([]);
 
     setRows(rows);
-  },[members]);
-
+  }, [members]);
 
   return (
     <>
@@ -72,10 +61,10 @@ const TeamPage = ({ members, navHeight } : IProps): JSX.Element => {
         open={isOpen}
         onClose={handleClose}
       > */}
-      <ListOfMembers rows={rows} navHeight={navHeight}/>  
+      <ListOfMembers rows={rows} navHeight={navHeight} />
       {/* </Modal> */}
     </>
   );
-};
+}
 
 export default TeamPage;

@@ -1,13 +1,14 @@
 import axiosStandard from 'axios';
 import React from 'react';
 
+import { useSelector } from 'react-redux';
+
 import axios from 'axios-income';
 
 import Navigation from 'shared/Navigation/Navigation';
 
 import jsonData from './tosend.json';
 
-import { useSelector } from 'react-redux';
 
 const ForCoders = () => {
 

@@ -1,5 +1,7 @@
-import { Button, TextField } from '@material-ui/core';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import {
+  Button, TextField, Checkbox, FormControlLabel,
+} from '@mui/material';
+
 import React, { useState } from 'react';
 
 import { addTeamMember } from 'helpers/editing-db.handler';
@@ -8,20 +10,21 @@ import { Person } from 'models/registry.models';
 
 import classes from '../EditorTeam.module.css';
 
-
-const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleCloseNewMember: () => void }): JSX.Element => {
-  const [input, setInput] = useState<Person>({ name: '', surname: '', dateOfAdd: null, disability: false, instructor: false });
+function NewTeamMember({ team, handleCloseNewMember }: { team: number; handleCloseNewMember: () => void }): JSX.Element {
+  const [input, setInput] = useState<Person>({
+    name: '', surname: '', dateOfAdd: null, disability: false, instructor: false,
+  });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput({
       ...input,
-      [e.currentTarget.name]: e.currentTarget.value
+      [e.currentTarget.name]: e.currentTarget.value,
     });
   };
   const handleAddTeamMemebr = () => {
     if (team && input.name.length && input.surname.length) {
       addTeamMember(team, input);
-    };
+    }
     handleCloseNewMember();
   };
 
@@ -40,17 +43,19 @@ const NewTeamMember = ({ team, handleCloseNewMember }: {team: string; handleClos
       /> */}
       <FormControlLabel
         className="dateCheckbox"
-        control={<Checkbox
-          checked={input.instructor}
-          onChange={(e) => setInput({ ...input, instructor: e.target.checked })}
-          name="instructor"
-          color="primary"
-        />}
+        control={(
+          <Checkbox
+            checked={input.instructor}
+            onChange={(e) => setInput({ ...input, instructor: e.target.checked })}
+            name="instructor"
+            color="primary"
+          />
+)}
         label="Instruktor?"
       />
-      <Button className={classes.btnAddNewMember} variant="contained" color="primary" onClick={handleAddTeamMemebr} >DODAJ</Button>
+      <Button className={classes.btnAddNewMember} variant="contained" color="primary" onClick={handleAddTeamMemebr}>DODAJ</Button>
     </form>
   );
-};
+}
 
 export default NewTeamMember;

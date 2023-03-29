@@ -1,38 +1,36 @@
-
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import CloseIcon from '@material-ui/icons/Close';
-import CodeIcon from '@material-ui/icons/Code';
-import EditIcon from '@material-ui/icons/Edit';
-import LaunchIcon from '@material-ui/icons/Launch';
-
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-// import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-// import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import TableChartIcon from '@material-ui/icons/TableChart';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CloseIcon from '@mui/icons-material/Close';
+import CodeIcon from '@mui/icons-material/Code';
+import EditIcon from '@mui/icons-material/Edit';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
+import LaunchIcon from '@mui/icons-material/Launch';
+
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+// import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+// import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import TableChartIcon from '@mui/icons-material/TableChart';
 
 import React, { useEffect } from 'react';
 
-
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 
-const Navigation = (): JSX.Element => {
+function Navigation(): JSX.Element {
   const [isOpen, setIsOpen] = React.useState(false);
-  
+
   useEffect(() => {
     document.body.addEventListener('click', (event: MouseEvent): void => {
       const target = event.target as HTMLElement;
-      if (target 
+      if (target
         && !(target.classList.contains('nav__open') || target.classList.contains('nav__open--icon'))
       ) setIsOpen(false);
-    });    
-  },[]);
+    });
+  }, []);
 
   const navigation = [
-    { link: '/', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
+    { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
     { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
@@ -48,24 +46,24 @@ const Navigation = (): JSX.Element => {
   ];
 
   return (
-    <>
-      <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
-        <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
-          {isOpen ? <CloseIcon/> : <LaunchIcon className="nav__open--icon" />}
-        </div>
-        {navigation.map((nEl, index: number) => (
-          <NavigationItem 
-            key={index}
-            link={nEl.link}
-            exact
-          >
-            <>{nEl.icon}<span>{`${nEl.title}`}</span></>
-          </NavigationItem>))}
+    <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
+      <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
+        {isOpen ? <CloseIcon /> : <LaunchIcon className="nav__open--icon" />}
       </div>
-
-    </>
+      {navigation.map((nEl, index: number) => (
+        <NavigationItem
+          key={index}
+          link={nEl.link}
+          exact
+        >
+          <>
+            {nEl.icon}
+            <span>{`${nEl.title}`}</span>
+          </>
+        </NavigationItem>
+      ))}
+    </div>
   );
-
-};
+}
 
 export default Navigation;

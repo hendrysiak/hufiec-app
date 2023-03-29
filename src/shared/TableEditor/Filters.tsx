@@ -1,12 +1,11 @@
-
-import { TextField, MenuItem, FormControlLabel, Checkbox } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { KeyboardDatePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import {
+  TextField, MenuItem, FormControlLabel, Checkbox,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 
 import { BudgetEntry, FoundingSources, OutcomeCategory } from 'models/global.enum';
 
@@ -15,11 +14,10 @@ import { RootState } from 'store/models/rootstate.model';
 import './style.css';
 import { FiltersName } from './FiltersName';
 
-
 type Props = {
   editedData: BudgetEntry;
-  selectedDate: MaterialUiPickersDate | null;
-  setSelectedDate: (date: MaterialUiPickersDate) => void;
+  selectedDate: any | null;
+  setSelectedDate: (date: Date | string) => void;
   team: string;
   setTeam: (team: string) => void;
   name: string;
@@ -34,17 +32,16 @@ type Props = {
   setCategory: (category: OutcomeCategory) => void;
   useDate: boolean;
   setUseDate: (info: boolean) => void;
-}
+};
 
-const Filters = (props: Props): JSX.Element => {
-  const importDates = useSelector((state: RootState) => state.income.importDates);
+function Filters(props: Props): JSX.Element {
   const registry = useSelector((state: RootState) => state.income.registry);
 
   const codes = useSelector((state: RootState) => state.income.codes);
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(() => ({
     dayWithDotContainer: {
-      position: 'relative'
+      position: 'relative',
     },
     dayWithDot: {
       position: 'absolute',
@@ -52,38 +49,37 @@ const Filters = (props: Props): JSX.Element => {
       width: 0,
       border: '2px solid',
       borderRadius: 4,
-      borderColor: theme.palette.primary.main,
       right: '50%',
       transform: 'translateX(1px)',
-      top: '80%'
-    }
+      top: '80%',
+    },
   }));
-  
+
   const classes = useStyles();
 
-  const renderDayInPicker = (
-    date: MaterialUiPickersDate, 
-    selectedDate: unknown, 
-    dayInCurrentMonth: unknown, 
-    dayComponent: JSX.Element) => {
+  // const renderDayInPicker = (
+  //   date: any,
+  //   selectedDate: unknown,
+  //   dayInCurrentMonth: unknown,
+  //   dayComponent: JSX.Element) => {
 
-    const mappedImportDates = importDates?.map(id => new Date(id).toLocaleDateString());
+  //   const mappedImportDates = importDates?.map(id => new Date(id).toLocaleDateString());
 
-    if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleDateString())) {
-      
-      return (<div className={classes.dayWithDotContainer}>
-        {dayComponent}
-        <div className={classes.dayWithDot}/>
-      </div>);
-    }
+  //   if (mappedImportDates && date && mappedImportDates.includes(date.toLocaleDateString())) {
 
-    return dayComponent;    
-  };
-    
-  const handleDateChange = (date: MaterialUiPickersDate) => {
+  //     return (<div className={classes.dayWithDotContainer}>
+  //       {dayComponent}
+  //       <div className={classes.dayWithDot}/>
+  //     </div>);
+  //   }
+
+  //   return dayComponent;
+  // };
+
+  const handleDateChange = (date: any) => {
     props.setSelectedDate(date);
   };
-  
+
   const filtersToIncomes = (
     <>
       <TextField
@@ -91,12 +87,12 @@ const Filters = (props: Props): JSX.Element => {
         value={props.team}
         onChange={(e) => props.setTeam(e.target.value)}
         placeholder="Wybierz drużynę z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
         {registry && ['Brak', ...Object.keys(registry)].map((item) => (
@@ -108,20 +104,20 @@ const Filters = (props: Props): JSX.Element => {
         value={props.event}
         onChange={(e) => props.setEvent(e.target.value)}
         placeholder="Wybierz kod z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
-        {codes && ['Brak', ...codes.map(code => code.code)].map((item) => (
+        {codes && ['Brak', ...codes.map((code) => code.code)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
 
-      <FiltersName 
+      <FiltersName
         name={props.name}
         setName={props.setName}
         surname={props.surname}
@@ -136,12 +132,12 @@ const Filters = (props: Props): JSX.Element => {
         value={props.team}
         onChange={(e) => props.setTeam(e.target.value)}
         placeholder="Wybierz drużynę z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
         {registry && ['Brak', ...Object.keys(registry)].map((item) => (
@@ -153,15 +149,15 @@ const Filters = (props: Props): JSX.Element => {
         value={props.event}
         onChange={(e) => props.setEvent(e.target.value)}
         placeholder="Wybierz kod z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
-        {codes && ['Brak', ...codes.map(code => code.code)].map((item) => (
+        {codes && ['Brak', ...codes.map((code) => code.code)].map((item) => (
           <MenuItem key={item} value={item}>{item}</MenuItem>
         ))}
       </TextField>
@@ -170,12 +166,12 @@ const Filters = (props: Props): JSX.Element => {
         value={props.founding}
         onChange={(e) => props.setFounding(e.target.value as FoundingSources)}
         placeholder="Wybierz źródło z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
         {['Brak', ...Object.keys(FoundingSources)].map((item) => (
@@ -187,12 +183,12 @@ const Filters = (props: Props): JSX.Element => {
         value={props.category}
         onChange={(e) => props.setCategory(e.target.value as OutcomeCategory)}
         placeholder="Wybierz kategorię z listy"
-        select={true}
+        select
         size="small"
         variant="outlined"
         margin="normal"
         SelectProps={{
-          MenuProps: { disableScrollLock: true }
+          MenuProps: { disableScrollLock: true },
         }}
       >
         {['Brak', ...Object.keys(OutcomeCategory)].map((item) => (
@@ -202,38 +198,30 @@ const Filters = (props: Props): JSX.Element => {
     </>
   );
 
-
   return (
-    <>
-      <div className="filters">
-        {props.editedData === BudgetEntry.Income ? filtersToIncomes : filtersToOutcomes}
-        <KeyboardDatePicker
-          disableToolbar
-          disableFuture={true}
-          inputVariant="outlined"
-          format="dd/MM/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Wybierz datę importu"
-          renderDay={renderDayInPicker}
-          value={props.selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        <FormControlLabel
-          control={<Checkbox 
-            checked={props.useDate} 
-            onChange={(e) => props.setUseDate(e.target.checked)} 
-            name="checkedA" 
+    <div className="filters">
+      {props.editedData === BudgetEntry.Income ? filtersToIncomes : filtersToOutcomes}
+      <DesktopDatePicker
+        disableFuture
+        inputFormat="dd/MM/yyyy"
+        label="Wybierz datę importu"
+        renderInput={(params) => <TextField {...params} />}
+        value={props.selectedDate}
+        onChange={handleDateChange}
+      />
+      <FormControlLabel
+        control={(
+          <Checkbox
+            checked={props.useDate}
+            onChange={(e) => props.setUseDate(e.target.checked)}
+            name="checkedA"
             color="primary"
-          />}
-          label="Sortuj po dacie"
-        />
-      </div>
-    </>
+          />
+)}
+        label="Sortuj po dacie"
+      />
+    </div>
   );
-};
+}
 
 export default Filters;

@@ -1,22 +1,21 @@
-import { Button, MenuItem, TextField } from '@material-ui/core';
-import Modal from '@material-ui/core/Modal';
-import MailIcon from '@material-ui/icons/Mail';
+import MailIcon from '@mui/icons-material/Mail';
+import { Button, MenuItem, TextField } from '@mui/material';
+import Modal from '@mui/material/Modal';
 
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios-income';
 
+import { useMobileView } from 'helpers/hooks/useMobileView';
 import { ShowModal } from 'pages/Team/helpers/typeViewModal.enum';
 
 import classes from './Form.module.css';
-import { useMobileView } from 'helpers/hooks/useMobileView';
 
-const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: string, navHeight: number }): JSX.Element => {
+function Form({ title, currentTeam, navHeight }: { title: string; currentTeam: string, navHeight: number }): JSX.Element {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [mail, setMail] = useState<string>('');
-
 
   // const handleOpen = () => {
   //   setIsOpen(true);
@@ -28,7 +27,9 @@ const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: s
 
   const sendHandler = async () => {
     // setIsOpen(false);
-    await axios.post('/ticket.json', { title: messageTitle, content, mail, team: currentTeam });
+    await axios.post('/ticket.json', {
+      title: messageTitle, content, mail, team: currentTeam,
+    });
     setMessageTitle('');
     setContent('');
     setMail('');
@@ -43,7 +44,7 @@ const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: s
     'Błąd w aplikacji - coś nie działa prawidłowo',
     'Wyjaśnienie przelewu - nie rozumiem wprowadzonej pozycji',
     'Zmiana stanu drużyny - chcę dodać lub usunąć członków jednostki',
-    'Stan konta - chcę wyjaśnień dotyczacych stanu konta'
+    'Stan konta - chcę wyjaśnień dotyczacych stanu konta',
   ];
 
   const isMobile = useMobileView(360);
@@ -57,19 +58,19 @@ const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: s
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       > */}
-      <form className={ classes.positionModal } style={{ top: navHeight, width: isMobile ? '100%' : '80%' }}>
-        <h1 className={ classes.titleForm }>{title}</h1>
-        <TextField 
+      <form className={classes.positionModal} style={{ top: navHeight, width: isMobile ? '100%' : '80%' }}>
+        <h1 className={classes.titleForm}>{title}</h1>
+        <TextField
           style={{ width: '80%' }}
           classes={{ root: classes.topic }}
-          id="standard-basic" 
-          label="WPISZ TEMAT" 
+          id="standard-basic"
+          label="WPISZ TEMAT"
           value={messageTitle}
           onChange={(e) => setMessageTitle(e.target.value)}
           required
           select
           SelectProps={{
-            MenuProps: { disableScrollLock: true }
+            MenuProps: { disableScrollLock: true },
           }}
         >
           {topics.map((item) => (
@@ -88,12 +89,12 @@ const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: s
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <TextField 
+        <TextField
           style={{ width: '80%' }}
           classes={{ root: classes.responseRoot }}
           className={classes.responseInput}
-          id="standard-basic" 
-          label="JEŚLI CHCESZ ODPOWIEDŹ, WPISZ MAILA" 
+          id="standard-basic"
+          label="JEŚLI CHCESZ ODPOWIEDŹ, WPISZ MAILA"
           value={mail}
           size="small"
           onChange={(e) => setMail(e.target.value)}
@@ -103,6 +104,6 @@ const Form = ({ title, currentTeam, navHeight }: { title: string; currentTeam: s
       {/* </Modal> */}
     </>
   );
-};  
+}
 
 export default Form;

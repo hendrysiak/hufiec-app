@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -15,8 +15,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import store from 'store/store';
 
-const UnAssignedIncome = (): JSX.Element => {
-
+function UnAssignedIncome(): JSX.Element {
   const initIncome = useSelector((state: RootState) => state.income.initIncome);
   const registry = useSelector((state: RootState) => state.income.registry);
 
@@ -32,7 +31,6 @@ const UnAssignedIncome = (): JSX.Element => {
     history.push('/transfers/sorted');
   };
 
-
   const editIncome = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     if (initIncome) {
       const incomeToEdit = [...initIncome];
@@ -45,53 +43,48 @@ const UnAssignedIncome = (): JSX.Element => {
     currentIncome && store.dispatch(actions.reduxEditIncome(currentIncome));
   };
 
-
   let listOfIncome;
   if (currentIncome && registry) {
     listOfIncome = currentIncome.map((element, index) => {
       const patterns = [...Object.keys(registry)].map(
-        el => new RegExp(`${el}`, 'm')
+        (el) => new RegExp(`${el}`, 'm'),
       );
       patterns.splice(patterns.length - 1, 1);
-      if (patterns.some(item => item.test(element.title))) {
+      if (patterns.some((item) => item.test(element.title))) {
         return (
           <ListEl
             key={index}
             error={false}
             title={element.title}
             cash={element.cash}
-            clicked={event => editIncome(event, index)}
-          />
-        );
-      } else {
-        return (
-          <ListEl
-            error={true}
-            key={index}
-            title={element.title}
-            cash={element.cash}
-            clicked={event => editIncome(event, index)}
+            clicked={(event) => editIncome(event, index)}
           />
         );
       }
+      return (
+        <ListEl
+          error
+          key={index}
+          title={element.title}
+          cash={element.cash}
+          clicked={(event) => editIncome(event, index)}
+        />
+      );
     });
   }
 
   return (
-    <>
-      <section className="Section">
-        <div style={{ marginTop: '16px' }}>
-          <Button variant="contained" color="primary" onClick={() => updateIncome()}>Zaktualizuj przelewy</Button>
-          <Button variant="contained" color="secondary" onClick={() => verifyTeams()}>Posortuj przelewy</Button>
-          {/* <button onClick={() => updateIncome()}>Zaktualizuj przelewy</button>
+    <section className="Section">
+      <div style={{ marginTop: '16px' }}>
+        <Button variant="contained" color="primary" onClick={() => updateIncome()}>Zaktualizuj przelewy</Button>
+        <Button variant="contained" color="secondary" onClick={() => verifyTeams()}>Posortuj przelewy</Button>
+        {/* <button onClick={() => updateIncome()}>Zaktualizuj przelewy</button>
           <button onClick={() => verifyTeams()}>Posortuj przelewy</button> */}
-          <h2>Przelewy zaimportowane:</h2>
-        </div>
-        {listOfIncome && <ListContainer>{listOfIncome}</ListContainer>}
-      </section>
-    </>
+        <h2>Przelewy zaimportowane:</h2>
+      </div>
+      {listOfIncome && <ListContainer>{listOfIncome}</ListContainer>}
+    </section>
   );
-};
-
+}
 
 export default UnAssignedIncome;

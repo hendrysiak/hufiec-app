@@ -1,7 +1,6 @@
 import { Text, StyleSheet, View } from '@react-pdf/renderer';
 import React from 'react';
 
-
 interface DisclaimerProps {
   recipient: string;
 }
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
     fontSize: '13px',
     color: 'white',
     backgroundColor: '#6E9F32',
-  }
+  },
 });
 
 const disclaimer = {
@@ -44,7 +43,7 @@ const recipient = {
   backgroundColor: '#6E9F32',
 };
 
-const Disclaimer = (props: DisclaimerProps): JSX.Element => {
+function Disclaimer(props: DisclaimerProps): JSX.Element {
   return (
     <View style={styles.disclaimer}>
       <Text style={styles.recipient}>{props.recipient}</Text>
@@ -65,6 +64,6 @@ const Disclaimer = (props: DisclaimerProps): JSX.Element => {
     //   <p style={par}>Bank Śląski 27 1050 1331 1000 0010 0109 0859</p>
     // </div>
   );
-};
+}
 
 export default Disclaimer;

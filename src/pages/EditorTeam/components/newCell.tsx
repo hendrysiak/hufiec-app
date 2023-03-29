@@ -1,16 +1,14 @@
-import { Input, TableCell } from '@material-ui/core';
+import { Input, TableCell } from '@mui/material';
 
 import React from 'react';
 
-import { deleteTeamMember, permanentDeleteTeamMember } from 'helpers/editing-db.handler';
+import { checkOldColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import { Rows } from 'models/global.enum';
 
 import { APIPerson } from 'models/registry.models';
-import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import { IPerson } from '../EditorTeam';
 import { useStyles } from '../stylesTable';
-import { checkOldColumnRenderer } from 'helpers/render/checkColumnRenderer';
 
 interface IProps {
   row: IPerson;
@@ -20,7 +18,9 @@ interface IProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, b: IPerson) => void;
 }
 
-export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) => {
+export function CustomTableCell({
+  row, name, onChange, id, newData,
+}: IProps) {
   const classes = useStyles();
 
   const renderCell = (value: unknown) => {
@@ -34,7 +34,7 @@ export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) =>
         <Input
           value={newData && newData[name] ? newData[name] : row[name]}
           name={name}
-          onChange={e => onChange(e, row)}
+          onChange={(e) => onChange(e, row)}
           className={classes.input}
           disabled={name === Rows.Lp}
         />
@@ -43,5 +43,4 @@ export const CustomTableCell = ({ row, name, onChange, id, newData }: IProps) =>
       )}
     </TableCell>
   );
-};
-
+}

@@ -24,14 +24,14 @@ const styles = StyleSheet.create({
     minWidth: '50px',
   },
   cell2: {
-    minWidth: '70px'
+    minWidth: '70px',
   },
   cell3: {
-    minWidth: '200px'
-  }		
+    minWidth: '200px',
+  },
 });
 
-const PositionToReAccount = (props: PositionToReAccountProps): JSX.Element => {
+function PositionToReAccount(props: PositionToReAccountProps): JSX.Element {
   return (
     <View style={styles.rowContainer}>
       <Text style={styles.cell}>{props.index + 1}</Text>
@@ -41,6 +41,6 @@ const PositionToReAccount = (props: PositionToReAccountProps): JSX.Element => {
       <Text style={{ ...styles.cell, ...styles.cell3 }}>{`Przeksięgowano na: ${props.reAccountingInfo.targetCode}`}</Text>
     </View>
   );
-};
+}
 
 export default PositionToReAccount;

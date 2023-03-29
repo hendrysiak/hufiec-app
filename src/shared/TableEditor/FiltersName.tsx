@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 
 import React, { useEffect, useState } from 'react';
 
@@ -11,13 +11,13 @@ interface IProps {
   setSurname: (surname: string) => void;
 }
 
-export const FiltersName = (props: IProps): JSX.Element => {
+export function FiltersName(props: IProps): JSX.Element {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
 
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
-  
+
   useEffect(() => {
     props.setName(name);
   }, [debouncedName]);
@@ -49,4 +49,4 @@ export const FiltersName = (props: IProps): JSX.Element => {
       />
     </>
   );
-};
+}

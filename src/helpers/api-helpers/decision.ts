@@ -8,8 +8,8 @@ export const getDecisions = async (): Promise<Decision[]> => {
 
   const mappedDecision = Object
     .entries(decisions.data)
-    .map(([id, decision]: [string, Decision]) => ({ id: id, ...decision }));
-    
+    .map(([id, decision]: [string, Decision]) => ({ id, ...decision }));
+
   return mappedDecision;
 };
 
@@ -18,7 +18,6 @@ export const editDecision = async (decision: Decision): Promise<Decision> => {
   const editedDecision = await axios.put(`/decision/${id}.json`, rest);
   return editedDecision.data;
 };
-  
 
 export const saveDecision = async (decision: Decision): Promise<Decision> => {
   const newDecision = await axios.post('/decision.json', decision);

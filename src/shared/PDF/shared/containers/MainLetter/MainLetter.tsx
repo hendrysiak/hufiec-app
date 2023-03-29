@@ -33,16 +33,15 @@ const styles = StyleSheet.create({
   },
   author: {
     display: 'flex',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 });
 
-const Main = (props: MainProps): JSX.Element => {
-
+function Main(props: MainProps): JSX.Element {
   const contentGenerator = () => {
     switch (props.area) {
       case ProposalArea.Income:
-        return <ReAccouting oldValues={props.oldValues as IncomeDb} newValues={props.newValues as IncomeDb}/>;
+        return <ReAccouting oldValues={props.oldValues as IncomeDb} newValues={props.newValues as IncomeDb} />;
       case ProposalArea.Code:
         return <Code newValues={props.newValues as ICode} />;
     }
@@ -52,13 +51,13 @@ const Main = (props: MainProps): JSX.Element => {
     <View style={styles.mainContent}>
       <View style={styles.header}>
         <View style={styles.author}>
-          {props.author?.split(',').map(el => <Text key={el}>{el}</Text>)}
+          {props.author?.split(',').map((el) => <Text key={el}>{el}</Text>)}
         </View>
         <DateAndPlace date={props.letterDate} />
       </View>
       {contentGenerator()}
     </View>
   );
-};
+}
 
 export default Main;

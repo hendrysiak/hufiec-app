@@ -7,23 +7,22 @@ import { RootState } from 'store/models/rootstate.model';
 
 import OneTeam from './OneTeam/OneTeam';
 
-
 const AddPercent: FC = () => {
   const registry = useSelector((state: RootState) => state.income.registry);
   const [amount, setAmount] = useState<Amount>();
 
   const getData = async () => {
-    const result = await axios.get(`/onePercent.json`);
+    const result = await axios.get('/onePercent.json');
     setAmount(result.data);
   };
 
   useEffect(() => {
     getData();
-  },[registry]);
+  }, [registry]);
 
   return (
     <>
-      {registry && amount && Object.keys(registry).map((el, index) => <OneTeam key={index} team={el} amount={amount[el]}/> )} 
+      {registry && amount && Object.keys(registry).map((el, index) => <OneTeam key={index} team={el} amount={amount[el]} />)}
     </>
   );
 };
