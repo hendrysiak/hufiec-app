@@ -35,6 +35,7 @@ import { controlerDate, filterMembers, handleDelete } from './helpers/helpers';
 import { useStyles } from './stylesTable';
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './components/newCell';
+import { InitAccountState } from 'models/income.models';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -44,10 +45,15 @@ interface EditorTeamProps {
   isAdmin?: boolean;
 }
 
+const getInitAccountState = (person: APIPerson, initAccount: InitAccountState[]) => {
+  return initAccount.find(p => p.name === person.name && p.surname === person.surname)?.balance ?? 0
+}
+
 function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
   const registry = useSelector((state: RootState) => state.income.registry);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
+  const initAccount = useSelector((state: RootState) => state.income.initAccount);
 
   const teams = useTeams();
 
@@ -219,6 +225,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
               <TableCell align="left">Instruktor?</TableCell>
               <TableCell align="left">Data dodania</TableCell>
               <TableCell align="left">Data usunięcia</TableCell>
+              <TableCell align="left">Stan początkowy</TableCell>
               <TableCell align="left">Stan składek</TableCell>
               <TableCell align="left">Składki należne</TableCell>
               <TableCell align="left" />
@@ -293,6 +300,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </TableCell>
+                  <TableCell>{getInitAccountState(row, initAccount)}</TableCell>
                   <TableCell>{row.feeState}</TableCell>
                   <TableCell>{countAmountOfFee(row)}</TableCell>
                   {row.id === activeRow
