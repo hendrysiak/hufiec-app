@@ -14,7 +14,7 @@ export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolea
   memberToDelete.dateOfDelete = new Date();
   if ((memberToDelete.feeState && memberToDelete.feeState < 0) || isAdmin) {
     try {
-      await deleteTeamMember(memberToDelete);
+      await permanentDeleteTeamMember(memberToDelete);
       alert(`Udało się pomyślnie dodać do usunięcia ${memberToDelete.name} ${memberToDelete.surname}`);
     } catch {
       alert('Błąd, nie udało się usunąć');
@@ -23,7 +23,7 @@ export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolea
   }
 
   try {
-    await permanentDeleteTeamMember(memberToDelete);
+    await deleteTeamMember(memberToDelete);
     alert(`Udało się pomysślnie usunąć ${memberToDelete.name} ${memberToDelete.surname}`);
   } catch {
     alert('Błąd, nie udało się usunąć');
