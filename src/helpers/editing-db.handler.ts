@@ -76,3 +76,35 @@ export const updateOnePercent = async (team : string, value: string): Promise<nu
   const newValue = await axios.put(`/onePercent/${team}.json`, value);
   return newValue.data * 1;
 };
+
+export const createBackup = async (): Promise<string> => {
+  const codes = await axios.get('/codes.json');
+  const decision = await axios.get('/decision.json');
+  const foundingSources = await axios.get('/foundingSources.json');
+  const importDates = await axios.get('/importDates.json');
+  const incomes = await axios.get('/incomes.json');
+  const initAccountState = await axios.get('/initAccountState.json');
+  const onePercent = await axios.get('/onePercent.json');
+  const outcomeCategory = await axios.get('/outcomeCategory.json');
+  const outcomes = await axios.get('/outcomes.json');
+  const proposal = await axios.get('/proposal.json');
+  const registry = await axios.get('/registry.json');
+  const teams = await axios.get('/teams.json');
+  const users = await axios.get('/users.json');
+
+  return JSON.stringify({
+    codes: codes.data,
+    decision: decision.data,
+    foundingSources: foundingSources.data,
+    importDates: importDates.data,
+    initAccountState: initAccountState.data,
+    onePercent: onePercent.data,
+    outcomeCategory: outcomeCategory.data,
+    proposal: proposal.data,
+    registry: registry.data,
+    teams: teams.data,
+    users: users.data,
+    incomes: incomes.data,
+    outcomes:outcomes.data
+  });
+}

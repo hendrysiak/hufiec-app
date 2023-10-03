@@ -6,7 +6,7 @@ import {
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import {
   QueryClient,
   QueryClientProvider,
@@ -19,19 +19,12 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Cookies from 'universal-cookie';
-
 import NavigationContainer from 'containers/NavigationContainer/NavigationContainer';
-import { getAccount } from 'helpers/account.helper';
-import { Decrypt, DecryptCookie } from 'helpers/password.helper';
 
 import { AuthUserProvider, useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 import { PermissionsProvider } from 'providers/PermissionsProvider/PermissionsProvider';
 import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
 import TeamsProvider from 'providers/TeamsProvider/TeamsProvider';
-import {
-  reduxIsAuthentication, reduxSetEvidenceNumber, reduxSetRoles, reduxSetTeam,
-} from 'store/actions/user';
 
 import { RootState } from 'store/models/rootstate.model';
 
@@ -51,8 +44,6 @@ function App(): JSX.Element {
   const user = useSelector((state: RootState) => state.user);
   const team = useSelector((state: RootState) => state.user.team);
   const { authUser } = useAuth();
-  // const [roles, setRoles] = useState<string[] | null>(null);
-  // const [team, setTeam] = useState<string | null>(null);
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -97,15 +88,12 @@ function App(): JSX.Element {
   }, [authUser?.uid]);
 
   const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
-  // const Codes = React.lazy(() => import( './pages/Codes/Codes'));
   const Decision = React.lazy(() => import('./pages/Decision/Decision'));
   const Team = React.lazy(() => import('./pages/Team/Team'));
   const ForCoders = React.lazy(() => import('./pages/ForCoders/ForCoders'));
   const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
   const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
-  const SortedIncome = React.lazy(() => import('./pages/SortedIncome/SortedIncome'));
-  const UnAssignedIncome = React.lazy(() => import('./pages/UnAssignedIncome/UnAssignedIncome'));
-  const ImportIncome = React.lazy(() => import('./pages/ImportIncome/ImportIncome'));
+  const Import = React.lazy(() => import('./pages/Import/Import'));
   const Edit = React.lazy(() => import('./pages/Edit/Edit'));
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
   const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
@@ -123,13 +111,9 @@ function App(): JSX.Element {
             <Route exact path="/" render={() => <Login />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
             <Route exact path="/addpercent" render={() => <AddPercent />} />
-            <Route exact path="/transfers" render={() => <ImportIncome />} />
+            <Route exact path="/transfers" render={() => <Import />} />
             <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh" />} />
             <Route exact path="/decisions" render={() => <Decision />} />
-            <Route exact path="/transfers/imported" render={() => <UnAssignedIncome />} />
-            <Route exact path="/transfers/sorted" render={() => <SortedIncome />} />
-            {/* <Route exact path="/transfers/sorted/:teamId" render={() => <SortedIncome />} /> */}
-            {/* <Route exact path="/codes" render={() => <Codes />} />} */}
             <Route exact path="/add-code" render={() => <AddCode isAdmin />} />
             <Route exact path="/add-approval" render={() => <EventApproval />} />
             <Route exact path="/add-billing" render={() => <EventBilling />} />

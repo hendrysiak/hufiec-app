@@ -29,8 +29,8 @@ interface BudgetDataGridProps {
   displayedOutcome: OutcomeDb[];
   editedData: BudgetEntry;
   handleCellEditCommit: (params: GridCellEditCommitParams) => Promise<void>
-  addNewPosition: () => void;
-  handleDeleteBudgetEntry: (entryId: string) => (event: {
+  addNewPosition?: () => void;
+  handleDeleteBudgetEntry?: (entryId: string) => (event: {
     stopPropagation: () => void;
   }) => Promise<void>
 }
@@ -100,7 +100,7 @@ function BudgetDataGrid({
             key={id}
             icon={<CloseIcon />}
             label="Delete"
-            onClick={handleDeleteBudgetEntry(id)}
+            onClick={handleDeleteBudgetEntry && handleDeleteBudgetEntry(id)}
             color="inherit"
           />,
         ];
@@ -165,7 +165,7 @@ function BudgetDataGrid({
             key={id}
             icon={<CloseIcon />}
             label="Delete"
-            onClick={handleDeleteBudgetEntry(id)}
+            onClick={handleDeleteBudgetEntry && handleDeleteBudgetEntry(id)}
             color="inherit"
           />,
         ];
@@ -213,13 +213,13 @@ function BudgetDataGrid({
   }));
 
   function EditToolbar() {
-    const handleClick = () => addNewPosition();
+    const handleClick = () => addNewPosition && addNewPosition();
 
     return (
       <GridToolbarContainer>
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+        {addNewPosition && <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
           Dodaj rekord
-        </Button>
+        </Button>}
         <GridToolbarExport csvOptions={{
           utf8WithBom: true,
         }}

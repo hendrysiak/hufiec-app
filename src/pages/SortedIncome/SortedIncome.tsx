@@ -1,4 +1,4 @@
-import { TextField, MenuItem, CircularProgress } from '@mui/material';
+import { TextField, MenuItem, CircularProgress, CircularProgressProps, Box, Typography  } from '@mui/material';
 import Button from '@mui/material/Button';
 
 import React, { useEffect, useState } from 'react';
@@ -16,6 +16,36 @@ import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
 import { sortingIncome } from '../../helpers/sorting.helper';
+import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
+import { sleep } from 'helpers/utils/sleep';
+
+function CircularProgressWithLabel(
+  props: CircularProgressProps & { value: number },
+) {
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+        >{`${Math.round(props.value)}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 function SortedIncome(): JSX.Element {
   const dbCodes = useSelector((state: RootState) => state.income.codes);
@@ -25,14 +55,15 @@ function SortedIncome(): JSX.Element {
   const incomesToSend = useSelector((state: RootState) => state.income.sortedIncomes);
   const outcomesToSend = useSelector((state: RootState) => state.income.sortedOutcomes);
   const registry = useSelector((state: RootState) => state.income.registry);
-  const importDates = useSelector((state: RootState) => state.income.importDates);
 
   const [currentTeam, setCurrentTeam] = useState('6673');
   const [displayedIncome, setDisplayedIncome] = useState<IncomesWithImportDate[]>([]);
   const [codes, setCodes] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = React.useState(0);
 
   const history = useHistory();
+
+  const { setSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (dbCodes) {
@@ -62,35 +93,67 @@ function SortedIncome(): JSX.Element {
     assignIncome();
   }, [codes, init, registry]);
 
-  const sendingHandler = () => {
-    setLoading(true);
+  const sendingHandler = async () => {
+    setProgress(0)
     const updatedIncomes: IncomesWithImportDate[] = [];
     if (incomesToSend) {
+      console.log('inside', incomesToSend)
+      setSnackbar({ children: 'Wysyłanie przychodów', severity: 'info' });
+
       Object.values(incomesToSend).forEach((i) => {
         updatedIncomes.push(i);
       });
 
-      updatedIncomes.forEach(async (uI) => axios.post('/incomes.json', uI));
+      setProgress(1)
+
+      const updatedIncomesPromises = updatedIncomes.map(async (uI, index, arr) => axios.post('/incomes.json', uI, {
+        onUploadProgress() {
+          setProgress((index / arr.length) * 100)
+        },
+      }));
+
+      try {
+        await Promise.all(updatedIncomesPromises);
+        setSnackbar({ children: 'Wysyłanie przychodów zakończone', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wysyłanie przychodów zakończone błędem', severity: 'error' });
+      } finally {
+        setProgress(0)
+      }
+
+      await sleep(2000)
     }
 
     if (outcomesToSend) {
+      setSnackbar({ children: 'Wysyłanie kosztów', severity: 'info' });
       const updatedOutcomes = [...Object.values(outcomesToSend)];
 
-      updatedOutcomes.forEach(async (uO) => axios.post('/outcomes.json', uO));
+      setProgress(1)
+
+      const updatedOutcomesPromises = updatedOutcomes.map(async (uO, index, arr) => axios.post('/outcomes.json', uO, {
+        onUploadProgress() {
+          setProgress((index / arr.length) * 100)
+        },
+      }));
+
+      try {
+        await Promise.all(updatedOutcomesPromises);
+        setSnackbar({ children: 'Wysyłanie kosztów zakończone', severity: 'success' });
+      } catch {
+        setSnackbar({ children: 'Wysyłanie kosztów zakończone błędem', severity: 'error' });
+      } finally {
+        setProgress(0)
+      }
+
     }
 
-    const date = new Date();
+    await sleep(2000)
 
-    const importDatesToUpdate = importDates && importDates.length > 0 ? importDates : [];
-    const updatedImportDates = [...importDatesToUpdate, date];
-    (async () => axios.put('/importDates.json', updatedImportDates))();
-
-    setLoading(false);
     history.push('/');
   };
 
   return (
-    loading ? <div className="loader"><CircularProgress /></div>
+    progress > 0 ? <div className="loader"><CircularProgressWithLabel value={progress}/></div>
       : (
         <section className="Section">
           <Button variant="contained" color="primary" onClick={() => sendingHandler()}>Wyślij dane na serwer</Button>
