@@ -37,13 +37,18 @@ const styles = StyleSheet.create({
   },
 });
 
+
+interface ExtensionForCode extends ICode {
+  teamNameToUse: string
+}
+
 function Main(props: MainProps): JSX.Element {
   const contentGenerator = () => {
     switch (props.area) {
       case ProposalArea.Income:
         return <ReAccouting oldValues={props.oldValues as IncomeDb} newValues={props.newValues as IncomeDb} />;
       case ProposalArea.Code:
-        return <Code newValues={props.newValues as ICode} />;
+        return <Code newValues={props.newValues as ExtensionForCode} />;
     }
   };
 

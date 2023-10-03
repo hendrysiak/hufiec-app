@@ -7,8 +7,12 @@ import { useTeams } from 'helpers/hooks/useTeams';
 import { ICode } from 'models/codes.models';
 import { eventDateGenerator } from 'shared/eventDate.helper';
 
+interface ExtensionForCode extends ICode {
+  teamNameToUse: string
+}
+
 interface CodeProps {
-  newValues: ICode;
+  newValues: ExtensionForCode;
 }
 
 const styles = StyleSheet.create({
@@ -33,8 +37,7 @@ const styles = StyleSheet.create({
 
 function Code(props: CodeProps): JSX.Element {
   const event = codePattern.find((c) => c.value === props.newValues.prefix)?.name;
-  const teamsMap = useTeams();
-  const team = !props.newValues.teams || props.newValues.teams.length > 1 ? '' : teamsMap.find((team) => team.teamId === props.newValues.teams[0])?.nameToUse;
+  const team = props.newValues.teamNameToUse;
 
   return (
     <View style={styles.container}>
