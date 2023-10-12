@@ -183,7 +183,7 @@ const Step3 = () => {
             setIncomes(sortedIncomes.map((income, index) => ({ ...income, id: `income-${index}` })))
             setOutcomes(sortedOutcomes.map((outcome, index) => ({ ...outcome, id: `outcome-${index}`, bilingNr: '', foundingSource: FoundingSources.SelfPayment, team: '', outcomeCategory: OutcomeCategory.Fee })))
         }
-    }, [])
+    }, [codes, bankData, registry])
 
 
     return (progress > 0 ? <div className="loader" style={{ height: '82vh', position: 'unset' }}><CircularProgressWithLabel value={progress}/></div> : <><Box textAlign="center">
