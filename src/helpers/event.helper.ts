@@ -68,4 +68,7 @@ export const codePattern = [
   {
     name: 'Intercamp', value: 'ICAMP', useSuffix: false, adminEvent: true,
   },
+  {
+    name: 'INO', value: 'INO', useSuffix: false, adminEvent: true,
+  },
 ];
