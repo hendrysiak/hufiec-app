@@ -1,9 +1,27 @@
-import { deleteTeamMember, permanentDeleteTeamMember } from 'helpers/editing-db.handler';
+import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from 'helpers/editing-db.handler';
 
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
 
 import { IPerson } from '../EditorTeam';
+
+export const handleRestore = async (rows: IPerson[], id: string): Promise<void> => {
+  if (!rows) return;
+
+  const memberToRevert = rows.filter((el: IPerson) => el.id === id)[0];
+
+  memberToRevert.dateOfDelete = null;
+  const team = memberToRevert.team;
+
+  if (team) {
+    try {
+      await editTeamMember(team, memberToRevert);
+      alert(`Udało się pomyślnie przywrócić ${memberToRevert.name} ${memberToRevert.surname}`);
+    } catch {
+      alert('Błąd, nie udało się usunąć');
+    }
+  }
+};
 
 export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolean): Promise<void> => {
   if (!rows) return;
@@ -11,8 +29,10 @@ export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolea
   const memberToDelete = rows.filter((el: IPerson) => el.id === id)[0];
   if (!window.confirm(`Jesteś pewien, że chcesz usunąć osobę: ${memberToDelete.name} ${memberToDelete.surname}`)) return;
 
+  console.log(memberToDelete.feeState);
+
   memberToDelete.dateOfDelete = new Date();
-  if ((memberToDelete.feeState && memberToDelete.feeState < 0) || isAdmin) {
+  if ((memberToDelete.feeState && memberToDelete.feeState > 0)) {
     try {
       await permanentDeleteTeamMember(memberToDelete);
       alert(`Udało się pomyślnie dodać do usunięcia ${memberToDelete.name} ${memberToDelete.surname}`);

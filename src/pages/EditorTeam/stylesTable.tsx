@@ -9,7 +9,8 @@ export const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   selectTableCell: {
-    width: 60,
+    display: 'flex',
+    width: 120,
   },
   tableCell: {
     width: 130,
