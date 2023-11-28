@@ -32,7 +32,7 @@ export const handleDelete = async (rows: IPerson[], id: string, isAdmin?: boolea
   console.log(memberToDelete.feeState);
 
   memberToDelete.dateOfDelete = new Date();
-  if ((memberToDelete.feeState && memberToDelete.feeState > 0)) {
+  if ((memberToDelete.feeState && memberToDelete.feeState > 0) || isAdmin) {
     try {
       await permanentDeleteTeamMember(memberToDelete);
       alert(`Udało się pomyślnie dodać do usunięcia ${memberToDelete.name} ${memberToDelete.surname}`);
