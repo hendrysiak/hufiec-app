@@ -89,6 +89,9 @@ function Role(): JSX.Element {
     {
       field: 'surname', headerName: 'Nazwisko', width: 200, editable: true,
     },
+    {
+      field: 'email', headerName: 'Email', width: 500, editable: true,
+    },
     // eslint-disable-next-line react/display-name
     {
       field: 'actions',
@@ -114,6 +117,7 @@ function Role(): JSX.Element {
       team: user?.team ? user?.team : '',
       name: user?.name ?? '',
       surname: user?.surname ?? '',
+      email: user?.email ?? ''
     }));
 
   function EditToolbar() {

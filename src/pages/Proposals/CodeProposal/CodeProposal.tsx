@@ -27,6 +27,7 @@ import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
 
 import Letter from 'shared/PDF/Letter/Letter';
+import { useTeams } from 'helpers/hooks/useTeams';
 
 interface CodeProposalProps {
   isAdmin?: boolean;
@@ -36,6 +37,7 @@ interface CodeProposalProps {
 function CodeProposal(props: CodeProposalProps): JSX.Element {
   const { setSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
+  const teamsMap = useTeams();
 
   const editProposalMutation = useMutation(editProposal, {
     onSuccess: () => {
@@ -241,6 +243,8 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
       getActions: ({ id } : { id: string }) => {
         const element = props.rows.find((el) => el.id === id);
         const values = element?.newValues as Omit<ICode, 'id'>;
+        const teamNameToUse = !values.teams || values.teams.length > 1 ? '' : teamsMap.find((team) => team.teamId === values.teams[0])?.nameToUse;
+      
 
         const firstAction = values.firstAccept
           ? (<GridActionsCellItem onClick={resolveProposal(element)} key="doneAll" icon={<DoneAllIcon />} color="inherit" label="resolve" />)
@@ -260,7 +264,7 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
             area={ProposalArea.Code}
             kind={ProposalKind.Add}
             oldValues={element?.oldValues}
-            newValues={element?.newValues}
+            newValues={{...values, teamNameToUse}}
             author={element?.letterAuthor}
             letterDate={element?.letterDate}
           />,

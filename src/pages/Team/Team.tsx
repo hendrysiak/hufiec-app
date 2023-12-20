@@ -86,7 +86,8 @@ function Team(): JSX.Element {
   const [rows, setRows] = useState<IncomeDb[]>([]);
   const [useDate, setUseDate] = useState<boolean>(false);
 
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDateFrom, setSelectedDateFrom] = useState<Date | null>(null);
+  const [selectedDateTo, setSelectedDateTo] = useState<Date | null>(null);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
@@ -107,8 +108,12 @@ function Team(): JSX.Element {
     setInnerTab(newValue);
   };
 
-  const handleDateChange = (date: Date | null) => {
-    date && setSelectedDate(date);
+  const handleDateChangeFrom = (date: Date | null) => {
+    date && setSelectedDateFrom(date);
+  };
+
+  const handleDateChangeTo = (date: Date | null) => {
+    date && setSelectedDateTo(date);
   };
 
   useEffect(() => {
@@ -138,9 +143,8 @@ function Team(): JSX.Element {
     // Write date checker
     const filteredIncomes = rows && rows.filter((i) => {
       if (
-        useDate
-        && selectedDate
-        && new Date(i.dateOfBook).toLocaleDateString() !== selectedDate.toLocaleDateString()
+        selectedDateFrom && new Date(i.dateOfBook).getTime() <= selectedDateFrom.getTime() || selectedDateTo
+        && new Date(i.dateOfBook).getTime() >= selectedDateTo.getTime()
       ) return false;
       if (event !== '' && i.event !== event && event !== 'unAssigned') return false;
       if (event !== ''
@@ -170,7 +174,7 @@ function Team(): JSX.Element {
 
     sortOfSurname(filteredIncomes, 'ŻŻŻ');
     setDisplayedIncome(filteredIncomes);
-  }, [event, selectedDate, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
+  }, [event, selectedDateFrom, selectedDateTo, incomesByCode, useDate, rows, debouncedName, debouncedSurname]);
 
   const useStyles = makeStyles((theme: Theme) => ({
     dayWithDotContainer: {
@@ -343,22 +347,18 @@ function Team(): JSX.Element {
               <DesktopDatePicker
                 className="datePicker"
                 disableFuture
-                label="Wybierz datę wpływu"
-                value={selectedDate}
-                onChange={handleDateChange}
+                label="Od"
+                value={selectedDateFrom}
+                onChange={handleDateChangeFrom}
                 renderInput={(params) => <TextField {...params} />}
               />
-              <FormControlLabel
-                className="dateCheckbox"
-                control={(
-                  <Checkbox
-                    checked={useDate}
-                    onChange={(e) => setUseDate(e.target.checked)}
-                    name="checkedA"
-                    color="primary"
-                  />
-)}
-                label="Sortuj po dacie"
+              <DesktopDatePicker
+                className="datePicker"
+                disableFuture
+                label="Do"
+                value={selectedDateTo}
+                onChange={handleDateChangeTo}
+                renderInput={(params) => <TextField {...params} />}
               />
               <Button onClick={handleOpenFilter} variant="contained" color="secondary">
                 ZAMKNIJ FILTRY

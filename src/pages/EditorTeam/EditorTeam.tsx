@@ -1,4 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import RestoreIcon from '@mui/icons-material/Restore';
 import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
@@ -31,10 +32,11 @@ import { RootState } from 'store/models/rootstate.model';
 
 import { editTeamMember } from '../../helpers/editing-db.handler';
 
-import { controlerDate, filterMembers, handleDelete } from './helpers/helpers';
+import { controlerDate, filterMembers, handleDelete, handleRestore } from './helpers/helpers';
 import { useStyles } from './stylesTable';
 import SelectTeam from './components/SelectTeam';
 import { CustomTableCell } from './components/newCell';
+import { InitAccountState } from 'models/income.models';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -44,10 +46,15 @@ interface EditorTeamProps {
   isAdmin?: boolean;
 }
 
+const getInitAccountState = (person: APIPerson, initAccount: InitAccountState[]) => {
+  return initAccount.find(p => p.name === person.name && p.surname === person.surname)?.balance ?? 0
+}
+
 function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
   const registry = useSelector((state: RootState) => state.income.registry);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
+  const initAccount = useSelector((state: RootState) => state.income.initAccount);
 
   const teams = useTeams();
 
@@ -213,16 +220,18 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
             <TableRow>
               <TableCell align="left">Edytuj</TableCell>
               <TableCell align="left">LP</TableCell>
+              {team === 'Cały hufiec' && <TableCell align="left">Drużyna</TableCell>}
               <TableCell align="left">Nazwisko</TableCell>
               <TableCell align="left">Imię</TableCell>
               <TableCell align="left">NS?</TableCell>
               <TableCell align="left">Instruktor?</TableCell>
               <TableCell align="left">Data dodania</TableCell>
               <TableCell align="left">Data usunięcia</TableCell>
+              <TableCell align="left">Stan początkowy</TableCell>
               <TableCell align="left">Stan składek</TableCell>
               <TableCell align="left">Składki należne</TableCell>
               <TableCell align="left" />
-              <TableCell align="left">Usuń</TableCell>
+              <TableCell align="left">Akcje</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -250,6 +259,10 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                     row, name: Rows.Lp, onChange, id: activeRow, newData,
                   }}
                   />
+                  {team === 'Cały hufiec' && <CustomTableCell {...{
+                    row, name: Rows.Team, onChange, id: activeRow, newData,
+                  }}
+                  />}
                   <CustomTableCell {...{
                     row, name: Rows.Surname, onChange, id: activeRow, newData,
                   }}
@@ -293,6 +306,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </TableCell>
+                  <TableCell>{getInitAccountState(row, initAccount)}</TableCell>
                   <TableCell>{row.feeState}</TableCell>
                   <TableCell>{countAmountOfFee(row)}</TableCell>
                   {row.id === activeRow
@@ -323,6 +337,14 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                       size="large"
                     >
                       <DeleteIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label="revert"
+                      color={'primary'}
+                      onClick={() => handleRestore(rows, row.id)}
+                      size="large"
+                    >
+                      <RestoreIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
