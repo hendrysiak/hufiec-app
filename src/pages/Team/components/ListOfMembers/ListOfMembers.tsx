@@ -68,6 +68,11 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
   function EditToolbar() {
     const handleClick = () => setOpenAddUserModal(true);
 
+    // Commented because of end of the year
+    return (
+      <>
+      </>
+    );
     return (
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
@@ -196,42 +201,43 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
       field: 'instructor', headerName: 'Instruktor?', editable: true, type: 'boolean', width: 100, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
     },
     // eslint-disable-next-line react/display-name
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Akcje',
-      minWidth: 150,
-      getActions: ({ id } : { id: string }) => [
-        <GridActionsCellItem
-          key={id}
-          icon={<DeleteIcon />}
-          label="Usuń"
-          onClick={handleDelete(id)}
-          color="inherit"
-        />,
-        <GridActionsCellItem
-          key={id}
-          icon={<EditIcon />}
-          label="Przenieś"
-          onClick={() => {
-            setUserToMoveId(id);
-            setOpenMoveUserModal(true);
-          }}
-          color="inherit"
-        />,
-        // Debt - for future implementation
-        // <GridActionsCellItem
-        //   key={id}
-        //   icon={<AttachMoneyIcon />}
-        //   label="Spa dug"
-        //   onClick={() => {
-        //     setUserToMoveId(id);
-        //     setOpenMoveUserModal(true);
-        //   }}
-        //   color="inherit"
-        // />
-      ],
-    },
+    // Commented because of end of the year
+    // {
+    //   field: 'actions',
+    //   type: 'actions',
+    //   headerName: 'Akcje',
+    //   minWidth: 150,
+    //   getActions: ({ id } : { id: string }) => [
+    //     <GridActionsCellItem
+    //       key={id}
+    //       icon={<DeleteIcon />}
+    //       label="Usuń"
+    //       onClick={handleDelete(id)}
+    //       color="inherit"
+    //     />,
+    //     <GridActionsCellItem
+    //       key={id}
+    //       icon={<EditIcon />}
+    //       label="Przenieś"
+    //       onClick={() => {
+    //         setUserToMoveId(id);
+    //         setOpenMoveUserModal(true);
+    //       }}
+    //       color="inherit"
+    //     />,
+    //     // Debt - for future implementation
+    //     // <GridActionsCellItem
+    //     //   key={id}
+    //     //   icon={<AttachMoneyIcon />}
+    //     //   label="Spa dug"
+    //     //   onClick={() => {
+    //     //     setUserToMoveId(id);
+    //     //     setOpenMoveUserModal(true);
+    //     //   }}
+    //     //   color="inherit"
+    //     // />
+    //   ],
+    // },
   ];
 
   return (
