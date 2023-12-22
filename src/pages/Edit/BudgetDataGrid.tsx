@@ -81,7 +81,9 @@ function BudgetDataGrid({
       field: 'letterReceived', headerName: 'Pismo', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
     },
     {
-      field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params} />, renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} />,
+      field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, 
+      renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params} />, 
+      renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} />,
     },
     {
       field: 'dateOfLetter', headerName: 'Data pisma', editable: true, type: 'date', width: 150, ...columnAligning, renderCell: (params: GridRenderCellParams<string | undefined>) => (<div>{params?.value ? new Date(params.value).toLocaleDateString() : ''}</div>),

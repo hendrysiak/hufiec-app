@@ -31,19 +31,36 @@ export function PermissionsProvider({ children } : { children: React.ReactElemen
 
   React.useEffect(() => {
     if (user) {
-      store.dispatch(reduxSetRoles([user.role]));
-      store.dispatch(reduxIsAuthentication(true));
-      store.dispatch(reduxSetEvidenceNumber(user.evidenceNumber ?? ''));
-      store.dispatch(reduxSetTeam(user?.team ? Number(user.team) : 1111));
-      downloadData(user?.team ? Number(user.team) : 1111);
-    }
+      let team = null;
 
-    if (user && user?.role === 'leader') {
-      location.pathname !== `/${user.team}` ? history?.push(`/${user.team}`) : null;
-    }
+      if (history.location.pathname !== '/') {
+        const url = Number(history.location.pathname.slice(1));
+        team = !Number.isNaN(url) ? url : null;
+      }
 
-    if (user && user?.role === 'admin' && location.pathname === '/') {
-      history?.push('/dashboard');
+      if (user?.team && !team) {
+        if (user?.team.length > 1) {
+        const choosenTeam = window.prompt(`Wybierz zespół spośród dostępnych opcji: ${user.team.map(team => team)}`, user.team[1]);
+        team = choosenTeam ? Number(choosenTeam) : 1111;
+        } else {
+          team = Number(user.team[0]);
+        }
+      }
+
+        store.dispatch(reduxSetRoles([user.role]));
+        store.dispatch(reduxIsAuthentication(true));
+        store.dispatch(reduxSetEvidenceNumber(user.evidenceNumber ?? ''));
+        store.dispatch(reduxSetTeam(team ?? 1111));
+        downloadData(team ?? 1111);
+
+      
+      if (user?.role === 'leader') {
+        location.pathname !== `/${team}` ? history?.push(`/${team}`) : null;
+      }
+  
+      if (user?.role === 'admin' && location.pathname === '/') {
+        history?.push('/dashboard');
+      }
     }
 
     if (!user) {

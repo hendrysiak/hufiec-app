@@ -3,7 +3,7 @@ import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import {
-  Tooltip, FormGroup, FormControlLabel, Checkbox, Box,
+  Tooltip, FormGroup, FormControlLabel, Checkbox, Box, OutlinedInput, Select, FormControl, InputLabel, MenuItem, ListItemText,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
@@ -15,7 +15,7 @@ export function ErrorIcon({
   error,
   classObject = {},
 }: { error: ErrorType, classObject?: Record<string, string> }): JSX.Element {
-  let errorIcon = <>{}</>;
+  let errorIcon = <>{ }</>;
   if (error === ErrorType.EventError) errorIcon = <ExploreOffIcon />;
   if (error === ErrorType.NameError) errorIcon = <PersonOffIcon />;
   if (error === ErrorType.YearError) errorIcon = <HourglassDisabledIcon />;
@@ -33,7 +33,7 @@ export function ErrorIcon({
   );
 }
 
-export function ErrorCheckboxesEditCell({ params } : { params: GridRenderCellParams<string> }): JSX.Element {
+export function ErrorCheckboxesEditCell({ params }: { params: GridRenderCellParams<string> }): JSX.Element {
   const values = params.value?.split(',') ?? [];
 
   const { id, field } = params;
@@ -61,14 +61,47 @@ export function ErrorCheckboxesEditCell({ params } : { params: GridRenderCellPar
               }
               color="primary"
             />
-)}
+          )}
         />
       ))}
     </FormGroup>
   );
 }
+
+export function ErrorMultiCheckboxesEditCell({ params }: { params: GridRenderCellParams<string> }): JSX.Element {
+  const values = params.value?.split(',') ?? [];
+
+  const { id, field } = params;
+  const apiRef = useGridApiContext();
+
+  const handleValueChange = (error: string | string[]) => {
+    
+    const newValue =  typeof error === 'string' ? error.split(',') : error;
+    apiRef.current.setEditCellValue({ id, field, value: newValue.join(',') });
+  };
+
+  return (
+      <Select
+          multiple
+          value={values}
+          onChange={(e) => handleValueChange(e.target.value)}
+          renderValue={(selected) => selected.filter(selected => selected).map(value => ErrorTypesMap[value as ErrorType]).join(', ')}
+          variant='standard'
+          style={{ width: '100%' }}
+          // MenuProps={MenuProps}
+        >
+          {Object.entries(ErrorTypesMap).map(([error, label]) => (
+            <MenuItem key={error} value={error}>
+              <Checkbox checked={values.includes(error)} />
+              <ListItemText primary={label} />
+            </MenuItem>
+          ))}
+        </Select>
+  );
+}
+
 export function ErrorCheckboxesViewCell(
-  { params } : { params: GridRenderCellParams<string> },
+  { params }: { params: GridRenderCellParams<string> },
 ): JSX.Element {
   return (
     <Box>

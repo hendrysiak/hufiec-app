@@ -213,8 +213,8 @@ function Edit(): JSX.Element {
         <section style={{ height: '92vh' }}>
           <BudgetDataGrid
             editedData={editedData}
-            displayedIncome={dbIncomes}
-            displayedOutcome={dbOutcomes}
+            displayedIncome={dbIncomes.reverse()}
+            displayedOutcome={dbOutcomes.reverse()}
             handleCellEditCommit={handleCellEditCommit}
             addNewPosition={addNewPosition}
             handleDeleteBudgetEntry={handleDeleteBudgetEntry}

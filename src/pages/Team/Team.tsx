@@ -2,7 +2,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import {
-  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip,
+  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip, Select, SelectChangeEvent,
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,6 +17,7 @@ import React, {
 import { CSVLink, CSVDownload } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
+  useHistory,
   useLocation,
 } from 'react-router-dom';
 
@@ -40,6 +41,8 @@ import TeamFinances from './components/TeamFinances/TeamFinances';
 import TeamPage from './components/TeamPage/TeamPage';
 import { countingMemberFee } from './helpers/member-fee.helper';
 import { ShowModal } from './helpers/typeViewModal.enum';
+import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
+import { useUserData } from 'helpers/hooks/useUserData';
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -100,6 +103,12 @@ function Team(): JSX.Element {
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
 
+  const history = useHistory();
+
+  const { authUser } = useAuth();
+
+  const user = useUserData(authUser?.uid);
+
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
@@ -114,6 +123,10 @@ function Team(): JSX.Element {
 
   const handleDateChangeTo = (date: Date | null) => {
     date && setSelectedDateTo(date);
+  };
+
+  const handleSelectTeam = (team: string) => {
+    history.push(`/${team}`);
   };
 
   useEffect(() => {
@@ -246,7 +259,24 @@ function Team(): JSX.Element {
     <>
       <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
         <Box display="flex" alignItems="center">
-          <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+        {user?.team && user?.team.length > 0 ?  
+          <Select
+              style={{ color: 'white' }}
+              label="Jednostka"
+              value={currentTeam}
+              onChange={
+                (e: SelectChangeEvent<string>): void => handleSelectTeam(e.target.value as string)
+  }
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              {user?.team.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+            :<p className="team" style={{ flex: 1 }}>{currentTeam}</p>}
           <Tooltip
             title="Otwórz filtry"
             classes={{
