@@ -42,7 +42,6 @@ import store from './store/store';
 function App(): JSX.Element {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
-  const team = useSelector((state: RootState) => state.user.team);
   const { authUser } = useAuth();
 
   const queryClient = new QueryClient({
@@ -55,36 +54,11 @@ function App(): JSX.Element {
   });
 
   useEffect(() => {
-    const downloadData = async () => {
-      await getInitAccountState();
-      await getAccountState();
-      await getCodes(team);
-      await getRegistry();
-      await getImportDates();
-    };
-
-    console.log(authUser);
-    if (authUser) {
-      downloadData();
-    }
+    // if (authUser) {
+    //   downloadData();
+    // }
     store.dispatch(actions.reduxLoadingEnd());
-    // const dataLogin = DecryptCookie(cookies.get('token'));
-    // const checkLogin = async (login: string, password: string) => {
-    //   const accountData = await getAccount(login);
-    //   if (password === accountData?.password) {
-    //     store.dispatch(reduxSetRoles([accountData.role]));
-    //     store.dispatch(reduxSetTeam(accountData?.team));
-    //     store.dispatch(reduxIsAuthentication(true));
-    //     store.dispatch(reduxSetEvidenceNumber(login));
 
-    //     // setRoles(accountData.roles);
-    //     setRedirectToLogin(true);
-    //     // setTeam(accountData.team);
-    //     return;
-    //   } else setRedirectToLogin(true);
-    //   return;
-    // };
-    // dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   }, [authUser?.uid]);
 
   const Account = React.lazy(() => import('./pages/account'));

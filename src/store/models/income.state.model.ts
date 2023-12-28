@@ -24,4 +24,5 @@ export interface IncomeState {
   codesMap: CodesMap | null,
   importDates: Date[] | null;
   initAccount: InitAccountState[]
+  teamAccounts: Record<string, number> | null,
 }

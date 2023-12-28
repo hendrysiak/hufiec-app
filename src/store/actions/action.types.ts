@@ -133,6 +133,16 @@ export interface SetEvidenceNumber {
   evidenceNumber: string;
 }
 
+export interface SetAccountsState {
+  type: ActionTypes.SET_ACCOUNTS_STATE;
+  accounts: Record<string, number>;
+}
+export interface EditAccountState {
+  type: ActionTypes.EDIT_ACCOUNT_STATE;
+  team: number;
+  cash: number;
+}
+
 export type ActionType =
 | LoadingEnd
 | LoadingStart
@@ -159,4 +169,6 @@ export type ActionType =
 | setAuthenticationState
 | SetRoles
 | SetTeam
-| SetEvidenceNumber;
+| SetEvidenceNumber
+| SetAccountsState
+| EditAccountState;

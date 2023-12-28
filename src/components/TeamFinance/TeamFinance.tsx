@@ -1,20 +1,25 @@
 import { Box, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
 import { FoundingSources, IncomeCategory, OutcomeCategory } from "models/global.enum";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/models/rootstate.model";
 
 const TeamFinance = ({ team }: { team: string }) => {
-    const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes).filter((income) => income.team === team);
-    const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes).filter((outcome) => outcome.team === team);
+    const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
+    const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
 
-    const onePercentState = React.useMemo(() => dbIncomes.filter((income) => income.incomeCategory === IncomeCategory.OnePercent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const onePercentOutcomes = React.useMemo(() => dbOutcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OneProcent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const publicCollectionsState = React.useMemo(() => dbIncomes.filter((income) => income.incomeCategory === IncomeCategory.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const publicCollectionsOutcome = React.useMemo(() => dbOutcomes.filter((outcome) => outcome.foundingSource === FoundingSources.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+    const incomes = useMemo(() => dbIncomes.filter((income) => income.team === `${team}`), [dbIncomes, team]);
+    const outcomes = useMemo(() => dbOutcomes.filter((outcome) => outcome.team === `${team}`), [dbOutcomes, team]);
+    const teamAccountState = useSelector((state: RootState) => state.income.teamAccounts)?.[team] ?? 0;
 
-    const teamAccountState = 1000;
-    const teamAccountOutcome = React.useMemo(() => dbOutcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OwnResources).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+    const onePercentState = React.useMemo(() => incomes.filter((income) => income.incomeCategory === IncomeCategory.OnePercent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+    const onePercentOutcomes = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OneProcent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+    const publicCollectionsState = React.useMemo(() => incomes.filter((income) => income.incomeCategory === IncomeCategory.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+    const publicCollectionsOutcome = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+
+    const teamAccountOutcome = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OwnResources).reduce((acc, curr) => acc + curr.cash, 0), [team]);
+
+
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

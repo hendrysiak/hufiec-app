@@ -14,6 +14,7 @@ import { useAuth } from '../AuthUserProvider/AuthUserProvider';
 import { Typography, Button, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { getAccountsStates } from 'helpers/api-helpers/account';
 
 const downloadData = async (team: number) => {
   await getInitAccountState();
@@ -21,6 +22,7 @@ const downloadData = async (team: number) => {
   await getCodes(team);
   await getRegistry();
   await getImportDates();
+  await getAccountsStates();
 };
 
 export interface SimpleDialogProps {

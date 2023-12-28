@@ -99,8 +99,8 @@ const Account = () => {
                                 <Box height="80vh">
                                     <BudgetDataGrid
                                         editedData={editedData}
-                                        displayedIncome={dbIncomes.reverse().filter((income) => income.team === choosenTeam)}
-                                        displayedOutcome={dbOutcomes.reverse().filter((outcome) => outcome.team === choosenTeam)}
+                                        displayedIncome={dbIncomes.reverse().filter((income) => income.team === `${choosenTeam}`)}
+                                        displayedOutcome={dbOutcomes.reverse().filter((outcome) => outcome.team === `${choosenTeam}`)}
                                         handleCellEditCommit={handleCellEditCommit}
                                         handleDeleteBudgetEntry={handleDeleteBudgetEntry}
                                     />

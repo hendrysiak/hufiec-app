@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LaunchIcon from '@mui/icons-material/Launch';
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 // import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
@@ -31,7 +32,7 @@ function Navigation(): JSX.Element {
 
   const navigation = [
     { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
-    { link: '/account', title: 'STANY KONT', icon: <TableChartIcon fontSize="small" /> },
+    { link: '/account', title: 'STANY KONT', icon: <AccountBalanceRoundedIcon fontSize="small" /> },
     { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
