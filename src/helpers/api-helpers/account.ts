@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import axios from 'axios-income';
-import { reduxEditAccountState, reduxSetAccountsState } from 'store/actions/income';
+import { reduxEditAccountState, reduxGetInitAccountState, reduxSetAccountsState } from 'store/actions/income';
 import store from 'store/store';
 
 export const getAccountsStates = async () => {
@@ -16,4 +16,10 @@ export const getAccountsStates = async () => {
     store.dispatch(reduxEditAccountState(Number(team), account));
     return savedAccount.data;
 };
-  
+
+export const saveAllAccountsStates = async (accounts: Record<string, number>) => {
+    const savedAccounts = await axios.put('/teamAccounts.json', accounts);
+
+    store.dispatch(reduxSetAccountsState(accounts));
+    return savedAccounts.data;
+};

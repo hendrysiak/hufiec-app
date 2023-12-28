@@ -1,4 +1,4 @@
-import { AppBar, Button } from '@mui/material';
+import { AppBar, Box, Button, Grid } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
 import classes from './Dashboard.module.css';
+import Importer from 'components/Importer/Importer';
 
 export interface IMessValue {
   content: string;
@@ -61,70 +62,80 @@ function Dashboard(): JSX.Element {
   return (
     <div>
       <h1>{`Aplikacja Hufcowa - ${appInfo.version}`}</h1>
-      <Paper style={{ background: 'transparent' }}>
-        <AppBar position="static" className={classes.appBar}>
-          <h2>Stan hufca:</h2>
-          <p>
-            {amount}
-            {' '}
-            zł
-          </p>
-        </AppBar>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3}>
+            <Box p={4}>
+              <h2>Stan hufca:</h2>
+              <p>
+                {amount}
+                {' '}
+                zł
+              </p>
+            </Box>
+          </Paper>
+        </Grid>
         {/* <p><strong>Przychody:</strong>{accountState.incomesAccountState}</p>
           <p><strong>Koszty:</strong>{accountState.outcomesAccountState}</p>
           <hr/>
           <p><strong>Stan hufca:</strong>{accountState.incomesAccountState -
           accountState.outcomesAccountState}</p> */}
-        <AppBar position="static" color="transparent">
-          <h2>Wiadomości</h2>
-          <ul className={classes.listMessages}>
-            {messages ? (
-              Object.keys(messages).map((el, i: number) =>
-              // console.log(messages[el]);
-                (
-                  <li key={i}>
-                    {
-                      <div className={classes.containerMessage}>
-                        <h2>
-                          Drużyna:
-                          {messages[el].team}
-                        </h2>
-                        <h3>
-                          Tytuł:
-                          {messages[el].title}
-                        </h3>
-                        <p>
-                          Treść zgłoszenia:
-                          {messages[el].content}
-                        </p>
-                        {messages[el].mail && (
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3}>
+            <Box p={4}>
+              <h2>Wiadomości</h2>
+              <ul className={classes.listMessages}>
+                {messages ? (
+                  Object.keys(messages).map((el, i: number) =>
+                  // console.log(messages[el]);
+                  (
+                    <li key={i}>
+                      {
+                        <div className={classes.containerMessage}>
+                          <h2>
+                            Drużyna:
+                            {messages[el].team}
+                          </h2>
+                          <h3>
+                            Tytuł:
+                            {messages[el].title}
+                          </h3>
                           <p>
-                            Proszę o odpowiedź na maila:
-                              {' '}
-                            {messages[el].mail}
+                            Treść zgłoszenia:
+                            {messages[el].content}
                           </p>
-                        )}
-                        <Button
-                          onClick={() => handleDeleteMess(el, messages[el].title, messages[el].content)}
-                          variant="contained"
-                          color="secondary"
-                        >
-                          USUŃ
-                        </Button>
-                        {/* <button onClick={() => handleDeleteMess(el)}>USUN</button> */}
-                      </div>
+                          {messages[el].mail && (
+                            <p>
+                              Proszę o odpowiedź na maila:
+                              {' '}
+                              {messages[el].mail}
+                            </p>
+                          )}
+                          <Button
+                            onClick={() => handleDeleteMess(el, messages[el].title, messages[el].content)}
+                            variant="contained"
+                            color="secondary"
+                          >
+                            USUŃ
+                          </Button>
+                          {/* <button onClick={() => handleDeleteMess(el)}>USUN</button> */}
+                        </div>
                       }
-                  </li>
-                ))
-            ) : loadingMess ? (
-              <div>Brak wiadomośći</div>
-            ) : (
-              <CircularProgress />
-            )}
-          </ul>
-
-        </AppBar>
-      </Paper>
+                    </li>
+                  ))
+                ) : loadingMess ? (
+                  <div>Brak wiadomośći</div>
+                ) : (
+                  <CircularProgress />
+                )}
+              </ul>
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Importer />
+        </Grid>
+      </Grid>
     </div>
   );
 }

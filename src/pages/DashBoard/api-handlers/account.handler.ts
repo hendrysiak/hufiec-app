@@ -86,3 +86,9 @@ export const getInitAccountState = async (): Promise<void> => {
 
   store.dispatch(reduxGetInitAccountState(initAccountState.data));
 };
+
+export const setInitAccountState = async (accountStates: any[]): Promise<void> => {
+  const initAccountState = await axios.put('/initAccountState.json', accountStates);
+
+  store.dispatch(reduxGetInitAccountState(initAccountState.data));
+};

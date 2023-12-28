@@ -90,6 +90,7 @@ export const createBackup = async (): Promise<string> => {
   const proposal = await axios.get('/proposal.json');
   const registry = await axios.get('/registry.json');
   const teams = await axios.get('/teams.json');
+  const teamAccounts = await axios.get('/teamAccounts.json');
   const users = await axios.get('/users.json');
 
   return JSON.stringify({
@@ -98,6 +99,7 @@ export const createBackup = async (): Promise<string> => {
     foundingSources: foundingSources.data,
     importDates: importDates.data,
     initAccountState: initAccountState.data,
+    teamAccounts: teamAccounts.data,
     onePercent: onePercent.data,
     outcomeCategory: outcomeCategory.data,
     proposal: proposal.data,
