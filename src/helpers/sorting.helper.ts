@@ -1,5 +1,5 @@
 import { ErrorType } from 'models/error.types.model';
-import { FinanceMethod } from 'models/global.enum';
+import { FinanceMethod, IncomeCategory } from 'models/global.enum';
 import {
   IncomesBankModel,
   IncomesWithEvent,
@@ -58,7 +58,8 @@ export const sortingIncomesByCode = (codes: string[], incomes: IncomesWithTeam[]
 
     codes.forEach((code) => {
       const regex = new RegExp(`${code}`, 'mi');
-      if (regex.test(income.title)) updatedIncome = { ...income, event: code };
+      const category = code === "SC" ? IncomeCategory.MembershipFee : "";
+      if (regex.test(income.title)) updatedIncome = { ...income, event: code, incomeCategory: category };
     });
     return updatedIncome;
   });
@@ -128,13 +129,21 @@ export const matchingIncomeByYear = (incomes: IncomesWithPerson[]): IncomesWithY
   return matchedIncomesByYear;
 };
 
+const setOrgNumber = (data: (OutcomesWithImportDate | IncomesWithImportDate)[]) => {
+  //! It's temporary - reploace this logic with real orgNumber after migration
+  const orgNumber = "6671";
+  const updatedData = data.map((d) => ({ ...d, orgNumber }));
+
+  return updatedData;
+};
+
 const setDateOfImport = (
   data: (OutcomesWithEvent | IncomesWithYear)[],
 ): (OutcomesWithImportDate | IncomesWithImportDate)[] => {
   const date = new Date();
   const updatedData = data.map((d: OutcomesWithEvent | IncomesWithYear) => ({ ...d, importDate: date }));
 
-  return updatedData;
+  return setOrgNumber(updatedData);
 };
 
 const setInfoAboutSourceOfOutcome = (outomes: OutcomesWithImportDate[]) => {

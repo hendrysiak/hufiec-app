@@ -12,4 +12,5 @@ export interface AuthUser {
   surname?: string;
   evidenceNumber?: string;
   email?: string;
+  orgNumber?: string;
 }

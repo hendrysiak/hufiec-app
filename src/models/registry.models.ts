@@ -9,6 +9,7 @@ export interface Person extends IObjectKeys {
   evidenceNumber?: string;
   disability?: boolean;
   instructor?: boolean;
+  orgNumber?: string;
 }
 
 export interface APIPerson extends Person {

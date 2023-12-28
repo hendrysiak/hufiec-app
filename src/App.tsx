@@ -87,6 +87,7 @@ function App(): JSX.Element {
     // dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   }, [authUser?.uid]);
 
+  const Account = React.lazy(() => import('./pages/account'));
   const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
   const Decision = React.lazy(() => import('./pages/Decision/Decision'));
   const Team = React.lazy(() => import('./pages/Team/Team'));
@@ -109,6 +110,7 @@ function App(): JSX.Element {
         <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
           <Switch>
             <Route exact path="/" render={() => <Login />} />
+            <Route exact path="/account" render={() => <Account />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
             <Route exact path="/addpercent" render={() => <AddPercent />} />
             <Route exact path="/transfers" render={() => <Import />} />

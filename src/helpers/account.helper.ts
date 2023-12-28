@@ -1,7 +1,7 @@
-import axios from 'axios-income';
-import { AuthUser } from 'models/users.models';
+import { IncomeDb, OutcomeDb } from "models/income.models";
 
-export const getAccount = async (login: string): Promise<AuthUser | undefined> => {
-  const result = await axios.get(`/users/${login}.json`);
-  return result.data;
-};
+export const calculateTeamAccount = (team: string, incomes: IncomeDb[], outcomes: OutcomeDb[]) => {
+    const dbIncomes = incomes.filter((income) => income.team === team);
+    const dbOutcomes = outcomes.filter((outcome) => outcome.team === team);
+
+}

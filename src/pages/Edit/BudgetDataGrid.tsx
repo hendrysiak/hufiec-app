@@ -16,7 +16,7 @@ import React from 'react';
 import { useTeams } from 'helpers/hooks/useTeams';
 import { checkColumnRenderer } from 'helpers/render/checkColumnRenderer';
 import {
-  BudgetEntry, FinanceMethod, FoundingSources, OutcomeCategory,
+  BudgetEntry, FinanceMethod, FoundingSources, IncomeCategory, OutcomeCategory,
 } from 'models/global.enum';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { columnAligning } from 'shared/grid.helper';
@@ -55,6 +55,9 @@ function BudgetDataGrid({
     },
     {
       field: 'cash', headerName: 'Kwota', editable: true, width: 100, ...columnAligning,
+    },
+    {
+      field: 'incomeCategory', headerName: 'Kategoria', editable: true, width: 200, type: 'singleSelect', valueOptions: Object.values(IncomeCategory), ...columnAligning,
     },
     {
       field: 'surname', headerName: 'Nazwisko', editable: true, width: 150, ...columnAligning,
@@ -183,6 +186,7 @@ function BudgetDataGrid({
     id: income.id,
     year: income.year,
     cash: income.cash,
+    incomeCategory: income.incomeCategory,
     surname: income.surname,
     name: income.name,
     team: income.team,

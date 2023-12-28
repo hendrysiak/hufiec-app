@@ -20,12 +20,23 @@ export enum OutcomeCategory {
   Fee = 'składki',
 }
 
+export enum IncomeCategory {
+  Donation = 'dotacja',
+  OnePercent = '1 %',
+  PublicCollection = 'zbiórka publiczna',
+  MembershipFee = 'składka członkowska',
+  TaskRelatedMembershipFee = 'składka członkowska zadaniowa',
+  Rohis = 'rohis',
+  Other = 'inne',
+}
+
 export enum FoundingSources {
   OneProcent = '1 %',
   Donation = 'dotacja',
   TeamAccount = 'konto drużyny',
   SelfPayment = 'wpłaty własne',
   OwnResources = 'własne środki',
+  PublicCollection = 'zbiórka publiczna',
   Other = 'inne',
 }
 
