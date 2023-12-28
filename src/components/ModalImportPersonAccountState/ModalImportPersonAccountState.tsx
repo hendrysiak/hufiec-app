@@ -123,7 +123,7 @@ const ModalImportPersonAccontState = (props: ModalImportPersonAccontStateProps) 
                 <Typography textAlign="center" variant="h3">Import stanów kont osób</Typography>
                 <Box textAlign="center">
                     <Typography variant="h5">Wybierz plik z danymi</Typography>
-                    <p>WAŻNE! Plik powinien być w formacie CSV i posiadać dwie kolumny - "Drużyna" oraz "Stan konta". Inne pliki spowodują błąd formatowania</p>
+                    <p>WAŻNE! Plik powinien być w formacie CSV i posiadać dwie kolumny - "surname", "name", "team", "feeState" oraz "nr ewidencyjny". Inne pliki spowodują błąd formatowania</p>
                     <p>Pamiętaj, żeby zapisać plik w formacie CSV UTF-8</p>
                     <p>Dla bezpieczeństwa - wygeneruj też kopię zapasową</p>
                 </Box>
