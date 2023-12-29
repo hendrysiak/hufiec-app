@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Grid } from '@mui/material';
+import { AppBar, Box, Button, Grid, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import store from '../../store/store';
 
 import classes from './Dashboard.module.css';
 import Importer from 'components/Importer/Importer';
+import { deleteAllOutcomes, deleteIncomesByCode } from 'helpers/editing-db.handler';
 
 export interface IMessValue {
   content: string;
@@ -38,6 +39,7 @@ function Dashboard(): JSX.Element {
     return setMessages(result.data);
   };
 
+
   const handleDeleteMess = async (el: string, title: string, mess: string) => {
     if (!window.confirm(`na pewno chcesz usunąć?\n ${title}, \n ${mess.length > 20
       ? `początek wiadomośći: ${mess.slice(0, 40)}...`
@@ -47,6 +49,8 @@ function Dashboard(): JSX.Element {
       .then(() => getMessages())
       .catch(() => alert('coś poszło nie tak, spróbuj ponownie'));
   };
+
+  const lastImportDate = incomeDb.dbIncomes.slice(-1)[0]?.dateOfBook;
 
   useEffect(() => {
     const sumIncomes = incomeDb.dbIncomes.reduce((sum: number, income) => sum + Number(income.cash), 0);
@@ -58,6 +62,13 @@ function Dashboard(): JSX.Element {
   useEffect(() => {
     getMessages();
   }, []);
+
+  const clearAccounts = async () => {
+    if (window.confirm('Czy na pewno chcesz wyczyścić konta?')) {
+      await deleteIncomesByCode('SC');
+      await deleteAllOutcomes();
+    }
+  }
 
   return (
     <div>
@@ -134,6 +145,24 @@ function Dashboard(): JSX.Element {
         </Grid>
         <Grid item xs={12} md={6}>
           <Importer />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3}>
+            <Box p={4}>
+              <h2>Czyszczenie składek</h2>
+              <Box pt={3.5} pb={3.5}>
+                <Button variant="contained" color="secondary" onClick={clearAccounts}>Wyczyść konta</Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3}>
+            <Box p={4}>
+              <h2>Ostatni import był</h2>
+              <p><b>{lastImportDate ? new Date(lastImportDate).toLocaleDateString() : ''}</b></p>
+            </Box>
+          </Paper>
         </Grid>
       </Grid>
     </div>

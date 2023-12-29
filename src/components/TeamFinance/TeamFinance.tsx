@@ -1,47 +1,20 @@
-import { Box, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses } from "@mui/material";
-import { FoundingSources, IncomeCategory, OutcomeCategory } from "models/global.enum";
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store/models/rootstate.model";
+import { Box, Divider, Paper, Table, TableBody, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { StyledTableCell, StyledTableRow } from "helpers/render/StyledTableElements";
+import { getAccountStateForTeam } from "helpers/utils/getAccountStateForTeam";
+import React from "react";
 
 const TeamFinance = ({ team }: { team: string }) => {
-    const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
-    const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
 
-    const incomes = useMemo(() => dbIncomes.filter((income) => income.team === `${team}`), [dbIncomes, team]);
-    const outcomes = useMemo(() => dbOutcomes.filter((outcome) => outcome.team === `${team}`), [dbOutcomes, team]);
-    const teamAccountState = useSelector((state: RootState) => state.income.teamAccounts)?.[team] ?? 0;
-
-    const onePercentState = React.useMemo(() => incomes.filter((income) => income.incomeCategory === IncomeCategory.OnePercent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const onePercentOutcomes = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OneProcent).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const publicCollectionsState = React.useMemo(() => incomes.filter((income) => income.incomeCategory === IncomeCategory.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-    const publicCollectionsOutcome = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.PublicCollection).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-
-    const teamAccountOutcome = React.useMemo(() => outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OwnResources).reduce((acc, curr) => acc + curr.cash, 0), [team]);
-
-
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: 'rgba(54, 33, 94, 1)',
-            color: theme.palette.common.white,
-            fontSize: 24,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 24,
-        },
-    }));
-
-    const StyledTableRow = styled(TableRow)(({ theme }) => ({
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-            fontSize: 24,
-        },
-        // hide last border
-        '&:last-child td, &:last-child th': {
-            border: 0,
-        },
-    }));
+    const { 
+        onePercentOutcomes, 
+        onePercentState, 
+        publicCollectionsOutcome, 
+        publicCollectionsState, 
+        sumOfFeesForTeam, 
+        sumOfNeededFees, 
+        teamAccountOutcome, 
+        teamAccountState 
+    } = React.useMemo(() => getAccountStateForTeam(team), [team]);
 
 
     const rows = [
@@ -62,13 +35,21 @@ const TeamFinance = ({ team }: { team: string }) => {
             cash: publicCollectionsOutcome,
         },
         {
-            name: "Stan konta drużyny na dzień 31.12.2023 (w tym kwota zebrana ze składek)",
+            name: "Stan konta drużyny na dzień 31.12.2023",
             cash: teamAccountState,
+        },
+        {
+            name: "Kwota zebrana ze składek",
+            cash: (sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2),
+        },
+        {
+            name: "Niezebrane składki - suma minusów",
+            cash: sumOfNeededFees.toFixed(2),
         },
         {
             name: "Wydatki drużyny",
             cash: teamAccountOutcome,
-        }
+        },
     ]
 
     return (
@@ -117,7 +98,7 @@ const TeamFinance = ({ team }: { team: string }) => {
                             Do wydania ze środków drużyny
                         </Typography>
                         <Typography variant="h5" component="p" minWidth="150px">
-                            {teamAccountState - teamAccountOutcome}
+                            {teamAccountState + Number((sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2)) - teamAccountOutcome }
                         </Typography>
                     </Box>
                 </Box>

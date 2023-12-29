@@ -96,7 +96,7 @@ const Account = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
-                                <Box height="80vh">
+                                <Box height="75vh">
                                     <BudgetDataGrid
                                         editedData={editedData}
                                         displayedIncome={dbIncomes.reverse().filter((income) => income.team === `${choosenTeam}`)}

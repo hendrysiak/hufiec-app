@@ -1,7 +1,8 @@
-import { Modal, Box, TableCell, tableCellClasses, styled, TableRow, TableContainer, Table, Button, Typography, TableHead, Grid } from "@mui/material";
+import { Modal, Box, TableRow, TableContainer, Table, Button, Typography, TableHead, Grid } from "@mui/material";
 import { saveAllAccountsStates } from "helpers/api-helpers/account";
 import { createBackup } from "helpers/editing-db.handler";
 import { useTeams } from "helpers/hooks/useTeams";
+import { StyledTableCell, StyledTableRow } from "helpers/render/StyledTableElements";
 import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
 import React from "react";
@@ -11,28 +12,6 @@ interface ModalImportTeamAccountStateProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'rgba(54, 33, 94, 1)',
-        color: theme.palette.common.white,
-        fontSize: 24,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 24,
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-        fontSize: 24,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
 
 const getProperJSONfromCSVContent = (content: any[]) => {
 
@@ -104,7 +83,7 @@ const ModalImportTeamAccountState = (props: ModalImportTeamAccountStateProps) =>
             aria-describedby="modal-modal-description"
         >
             <Box p={4} overflow="hidden" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 1000, height: 1000, bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
-                <Typography textAlign="center" variant="h3">Import stanów kont osób</Typography>
+                <Typography textAlign="center" variant="h3">Import stanów kont drużyn</Typography>
                 <Box textAlign="center">
                     <Typography variant="h5">Wybierz plik z danymi</Typography>
                     <p>WAŻNE! Plik powinien być w formacie CSV i posiadać dwie kolumny - "Drużyna" oraz "Stan konta". Inne pliki spowodują błąd formatowania</p>

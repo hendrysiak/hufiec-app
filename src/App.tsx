@@ -66,8 +66,8 @@ function App(): JSX.Element {
   const Decision = React.lazy(() => import('./pages/Decision/Decision'));
   const Team = React.lazy(() => import('./pages/Team/Team'));
   const ForCoders = React.lazy(() => import('./pages/ForCoders/ForCoders'));
-  const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
-  const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
+  // const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
+  // const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
   const Import = React.lazy(() => import('./pages/Import/Import'));
   const Edit = React.lazy(() => import('./pages/Edit/Edit'));
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
@@ -91,8 +91,8 @@ function App(): JSX.Element {
             <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh" />} />
             <Route exact path="/decisions" render={() => <Decision />} />
             <Route exact path="/add-code" render={() => <AddCode isAdmin />} />
-            <Route exact path="/add-approval" render={() => <EventApproval />} />
-            <Route exact path="/add-billing" render={() => <EventBilling />} />
+            {/* <Route exact path="/add-approval" render={() => <EventApproval />} /> */}
+            {/* <Route exact path="/add-billing" render={() => <EventBilling />} /> */}
             <Route exact path="/for-coders" render={() => <ForCoders />} />
             <Route exact path="/editor" render={() => <Edit />} />
             <Route exact path="/editor-team" render={() => <EditorTeam isAdmin={user?.roles?.includes('admin')} />} />

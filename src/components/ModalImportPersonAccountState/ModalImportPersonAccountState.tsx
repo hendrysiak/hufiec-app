@@ -1,6 +1,7 @@
-import { Modal, Box, TableCell, tableCellClasses, styled, TableRow, TableContainer, Table, Button, TableHead, Grid, Typography } from "@mui/material";
+import { Modal, Box, TableRow, TableContainer, Table, Button, TableHead, Grid, Typography } from "@mui/material";
 import { createBackup } from "helpers/editing-db.handler";
 import { useTeams } from "helpers/hooks/useTeams";
+import { StyledTableCell, StyledTableRow } from "helpers/render/StyledTableElements";
 import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
 import { setInitAccountState } from "pages/DashBoard/api-handlers/account.handler";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
@@ -12,31 +13,7 @@ interface ModalImportPersonAccontStateProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'rgba(54, 33, 94, 1)',
-        color: theme.palette.common.white,
-        fontSize: 24,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 24,
-    },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-        fontSize: 24,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
-
 const getProperJSONfromCSVContent = (content: any[]) => {
-
-    console.log(content);
 
     const array: any[] = [];
 
@@ -44,12 +21,12 @@ const getProperJSONfromCSVContent = (content: any[]) => {
         const surname = row["surname"];
         const name = row["name"];
         const team = row["team"];
-        const balance = row["feeState"].replace(" zł", "").replace(" ", "").replace(",", ".");
+        const balance = row["feeState"].replace(" zł", "").replace("-", "0").replace(",", ".");
         const year = new Date().getFullYear();
         const evidenceNumber = row["nr ewidencyjny"];
         //! It's temporary - reploace this logic with real orgNumber after migration
         const orgNumber = "6671";
-        const parsedBalance = Number(balance);
+        const parsedBalance = Number(balance.replace('-', ''));
 
         array.push({
             surname,
@@ -64,7 +41,6 @@ const getProperJSONfromCSVContent = (content: any[]) => {
 
     return array
 };
-
 
 const ModalImportPersonAccontState = (props: ModalImportPersonAccontStateProps) => {
     const { open, setOpen } = props;
@@ -86,18 +62,14 @@ const ModalImportPersonAccontState = (props: ModalImportPersonAccontStateProps) 
         if (!fileContent.data) return;
 
         if (window.confirm('Czy na pewno chcesz zaimportować dane?')) {
-
-
             try {
                 await setInitAccountState(fileContent.data);
                 setSnackbar({ children: 'Stan kont zapisany pomyślnie', severity: 'success' });
             } catch {
                 setSnackbar({ children: 'Wystąpił błąd - odśwież', severity: 'error' });
-
             }
         }
-    }
-
+    };
 
     const saveDbEntries = async () => {
         const entries = await createBackup();
@@ -119,7 +91,7 @@ const ModalImportPersonAccontState = (props: ModalImportPersonAccontStateProps) 
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box p={4} overflow="hidden" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 1200, height: 1200, bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
+            <Box p={4} overflow="hidden" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 1200, height: 1000, bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
                 <Typography textAlign="center" variant="h3">Import stanów kont osób</Typography>
                 <Box textAlign="center">
                     <Typography variant="h5">Wybierz plik z danymi</Typography>
@@ -140,7 +112,7 @@ const ModalImportPersonAccontState = (props: ModalImportPersonAccontStateProps) 
                     <Typography variant="h4">Zaimportowane dane</Typography>
                 </Box>
                 <Box>
-                    <TableContainer style={{ maxHeight: 750 }}>
+                    <TableContainer style={{ maxHeight: 550 }}>
                         <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
