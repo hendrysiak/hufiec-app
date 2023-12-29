@@ -5,7 +5,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useUserData } from 'helpers/hooks/useUserData';
 import {
   getInitAccountState, getAccountState, getRegistry, getImportDates, getCodes,
-} from 'pages/DashBoard/api-handlers/account.handler';
+} from 'helpers/api-helpers/account.handler';
 import { reduxSetRoles, reduxIsAuthentication, reduxSetTeam } from 'store/actions';
 import { reduxSetEvidenceNumber } from 'store/actions/user';
 import store from 'store/store';

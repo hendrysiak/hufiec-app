@@ -3,7 +3,7 @@ import { createBackup } from "helpers/editing-db.handler";
 import { useTeams } from "helpers/hooks/useTeams";
 import { StyledTableCell, StyledTableRow } from "helpers/render/StyledTableElements";
 import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
-import { setInitAccountState } from "pages/DashBoard/api-handlers/account.handler";
+import { setInitAccountState } from "helpers/api-helpers/account.handler";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
 import React from "react";
 import { useQuery } from "react-query";

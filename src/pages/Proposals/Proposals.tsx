@@ -10,9 +10,9 @@ import { getProposals } from 'helpers/api-helpers/proposal';
 import { ProposalArea } from 'models/global.enum';
 import { Proposal } from 'models/proposal.models';
 
-import CodeProposal from './CodeProposal/CodeProposal';
-import IncomeProposal from './IncomeProposal/IncomeProposal';
-import RegistryProposal from './RegistryProposal/RegistryProposal';
+import CodeProposal from '../../components/CodeProposal/CodeProposal';
+import IncomeProposal from '../../components/IncomeProposal/IncomeProposal';
+import RegistryProposal from '../../components/RegistryProposal/RegistryProposal';
 
 const proposalsList = [
   { name: 'akcje przelewów', value: 'income' },

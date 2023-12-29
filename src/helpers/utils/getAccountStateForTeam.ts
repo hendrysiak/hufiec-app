@@ -1,7 +1,7 @@
 import { IncomeCategory, FoundingSources } from "models/global.enum";
 import { IncomeDb, OutcomeDb } from "models/income.models";
 import { APIPerson } from "models/registry.models";
-import { countingMemberFee } from "pages/Team/helpers/member-fee.helper";
+import { countingMemberFee } from "helpers/member-fee.helper";
 import store from "store/store";
 
 const getOnePercentState = (team: string, incomes: IncomeDb[]) => {

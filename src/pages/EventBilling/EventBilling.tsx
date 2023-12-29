@@ -27,7 +27,7 @@ import { RootState } from 'store/models/rootstate.model';
 
 import { addOutcome, deleteOutcome, editOutcome } from '../../helpers/editing-db.handler';
 
-import EventInfo from './components/EventInfo';
+import EventInfo from '../../components/EventInfo/EventInfo';
 
 import classes from './EventBilling.module.css';
 

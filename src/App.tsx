@@ -34,7 +34,7 @@ import {
   getRegistry,
   getImportDates,
   getInitAccountState,
-} from './pages/DashBoard/api-handlers/account.handler';
+} from './helpers/api-helpers/account.handler';
 
 import * as actions from './store/actions/index';
 import store from './store/store';
@@ -71,7 +71,6 @@ function App(): JSX.Element {
   const Import = React.lazy(() => import('./pages/Import/Import'));
   const Edit = React.lazy(() => import('./pages/Edit/Edit'));
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
-  const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
   const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
   const Role = React.lazy(() => import('./pages/Role/Role'));
@@ -86,7 +85,6 @@ function App(): JSX.Element {
             <Route exact path="/" render={() => <Login />} />
             <Route exact path="/account" render={() => <Account />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
-            <Route exact path="/addpercent" render={() => <AddPercent />} />
             <Route exact path="/transfers" render={() => <Import />} />
             <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh" />} />
             <Route exact path="/decisions" render={() => <Decision />} />

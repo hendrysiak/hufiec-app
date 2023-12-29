@@ -9,7 +9,7 @@ import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
-import BudgetDataGrid from './BudgetDataGrid';
+import BudgetDataGrid from '../../components/BudgetDataGrid/BudgetDataGrid';
 import { useEntriesEdit } from 'helpers/hooks/useEntriesEdit';
 
 function Edit(): JSX.Element {

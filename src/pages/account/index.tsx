@@ -3,7 +3,7 @@ import TeamAccountList from "components/TeamAccountList/TeamAccountList";
 import TeamFinance from "components/TeamFinance/TeamFinance";
 import { useEntriesEdit } from "helpers/hooks/useEntriesEdit";
 import { useTeams } from "helpers/hooks/useTeams";
-import BudgetDataGrid from "pages/Edit/BudgetDataGrid";
+import BudgetDataGrid from "components/BudgetDataGrid/BudgetDataGrid";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/models/rootstate.model";
