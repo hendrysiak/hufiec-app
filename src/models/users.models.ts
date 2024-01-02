@@ -6,10 +6,11 @@ export interface User {
 }
 
 export interface AuthUser {
-  team?: string;
+  team: string[];
   role: UserRoles;
   name?: string;
   surname?: string;
   evidenceNumber?: string;
   email?: string;
+  orgNumber?: string;
 }

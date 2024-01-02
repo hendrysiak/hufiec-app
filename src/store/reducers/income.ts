@@ -16,6 +16,7 @@ const initialState: IncomeState = {
   codesMap: null,
   importDates: null,
   initAccount: [],
+  teamAccounts: null,
 };
 
 const reducer = (state = initialState, action: ActionType): IncomeState => {
@@ -181,9 +182,26 @@ const reducer = (state = initialState, action: ActionType): IncomeState => {
         };
       } throw Error('Błąd z drużyną');
 
+      case ActionTypes.SET_ACCOUNTS_STATE: 
+        return {
+          ...state,
+          teamAccounts: action.accounts,
+        };
+
+      case ActionTypes.EDIT_ACCOUNT_STATE: 
+        const { team, cash } = action;
+        return {
+          ...state,
+          teamAccounts: {
+            ...state.teamAccounts,
+            [team]: cash,
+          },
+        };
+
     default:
       return state;
-  }
+  };
+
 };
 
 export default reducer;

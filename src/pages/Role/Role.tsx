@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 
 import {
-  DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer, GridColumns,
+  DataGrid, GridCellEditCommitParams, GridActionsCellItem, GridToolbarContainer, GridColumns, GridRenderCellParams,
 } from '@mui/x-data-grid';
 
 import React from 'react';
@@ -19,6 +19,7 @@ import { Encrypt, generatePassword } from 'helpers/password.helper';
 import { AuthUser, UserRoles } from 'models/users.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
+import { TeamMultiCheckboxesEditCell } from 'shared/Cells/TeamCell';
 
 interface NewUser extends AuthUser {
   uid: string;
@@ -27,12 +28,13 @@ interface NewUser extends AuthUser {
 function Role(): JSX.Element {
   const query = useQuery<Record<string, AuthUser>, Error>('users', fetchUsers);
   const teamsMap = useTeams();
+  console.log(teamsMap);
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
   const [user, setNewUser] = React.useState<NewUser>({
     uid: '',
     evidenceNumber: '',
     role: 'leader',
-    team: '',
+    team: [],
     name: '',
     surname: '',
   });
@@ -81,7 +83,11 @@ function Role(): JSX.Element {
       field: 'roles', headerName: 'Rola', type: 'singleSelect', valueOptions: ['admin', 'leader'], width: 150, editable: true,
     },
     {
-      field: 'team', headerName: 'Drużyna', width: 150, editable: true,
+      field: 'team', 
+      headerName: 'Drużyna', 
+      renderEditCell: (params: GridRenderCellParams<number[]>) => <TeamMultiCheckboxesEditCell params={params} />,
+      width: 350, 
+      editable: true,
     },
     {
       field: 'name', headerName: 'Imię', width: 200, editable: true,
@@ -90,7 +96,7 @@ function Role(): JSX.Element {
       field: 'surname', headerName: 'Nazwisko', width: 200, editable: true,
     },
     {
-      field: 'email', headerName: 'Email', width: 500, editable: true,
+      field: 'email', headerName: 'Email', width: 300, editable: true,
     },
     // eslint-disable-next-line react/display-name
     {
@@ -216,7 +222,7 @@ function Role(): JSX.Element {
             <TextField
               style={{ margin: '16px', width: '40%' }}
               value={user.team}
-              onChange={(e) => setNewUser({ ...user, team: e.target.value })}
+              onChange={(e) => setNewUser({ ...user, team: [...user?.team, e.target.value] })}
               select
               label="Drużyna"
               variant="standard"
@@ -253,7 +259,7 @@ function Role(): JSX.Element {
                   uid: '',
                   evidenceNumber: '',
                   role: 'leader',
-                  team: '',
+                  team: [],
                   name: '',
                   surname: '',
                 });

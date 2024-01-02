@@ -3,6 +3,7 @@ export interface Team {
   nameToUse: string;
   teamId: number;
   id: string;
+  orgNumber?: string;
 }
 
 export interface ITeam {

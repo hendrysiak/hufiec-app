@@ -24,19 +24,19 @@ import { useTeams } from 'helpers/hooks/useTeams';
 import { sortOfSurname } from 'helpers/sorting.helper';
 import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
-import TeamFinances from 'pages/Team/components/TeamFinances/TeamFinances';
-import { countAmountOfFee, countingMemberFee } from 'pages/Team/helpers/member-fee.helper';
+import TeamFinances from 'components/TeamFinances/TeamFinances';
+import { countAmountOfFee, countingMemberFee } from 'helpers/member-fee.helper';
 import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
 import { editTeamMember } from '../../helpers/editing-db.handler';
 
-import { controlerDate, filterMembers, handleDelete, handleRestore } from './helpers/helpers';
+import { controlerDate, filterMembers, handleDelete, handleRestore } from '../../helpers/registry.helper';
 import { useStyles } from './stylesTable';
-import SelectTeam from './components/SelectTeam';
-import { CustomTableCell } from './components/newCell';
+import SelectTeam from '../../components/SelectTeam/SelectTeam';
 import { InitAccountState } from 'models/income.models';
+import { CustomTableCell } from '../../components/NewCell/NewCell';
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -119,8 +119,10 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     onToggleEditMode(id);
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (e: { target: { value: string | boolean, name: string }}) => {
     const { value, name: newName } = e.target;
+
+    console.log(newName, value);
 
     setNewData((prev) => ({
       ...prev,
@@ -272,11 +274,11 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                   }}
                   />
                   <CustomTableCell {...{
-                    row, name: Rows.Disability, onChange, id: activeRow, newData,
+                    row, name: Rows.Disability, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
                   <CustomTableCell {...{
-                    row, name: Rows.Instructor, onChange, id: activeRow, newData,
+                    row, name: Rows.Instructor, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
                   {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}

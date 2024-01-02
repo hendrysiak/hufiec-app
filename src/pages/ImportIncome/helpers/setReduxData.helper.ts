@@ -5,7 +5,7 @@ import store from 'store/store';
 
 import { INGBilingDocument } from '../models/ing.biling.model';
 
-import { sortBilingFromING } from '../../Import/helpers/bank.helper';
+import { sortBilingFromING } from '../../../helpers/bank.helper';
 
 // export const setIncomeInRedux = async (url: string): Promise<void> => {
 export const setIncomeInRedux = async (file: File): Promise<void> => {

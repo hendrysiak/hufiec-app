@@ -2,7 +2,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import {
-  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip,
+  Box, TextField, MenuItem, Theme, IconButton, Button, Tooltip, Select, SelectChangeEvent,
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,6 +17,7 @@ import React, {
 import { CSVLink, CSVDownload } from 'react-csv';
 import { useSelector } from 'react-redux';
 import {
+  useHistory,
   useLocation,
 } from 'react-router-dom';
 
@@ -28,20 +29,22 @@ import { sortOfSurname } from 'helpers/sorting.helper';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
-import CodeGenerator from 'pages/AddCode/CodeGenerator/CodeGenerator';
+import CodeGenerator from 'components/CodeGenerator/CodeGenerator';
 import Proposals from 'pages/Proposals/Proposals';
-import Tooltips from 'pages/Team/components/Tooltips/Tooltips';
+import Tooltips from 'components/Tooltips/Tooltips';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
 import './style.css';
-import Form from './components/Form/Form';
-import { HelpDrawer } from './components/HelpDrawer/HelpDrawer';
-import { List } from './components/List/List';
-import TeamFinances from './components/TeamFinances/TeamFinances';
-import TeamPage from './components/TeamPage/TeamPage';
-import { countingMemberFee } from './helpers/member-fee.helper';
-import { ShowModal } from './helpers/typeViewModal.enum';
+import Form from '../../components/Form/Form';
+import { HelpDrawer } from '../../components/HelpDrawer/HelpDrawer';
+import { List } from '../../components/List/List';
+import TeamFinances from '../../components/TeamFinances/TeamFinances';
+import TeamPage from '../../components/TeamPage/TeamPage';
+import { countingMemberFee } from '../../helpers/member-fee.helper';
+import { ShowModal } from '../../helpers/typeViewModal.enum';
+import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
+import { useUserData } from 'helpers/hooks/useUserData';
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -102,6 +105,12 @@ function Team(): JSX.Element {
   const debouncedName = useDebounce(name, 500);
   const debouncedSurname = useDebounce(surname, 500);
 
+  const history = useHistory();
+
+  const { authUser } = useAuth();
+
+  const user = useUserData(authUser?.uid);
+
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
@@ -116,6 +125,10 @@ function Team(): JSX.Element {
 
   const handleDateChangeTo = (date: Date | null) => {
     date && setSelectedDateTo(date);
+  };
+
+  const handleSelectTeam = (team: string) => {
+    history.push(`/${team}`);
   };
 
   useEffect(() => {
@@ -142,7 +155,7 @@ function Team(): JSX.Element {
   }, [incomesByCode]);
 
   useEffect(() => {
-    // Write date checker
+    //  Write date checker
     const filteredIncomes = rows && rows.filter((i) => {
       if (
         selectedDateFrom && new Date(i.dateOfBook).getTime() <= selectedDateFrom.getTime() || selectedDateTo
@@ -193,7 +206,7 @@ function Team(): JSX.Element {
       top: '80%',
     },
     customTooltip: {
-      // I used the rgba color for the standard "secondary" color
+      //  I used the rgba color for the standard "secondary" color
       fontSize: '16px',
       color: 'white',
     },
@@ -250,7 +263,24 @@ function Team(): JSX.Element {
   //   <>
   //     <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
   //       <Box display="flex" alignItems="center">
-  //         <p className="team" style={{ flex: 1 }}>{currentTeam}</p>
+  //       {user?.team && user?.team.length > 0 ?  
+  //         <Select
+  //             style={{ color: 'white' }}
+  //             label="Jednostka"
+  //             value={currentTeam}
+  //             onChange={
+  //               (e: SelectChangeEvent<string>): void => handleSelectTeam(e.target.value as string)
+  // }
+  //             displayEmpty
+  //             inputProps={{ 'aria-label': 'Without label' }}
+  //           >
+  //             {user?.team.map((item) => (
+  //               <MenuItem key={item} value={item}>
+  //                 {item}
+  //               </MenuItem>
+  //             ))}
+  //           </Select>
+  //           :<p className="team" style={{ flex: 1 }}>{currentTeam}</p>}
   //         <Tooltip
   //           title="Otwórz filtry"
   //           classes={{
@@ -337,104 +367,103 @@ function Team(): JSX.Element {
   //               variant="outlined"
   //               margin="normal"
   //             />
+  //              <TextField
+  //                classes={{ root: 'teamInput' }}
+  //                label="Po nazwisku"
+  //                value={surname}
+  //                onChange={(e) => setSurname(e.target.value)}
+  //                placeholder="Wpisz nazwisko"
+  //                size="small"
+  //                variant="outlined"
+  //                margin="normal"
+  //              />
+  //              <DesktopDatePicker
+  //                className="datePicker"
+  //                disableFuture
+  //                label="Od"
+  //                value={selectedDateFrom}
+  //                onChange={handleDateChangeFrom}
+  //                renderInput={(params) => <TextField {...params} />}
+  //              />
+  //              <DesktopDatePicker
+  //                className="datePicker"
+  //                disableFuture
+  //                label="Do"
+  //                value={selectedDateTo}
+  //                onChange={handleDateChangeTo}
+  //                renderInput={(params) => <TextField {...params} />}
+  //              />
+  //              <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+  //                ZAMKNIJ FILTRY
+  //              </Button>
+  //            </div>
+  //            <div style={{ display: 'none' }}>
+  //              <Tooltips
+  //                open={openPopup}
+  //                members={currentTeamRegistry}
+  //                incomes={incomesByCode}
+  //                outcomes={outcomesByCode}
+  //                currentTeam={currentTeam}
+  //                dataToExport={displayedIncome}
+  //              />
+  //            </div>
+  //          </div>
+  //          <div className="containerDataGrid">
+  //            {displayedIncome?.length ? (
+  //              <List
+  //                navHeight={navHeight}
+  //                scrollPosition={scrollPosition}
+  //                rows={displayedIncome.sort((a, b) => {
+  //                  if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
+  //                    return -1;
+  //                  }
+  //                  return 1;
+  //                })}
+  //              />
+  //            ) : (
+  //              <div className="loadingInfo">brak wpłat na ten filtr</div>
+  //            )}
+  //          </div>
+  //        </section>
+  //      </TabPanel>
+  //      <TabPanel value={tab} index={1}>
+  //        <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
+  //      </TabPanel>
+  //      <TabPanel value={tab} index={2}>
+  //        <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
+  //      </TabPanel>
+  //      <TabPanel value={tab} index={3}>
+  //        <Tabs
+  //          value={innerTab}
+  //          variant="fullWidth"
+  //          textColor="secondary"
+  //          indicatorColor="secondary"
+  //          onChange={handleInnerTabChange}
+  //        >
+  //          <Tab label="Kody" />
+  //          <Tab label="Podjęte akcje" />
+  //          <Tab label="Wyślij wiadomość" />
+  //          <Tab label="Poradnik" />
+  //        </Tabs>
+  //        <TabPanel value={innerTab} index={0}>
+  //          <CodeGenerator />
+  //        </TabPanel>
+  //        <TabPanel value={innerTab} index={1}>
+  //          <Proposals height="65vh" />
+  //        </TabPanel>
+  //        <TabPanel value={innerTab} index={2}>
+  //          <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+  //        </TabPanel>
+  //        <TabPanel value={innerTab} index={3}>
+  //          <h2>Poradnik</h2>
+  //          <p>Link do poradnika - tymczasowy</p>
+  //          <a href="https:gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
+  //        </TabPanel>
 
-  //             <TextField
-  //               classes={{ root: 'teamInput' }}
-  //               label="Po nazwisku"
-  //               value={surname}
-  //               onChange={(e) => setSurname(e.target.value)}
-  //               placeholder="Wpisz nazwisko"
-  //               size="small"
-  //               variant="outlined"
-  //               margin="normal"
-  //             />
-  //             <DesktopDatePicker
-  //               className="datePicker"
-  //               disableFuture
-  //               label="Od"
-  //               value={selectedDateFrom}
-  //               onChange={handleDateChangeFrom}
-  //               renderInput={(params) => <TextField {...params} />}
-  //             />
-  //             <DesktopDatePicker
-  //               className="datePicker"
-  //               disableFuture
-  //               label="Do"
-  //               value={selectedDateTo}
-  //               onChange={handleDateChangeTo}
-  //               renderInput={(params) => <TextField {...params} />}
-  //             />
-  //             <Button onClick={handleOpenFilter} variant="contained" color="secondary">
-  //               ZAMKNIJ FILTRY
-  //             </Button>
-  //           </div>
-  //           <div style={{ display: 'none' }}>
-  //             <Tooltips
-  //               open={openPopup}
-  //               members={currentTeamRegistry}
-  //               incomes={incomesByCode}
-  //               outcomes={outcomesByCode}
-  //               currentTeam={currentTeam}
-  //               dataToExport={displayedIncome}
-  //             />
-  //           </div>
-  //         </div>
-  //         <div className="containerDataGrid">
-  //           {displayedIncome?.length ? (
-  //             <List
-  //               navHeight={navHeight}
-  //               scrollPosition={scrollPosition}
-  //               rows={displayedIncome.sort((a, b) => {
-  //                 if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
-  //                   return -1;
-  //                 }
-  //                 return 1;
-  //               })}
-  //             />
-  //           ) : (
-  //             <div className="loadingInfo">brak wpłat na ten filtr</div>
-  //           )}
-  //         </div>
-  //       </section>
-  //     </TabPanel>
-  //     <TabPanel value={tab} index={1}>
-  //       <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
-  //     </TabPanel>
-  //     <TabPanel value={tab} index={2}>
-  //       <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
-  //     </TabPanel>
-  //     <TabPanel value={tab} index={3}>
-  //       <Tabs
-  //         value={innerTab}
-  //         variant="fullWidth"
-  //         textColor="secondary"
-  //         indicatorColor="secondary"
-  //         onChange={handleInnerTabChange}
-  //       >
-  //         <Tab label="Kody" />
-  //         <Tab label="Podjęte akcje" />
-  //         <Tab label="Wyślij wiadomość" />
-  //         <Tab label="Poradnik" />
-  //       </Tabs>
-  //       <TabPanel value={innerTab} index={0}>
-  //         <CodeGenerator />
-  //       </TabPanel>
-  //       <TabPanel value={innerTab} index={1}>
-  //         <Proposals height="65vh" />
-  //       </TabPanel>
-  //       <TabPanel value={innerTab} index={2}>
-  //         <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
-  //       </TabPanel>
-  //       <TabPanel value={innerTab} index={3}>
-  //         <h2>Poradnik</h2>
-  //         <p>Link do poradnika - tymczasowy</p>
-  //         <a href="https://gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
-  //       </TabPanel>
-
-  //     </TabPanel>
-  //     <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
-  //   </>
-  // );
+  //      </TabPanel>
+  //      <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
+  //    </>
+  //  );
 }
 
 export default Team;

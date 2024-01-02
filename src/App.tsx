@@ -34,7 +34,7 @@ import {
   getRegistry,
   getImportDates,
   getInitAccountState,
-} from './pages/DashBoard/api-handlers/account.handler';
+} from './helpers/api-helpers/account.handler';
 
 import * as actions from './store/actions/index';
 import store from './store/store';
@@ -42,7 +42,6 @@ import store from './store/store';
 function App(): JSX.Element {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
   const user = useSelector((state: RootState) => state.user);
-  const team = useSelector((state: RootState) => state.user.team);
   const { authUser } = useAuth();
 
   const queryClient = new QueryClient({
@@ -55,48 +54,23 @@ function App(): JSX.Element {
   });
 
   useEffect(() => {
-    const downloadData = async () => {
-      await getInitAccountState();
-      await getAccountState();
-      await getCodes(team);
-      await getRegistry();
-      await getImportDates();
-    };
-
-    console.log(authUser);
-    if (authUser) {
-      downloadData();
-    }
+    // if (authUser) {
+    //   downloadData();
+    // }
     store.dispatch(actions.reduxLoadingEnd());
-    // const dataLogin = DecryptCookie(cookies.get('token'));
-    // const checkLogin = async (login: string, password: string) => {
-    //   const accountData = await getAccount(login);
-    //   if (password === accountData?.password) {
-    //     store.dispatch(reduxSetRoles([accountData.role]));
-    //     store.dispatch(reduxSetTeam(accountData?.team));
-    //     store.dispatch(reduxIsAuthentication(true));
-    //     store.dispatch(reduxSetEvidenceNumber(login));
 
-    //     // setRoles(accountData.roles);
-    //     setRedirectToLogin(true);
-    //     // setTeam(accountData.team);
-    //     return;
-    //   } else setRedirectToLogin(true);
-    //   return;
-    // };
-    // dataLogin ? checkLogin(Decrypt(dataLogin.login), dataLogin.password) : setRedirectToLogin(true);
   }, [authUser?.uid]);
 
+  const Account = React.lazy(() => import('./pages/account'));
   const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
   const Decision = React.lazy(() => import('./pages/Decision/Decision'));
   const Team = React.lazy(() => import('./pages/Team/Team'));
   const ForCoders = React.lazy(() => import('./pages/ForCoders/ForCoders'));
-  const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
-  const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
+  // const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
+  // const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
   const Import = React.lazy(() => import('./pages/Import/Import'));
   const Edit = React.lazy(() => import('./pages/Edit/Edit'));
   const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
-  const AddPercent = React.lazy(() => import('./pages/AddPercent/AddPercent'));
   const Login = React.lazy(() => import('./pages/Login/Login'));
   const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
   const Role = React.lazy(() => import('./pages/Role/Role'));
@@ -109,14 +83,14 @@ function App(): JSX.Element {
         <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
           <Switch>
             <Route exact path="/" render={() => <Login />} />
+            <Route exact path="/account" render={() => <Account />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
-            <Route exact path="/addpercent" render={() => <AddPercent />} />
             <Route exact path="/transfers" render={() => <Import />} />
             <Route exact path="/proposals" render={() => <Proposals isAdmin height="90vh" />} />
             <Route exact path="/decisions" render={() => <Decision />} />
             <Route exact path="/add-code" render={() => <AddCode isAdmin />} />
-            <Route exact path="/add-approval" render={() => <EventApproval />} />
-            <Route exact path="/add-billing" render={() => <EventBilling />} />
+            {/* <Route exact path="/add-approval" render={() => <EventApproval />} /> */}
+            {/* <Route exact path="/add-billing" render={() => <EventBilling />} /> */}
             <Route exact path="/for-coders" render={() => <ForCoders />} />
             <Route exact path="/editor" render={() => <Edit />} />
             <Route exact path="/editor-team" render={() => <EditorTeam isAdmin={user?.roles?.includes('admin')} />} />

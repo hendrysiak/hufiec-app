@@ -6,7 +6,7 @@ import { APIPerson, Registry } from 'models/registry.models';
 
 import { ActionTypes } from './action.enum';
 import {
-  SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState, SetFilteredCodes,
+  SetIncome, GetCodes, GetCodesWithTeams, GetAccountState, GetRegistry, GetImportDates, EditIncome, AssignIncomesToAccount, AssignOutcomesToAccount, EditDbOutcome, EditDbIncome, AddDbIncome, AddDbOutcome, DeleteDbIncome, DeleteDbOutcome, AddMember, EditMember, DeleteMember, GetInitAccountState, SetFilteredCodes, SetAccountsState, EditAccountState,
 } from './action.types';
 
 export const reduxSetIncome = (income: IncomesBankModel[]): SetIncome => ({
@@ -108,4 +108,13 @@ export const reduxEditMember = (member: Partial<APIPerson>, team: number): EditM
 export const reduxDeleteMember = (member: APIPerson): DeleteMember => ({
   type: ActionTypes.DELETE_MEMBER,
   member,
+});
+export const reduxSetAccountsState = (accounts: Record<string, number>): SetAccountsState => ({
+  type: ActionTypes.SET_ACCOUNTS_STATE,
+  accounts,
+});
+export const reduxEditAccountState = (team: number, cash: number): EditAccountState => ({
+  type: ActionTypes.EDIT_ACCOUNT_STATE,
+  team,
+  cash,
 });

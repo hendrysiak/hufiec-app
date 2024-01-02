@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LaunchIcon from '@mui/icons-material/Launch';
+import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 // import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
@@ -31,6 +32,7 @@ function Navigation(): JSX.Element {
 
   const navigation = [
     { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
+    { link: '/account', title: 'STANY KONT', icon: <AccountBalanceRoundedIcon fontSize="small" /> },
     { link: '/decisions', title: 'DECYZJE DO PODJĘCIA', icon: <AllInboxIcon fontSize="small" /> },
     { link: '/proposals', title: 'AKCJE DO PODJĘCIA', icon: <FactCheckIcon fontSize="small" /> },
     { link: '/transfers', title: 'PRZELEWY - OBSŁUGA', icon: <AttachMoneyIcon fontSize="small" /> },
@@ -39,8 +41,7 @@ function Navigation(): JSX.Element {
     // { link: '/add-approval', title: 'DODAJ ZATWIERDZENIE', icon: <PlaylistAddIcon fontSize="small" /> },
     // { link: '/add-billing', title: 'DODAJ ROZLICZENIE', icon: <PlaylistAddCheckIcon fontSize="small" /> },
     { link: '/editor', title: 'EDYTUJ PRZYCHODY/KOSZTY', icon: <EditIcon fontSize="small" /> },
-    { link: '/editor-team', title: 'EDYTUJ DRUŻYNĘ', icon: <EditIcon fontSize="small" /> },
-    { link: '/addpercent', title: 'DODAJ 1%', icon: <EditIcon fontSize="small" /> },
+    { link: '/editor-team', title: 'EDYTUJ DRUŻYNĘ', icon: <CodeIcon fontSize="small" /> },
     { link: '/users', title: 'ZARZĄDZAJ ROLAMI', icon: <PeopleAltIcon fontSize="small" /> },
     { link: '/teams', title: 'ZARZĄDZAJ DRUŻYNAMI', icon: <GroupsIcon fontSize="small" /> },
   ];

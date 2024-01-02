@@ -1,5 +1,5 @@
 import { ErrorType } from './error.types.model';
-import { FinanceMethod, FoundingSources, OutcomeCategory } from './global.enum';
+import { FinanceMethod, FoundingSources, IncomeCategory, OutcomeCategory } from './global.enum';
 import { IObjectKeys } from './object.helper.model';
 
 export interface IncomesBankModel extends IObjectKeys {
@@ -28,6 +28,7 @@ export interface IncomesWithYear extends IncomesWithPerson {
 
 export interface IncomesWithImportDate extends IncomesWithYear {
   importDate: Date | string;
+  orgNumber?: string;
 }
 
 export interface IncomeDb extends IncomesWithImportDate {
@@ -35,6 +36,8 @@ export interface IncomeDb extends IncomesWithImportDate {
   letterReceived?: boolean;
   dateOfLetter?: Date | string;
   comment?: string;
+  incomeCategory?: IncomeCategory | string;
+  isEdited?: boolean;
 }
 
 export interface OutcomesBankModel extends IObjectKeys {
@@ -68,6 +71,7 @@ export interface OutcomeWithBilingNr extends OutcomesWithData {
 
 export interface OutcomeDb extends OutcomeWithBilingNr {
   id: string;
+  orgNumber?: string;
 }
 
 export interface IncomePurpose {

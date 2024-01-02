@@ -4,7 +4,7 @@ import {
 } from 'models/income.models';
 import { APIPerson, Person } from 'models/registry.models';
 import {
-  reduxAddDbIncome, reduxAddDbOutcome, reduxAddMember, reduxDeleteDbIncome, reduxDeleteDbOutcome, reduxDeleteMember, reduxEditDbIncome, reduxEditDbOutcome, reduxEditMember,
+  reduxAddDbIncome, reduxAddDbOutcome, reduxAddMember, reduxDeleteDbIncome, reduxDeleteDbOutcome, reduxDeleteMember, reduxEditDbIncome, reduxEditDbOutcome, reduxEditMember, reduxGetAccountState,
 } from 'store/actions/income';
 import store from 'store/store';
 
@@ -46,6 +46,39 @@ export const deleteIncome = async (id: string): Promise<void> => {
   await axios.delete(`/incomes/${id}.json`);
 };
 
+export const deleteIncomesByCode = async (code: string): Promise<void> => {
+  const filteredIncomes = store.getState().income.dbIncomes.filter((income) => income.event !== code);
+  const outcomes = store.getState().income.dbOutcomes;
+
+  try {
+    await axios.put('/incomes.json', filteredIncomes);
+
+    store.dispatch(reduxGetAccountState(
+      filteredIncomes as IncomeDb[],
+      outcomes as OutcomeDb[],
+    ));
+
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteAllOutcomes = async (): Promise<void> => {
+  const incomes = store.getState().income.dbIncomes;
+
+  try {
+    await axios.put('/outcomes.json', []);
+
+    store.dispatch(reduxGetAccountState(
+      incomes as IncomeDb[],
+      [] as OutcomeDb[],
+    ));
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export const addTeamMember = async (team: number, person: { name: string, surname: string, evidenceNumber?: string }): Promise<void> => {
   const extendedPerson: Person = { ...person, dateOfAdd: new Date(), team: Number(team) };
   const response = await axios.post('/registry.json', extendedPerson);
@@ -72,7 +105,7 @@ export const permanentDeleteTeamMember = async (person: APIPerson): Promise<void
   store.dispatch(reduxDeleteMember(person));
 };
 
-export const updateOnePercent = async (team : string, value: string): Promise<number> => {
+export const updateOnePercent = async (team: string, value: string): Promise<number> => {
   const newValue = await axios.put(`/onePercent/${team}.json`, value);
   return newValue.data * 1;
 };
@@ -90,6 +123,7 @@ export const createBackup = async (): Promise<string> => {
   const proposal = await axios.get('/proposal.json');
   const registry = await axios.get('/registry.json');
   const teams = await axios.get('/teams.json');
+  const teamAccounts = await axios.get('/teamAccounts.json');
   const users = await axios.get('/users.json');
 
   return JSON.stringify({
@@ -98,6 +132,7 @@ export const createBackup = async (): Promise<string> => {
     foundingSources: foundingSources.data,
     importDates: importDates.data,
     initAccountState: initAccountState.data,
+    teamAccounts: teamAccounts.data,
     onePercent: onePercent.data,
     outcomeCategory: outcomeCategory.data,
     proposal: proposal.data,
@@ -105,6 +140,7 @@ export const createBackup = async (): Promise<string> => {
     teams: teams.data,
     users: users.data,
     incomes: incomes.data,
-    outcomes:outcomes.data
+    outcomes: outcomes.data
   });
-}
+};
+
