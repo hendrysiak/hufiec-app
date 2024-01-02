@@ -43,8 +43,10 @@ function SelectTeam({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
         }}
         disabled={disabled}
       >
-        {['Cały hufiec', 'Instruktorzy', ...(teams || []).map((t) => t.teamId)].map((item) => (
-          <MenuItem key={item} value={item}>{item}</MenuItem>
+        <MenuItem key={'Cały hufiec'} value={'Cały hufiec'}>{'Cały hufiec'}</MenuItem>
+        <MenuItem key={'Instruktorzy'} value={'Instruktorzy'}>{'Instruktorzy'}</MenuItem>
+        {(teams || []).map((t) => (
+          <MenuItem key={t.teamId} value={t.teamId}>{`${t.teamId} ${t.name}`}</MenuItem>
         ))}
       </TextField>
       <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={!team}>
