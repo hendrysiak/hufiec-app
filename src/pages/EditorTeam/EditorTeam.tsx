@@ -119,8 +119,10 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     onToggleEditMode(id);
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (e: { target: { value: string | boolean, name: string }}) => {
     const { value, name: newName } = e.target;
+
+    console.log(newName, value);
 
     setNewData((prev) => ({
       ...prev,
@@ -272,11 +274,11 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                   }}
                   />
                   <CustomTableCell {...{
-                    row, name: Rows.Disability, onChange, id: activeRow, newData,
+                    row, name: Rows.Disability, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
                   <CustomTableCell {...{
-                    row, name: Rows.Instructor, onChange, id: activeRow, newData,
+                    row, name: Rows.Instructor, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
                   {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}

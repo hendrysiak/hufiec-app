@@ -1,4 +1,4 @@
-import { Input, TableCell } from '@mui/material';
+import { Checkbox, Input, TableCell } from '@mui/material';
 
 import React from 'react';
 
@@ -14,12 +14,13 @@ interface IProps {
   row: IPerson;
   name: string;
   id?: string | number | null;
+  useBoolean?: boolean;
   newData: Partial<APIPerson> | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, b: IPerson) => void;
+  onChange: (e: { target: { value: string | boolean, name: string }}, b: IPerson) => void;
 }
 
 export function CustomTableCell({
-  row, name, onChange, id, newData,
+  row, name, onChange, id, newData, useBoolean
 }: IProps) {
   const classes = useStyles();
 
@@ -28,9 +29,48 @@ export function CustomTableCell({
     return `${value}`;
   };
 
+  const getCheckedState = (): boolean => {
+    if (newData === null) return Boolean(row[name]);
+
+    if (name in newData) {
+      return Boolean(newData[name])
+    }
+
+    return Boolean(row[name]);
+  }
+
+  const renderEditability = () => {
+    if (row.id === id) {
+      return typeof row[name] === 'boolean' || useBoolean ? (
+        <Checkbox
+          checked={getCheckedState()}
+          name={name}
+          onChange={(e) => {
+            const value = e.target.checked;
+            return onChange({ target: {
+              value,
+              name,
+            }}, row)
+          }}
+          className={classes.input}
+        />
+      ) : (
+        <Input
+          value={newData && newData[name] ? newData[name] : row[name]}
+          name={name}
+          onChange={(e) => onChange(e, row)}
+          className={classes.input}
+        />
+      );
+    } else {
+      return renderCell(row[name]);
+    }
+  };
+
   return (
     <TableCell align="left" className={classes.tableCell}>
-      {row.id === id && name ? (
+      {renderEditability()}
+      {/* {row.id === id && name ? (
         <Input
           value={newData && newData[name] ? newData[name] : row[name]}
           name={name}
@@ -40,7 +80,7 @@ export function CustomTableCell({
         />
       ) : (
         name && renderCell(row[name])
-      )}
+      )} */}
     </TableCell>
   );
 }
