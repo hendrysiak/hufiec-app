@@ -7,6 +7,7 @@ const feeByYear: Record<number, number> = {
   2021: 36,
   2022: 36,
   2023: 45,
+  2024: 69,
 };
 
 const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() + 3) / 3);

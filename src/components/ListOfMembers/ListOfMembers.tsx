@@ -25,6 +25,8 @@ import { APIPerson, Person } from 'models/registry.models';
 import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 import { localizationDataGrid } from 'shared/localization.helper';
 import { RootState } from 'store/models/rootstate.model';
+import { contains } from 'helpers/utils/contains';
+import { sleep } from 'helpers/utils/sleep';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -48,6 +50,7 @@ interface ExtendedGridCellEditCommitParams extends GridCellEditCommitParams {
 export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
   const team = useSelector((state: RootState) => state.user.team);
   const author = useSelector((state: RootState) => state.user.evidenceNumber);
+  const registry = useSelector((state: RootState) => state.income.registry);
   const teamsMap = useTeams();
   const [openAddUserModal, setOpenAddUserModal] = React.useState(false);
   const [openMoveUserModal, setOpenMoveUserModal] = React.useState(false);
@@ -138,6 +141,10 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
 
   const handleAdd = async () => {
     if (!user.evidenceNumber || !user.name || !user.surname) return window.alert('Wszystkie pola muszą być wypełnione');
+
+    const userExists = contains(registry, user.evidenceNumber);
+
+    if (userExists) return setSnackbar({ children: 'Użytkownik o takim numerze ewidencyjnym już istnieje', severity: 'error' });
 
     if (window.confirm('Czy napewno chcesz dodać takiego użytkownika')) {
       const fullUser = {

@@ -30,6 +30,8 @@ const getSumOfFeesForTeam = (team: string, incomes: IncomeDb[]) => {
     .reduce((sum: number, income) => {
       if (income.year === 2023) {
         return sum + income.cash * 0.2
+      } else if (income.year === 2024) {
+        return sum + income.cash * 0.22
       } else return sum + income.cash * 0.16
     }, 0);
 };
