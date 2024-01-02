@@ -37,6 +37,7 @@ export interface IncomeDb extends IncomesWithImportDate {
   dateOfLetter?: Date | string;
   comment?: string;
   incomeCategory?: IncomeCategory | string;
+  isEdited?: boolean;
 }
 
 export interface OutcomesBankModel extends IObjectKeys {

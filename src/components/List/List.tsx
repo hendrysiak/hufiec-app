@@ -157,6 +157,18 @@ export function List({ navHeight, scrollPosition, rows }:
     return false;
   };
 
+  const getListItemClasses = (el: IncomeDb) => {
+    if (el.isEdited) {
+      return 'edited';
+    };
+
+    if (controlEntireDataRow(el)) {
+      return '';
+    };
+
+    return 'incompleteData';
+  };
+
   return (
     <div className="containerList">
       <ul className="ul">
@@ -175,7 +187,7 @@ export function List({ navHeight, scrollPosition, rows }:
           <li
             key={index}
             style={{ marginTop: `${index === 0 && barFixed ? `${heightFirstLi}px` : '0'}` }}
-            className={`li ${controlEntireDataRow(el) ? '' : 'incompleteData'}`}
+            className={`li ${getListItemClasses(el)}`}
           >
             <div className="containerGroup">
               <p className="name">

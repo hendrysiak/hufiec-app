@@ -109,6 +109,10 @@ p {
   background-color: rgb(255, 113, 113);
 }
 
+.li.edited {
+  background-color: rgb(255, 255, 113);
+}
+
 @media (min-width: 600px) {
   .name {
     font-size: 1.4em;

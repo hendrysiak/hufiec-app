@@ -84,6 +84,9 @@ function BudgetDataGrid({
       field: 'letterReceived', headerName: 'Pismo', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
     },
     {
+      field: 'isEdited', headerName: 'Edytowany', editable: true, type: 'boolean', width: 80, ...columnAligning, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
+    },
+    {
       field: 'errors', headerName: 'Błedy', width: 400, ...columnAligning, editable: true, 
       renderCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesViewCell params={params} />, 
       renderEditCell: (params: GridRenderCellParams<string>) => <ErrorCheckboxesEditCell params={params} />,
@@ -198,6 +201,7 @@ function BudgetDataGrid({
     errors: income?.errors ? income.errors.join(',') : '',
     dateOfLetter: income.dateOfLetter ? new Date(income.dateOfLetter) : '',
     comment: income.comment,
+    isEdited: income.isEdited,
   }));
 
   const outcomeRows = displayedOutcome.map((outcome: OutcomeDb, index: number) => ({
