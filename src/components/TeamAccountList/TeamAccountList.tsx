@@ -40,8 +40,8 @@ const TeamAccountList = () => {
             id: team.teamId,
             teamId: team.teamId,
             teamName: team.name,
-            accountBalance: teamAccountState,
-            sumOfAcountsBalances: teamAccountState + Number((sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2)) - teamAccountOutcome
+            accountBalance: Number(teamAccountState).toFixed(2),
+            sumOfAcountsBalances: (teamAccountState + Number((sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2)) - teamAccountOutcome).toFixed(2),
         }
     });
 

@@ -31,7 +31,7 @@ const getSumOfFeesForTeam = (team: string, incomes: IncomeDb[]) => {
       if (income.year === 2023) {
         return sum + income.cash * 0.2
       } else if (income.year === 2024) {
-        return sum + income.cash * 0.22
+        return sum + income.cash * 0.2174
       } else return sum + income.cash * 0.16
     }, 0);
 };
@@ -48,12 +48,12 @@ export const getAccountStateForTeam = (team: string) => {
     const outcomes = dbOutcomes.filter((outcome) => outcome.team === `${team}`);
 
     const sumOfNeededFees = () => {
-        const currentYear = new Date().getFullYear();
-        const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
+        // const currentYear = new Date().getFullYear();
+        // const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
     
         return teamRegistry
           .reduce((sum: number, person: APIPerson) => {
-            const fees = countingMemberFee(person, lastDayOfPreviousYear);
+            const fees = countingMemberFee(person, new Date());
     
             if (Number(fees) < 0) return sum + Number(fees);
     

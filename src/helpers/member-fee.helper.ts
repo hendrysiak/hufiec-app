@@ -12,11 +12,50 @@ const feeByYear: Record<number, number> = {
 
 const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() + 3) / 3);
 
+// Because of change in the whole logic, we decide to store this logic if the new version won't work properly (please check it on the end of 2024)
+
+// export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
+//   if (person.disability) return 0;
+
+//   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
+//   const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
+
+//   if (dateOfAdd > lastDate) return 0;
+
+//   const quarterOfStart = getQuarterForDate(dateOfAdd);
+//   const quarterOfEnd = getQuarterForDate(lastDate);
+
+//   const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
+
+//   const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
+
+//   if (checkIfMemberComeInCurrentYear) {
+//     const quartersInCurrentYear = quarterOfEnd - quarterOfStart + 1;
+
+//     return quartersInCurrentYear * feeByYear[lastDate.getFullYear()];
+//   }
+
+//   const numberOfYearsPassed = lastDate.getFullYear() - dateOfAdd.getFullYear();
+//   const numberOfQuartersInStartYear = 4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
+//   const feeValueInStartYear = feeByYear[dateOfAdd.getFullYear()];
+
+//   if (numberOfYearsPassed === 1) {
+//     return numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
+//   }
+//   const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
+//   let allFees = 0;
+//   for (let i = 1; i < numberOfYearsPassed; i++) {
+//     allFees += (feeByYear[dateOfAdd.getFullYear() + i] * 4);
+//   }
+//   return startAndEndYearFeeValue + allFees;
+// };
+
 export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
   if (person.disability) return 0;
 
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
-  const dateOfAdd = person.dateOfAdd ? new Date(person.dateOfAdd) : new Date();
+  const today = new Date();
+  const dateOfAdd = new Date(`01/01/${today.getFullYear()}`);
 
   if (dateOfAdd > lastDate) return 0;
 

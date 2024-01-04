@@ -50,7 +50,7 @@ function Dashboard(): JSX.Element {
       .catch(() => alert('coś poszło nie tak, spróbuj ponownie'));
   };
 
-  const lastImportDate = incomeDb.dbIncomes.slice(-1)[0]?.dateOfBook;
+  const lastImportDate = incomeDb.dbIncomes.slice(-1)[0]?.importDate;
 
   useEffect(() => {
     const sumIncomes = incomeDb.dbIncomes.reduce((sum: number, income) => sum + Number(income.cash), 0);
