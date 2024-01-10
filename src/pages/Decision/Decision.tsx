@@ -1,12 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import {
-  DataGrid, GridCellEditCommitParams, GridCellProps, GridRenderCellParams,
+  DataGrid, GridActionsCellItem, GridCellEditCommitParams, GridCellProps, GridRenderCellParams,
 } from '@mui/x-data-grid';
 import React from 'react';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { editDecision, getDecisions } from 'helpers/api-helpers/decision';
+import { deleteDecision, editDecision, getDecisions } from 'helpers/api-helpers/decision';
 import { codePattern } from 'helpers/event.helper';
 import { useTeams } from 'helpers/hooks/useTeams';
 import {
@@ -18,6 +18,8 @@ import { eventDateGenerator } from 'shared/eventDate.helper';
 import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
 import DecisionDownload from 'shared/PDF/Decision/DecisionDownload';
+
+import CloseIcon from '@mui/icons-material/Close';
 
 interface DecisionProps {
   isAdmin?: boolean;
@@ -38,6 +40,16 @@ function DecisionContainer(props: DecisionProps) {
     },
     onError: () => {
       setSnackbar({ children: 'Wystąpił błąd przy edytowaniu decyzji', severity: 'error' });
+    },
+  });
+
+  const deleteProposalMutation = useMutation(deleteDecision, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('decision');
+      setSnackbar({ children: 'Decyzja usunięta pomyślnie', severity: 'success' });
+    },
+    onError: () => {
+      setSnackbar({ children: 'Wystąpił błąd przy usuwaniu decyzji', severity: 'error' });
     },
   });
 
@@ -85,13 +97,12 @@ function DecisionContainer(props: DecisionProps) {
       type: 'actions',
       headerName: 'Akcje',
       width: 100,
-      getActions: ({ id } : { id: string }) => {
+      getActions: ({ id }: { id: string }) => {
         const element = query.data?.find((el) => el.id === id);
         if (element?.area === DecisionArea.Code) {
           const extendedElement = element as DecisionCode;
           const teamNameToUse = !extendedElement.targetTeams || extendedElement.targetTeams.length > 1 ? '' : teamsMap.find((team) => team.teamId === extendedElement.targetTeams[0])?.nameToUse;
 
-          console.log(extendedElement, teamNameToUse);
           interface ExtendedDecision extends DecisionCode {
             teamNameToUse: string
           };
@@ -100,7 +111,14 @@ function DecisionContainer(props: DecisionProps) {
             <DecisionDownload
               key={id}
               recipient="Hufiec Ruda Śląska"
-              decision={{...element, teamNameToUse} as ExtendedDecision }
+              decision={{ ...element, teamNameToUse } as ExtendedDecision}
+            />,
+            <GridActionsCellItem
+              key={id}
+              icon={<CloseIcon />}
+              label="Delete"
+              onClick={() => deleteProposalMutation.mutate(element)}
+              color="inherit"
             />,
           ]
         }
@@ -110,6 +128,13 @@ function DecisionContainer(props: DecisionProps) {
             key={id}
             recipient="Hufiec Ruda Śląska"
             decision={element as Decision}
+          />,
+          <GridActionsCellItem
+            key={id}
+            icon={<CloseIcon />}
+            label="Delete"
+            onClick={() => deleteProposalMutation.mutate(element as Decision)}
+            color="inherit"
           />,
         ];
       },

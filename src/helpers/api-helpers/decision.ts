@@ -19,6 +19,11 @@ export const editDecision = async (decision: Decision): Promise<Decision> => {
   return editedDecision.data;
 };
 
+export const deleteDecision = async (decision: Decision): Promise<void> => {
+  const { id, } = decision;
+  await axios.delete(`/decision/${id}.json`);
+};
+
 export const saveDecision = async (decision: Decision): Promise<Decision> => {
   const newDecision = await axios.post('/decision.json', decision);
   return newDecision.data;
