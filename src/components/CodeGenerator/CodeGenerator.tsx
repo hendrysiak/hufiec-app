@@ -141,6 +141,7 @@ function CodeGenerator(props: CodeGeneratorProps): JSX.Element {
       suffix: generateNextNumber(),
       decision: '',
       firstAccept: false,
+      secondAccept: false,
       letter: false,
       responsiblePerson,
       locality,
@@ -148,12 +149,12 @@ function CodeGenerator(props: CodeGeneratorProps): JSX.Element {
 
     const author = user.evidenceNumber;
 
-    if (author && window.confirm('Czy napewno chcesz zapisać kod?')) {
+    if ((user.roles?.includes('admin') || author) && window.confirm('Czy napewno chcesz zapisać kod?')) {
       const proposal: Proposal = {
         elementId: '',
         area: ProposalArea.Code,
         kind: ProposalKind.Add,
-        author,
+        author: author ?? 'admin',
         team,
         oldValues: null,
         newValues: codeToSave,

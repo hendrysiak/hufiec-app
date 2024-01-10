@@ -1,7 +1,7 @@
 import { Image, StyleSheet, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import hufiecLogo from 'assets/generator/hufiec-logo.jpg';
+import hufiecLogo from 'assets/generator/hufiec-logo.png';
 import scoutLogo from 'assets/generator/scout-logo.png';
 
 const styles = StyleSheet.create({

@@ -45,6 +45,7 @@ import { countingMemberFee } from '../../helpers/member-fee.helper';
 import { ShowModal } from '../../helpers/typeViewModal.enum';
 import { useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
 import { useUserData } from 'helpers/hooks/useUserData';
+import TeamFinance from 'components/TeamFinance/TeamFinance';
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -263,14 +264,14 @@ function Team(): JSX.Element {
   //   <>
   //     <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
   //       <Box display="flex" alignItems="center">
-  //       {user?.team && user?.team.length > 0 ?  
-  //         <Select
+  //         {user?.team && user?.team.length > 0 ?
+  //           <Select
   //             style={{ color: 'white' }}
   //             label="Jednostka"
   //             value={currentTeam}
   //             onChange={
   //               (e: SelectChangeEvent<string>): void => handleSelectTeam(e.target.value as string)
-  // }
+  //             }
   //             displayEmpty
   //             inputProps={{ 'aria-label': 'Without label' }}
   //           >
@@ -280,7 +281,7 @@ function Team(): JSX.Element {
   //               </MenuItem>
   //             ))}
   //           </Select>
-  //           :<p className="team" style={{ flex: 1 }}>{currentTeam}</p>}
+  //           : <p className="team" style={{ flex: 1 }}>{currentTeam}</p>}
   //         <Tooltip
   //           title="Otwórz filtry"
   //           classes={{
@@ -367,103 +368,103 @@ function Team(): JSX.Element {
   //               variant="outlined"
   //               margin="normal"
   //             />
-  //              <TextField
-  //                classes={{ root: 'teamInput' }}
-  //                label="Po nazwisku"
-  //                value={surname}
-  //                onChange={(e) => setSurname(e.target.value)}
-  //                placeholder="Wpisz nazwisko"
-  //                size="small"
-  //                variant="outlined"
-  //                margin="normal"
-  //              />
-  //              <DesktopDatePicker
-  //                className="datePicker"
-  //                disableFuture
-  //                label="Od"
-  //                value={selectedDateFrom}
-  //                onChange={handleDateChangeFrom}
-  //                renderInput={(params) => <TextField {...params} />}
-  //              />
-  //              <DesktopDatePicker
-  //                className="datePicker"
-  //                disableFuture
-  //                label="Do"
-  //                value={selectedDateTo}
-  //                onChange={handleDateChangeTo}
-  //                renderInput={(params) => <TextField {...params} />}
-  //              />
-  //              <Button onClick={handleOpenFilter} variant="contained" color="secondary">
-  //                ZAMKNIJ FILTRY
-  //              </Button>
-  //            </div>
-  //            <div style={{ display: 'none' }}>
-  //              <Tooltips
-  //                open={openPopup}
-  //                members={currentTeamRegistry}
-  //                incomes={incomesByCode}
-  //                outcomes={outcomesByCode}
-  //                currentTeam={currentTeam}
-  //                dataToExport={displayedIncome}
-  //              />
-  //            </div>
-  //          </div>
-  //          <div className="containerDataGrid">
-  //            {displayedIncome?.length ? (
-  //              <List
-  //                navHeight={navHeight}
-  //                scrollPosition={scrollPosition}
-  //                rows={displayedIncome.sort((a, b) => {
-  //                  if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
-  //                    return -1;
-  //                  }
-  //                  return 1;
-  //                })}
-  //              />
-  //            ) : (
-  //              <div className="loadingInfo">brak wpłat na ten filtr</div>
-  //            )}
-  //          </div>
-  //        </section>
-  //      </TabPanel>
-  //      <TabPanel value={tab} index={1}>
-  //        <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
-  //      </TabPanel>
-  //      <TabPanel value={tab} index={2}>
-  //        <TeamFinances neededFee={sumOfNeededFees()} incomes={incomesByCode} outcomes={outcomesByCode} currentTeam={currentTeam} />
-  //      </TabPanel>
-  //      <TabPanel value={tab} index={3}>
-  //        <Tabs
-  //          value={innerTab}
-  //          variant="fullWidth"
-  //          textColor="secondary"
-  //          indicatorColor="secondary"
-  //          onChange={handleInnerTabChange}
-  //        >
-  //          <Tab label="Kody" />
-  //          <Tab label="Podjęte akcje" />
-  //          <Tab label="Wyślij wiadomość" />
-  //          <Tab label="Poradnik" />
-  //        </Tabs>
-  //        <TabPanel value={innerTab} index={0}>
-  //          <CodeGenerator />
-  //        </TabPanel>
-  //        <TabPanel value={innerTab} index={1}>
-  //          <Proposals height="65vh" />
-  //        </TabPanel>
-  //        <TabPanel value={innerTab} index={2}>
-  //          <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
-  //        </TabPanel>
-  //        <TabPanel value={innerTab} index={3}>
-  //          <h2>Poradnik</h2>
-  //          <p>Link do poradnika - tymczasowy</p>
-  //          <a href="https:gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
-  //        </TabPanel>
+  //             <TextField
+  //               classes={{ root: 'teamInput' }}
+  //               label="Po nazwisku"
+  //               value={surname}
+  //               onChange={(e) => setSurname(e.target.value)}
+  //               placeholder="Wpisz nazwisko"
+  //               size="small"
+  //               variant="outlined"
+  //               margin="normal"
+  //             />
+  //             <DesktopDatePicker
+  //               className="datePicker"
+  //               disableFuture
+  //               label="Od"
+  //               value={selectedDateFrom}
+  //               onChange={handleDateChangeFrom}
+  //               renderInput={(params) => <TextField {...params} />}
+  //             />
+  //             <DesktopDatePicker
+  //               className="datePicker"
+  //               disableFuture
+  //               label="Do"
+  //               value={selectedDateTo}
+  //               onChange={handleDateChangeTo}
+  //               renderInput={(params) => <TextField {...params} />}
+  //             />
+  //             <Button onClick={handleOpenFilter} variant="contained" color="secondary">
+  //               ZAMKNIJ FILTRY
+  //             </Button>
+  //           </div>
+  //           <div style={{ display: 'none' }}>
+  //             <Tooltips
+  //               open={openPopup}
+  //               members={currentTeamRegistry}
+  //               incomes={incomesByCode}
+  //               outcomes={outcomesByCode}
+  //               currentTeam={currentTeam}
+  //               dataToExport={displayedIncome}
+  //             />
+  //           </div>
+  //         </div>
+  //         <div className="containerDataGrid">
+  //           {displayedIncome?.length ? (
+  //             <List
+  //               navHeight={navHeight}
+  //               scrollPosition={scrollPosition}
+  //               rows={displayedIncome.sort((a, b) => {
+  //                 if (!a.name || !a.surname || !a.dateOfBook || !a.title || !a.event || !a.cash) {
+  //                   return -1;
+  //                 }
+  //                 return 1;
+  //               })}
+  //             />
+  //           ) : (
+  //             <div className="loadingInfo">brak wpłat na ten filtr</div>
+  //           )}
+  //         </div>
+  //       </section>
+  //     </TabPanel>
+  //     <TabPanel value={tab} index={1}>
+  //       <TeamPage members={currentTeamRegistry} navHeight={Number(navBar.current?.clientHeight)} />
+  //     </TabPanel>
+  //     <TabPanel value={tab} index={2}>
+  //       <TeamFinance team={currentTeam} />
+  //     </TabPanel>
+  //     <TabPanel value={tab} index={3}>
+  //       <Tabs
+  //         value={innerTab}
+  //         variant="fullWidth"
+  //         textColor="secondary"
+  //         indicatorColor="secondary"
+  //         onChange={handleInnerTabChange}
+  //       >
+  //         <Tab label="Kody" />
+  //         <Tab label="Podjęte akcje" />
+  //         <Tab label="Wyślij wiadomość" />
+  //         <Tab label="Poradnik" />
+  //       </Tabs>
+  //       <TabPanel value={innerTab} index={0}>
+  //         <CodeGenerator />
+  //       </TabPanel>
+  //       <TabPanel value={innerTab} index={1}>
+  //         <Proposals height="65vh" />
+  //       </TabPanel>
+  //       <TabPanel value={innerTab} index={2}>
+  //         <Form title="WYŚLIJ ZGŁOSZENIE" currentTeam={currentTeam} navHeight={Number(navBar.current?.clientHeight)} />
+  //       </TabPanel>
+  //       <TabPanel value={innerTab} index={3}>
+  //         <h2>Poradnik</h2>
+  //         <p>Link do poradnika - tymczasowy</p>
+  //         <a href="https:gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">Poradnik</a>
+  //       </TabPanel>
 
-  //      </TabPanel>
-  //      <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
-  //    </>
-  //  );
+  //     </TabPanel>
+  //     <HelpDrawer isOpen={openHelp} setDrawerClose={setOpenHelp} />
+  //   </>
+  // );
 }
 
 export default Team;

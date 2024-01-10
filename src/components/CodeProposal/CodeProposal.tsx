@@ -1,6 +1,7 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -29,10 +30,120 @@ import { localizationDataGrid } from 'shared/localization.helper';
 import Letter from 'shared/PDF/Letter/Letter';
 import { useTeams } from 'helpers/hooks/useTeams';
 
+import { darken, lighten, styled } from '@mui/material/styles';
+
 interface CodeProposalProps {
   isAdmin?: boolean;
   rows: Proposal[];
 }
+
+const getBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.7) : lighten(color, 0.7);
+
+const getHoverBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.6) : lighten(color, 0.6);
+
+const getSelectedBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.5) : lighten(color, 0.5);
+
+const getSelectedHoverBackgroundColor = (color: string, mode: string) =>
+  mode === 'dark' ? darken(color, 0.4) : lighten(color, 0.4);
+
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    '& .super-app-theme--Open': {
+      backgroundColor: getBackgroundColor(theme.palette.info.main, theme.palette.mode),
+      '&:hover': {
+        backgroundColor: getHoverBackgroundColor(
+          theme.palette.info.main,
+          theme.palette.mode,
+        ),
+      },
+      '&.Mui-selected': {
+        backgroundColor: getSelectedBackgroundColor(
+          theme.palette.info.main,
+          theme.palette.mode,
+        ),
+        '&:hover': {
+          backgroundColor: getSelectedHoverBackgroundColor(
+            theme.palette.info.main,
+            theme.palette.mode,
+          ),
+        },
+      },
+    },
+    '& .super-app-theme--Filled': {
+      backgroundColor: getBackgroundColor(
+        theme.palette.success.main,
+        theme.palette.mode,
+      ),
+      '&:hover': {
+        backgroundColor: getHoverBackgroundColor(
+          theme.palette.success.main,
+          theme.palette.mode,
+        ),
+      },
+      '&.Mui-selected': {
+        backgroundColor: getSelectedBackgroundColor(
+          theme.palette.success.main,
+          theme.palette.mode,
+        ),
+        '&:hover': {
+          backgroundColor: getSelectedHoverBackgroundColor(
+            theme.palette.success.main,
+            theme.palette.mode,
+          ),
+        },
+      },
+    },
+    '& .super-app-theme--PartiallyFilled': {
+      backgroundColor: getBackgroundColor(
+        theme.palette.warning.main,
+        theme.palette.mode,
+      ),
+      '&:hover': {
+        backgroundColor: getHoverBackgroundColor(
+          theme.palette.warning.main,
+          theme.palette.mode,
+        ),
+      },
+      '&.Mui-selected': {
+        backgroundColor: getSelectedBackgroundColor(
+          theme.palette.warning.main,
+          theme.palette.mode,
+        ),
+        '&:hover': {
+          backgroundColor: getSelectedHoverBackgroundColor(
+            theme.palette.warning.main,
+            theme.palette.mode,
+          ),
+        },
+      },
+    },
+    '& .super-app-theme--Rejected': {
+      backgroundColor: getBackgroundColor(
+        theme.palette.error.main,
+        theme.palette.mode,
+      ),
+      '&:hover': {
+        backgroundColor: getHoverBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode,
+        ),
+      },
+      '&.Mui-selected': {
+        backgroundColor: getSelectedBackgroundColor(
+          theme.palette.error.main,
+          theme.palette.mode,
+        ),
+        '&:hover': {
+          backgroundColor: getSelectedHoverBackgroundColor(
+            theme.palette.error.main,
+            theme.palette.mode,
+          ),
+        },
+      },
+    },
+  }));  
 
 function CodeProposal(props: CodeProposalProps): JSX.Element {
   const { setSnackbar } = useSnackbar();
@@ -129,8 +240,8 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
       await editCode({ ...selectedCodeToSave, id: proposal.elementId, letter: true });
 
       if (proposal.id) {
-        deleteProposalMutation.mutate(proposal.id);
-        deleteProposalMutation.reset();
+        // deleteProposalMutation.mutate(proposal.id);
+        // deleteProposalMutation.reset();
         setSnackbar({ children: 'Operacja wykonana pomyślnie', severity: 'success' });
       } else {
         setSnackbar({ children: 'Wystąpił nieoczekiwany błąd przy usuwaniu propozycji', severity: 'error' });
@@ -244,11 +355,12 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
         const element = props.rows.find((el) => el.id === id);
         const values = element?.newValues as Omit<ICode, 'id'>;
         const teamNameToUse = !values.teams || values.teams.length > 1 ? '' : teamsMap.find((team) => team.teamId === values.teams[0])?.nameToUse;
-      
 
-        const firstAction = values.firstAccept
-          ? (<GridActionsCellItem onClick={resolveProposal(element)} key="doneAll" icon={<DoneAllIcon />} color="inherit" label="resolve" />)
-          : (<GridActionsCellItem onClick={firstAcceptHandler(element)} key="firstAccept" icon={<CheckIcon />} color="inherit" label="firstAccept" />);
+        const firstAction = values.firstAccept && values.secondAccept 
+          ?  (<GridActionsCellItem key="doneAll" icon={<VerifiedIcon />} color="inherit" label="verified" />) 
+          : values.firstAccept
+            ? (<GridActionsCellItem onClick={resolveProposal(element)} key="doneAll" icon={<DoneAllIcon />} color="inherit" label="resolve" />)
+            : (<GridActionsCellItem onClick={firstAcceptHandler(element)} key="firstAccept" icon={<CheckIcon />} color="inherit" label="firstAccept" />);
 
         const actions = [
           <GridActionsCellItem
@@ -280,7 +392,7 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
   ];
 
   return (
-    <DataGrid
+    <StyledDataGrid
       columns={columns}
       rows={props.rows.map((r) => {
         const newValues = r.newValues as Omit<ICode, 'id'>;
@@ -300,10 +412,12 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
           letterAuthor: r.letterAuthor,
           letterReceive: r.letterReceive ? new Date(r.letterReceive) : '',
           firstAccept: newValues.firstAccept,
+          secondAccept: newValues.secondAccept,
         };
       })}
       onCellEditCommit={handleCellEditCommit}
       localeText={localizationDataGrid}
+      getRowClassName={(params) => `super-app-theme--${params.row.secondAccept ? 'Filled' : params.row.firstAccept ? 'Open' : ''}`}
     />
   );
 }

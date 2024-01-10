@@ -31,8 +31,9 @@ export const useEntriesEdit = () => {
   
       if (foundedIncome && typeof value !== 'object') {
         const convertedValue = convertValue(value, field);
+        const isEdited = field === 'incomeCategory' ? true : foundedIncome.isEdited;
         try {
-          await editIncome({ ...foundedIncome, [field]: convertedValue, isEdited: true });
+          await editIncome({ ...foundedIncome, [field]: convertedValue, isEdited });
           setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
         } catch {
           setSnackbar({ children: 'Wystąpił wewnętrzny błąd - spróbuj ponownie', severity: 'error' });

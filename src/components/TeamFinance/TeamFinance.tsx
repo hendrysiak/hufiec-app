@@ -40,7 +40,7 @@ const TeamFinance = ({ team }: { team: string }) => {
         },
         {
             name: "Kwota zebrana ze składek",
-            cash: (sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2),
+            cash: (sumOfFeesForTeam ? sumOfFeesForTeam : 0).toFixed(2),
         },
         {
             name: "Niezebrane składki - suma minusów",

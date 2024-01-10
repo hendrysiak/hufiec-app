@@ -12,6 +12,7 @@ export interface ICode {
   wholeOrganization: boolean;
   teams: number[];
   firstAccept: boolean;
+  secondAccept: boolean;
   letter: boolean;
   decision: string;
   locality: string;
