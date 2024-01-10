@@ -10,6 +10,10 @@ import DateAndPlace from '../../components/DateAndPlace/DateAndPlace';
 import Code from './Code';
 import ReAccouting from './ReAccouting';
 
+interface ExtendedDecision extends DecisionCode {
+  teamNameToUse: string
+};
+
 interface MainProps {
   decision: Decision;
 }
@@ -35,7 +39,7 @@ function Main(props: MainProps): JSX.Element {
       case DecisionArea.ReAccount:
         return <ReAccouting decision={props.decision as DecisionReAccouting} />;
       case DecisionArea.Code:
-        return <Code decision={props.decision as DecisionCode} />;
+        return <Code decision={props.decision as ExtendedDecision} />;
     }
   };
 

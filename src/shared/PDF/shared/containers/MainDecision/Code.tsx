@@ -2,12 +2,15 @@ import { StyleSheet, View, Text } from '@react-pdf/renderer';
 import React from 'react';
 
 import { codePattern } from 'helpers/event.helper';
-import { useTeams } from 'helpers/hooks/useTeams';
 import { DecisionCode } from 'models/decision.model';
 import { eventDateGenerator } from 'shared/eventDate.helper';
 
+interface ExtendedDecision extends DecisionCode {
+  teamNameToUse: string
+};
+
 interface CodeProps {
-  decision: DecisionCode;
+  decision: ExtendedDecision;
 }
 
 const styles = StyleSheet.create({
@@ -29,9 +32,8 @@ const styles = StyleSheet.create({
 });
 
 function Code(props: CodeProps): JSX.Element {
-  const teamsMap = useTeams();
   const decisionDate = new Date(props.decision.decisionDate);
-  const teams = !props.decision.targetTeams || props.decision.targetTeams?.length > 1 ? '' : teamsMap.find((t) => t.teamId === props.decision.targetTeams[0])?.nameToUse;
+  const team = props.decision.teamNameToUse;
   const event = codePattern.find((code) => code.value === props.decision.prefix)?.name;
 
   return (
@@ -51,7 +53,7 @@ function Code(props: CodeProps): JSX.Element {
       zatwierdzenia Instrukcji w sprawie dodatkowej składki członkowskiej zadaniowej 
       Komendant oraz Skarbnik Hufca Związku Harcerstwa Polskiego Ruda Śląska im. 
       hm. Łucji Zawada podjęli decyzję o przyjęciu dodatkowej składki zadaniowej
-      na ${event} ${teams} ${props.decision.target} w wysokości ${props.decision.amount} złotych od osoby w terminie ${eventDateGenerator(props.decision)}.
+      na ${event} ${team ?? ''} ${props.decision.target} w wysokości ${props.decision.amount} złotych od osoby w terminie ${eventDateGenerator(props.decision)}.
           `}
       </Text>
       <Text style={styles.title}>§2</Text>

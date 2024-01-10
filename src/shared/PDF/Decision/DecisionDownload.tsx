@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import {
-  Document, Page, Font, StyleSheet, PDFDownloadLink,
+  Document, Page, Font, StyleSheet, PDFDownloadLink, usePDF,
 } from '@react-pdf/renderer';
 
 import React from 'react';
@@ -43,25 +43,24 @@ const pageStyle = StyleSheet.create({
 function DecisionDownload(props: LetterProps): JSX.Element {
   const [downloadEnabled, setDownloadEnabled] = React.useState(false);
 
+  const Doc = (
+    <Document>
+      <Page size="A4" orientation="portrait" style={pageStyle.page}>
+        {/* <View> */}
+        <Header recipient={props.recipient} />
+        <MainDecision
+          decision={props.decision}
+        />
+        <Footer />
+      </Page>
+    </Document>
+  );
+
+  const [instance, updateInstance] = usePDF({ document: Doc })
+
   return (
     <>
       {downloadEnabled ? (
-        <PDFDownloadLink
-          document={(
-            <Document>
-              <Page size="A4" orientation="portrait" style={pageStyle.page}>
-                {/* <View> */}
-                <Header recipient={props.recipient} />
-                <MainDecision
-                  decision={props.decision}
-                />
-                <Footer />
-              </Page>
-            </Document>
-        )}
-          fileName="pismo.pdf"
-        >
-          {({ loading }) => (
             <div
               style={{
                 display: 'flex',
@@ -69,10 +68,8 @@ function DecisionDownload(props: LetterProps): JSX.Element {
                 alignItems: 'center',
               }}
             >
-              {loading ? <CircularProgress /> : <Tooltip placement="top" title="Pobierz pismo"><DownloadIcon /></Tooltip>}
+              {instance.loading ? <CircularProgress /> : <Tooltip placement="top" title="Pobierz pismo"><a href={instance.url ?? ''} download="pismo.pdf"><DownloadIcon /></a></Tooltip>}
             </div>
-          )}
-        </PDFDownloadLink>
       )
         : (
           <GridActionsCellItem

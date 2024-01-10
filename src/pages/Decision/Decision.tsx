@@ -87,16 +87,31 @@ function DecisionContainer(props: DecisionProps) {
       width: 100,
       getActions: ({ id } : { id: string }) => {
         const element = query.data?.find((el) => el.id === id);
+        if (element?.area === DecisionArea.Code) {
+          const extendedElement = element as DecisionCode;
+          const teamNameToUse = !extendedElement.targetTeams || extendedElement.targetTeams.length > 1 ? '' : teamsMap.find((team) => team.teamId === extendedElement.targetTeams[0])?.nameToUse;
 
-        const actions = [
+          console.log(extendedElement, teamNameToUse);
+          interface ExtendedDecision extends DecisionCode {
+            teamNameToUse: string
+          };
+
+          return [
+            <DecisionDownload
+              key={id}
+              recipient="Hufiec Ruda Śląska"
+              decision={{...element, teamNameToUse} as ExtendedDecision }
+            />,
+          ]
+        }
+
+        return [
           <DecisionDownload
             key={id}
             recipient="Hufiec Ruda Śląska"
             decision={element as Decision}
           />,
         ];
-
-        return actions;
       },
       ...columnAligning,
     },
