@@ -1,7 +1,7 @@
 import axios from 'axios-income';
 import { ApprovedEvent, CodesMap } from 'models/codes.models';
 import { IncomeDb, OutcomeDb } from 'models/income.models';
-import { APIPerson } from 'models/registry.models';
+import { APIPerson, Person } from 'models/registry.models';
 import {
   reduxGetAccountState,
   reduxGetCodes,
@@ -74,6 +74,12 @@ export const getRegistry = async (): Promise<void> => {
   }
   store.dispatch(reduxGetRegistry(mappedRegistry));
 };
+
+export const getPlainRegistry = async (): Promise<Record<string, Person>> => {
+  const registry = await axios.get('/registry.json');
+
+  return registry.data;
+}
 
 export const getImportDates = async (): Promise<void> => {
   const importDates = await axios.get('/importDates.json');

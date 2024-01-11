@@ -214,7 +214,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
         onChange={handleTabChange}
       >
         <Tab label="Składki i ewidencja" />
-        <Tab label="Stan finansów" />
+        {/* <Tab label="Stan finansów" /> */}
       </Tabs>
       <TabPanel value={tab} index={0}>
         <Table className={classes.table} aria-label="caption table">
@@ -363,9 +363,9 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
           onPageChange={handleChangePage}
         />
       </TabPanel>
-      <TabPanel value={tab} index={1}>
+      {/* <TabPanel value={tab} index={1}>
         {team ? <TeamFinances neededFee={sumOfNeededFees()} incomes={dbIncomes.filter((i) => i.team === `${team}`)} outcomes={dbOutcomes.filter((o) => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
-      </TabPanel>
+      </TabPanel> */}
     </>
   );
 }
