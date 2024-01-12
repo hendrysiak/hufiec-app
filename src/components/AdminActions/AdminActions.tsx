@@ -18,22 +18,6 @@ const AdminActions = () => {
         }
       }
 
-    // const mapRegistryNumber = async () => {
-    //     const updatedRegistry = registry;
-
-    //     for (const person in updatedRegistry) {
-    //         const name = updatedRegistry[person].name;
-    //         const surname = updatedRegistry[person].surname;
-
-    //         const personAccount = initAccountState.find((el) => el.name?.toLowerCase() === name?.toLowerCase() && el.surname?.toLowerCase() === surname?.toLowerCase());
-
-    //         if (personAccount) {
-    //             updatedRegistry[person].evidenceNumber = personAccount.evidenceNumber;
-    //         }
-
-    //     }
-    //   }
-
     return (<Paper elevation={3}>
         <Box p={4}>
               <h2>Czyszczenie składek</h2>
@@ -43,7 +27,7 @@ const AdminActions = () => {
             <Box p={4}>
                 <h2>Dopisz numery ewidencji</h2>
                 <p>Dzięki temu dopiszesz numery ewidencji z kolekcji stanu początkowego</p>
-                {/* <Button variant="contained" color="secondary" onClick={mapRegistryNumber}>Wyczyść konta</Button> */}
+                <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>Otwórz mapper</Button>
             </Box>
         </Box>
         <ModalMapInitAccountToRegistry open={open} setOpen={setOpen} />

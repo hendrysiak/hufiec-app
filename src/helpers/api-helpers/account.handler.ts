@@ -81,6 +81,12 @@ export const getPlainRegistry = async (): Promise<Record<string, Person>> => {
   return registry.data;
 }
 
+export const updatePlainRegistry = async (newRegistry: Record<string, Person>): Promise<Record<string, Person>> => {
+  const registry = await axios.put('/registry.json', newRegistry);
+
+  return registry.data;
+}
+
 export const getImportDates = async (): Promise<void> => {
   const importDates = await axios.get('/importDates.json');
 
