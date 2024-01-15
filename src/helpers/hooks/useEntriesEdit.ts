@@ -22,6 +22,7 @@ export const useEntriesEdit = () => {
     const convertValue = (value: number | string, field: string) => {
       if (field === 'cash') return Number(value);
       if (field === 'errors') return (value as string).split(',');
+      if (field === 'isEdited') return Boolean(value);
       return value;
     };
   
@@ -31,7 +32,7 @@ export const useEntriesEdit = () => {
   
       if (foundedIncome && typeof value !== 'object') {
         const convertedValue = convertValue(value, field);
-        const isEdited = field === 'incomeCategory' ? true : foundedIncome.isEdited;
+        const isEdited = field === 'isEdited' ? convertedValue as boolean : field === 'incomeCategory' ? true : foundedIncome.isEdited;
         try {
           await editIncome({ ...foundedIncome, [field]: convertedValue, isEdited });
           setSnackbar({ children: 'Przychód wyedytowany pomyślnie', severity: 'success' });
