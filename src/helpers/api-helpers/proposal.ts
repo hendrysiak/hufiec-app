@@ -19,7 +19,7 @@ export const getProposals = async (team?: string, isAdmin?: boolean): Promise<Pr
 
   if (isAdmin) return mappedProposals;
 
-  return mappedProposals.filter((p: Proposal) => p.team === team);
+  return mappedProposals.filter((p: Proposal) => `${p.team}` === `${team}`);
 };
 
 export const deleteProposal = async (proposalId: string): Promise<void> => {

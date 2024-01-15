@@ -11,6 +11,16 @@ export const mappingDbEntriesToRedux = (
       const updatedValue = value;
       if (updatedValue) {
         updatedValue.id = key;
+        if ('name' in updatedValue) {
+          const parsedName = updatedValue.name ? `${updatedValue.name}` : '';
+          updatedValue.name = parsedName[0].toUpperCase() + parsedName.substring(1).toLowerCase();
+        }
+
+        if ('surname' in updatedValue) {
+          const parsedSurname = updatedValue.surname ? `${updatedValue.surname}` : '';
+          updatedValue.surname = parsedSurname[0].toUpperCase() + parsedSurname.substring(1).toLowerCase();
+        }
+
         output.push(updatedValue);
       }
     }
@@ -29,6 +39,19 @@ export const mappingDbMembersToRedux = (
       const updatedValue = value;
       if (updatedValue) {
         updatedValue.id = key;
+
+
+
+        if ('name' in updatedValue) {
+          const parsedName = updatedValue.name ? `${updatedValue.name}` : '';
+          updatedValue.name = parsedName[0].toUpperCase() + parsedName.substring(1).toLowerCase();
+        }
+
+        if ('surname' in updatedValue) {
+          const parsedSurname = updatedValue.surname ? `${updatedValue.surname}` : '';
+          updatedValue.surname = parsedSurname[0].toUpperCase() + parsedSurname.substring(1).toLowerCase();
+        }
+
         output.push(updatedValue);
       }
     }
