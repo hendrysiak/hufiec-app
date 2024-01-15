@@ -55,8 +55,8 @@ function Edit(): JSX.Element {
         <section style={{ height: '92vh' }}>
           <BudgetDataGrid
             editedData={editedData}
-            displayedIncome={dbIncomes.reverse()}
-            displayedOutcome={dbOutcomes.reverse()}
+            displayedIncome={dbIncomes.sort((a, b) => new Date(b.dateOfBook).getTime() - new Date(a.dateOfBook).getTime())}
+            displayedOutcome={dbOutcomes.sort((a, b) => new Date(b.dateOfBook).getTime() - new Date(a.dateOfBook).getTime())}
             handleCellEditCommit={handleCellEditCommit}
             addNewPosition={addNewPosition}
             handleDeleteBudgetEntry={handleDeleteBudgetEntry}
