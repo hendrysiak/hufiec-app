@@ -27,6 +27,7 @@ import { localizationDataGrid } from 'shared/localization.helper';
 import { RootState } from 'store/models/rootstate.model';
 import { contains } from 'helpers/utils/contains';
 import { sleep } from 'helpers/utils/sleep';
+import { StyledDataGrid } from 'shared/StyledDataGrid/StyledDataGrid';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -243,7 +244,7 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
 
   return (
     <div style={{ height: '90vh' }}>
-      <DataGrid
+      <StyledDataGrid
         columns={columns}
         rows={rows.map((r) => ({ ...r, id: r.id, evidenceNumber: r.evidenceNumber ?? '' }))}
         onCellEditCommit={handleCellEditCommit}
@@ -251,6 +252,7 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
         components={{
           Toolbar: EditToolbar,
         }}
+        getRowClassName={(params) => `super-app-theme--${params.row.isDeleted === 'Tak' ? 'PartiallyFilled' : ''}`}
       />
       <Modal
         open={openMoveUserModal}
