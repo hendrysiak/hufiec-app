@@ -15,7 +15,10 @@ interface ModalImportPersonAccontStateProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalMapInitAccountToRegistry = (props: ModalImportPersonAccontStateProps) => {
+const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
+    // add reading csv file with imported data
+
+
     const { open, setOpen } = props;
 
     const [dbEntries, setDbEntries] = React.useState('');
@@ -141,4 +144,4 @@ const ModalMapInitAccountToRegistry = (props: ModalImportPersonAccontStateProps)
     );
 }
 
-export default ModalMapInitAccountToRegistry;
+export default ModalTipiImport;
