@@ -27,6 +27,7 @@ import { localizationDataGrid } from 'shared/localization.helper';
 import { RootState } from 'store/models/rootstate.model';
 import { contains } from 'helpers/utils/contains';
 import { sleep } from 'helpers/utils/sleep';
+import { StyledDataGrid } from 'shared/StyledDataGrid/StyledDataGrid';
 
 interface IRows extends APIPerson {
   lp: string | number;
@@ -71,11 +72,6 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
   function EditToolbar() {
     const handleClick = () => setOpenAddUserModal(true);
 
-    // Commented because of end of the year
-    return (
-      <>
-      </>
-    );
     return (
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
@@ -208,48 +204,47 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
       field: 'instructor', headerName: 'Instruktor?', editable: true, type: 'boolean', width: 100, renderCell: (params: GridRenderCellParams<string | boolean | undefined>) => checkColumnRenderer(params),
     },
     // eslint-disable-next-line react/display-name
-    // Commented because of end of the year
-    // {
-    //   field: 'actions',
-    //   type: 'actions',
-    //   headerName: 'Akcje',
-    //   minWidth: 150,
-    //   getActions: ({ id } : { id: string }) => [
-    //     <GridActionsCellItem
-    //       key={id}
-    //       icon={<DeleteIcon />}
-    //       label="Usuń"
-    //       onClick={handleDelete(id)}
-    //       color="inherit"
-    //     />,
-    //     <GridActionsCellItem
-    //       key={id}
-    //       icon={<EditIcon />}
-    //       label="Przenieś"
-    //       onClick={() => {
-    //         setUserToMoveId(id);
-    //         setOpenMoveUserModal(true);
-    //       }}
-    //       color="inherit"
-    //     />,
-    //     // Debt - for future implementation
-    //     // <GridActionsCellItem
-    //     //   key={id}
-    //     //   icon={<AttachMoneyIcon />}
-    //     //   label="Spa dug"
-    //     //   onClick={() => {
-    //     //     setUserToMoveId(id);
-    //     //     setOpenMoveUserModal(true);
-    //     //   }}
-    //     //   color="inherit"
-    //     // />
-    //   ],
-    // },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Akcje',
+      minWidth: 150,
+      getActions: ({ id } : { id: string }) => [
+        <GridActionsCellItem
+          key={id}
+          icon={<DeleteIcon />}
+          label="Usuń"
+          onClick={handleDelete(id)}
+          color="inherit"
+        />,
+        <GridActionsCellItem
+          key={id}
+          icon={<EditIcon />}
+          label="Przenieś"
+          onClick={() => {
+            setUserToMoveId(id);
+            setOpenMoveUserModal(true);
+          }}
+          color="inherit"
+        />,
+        // Debt - for future implementation
+        // <GridActionsCellItem
+        //   key={id}
+        //   icon={<AttachMoneyIcon />}
+        //   label="Spa dug"
+        //   onClick={() => {
+        //     setUserToMoveId(id);
+        //     setOpenMoveUserModal(true);
+        //   }}
+        //   color="inherit"
+        // />
+      ],
+    },
   ];
 
   return (
     <div style={{ height: '90vh' }}>
-      <DataGrid
+      <StyledDataGrid
         columns={columns}
         rows={rows.map((r) => ({ ...r, id: r.id, evidenceNumber: r.evidenceNumber ?? '' }))}
         onCellEditCommit={handleCellEditCommit}
@@ -257,6 +252,7 @@ export function ListOfMembers({ rows }: ListOfMembersProps): JSX.Element {
         components={{
           Toolbar: EditToolbar,
         }}
+        getRowClassName={(params) => `super-app-theme--${params.row.isDeleted === 'Tak' ? 'PartiallyFilled' : ''}`}
       />
       <Modal
         open={openMoveUserModal}

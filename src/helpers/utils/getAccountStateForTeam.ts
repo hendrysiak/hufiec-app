@@ -21,7 +21,7 @@ const getPublicCollectionsOutcome = (team: string, outcomes: OutcomeDb[]) => {
 };
 
 const getTeamAccountOutcome = (team: string, outcomes: OutcomeDb[]) => {
-    return outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.OwnResources).reduce((acc, curr) => acc + curr.cash, 0);
+    return outcomes.filter((outcome) => outcome.foundingSource === FoundingSources.TeamAccount).reduce((acc, curr) => acc + curr.cash, 0);
 };
 
 const getSumOfFeesForTeam = (team: string, incomes: IncomeDb[]) => {

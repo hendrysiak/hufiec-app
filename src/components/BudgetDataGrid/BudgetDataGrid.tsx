@@ -23,6 +23,7 @@ import { columnAligning } from 'shared/grid.helper';
 import { localizationDataGrid } from 'shared/localization.helper';
 
 import { ErrorCheckboxesViewCell, ErrorCheckboxesEditCell } from '../ErrorCell/ErrorCell';
+import { StyledDataGrid } from 'shared/StyledDataGrid/StyledDataGrid';
 
 interface BudgetDataGridProps {
   displayedIncome: IncomeDb[];
@@ -239,7 +240,7 @@ function BudgetDataGrid({
   }
 
   return editedData === BudgetEntry.Income ? (
-    <DataGrid
+    <StyledDataGrid
       columns={incomeColumn}
       rows={incomeRows}
       onCellEditCommit={handleCellEditCommit}
@@ -248,10 +249,11 @@ function BudgetDataGrid({
       components={{
         Toolbar: EditToolbar,
       }}
+      getRowClassName={(params) => `super-app-theme--${params.row.errors ? 'Rejected' : params.row.isEdited ? 'PartiallyFilled' : ''}`}
     />
   )
     : (
-      <DataGrid
+      <StyledDataGrid
         columns={outcomeColumn}
         rows={outcomeRows}
         onCellEditCommit={handleCellEditCommit}
@@ -260,6 +262,7 @@ function BudgetDataGrid({
         components={{
           Toolbar: EditToolbar,
         }}
+        getRowClassName={(params) => `super-app-theme--${params.row.errors ? 'Rejected' : ''}`}
       />
     );
 }

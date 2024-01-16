@@ -258,8 +258,6 @@ function Team(): JSX.Element {
       }, 0);
   };
 
-  // return <main style={{ backgroundColor: "black", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}><img src={Maintenance} alt="maintenance" style={{ width: '100%', height: 'auto' }} /></main>
-
   return (
     <>
       <div ref={navBar} className={`navTeam ${isMobile && 'navTeam__mobile'}`}>
