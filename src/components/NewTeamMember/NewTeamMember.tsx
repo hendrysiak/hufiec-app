@@ -9,8 +9,12 @@ import { addTeamMember } from 'helpers/editing-db.handler';
 import { Person } from 'models/registry.models';
 
 import classes from '../../pages/EditorTeam/EditorTeam.module.css';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/models/rootstate.model';
+import { contains } from 'helpers/utils/contains';
 
 function NewTeamMember({ team, handleCloseNewMember }: { team: number; handleCloseNewMember: () => void }): JSX.Element {
+  const registry = useSelector((state: RootState) => state.income.registry);
   const [input, setInput] = useState<Person>({
     name: '', surname: '', evidenceNumber: '', dateOfAdd: null, disability: false, instructor: false,
   });
@@ -23,12 +27,23 @@ function NewTeamMember({ team, handleCloseNewMember }: { team: number; handleClo
   };
   const handleAddTeamMemebr = () => {
     if (team && input.name.length && input.surname.length && input.evidenceNumber?.length) {
-      addTeamMember(team, input);
+      const userExist = contains(registry, input.evidenceNumber);
+
+      if (!userExist) {
+        addTeamMember(team, input);
+        handleCloseNewMember();
+        return;
+
+      } else {
+        window.alert('Użytkownik o podanym numerze ewidencji już istnieje.')
+        return;
+      }
     }
+
     if (window.confirm('Nie wypełniono wszystkich pól. Chcesz poprawić?')) {
       return;
     };
-    
+
     handleCloseNewMember();
   };
 
