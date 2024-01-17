@@ -23,6 +23,6 @@ export interface IncomeState {
   codes: ApprovedEvent[] | null,
   codesMap: CodesMap | null,
   importDates: Date[] | null;
-  initAccount: InitAccountState[]
+  initAccount: InitAccountState[];
   teamAccounts: Record<string, number> | null,
 }

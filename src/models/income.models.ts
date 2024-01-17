@@ -102,4 +102,5 @@ export interface InitAccountState {
   team: string;
   year: number;
   balance: number
+  evidenceNumber: string;
 }

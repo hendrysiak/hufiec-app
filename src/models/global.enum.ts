@@ -61,6 +61,7 @@ export enum Rows {
   Name = 'name',
   Surname = 'surname',
   Team = 'team',
+  EvidenceNumber = 'evidenceNumber',
   Disability = 'disability',
   Instructor = 'instructor',
 }

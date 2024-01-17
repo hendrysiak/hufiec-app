@@ -52,8 +52,6 @@ const getInitAccountState = (person: APIPerson, initAccount: InitAccountState[])
 
 function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
   const registry = useSelector((state: RootState) => state.income.registry);
-  const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
-  const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
   const initAccount = useSelector((state: RootState) => state.income.initAccount);
 
   const teams = useTeams();
@@ -70,12 +68,6 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
 
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
-
-  const [tab, setTab] = useState(0);
-
-  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setTab(newValue);
-  };
 
   const clearStateRow = () => {
     setActiveRow(null);
@@ -178,20 +170,6 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     }));
   };
 
-  const sumOfNeededFees = () => {
-    const currentYear = new Date().getFullYear();
-    const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
-
-    return rows
-      .reduce((sum: number, person: APIPerson) => {
-        const fees = countingMemberFee(person, lastDayOfPreviousYear);
-
-        if (Number(fees) < 0) return sum + Number(fees);
-
-        return sum + 0;
-      }, 0);
-  };
-
   return (
     <>
       <Box display="flex" justifyContent="center" alignItems="center" p={4}>
@@ -206,17 +184,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
           <Button variant="contained" color="primary">Pobierz stan składek</Button>
         </CSVLink>
       </Box>
-      <Tabs
-        value={tab}
-        variant="fullWidth"
-        textColor="primary"
-        indicatorColor="primary"
-        onChange={handleTabChange}
-      >
-        <Tab label="Składki i ewidencja" />
-        <Tab label="Stan finansów" />
-      </Tabs>
-      <TabPanel value={tab} index={0}>
+
         <Table className={classes.table} aria-label="caption table">
           <TableHead>
             <TableRow>
@@ -225,6 +193,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
               {team === 'Cały hufiec' && <TableCell align="left">Drużyna</TableCell>}
               <TableCell align="left">Nazwisko</TableCell>
               <TableCell align="left">Imię</TableCell>
+              <TableCell align="left">Nr ewidencji</TableCell>
               <TableCell align="left">NS?</TableCell>
               <TableCell align="left">Instruktor?</TableCell>
               <TableCell align="left">Data dodania</TableCell>
@@ -274,6 +243,10 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                   }}
                   />
                   <CustomTableCell {...{
+                    row, name: Rows.EvidenceNumber, onChange, id: activeRow, newData,
+                  }}
+                  />
+                  <CustomTableCell {...{
                     row, name: Rows.Disability, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
@@ -281,7 +254,6 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                     row, name: Rows.Instructor, onChange, id: activeRow, newData, useBoolean: true,
                   }}
                   />
-                  {/* <CustomTableCell {...{ row, name: 'dateOfAdd', onChange }} /> */}
                   <TableCell>
                     <DesktopDatePicker
                       disabled={activeRow !== row.id}
@@ -362,10 +334,9 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
           labelRowsPerPage="Ilość wierszy na stronie"
           onPageChange={handleChangePage}
         />
-      </TabPanel>
-      <TabPanel value={tab} index={1}>
+      {/* <TabPanel value={tab} index={1}>
         {team ? <TeamFinances neededFee={sumOfNeededFees()} incomes={dbIncomes.filter((i) => i.team === `${team}`)} outcomes={dbOutcomes.filter((o) => o.team === `${team}`)} currentTeam={team} /> : <p>Wybierz drużynę</p>}
-      </TabPanel>
+      </TabPanel> */}
     </>
   );
 }
