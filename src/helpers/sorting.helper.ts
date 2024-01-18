@@ -58,7 +58,7 @@ export const sortingIncomesByCode = (codes: string[], incomes: IncomesWithTeam[]
 
     codes.forEach((code) => {
       const regex = new RegExp(`${code}`, 'mi');
-      const category = code === "SC" ? IncomeCategory.MembershipFee : "";
+      const category = code === "SC" ? IncomeCategory.MembershipFee : IncomeCategory.TaskRelatedMembershipFee;
       if (regex.test(income.title)) updatedIncome = { ...income, event: code, incomeCategory: category };
     });
     return updatedIncome;
