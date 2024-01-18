@@ -15,6 +15,7 @@ import store from '../../store/store';
 import classes from './Dashboard.module.css';
 import Importer from 'components/Importer/Importer';
 import { deleteAllOutcomes, deleteIncomesByCode } from 'helpers/editing-db.handler';
+import AdminActions from 'components/AdminActions/AdminActions';
 
 export interface IMessValue {
   content: string;
@@ -147,14 +148,7 @@ function Dashboard(): JSX.Element {
           <Importer />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper elevation={3}>
-            <Box p={4}>
-              <h2>Czyszczenie składek</h2>
-              <Box pt={3.5} pb={3.5}>
-                <Button variant="contained" color="secondary" onClick={clearAccounts}>Wyczyść konta</Button>
-              </Box>
-            </Box>
-          </Paper>
+          <AdminActions />
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper elevation={3}>

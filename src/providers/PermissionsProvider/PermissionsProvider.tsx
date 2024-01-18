@@ -143,7 +143,9 @@ export function PermissionsProvider({ children }: { children: React.ReactElement
   }, [location.pathname, user]);
 
   React.useEffect(() => {
-    history?.push(`/${team}`)
+    if (team !== null) {
+      history?.push(`/${team}`)
+    }
   }, [team]);
 
   React.useEffect(() => {
