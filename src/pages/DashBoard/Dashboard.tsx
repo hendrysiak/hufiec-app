@@ -16,6 +16,7 @@ import classes from './Dashboard.module.css';
 import Importer from 'components/Importer/Importer';
 import { deleteAllOutcomes, deleteIncomesByCode } from 'helpers/editing-db.handler';
 import AdminActions from 'components/AdminActions/AdminActions';
+import EventListGenerator from 'components/EventListGenerator/EventListGenerator';
 
 export interface IMessValue {
   content: string;
@@ -148,15 +149,18 @@ function Dashboard(): JSX.Element {
           <Importer />
         </Grid>
         <Grid item xs={12} md={6}>
-          <AdminActions />
-        </Grid>
-        <Grid item xs={12} md={6}>
           <Paper elevation={3}>
             <Box p={4}>
               <h2>Ostatni import był</h2>
               <p><b>{lastImportDate ? new Date(lastImportDate).toLocaleDateString() : ''}</b></p>
             </Box>
           </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <EventListGenerator />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <AdminActions />
         </Grid>
       </Grid>
     </div>
