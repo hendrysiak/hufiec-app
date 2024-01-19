@@ -135,8 +135,6 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
         setOpen(false);
     };
 
-    if (!registry) return null;
-
     const columns = [
         { field: 'name', headerName: 'Imię', width: 150, },
         { field: 'surname', headerName: 'Nazwisko', width: 150, },
@@ -150,6 +148,8 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
     ];
 
     const rows = React.useMemo(() => fileContent.data?.map((person, index) => {
+
+        if (!registry) return [];
 
         const existInApplication = contains(registry, person.evidenceNumber);
         let id = index + person.name + person.surname;
@@ -187,6 +187,8 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
             error,
         }
     }) ?? [], [fileContent.data, registry]);
+
+    if (!registry) return null;
 
     return (
         <Modal
