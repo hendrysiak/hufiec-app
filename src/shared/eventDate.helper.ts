@@ -9,10 +9,10 @@ const codeEventDateGenerator = (code: ICode) => {
     const month = new Date(startDate).getMonth() + 1;
 
     const startDay = `${new Date(startDate).getDate()}.${month > 9 ? month : `0${month}`}`;
-    return `${startDay} - ${new Date(endDate).toLocaleDateString()}`;
+    return `${startDay} - ${new Date(endDate).toLocaleDateString('en-GB', { day: '2-digit', year: 'numeric', month: '2-digit' }).replaceAll('/', '.')}`;
   }
 
-  return `${new Date(startDate).toLocaleDateString()}`;
+  return `${new Date(startDate).toLocaleDateString('en-GB', { day: '2-digit', year: 'numeric', month: '2-digit' }).replaceAll('/', '.')}`;
 };
 
 const decisionEventDateGenerator = (decision: DecisionCode) => {
@@ -22,10 +22,10 @@ const decisionEventDateGenerator = (decision: DecisionCode) => {
     const month = new Date(eventStartDate).getMonth() + 1;
 
     const startDay = `${new Date(eventStartDate).getDate()}.${month > 9 ? month : `0${month}`}`;
-    return `${startDay} - ${new Date(eventEndDate).toLocaleDateString()}`;
+    return `${startDay} - ${new Date(eventEndDate).toLocaleDateString('en-GB', { day: '2-digit', year: 'numeric', month: '2-digit' }).replaceAll('/', '.')}`;
   }
 
-  return `${new Date(eventStartDate).toLocaleDateString()}`;
+  return `${new Date(eventStartDate).toLocaleDateString('en-GB', { day: '2-digit', year: 'numeric', month: '2-digit' }).replaceAll('/', '.')}`;
 };
 
 export const eventDateGenerator = (object: DecisionCode | ICode): string => {

@@ -41,7 +41,7 @@ function Code(props: CodeProps): JSX.Element {
       <Text style={styles.title}>
         {`
           Decyzja Komendanta i Skarbnika Hufca ZHP Ruda Śląska 
-          nr ${props.decision.decisionId}/${decisionDate.getFullYear()} z dnia ${decisionDate.toLocaleDateString()} 
+          nr ${props.decision.decisionId}/${decisionDate.getFullYear()} z dnia ${decisionDate.toLocaleDateString('en-GB', { day: '2-digit', year: 'numeric', month: '2-digit' }).replaceAll('/', '.')} 
           o przyjęciu dodatkowej składki członkowskiej zadaniowej na ${event || 'wyjazd'} ${props.decision.target} 
           `}
       </Text>
