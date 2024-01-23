@@ -74,25 +74,14 @@ const ModalEventListGenerator = (props: ModalImportPersonAccontStateProps) => {
         if (!registry) return [];
 
         let fee = 0;
-
-        if (income.name && income.surname && income.team) {
-
-            const person = {
-                name: income.name,
-                surname: income.surname,
-                team: Number(income.team),
-                id: '',
-                dateOfAdd: new Date(),
-            }
-            fee = countingMemberFee(person);
-        }
-
         let evidenceNumber = 'Brak';
 
         const personInApplication = Object.entries(registry).find(([id, personInApp]) => income.name?.toLowerCase() === personInApp.name?.toLowerCase() && income.surname?.toLowerCase() === personInApp.surname?.toLowerCase());
 
         if (personInApplication) {
             evidenceNumber = personInApplication[1]?.evidenceNumber ?? 'Brak';
+
+            fee = countingMemberFee(personInApplication[1]);
         }
 
         return {

@@ -75,13 +75,13 @@ export const getRegistry = async (): Promise<void> => {
   store.dispatch(reduxGetRegistry(mappedRegistry));
 };
 
-export const getPlainRegistry = async (): Promise<Record<string, Person>> => {
+export const getPlainRegistry = async (): Promise<Record<string, APIPerson>> => {
   const registry = await axios.get('/registry.json');
 
   return registry.data;
 }
 
-export const updatePlainRegistry = async (newRegistry: Record<string, Person>): Promise<Record<string, Person>> => {
+export const updatePlainRegistry = async (newRegistry: Record<string, Person>): Promise<Record<string, APIPerson>> => {
   const registry = await axios.put('/registry.json', newRegistry);
 
   return registry.data;
