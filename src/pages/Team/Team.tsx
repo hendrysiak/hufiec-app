@@ -243,20 +243,7 @@ function Team(): JSX.Element {
   }, [navBar]);
 
   const isMobile = useMobileView(360);
-
-  const sumOfNeededFees = () => {
-    const currentYear = new Date().getFullYear();
-    const lastDayOfPreviousYear = new Date(currentYear - 1, 11, 31);
-
-    return currentTeamRegistry
-      .reduce((sum: number, person: APIPerson) => {
-        const fees = countingMemberFee(person, lastDayOfPreviousYear);
-
-        if (Number(fees) < 0) return sum + Number(fees);
-
-        return sum + 0;
-      }, 0);
-  };
+  const lastImportDate = dbIncomes.slice(-1)[0]?.importDate;
 
   return (
     <>
@@ -334,6 +321,7 @@ function Team(): JSX.Element {
           <Tab label="Akcje" />
         </StyledTabs>
       </div>
+      <p className='lastImport'>Ostatni import był: <b>{lastImportDate ? new Date(lastImportDate).toLocaleDateString() : ''}</b></p>
       <TabPanel value={tab} index={0}>
         <section className="container">
           <div className={`header ${openFilter ? '' : 'filterClose'}`}>
