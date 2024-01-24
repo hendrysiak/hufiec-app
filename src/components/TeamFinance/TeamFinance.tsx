@@ -98,7 +98,7 @@ const TeamFinance = ({ team }: { team: string }) => {
                             Do wydania ze środków drużyny
                         </Typography>
                         <Typography variant="h5" component="p" minWidth="150px">
-                            {teamAccountState + Number((sumOfFeesForTeam ? sumOfFeesForTeam / 5 : 0).toFixed(2)) - teamAccountOutcome }
+                            {teamAccountState + Number((sumOfFeesForTeam ? sumOfFeesForTeam : 0).toFixed(2)) - teamAccountOutcome }
                         </Typography>
                     </Box>
                 </Box>

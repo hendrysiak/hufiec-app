@@ -12,7 +12,9 @@ const EventListGenerator = () => {
       <h2>Generator listy osób na wydarzenie</h2>
       <Box pt={3.5} pb={3.5}>
         <p>Dzięki temu pobierzesz listę odpłatności wraz ze stanem składek</p>
-      <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>Otwórz generator</Button>
+      </Box>
+      <Box pt={3.5} pb={3.5}>
+        <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>Otwórz generator</Button>
       </Box>
     </Box>
     {open && <ModalEventListGenerator open={open} setOpen={setOpen} />}

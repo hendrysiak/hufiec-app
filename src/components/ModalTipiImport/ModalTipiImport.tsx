@@ -1,21 +1,17 @@
-import { Modal, Box, TableRow, TableContainer, Table, Button, TableHead, Grid, Typography, IconButton } from "@mui/material";
-import { createBackup } from "helpers/editing-db.handler";
+import { Modal, Box, Grid, Typography, IconButton, Drawer, Paper } from "@mui/material";
 import { useTeams } from "helpers/hooks/useTeams";
-import { StyledTableCell, StyledTableRow } from "helpers/render/StyledTableElements";
-import { getPlainRegistry, updatePlainRegistry } from "helpers/api-helpers/account.handler";
-import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
+import { getPlainRegistry } from "helpers/api-helpers/account.handler";
+import TipiInstruction from 'assets/filters.png';
 import React from "react";
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { RootState } from "store/models/rootstate.model";
 import { Person } from "models/registry.models";
 import CloseIcon from '@mui/icons-material/Close';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InputFileUpload from "components/InputFileUpload/InputFileUpload";
 import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
 import stripBom from "strip-bom";
 import { contains } from "helpers/utils/contains";
 import { StyledDataGrid } from "shared/StyledDataGrid/StyledDataGrid";
-import { te } from "date-fns/locale";
 import { GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import { localizationDataGrid } from "shared/localization.helper";
 
@@ -65,6 +61,8 @@ function EditToolbar() {
 const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
     // add reading csv file with imported data
     const { open, setOpen } = props;
+
+    const [openHelp, setOpenHelp] = React.useState(false);
     // const [mappedRegistry, setMappedRegistry] = React.useState<Record<string, Person> | undefined>(undefined);
     // const [dbEntries, setDbEntries] = React.useState('');
     const [file, setFile] = React.useState<File | null>(null);
@@ -191,6 +189,7 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
     if (!registry) return null;
 
     return (
+        <>
         <Modal
             open={open}
             onClose={() => setOpen(false)}
@@ -199,6 +198,18 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
         >
             <Box p={4} overflow="hidden" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: "100vw", height: "100vh", bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
                 <Typography textAlign="center" variant="h3">Import danych z Tipi</Typography>
+                <IconButton
+                    aria-label="help"
+                    onClick={() => setOpenHelp(true)}
+                    sx={{
+                        position: 'absolute',
+                        right: 48,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <HelpOutlineIcon />
+                </IconButton>
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}
@@ -213,9 +224,6 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
                 </IconButton>
                 <Box py={4} display="flex" justifyContent="space-between">
                     <Box>
-                        {/* <p>Dla bezpieczeństwa - wygeneruj kopię zapasową</p>
-                        <p>Następnie przejrzyj dane, które wgrasz</p>
-                        <p>Porzuć proces, jeśli coś się nie zgadza</p> */}
                         <p>Import ma obecnie tylko rolę poglądową</p>
                         <p>Na stronie "Edytuj drużyny" należy wpisać nazwy drużyn tożsame z Tipi</p>
                     </Box>
@@ -238,38 +246,6 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
                         }}
                         localeText={localizationDataGrid}
                     />
-                    {/* <TableContainer style={{ maxHeight: 550 }}>
-                        <Table sx={{ minWidth: 1000 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>LP.</StyledTableCell>
-                                    <StyledTableCell>Imię</StyledTableCell>
-                                    <StyledTableCell>Nazwisko</StyledTableCell>
-                                    <StyledTableCell>Drużyna</StyledTableCell>
-                                    <StyledTableCell>Numer ewidencji</StyledTableCell>
-                                    <StyledTableCell>Data wstąpienia</StyledTableCell>
-                                    <StyledTableCell>Data odejścia</StyledTableCell>
-                                    <StyledTableCell>Istnieje w aplikacji?</StyledTableCell>
-                                    <StyledTableCell>Drużyna w aplikacji</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            {fileContent.data?.map((person, index) => (
-                                <StyledTableRow key={person.evidenceNumber}>
-                                    <StyledTableCell component="th">
-                                        {index + 1}
-                                    </StyledTableCell>
-                                    <StyledTableCell>{person.name}</StyledTableCell>
-                                    <StyledTableCell>{person.surname}</StyledTableCell>
-                                    <StyledTableCell>{person.team}</StyledTableCell>
-                                    <StyledTableCell>{person.evidenceNumber}</StyledTableCell>
-                                    <StyledTableCell>{person.dateOfAdd}</StyledTableCell>
-                                    <StyledTableCell>{person.dateOfDelete}</StyledTableCell>
-                                    <StyledTableCell>{`${contains(registry, person.evidenceNumber)}`}</StyledTableCell>
-                                    <StyledTableCell>Liczę</StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </Table>
-                    </TableContainer> */}
                 </Box>
                 <Grid container spacing={2} pt={4}>
                     {/* <Grid item xs={3}>
@@ -287,6 +263,16 @@ const ModalTipiImport = (props: ModalImportPersonAccontStateProps) => {
                 </Grid>
             </Box>
         </Modal>
+        <Drawer anchor="right" style={{ zIndex: 1400 }} open={openHelp} onClose={() => setOpenHelp(false)}>
+            <Paper>
+                <Box p={4}>
+                    <Typography variant="h4" textAlign="center">Instrukcja</Typography>
+                    <p>Należy wejśc w "Raporty" w Tipi i wybrać następujące opcje</p>
+                    <img src={TipiInstruction} />
+                </Box>
+            </Paper>
+        </Drawer>
+        </>
     );
 }
 
