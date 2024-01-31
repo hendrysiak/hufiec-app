@@ -1,3 +1,5 @@
+"use client"
+
 import { Box, Container, Grid, MenuItem, Tab, Tabs, TextField } from "@mui/material";
 import TeamAccountList from "components/TeamAccountList/TeamAccountList";
 import TeamFinance from "components/TeamFinance/TeamFinance";

@@ -1,6 +1,6 @@
-import React from 'react';
+"use client"
 
-import { useHistory, useLocation } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 import { useUserData } from 'helpers/hooks/useUserData';
 import {
@@ -15,6 +15,9 @@ import { Typography, Button, Avatar, Dialog, DialogTitle, List, ListItem, ListIt
 import { blue } from '@mui/material/colors';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { getAccountsStates } from 'helpers/api-helpers/account';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation'
 
 const downloadData = async (team: number) => {
   await getInitAccountState();
@@ -97,10 +100,12 @@ export default function ChooseTeamDialog({
 
 export function PermissionsProvider({ children }: { children: React.ReactElement }) {
   const { authUser } = useAuth();
-  const history = useHistory();
-  const location = useLocation();
-  const [team, setTeam] = React.useState<number | null>(null);
-  const [open, setOpen] = React.useState(false);
+  // const history = useHistory();
+  // const location = useLocation();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [team, setTeam] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   const user = useUserData(authUser?.uid);
 
@@ -110,13 +115,13 @@ export function PermissionsProvider({ children }: { children: React.ReactElement
 
   // THere we want to provide check function to make sure that the user with correct role has access to correct data
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
-      const currentUrl = location.pathname;
+      const currentUrl = pathname;
 
       if (user?.team) {
         if (currentUrl !== '/') {
-          const potentialTeam = history.location.pathname.slice(1);
+          const potentialTeam = pathname.slice(1);
           if (user?.team.includes(potentialTeam)) {
             return setTeam(Number(potentialTeam));
           }
@@ -132,23 +137,23 @@ export function PermissionsProvider({ children }: { children: React.ReactElement
       }
 
 
-      if (user?.role === 'admin' && location.pathname === '/') {
-        history?.push('/dashboard');
+      if (user?.role === 'admin' && pathname === '/') {
+        router?.push('/dashboard');
       }
     }
 
     if (!user) {
-      history?.push('/');
+      router?.push('/');
     }
-  }, [location.pathname, user]);
+  }, [pathname, user]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (team !== null) {
-      history?.push(`/${team}`)
+      router?.push(`/${team}`)
     }
   }, [team]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       store.dispatch(reduxSetRoles([user.role]));
       store.dispatch(reduxIsAuthentication(true));

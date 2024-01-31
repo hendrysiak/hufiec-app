@@ -9,7 +9,7 @@ import {
 
 import React from 'react';
 
-import font from 'fonts/Museo300-Regular.ttf';
+// import font from 'fonts/Museo300-Regular.ttf';
 
 import { Decision } from 'models/decision.model';
 
@@ -23,7 +23,7 @@ interface LetterProps {
   decision: Decision;
 }
 
-Font.register({ family: 'Museo300', src: font });
+// Font.register({ family: 'Museo300', src: font });
 
 const pageStyle = StyleSheet.create({
   page: {

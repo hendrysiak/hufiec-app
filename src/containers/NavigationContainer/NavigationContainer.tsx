@@ -1,17 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router';
-
+import { usePathname } from 'next/navigation'
 import { LogOut } from 'shared/LogOut/LogOut';
 
 import Navigation from 'shared/Navigation/Navigation';
 
 interface NavigationContainerProps {
-  children: React.ReactChild | React.ReactChild[];
+  children: React.ReactElement | React.ReactElement[];
   isAdmin?: boolean;
 }
 
 function NavigationContainer(props: NavigationContainerProps): JSX.Element {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
 
   return (
     <>

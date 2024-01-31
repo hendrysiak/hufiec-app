@@ -1,4 +1,4 @@
-import { INGBilingDocument } from "pages/ImportIncome/models/ing.biling.model";
+import { INGBilingDocument } from "models/ing.biling.model";
 import convert, { ElementCompact, Element } from 'xml-js';
 import { sortBilingFromING } from "./bank.helper";
 import { IncomesBankModel } from "models/income.models";

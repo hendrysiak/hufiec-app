@@ -1,9 +1,11 @@
+"use client"
+
 import Alert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import React from 'react';
+import { ReactElement, createContext, useContext, useState } from 'react';
 
 interface Props {
-  children: React.ReactElement | React.ReactElement[]
+  children: ReactElement | ReactElement[]
 }
 
 interface SnackbarValues {
@@ -14,10 +16,10 @@ const SnackBarContextValues: SnackbarValues = {
   setSnackbar: () => () => null,
 };
 
-const SnackBarContext = React.createContext<SnackbarValues>(SnackBarContextValues);
+const SnackBarContext = createContext<SnackbarValues>(SnackBarContextValues);
 
 function SnackBarProvider(props: Props): JSX.Element {
-  const [snackbar, setSnackbar] = React.useState<Pick<
+  const [snackbar, setSnackbar] = useState<Pick<
   AlertProps,
   'children' | 'severity'
   > | null>(null);
@@ -39,6 +41,6 @@ function SnackBarProvider(props: Props): JSX.Element {
   );
 }
 
-export const useSnackbar = (): SnackbarValues => React.useContext(SnackBarContext);
+export const useSnackbar = (): SnackbarValues => useContext(SnackBarContext);
 
 export default SnackBarProvider;

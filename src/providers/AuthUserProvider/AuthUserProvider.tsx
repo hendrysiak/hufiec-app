@@ -1,8 +1,8 @@
-import {
-  ActionCodeSettings, Auth, User, UserCredential,
-} from 'firebase/auth';
+"use client"
 
-import React, { createContext, useContext } from 'react';
+import { UserCredential } from 'firebase/auth';
+
+import { ReactElement, createContext, useContext } from 'react';
 
 import useFirebaseAuth from 'helpers/db/firebase/useFirebaseAuth';
 
@@ -22,7 +22,7 @@ const authUserContext = createContext<AuthUserContextValues>({
   resetPassword: async () => {},
 });
 
-export function AuthUserProvider({ children }: { children: React.ReactElement }) {
+export function AuthUserProvider({ children }: { children: ReactElement }) {
   const auth = useFirebaseAuth();
   return <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>;
 }

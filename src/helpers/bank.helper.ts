@@ -1,6 +1,6 @@
 import { IncomesBankModel } from 'models/income.models';
 
-import { INGBilingDocument, INGDocument, INGOperationType } from '../pages/ImportIncome/models/ing.biling.model';
+import { INGBilingDocument, INGDocument, INGOperationType } from '../models/ing.biling.model';
 
 export const sortBilingFromING = (jsonBiling: INGBilingDocument): IncomesBankModel[] => {
   const resultInfo: IncomesBankModel[] = [];

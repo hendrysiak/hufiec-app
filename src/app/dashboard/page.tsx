@@ -1,3 +1,5 @@
+"use client"
+
 import { AppBar, Box, Button, Grid, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
@@ -12,7 +14,7 @@ import appInfo from '../../../package.json';
 import * as actions from '../../store/actions/index';
 import store from '../../store/store';
 
-import classes from './Dashboard.module.css';
+import classes from './styles.module.css';
 import Importer from 'components/Importer/Importer';
 import { deleteAllOutcomes, deleteIncomesByCode } from 'helpers/editing-db.handler';
 import AdminActions from 'components/AdminActions/AdminActions';

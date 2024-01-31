@@ -61,21 +61,21 @@ function App(): JSX.Element {
 
   }, [authUser?.uid]);
 
-  const Account = React.lazy(() => import('./pages/account'));
-  const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
-  const Decision = React.lazy(() => import('./pages/Decision/Decision'));
-  const Team = React.lazy(() => import('./pages/Team/Team'));
-  const ForCoders = React.lazy(() => import('./pages/ForCoders/ForCoders'));
+  const Account = React.lazy(() => import('./app/account/page'));
+  const DashBoard = React.lazy(() => import('./app/dashboard/page'));
+  const Decision = React.lazy(() => import('./legacy/Decision/Decision'));
+  const Team = React.lazy(() => import('./legacy/Team/Team'));
+  const ForCoders = React.lazy(() => import('./legacy/ForCoders/ForCoders'));
   // const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
   // const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
-  const Import = React.lazy(() => import('./pages/Import/Import'));
-  const Edit = React.lazy(() => import('./pages/Edit/Edit'));
-  const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
-  const Login = React.lazy(() => import('./pages/Login/Login'));
-  const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
-  const Role = React.lazy(() => import('./pages/Role/Role'));
-  const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
-  const TeamsEditor = React.lazy(() => import('./pages/TeamsEditor/TeamsEditor'));
+  const Import = React.lazy(() => import('./legacy/Import/Import'));
+  const Edit = React.lazy(() => import('./legacy/Edit/Edit'));
+  const EditorTeam = React.lazy(() => import('./legacy/EditorTeam/EditorTeam'));
+  const Login = React.lazy(() => import('./legacy/Login/Login'));
+  const AddCode = React.lazy(() => import('./legacy/AddCode/AddCode'));
+  const Role = React.lazy(() => import('./legacy/Role/Role'));
+  const Proposals = React.lazy(() => import('./legacy/Proposals/Proposals'));
+  const TeamsEditor = React.lazy(() => import('./legacy/TeamsEditor/TeamsEditor'));
 
   const routes = (
     <BrowserRouter>

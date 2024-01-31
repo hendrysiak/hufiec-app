@@ -3,9 +3,8 @@ import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import {
-  Tooltip, FormGroup, FormControlLabel, Checkbox, Box, OutlinedInput, Select, FormControl, InputLabel, MenuItem, ListItemText,
+  Tooltip, FormGroup, FormControlLabel, Checkbox, Box, OutlinedInput, Select, FormControl, InputLabel, MenuItem, ListItemText, makeStyles,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 
 import { GridRenderCellParams, useGridApiContext } from '@mui/x-data-grid';
 
@@ -114,15 +113,14 @@ export function ErrorDispllayCell({
   errors,
   className = '',
 }: { errors: ErrorType[] | undefined, className?: string }): JSX.Element {
-  const useStyles = makeStyles(() => ({
-    customTooltip: {
-      // I used the rgba color for the standard "secondary" color
-      fontSize: '16px',
-      color: 'white',
-    },
-  }));
+  // const classes = makeStyles(() => ({
+  //   customTooltip: {
+  //     // I used the rgba color for the standard "secondary" color
+  //     fontSize: '16px',
+  //     color: 'white',
+  //   },
+  // }));
 
-  const classes = useStyles();
 
   if (!errors) return <Box className={className} />;
 
@@ -132,9 +130,6 @@ export function ErrorDispllayCell({
         <ErrorIcon
           key={error}
           error={error as ErrorType}
-          classObject={{
-            tooltip: classes.customTooltip,
-          }}
         />
       ))}
     </Box>

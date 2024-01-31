@@ -1,10 +1,11 @@
-import React from 'react';
+"use client"
 
 import { useQuery } from 'react-query';
 
 import { getTeams } from 'helpers/api-helpers/team';
 import { useUserData } from 'helpers/hooks/useUserData';
 import { Team } from 'models/team';
+import { ReactElement, createContext } from 'react';
 
 interface TeamsValues {
   teams: Team[] | null;
@@ -14,10 +15,10 @@ const TeamContextValues: TeamsValues = {
   teams: null,
 };
 
-const TeamContext = React.createContext<TeamsValues>(TeamContextValues);
+const TeamContext = createContext<TeamsValues>(TeamContextValues);
 
 type TeamsProviderProps = {
-  children: React.ReactElement | React.ReactElement[];
+  children: ReactElement | ReactElement[];
 };
 
 function TeamsProvider(props: TeamsProviderProps): JSX.Element {

@@ -5,7 +5,7 @@ import BudgetDataGrid from "components/BudgetDataGrid/BudgetDataGrid";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "store/models/rootstate.model";
-import { useBankData } from "../../pages/Import/Import";
+import { useBankData } from "../../legacy/Import/Import";
 import { IncomeDb, IncomesWithImportDate, OutcomeDb, OutcomesWithFinanceMethod } from "models/income.models";
 import { GridCellEditCommitParams } from "@mui/x-data-grid";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";

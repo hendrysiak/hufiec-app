@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { MouseEvent, useState } from 'react';
-import { useBankData } from "../../pages/Import/Import";
+import { useBankData } from "../../legacy/Import/Import";
 import { getDataFromXml } from "../../helpers/getDataFromXml";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
 

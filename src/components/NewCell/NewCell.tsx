@@ -7,8 +7,8 @@ import { Rows } from 'models/global.enum';
 
 import { APIPerson } from 'models/registry.models';
 
-import { IPerson } from '../../pages/EditorTeam/EditorTeam';
-import { useStyles } from '../../pages/EditorTeam/stylesTable';
+import { IPerson } from '../../legacy/EditorTeam/EditorTeam';
+import { useStyles } from '../../helpers/stylesTable';
 
 interface IProps {
   row: IPerson;

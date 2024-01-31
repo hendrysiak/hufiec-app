@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import React, { MouseEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { setIncomeInRedux } from './helpers/setReduxData.helper';
+import { setIncomeInRedux } from '../../helpers/setReduxData.helper';
 
 import classes from './ImportIncome.module.css';
 

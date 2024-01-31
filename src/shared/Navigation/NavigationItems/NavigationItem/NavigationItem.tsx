@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import NextLink from 'next/link'
 
 import classes from './NavigationItem.module.css';
 
@@ -12,13 +13,11 @@ type Props = {
 function NavigationItem(props: Props): JSX.Element {
   return (
     <li className={classes.NavigationItem}>
-      <NavLink
-        to={props.link}
-        exact={props.exact}
-        activeClassName={classes.active}
+      <NextLink
+        href={props.link}
       >
         {props.children}
-      </NavLink>
+      </NextLink>
     </li>
   );
 }

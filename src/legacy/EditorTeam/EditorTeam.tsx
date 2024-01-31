@@ -33,7 +33,7 @@ import { RootState } from 'store/models/rootstate.model';
 import { editTeamMember } from '../../helpers/editing-db.handler';
 
 import { controlerDate, filterMembers, handleDelete, handleRestore } from '../../helpers/registry.helper';
-import { useStyles } from './stylesTable';
+import { useStyles } from '../../helpers/stylesTable';
 import SelectTeam from '../../components/SelectTeam/SelectTeam';
 import { InitAccountState } from 'models/income.models';
 import { CustomTableCell } from '../../components/NewCell/NewCell';

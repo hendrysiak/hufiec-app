@@ -1,0 +1,226 @@
+@font-face {
+    font-family: 'Museo300';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Museo300') url('../fonts/Museo300-Regular.ttf') format('truetype'),
+        local('Museo300') url('../fonts/Museo-Regular-300.otf') format('opentype'),
+}
+
+body {
+    background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('../assets/Agnieszka_Madetko-Kurczab_18.jpg') center center/cover no-repeat fixed;
+    height: 100vh;
+    margin: 0;
+    font-family: Museo300, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+h1, h2, h3 {
+    margin: 0
+}
+
+main {
+    height: 93vh;
+}
+
+#root {
+    height: 100vh;
+}
+
+.GridArea {
+    height: 100vh;
+    display: grid;
+    grid-template: "nav section  "95vh "nav footer  "5vh / 1fr 6fr
+}
+
+/* .Nav {
+    background-color: rgba(74, 123, 38, 100%);
+    height: 95vh;
+    width: 20%;
+    position: fixed;
+    transition-duration: .5s;
+}
+.Nav__menu {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    align-self: flex-start;
+    transform: translateX(-1300%);
+} */
+
+.Section {
+    grid-area: section;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.Background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%);
+    z-index: -1;
+}
+
+.Footer {
+    background-color: black;
+    grid-area: footer;
+    color: white;
+}
+
+.List {
+    list-style: none;
+    color: white;
+    padding-inline-start: 0px;
+}
+
+.ListElement {
+    display: block;
+    height: 50px;
+    cursor: pointer;
+}
+
+.ListElement:hover {
+    opacity: 0.5;
+}
+
+.loader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.app {
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    min-height: 100%;
+}
+
+.app__container {
+    margin-left: 5vw;
+    width: 100%;
+}
+
+.nav {
+    position: fixed;
+    height: 100%;
+    width: 15vw;
+    min-width: 300px;
+    top: 0px;
+    transform: translateX(-100%);
+    background-color: rgba(54, 33, 94, 1);
+    box-shadow: 4px 5px #8d8d8d;
+    transition-duration: .5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1000;
+
+}
+.nav--active {
+    transform: translateX(0%);
+}
+.nav__open {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    color:white;
+    background-color: rgba(54, 33, 94, 100%);
+    top: 0px;
+    right: -7%;
+    cursor: pointer;
+    box-shadow: 2px 2px #8d8d8d;
+}
+
+.nav__active {
+    background-color:rgba(92, 56, 150, 100%);
+}
+
+.modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal > button {
+    margin-top: 32px;
+}
+
+.modal__paper {
+    width: 80vw; 
+    height: 60vh; 
+    margin: 100px auto auto auto;
+}
+
+.MuiOutlinedInput-root {
+    max-height: 40px;
+}
+
+.filters {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    align-items: stretch;
+}
+
+.filters > div {
+    flex-basis: 50%;
+}
+
+.table__add {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+}
+
+.event-approbal__paper {
+    width: 20vw;
+    height: 10vh;
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+}
+
+.biling__modal--add-outcome {
+    margin: 20vh auto auto auto;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.biling__modal--add-outcome > button {
+    margin: 16px;
+}
+
+.biling__modal--account {
+    width: 60%;
+    height: 60%;
+    margin: 20vh auto auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

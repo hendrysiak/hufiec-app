@@ -9,7 +9,7 @@ import {
 
 import React from 'react';
 
-import font from 'fonts/Museo300-Regular.ttf';
+// import font from 'fonts/Museo300-Regular.ttf';
 
 import { ProposalArea, ProposalKind } from 'models/global.enum';
 
@@ -28,7 +28,7 @@ interface LetterProps {
   letterDate: Date | string | undefined;
 }
 
-Font.register({ family: 'Museo300', src: font });
+// Font.register({ family: 'Museo300', src: font });
 
 const pageStyle = StyleSheet.create({
   page: {
