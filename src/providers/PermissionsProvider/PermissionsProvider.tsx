@@ -16,8 +16,12 @@ import { blue } from '@mui/material/colors';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { getAccountsStates } from 'helpers/api-helpers/account';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
+import { getSession, useSession } from 'next-auth/react';
+
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from 'helpers/db/firebase/firebase';
 
 const downloadData = async (team: number) => {
   await getInitAccountState();
@@ -99,15 +103,13 @@ export default function ChooseTeamDialog({
 }
 
 export function PermissionsProvider({ children }: { children: React.ReactElement }) {
-  const { authUser } = useAuth();
-  // const history = useHistory();
-  // const location = useLocation();
+  const session = useSession();
   const pathname = usePathname();
   const router = useRouter();
   const [team, setTeam] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
-  const user = useUserData(authUser?.uid);
+  const user = useUserData(session.data?.user?.uid);
 
   const handleSelectTeam = (newTeam: string) => {
     setTeam(Number(newTeam));
@@ -137,13 +139,13 @@ export function PermissionsProvider({ children }: { children: React.ReactElement
       }
 
 
-      if (user?.role === 'admin' && pathname === '/') {
+      if (user?.role === 'admin' && pathname === '/signin') {
         router?.push('/dashboard');
       }
     }
 
     if (!user) {
-      router?.push('/');
+      router?.push('/signin');
     }
   }, [pathname, user]);
 

@@ -3,6 +3,7 @@ export type UserRoles = 'admin' | 'leader';
 export interface User {
   uid: string;
   email: string;
+  idToken: string;
 }
 
 export interface AuthUser {

@@ -38,7 +38,7 @@
     "jspdf.d.ts",
     "ui-payload.ts",
     ".next/types/**/*.ts"
-  ],
+, "next-auth.d.ts"  ],
   "exclude": [
     "node_modules"
   ]

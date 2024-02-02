@@ -61,8 +61,8 @@ function App(): JSX.Element {
 
   }, [authUser?.uid]);
 
-  const Account = React.lazy(() => import('./app/account/page'));
-  const DashBoard = React.lazy(() => import('./app/dashboard/page'));
+  const Account = React.lazy(() => import('./app/(admin)/account/page'));
+  const DashBoard = React.lazy(() => import('./app/(admin)/dashboard/page'));
   const Decision = React.lazy(() => import('./legacy/Decision/Decision'));
   const Team = React.lazy(() => import('./legacy/Team/Team'));
   const ForCoders = React.lazy(() => import('./legacy/ForCoders/ForCoders'));

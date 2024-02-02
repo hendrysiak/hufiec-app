@@ -4,8 +4,10 @@ import { CircularProgress, Input, Button } from "@mui/material";
 import { FirebaseError } from "firebase/app";
 import { useAuth } from "providers/AuthUserProvider/AuthUserProvider";
 import { useState } from "react";
+import { signIn, useSession } from 'next-auth/react';
 
 import classes from '../../legacy/Login/Login.module.css';
+import { redirect } from "next/navigation";
 
 const checkErrorCode = (error: string | null) => {
     switch (error) {
@@ -25,7 +27,7 @@ export const Login = () => {
     const [password, setPassword] = useState<string>('');
     const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const { signInToApp, resetPassword } = useAuth();
+    // const { signInToApp, resetPassword } = useAuth();
   
     // const [email, setEmail] = useState<string>('');
     // const cookies = new Cookies();
@@ -42,7 +44,8 @@ export const Login = () => {
       }
   
       try {
-        const user = await signInToApp(login, password);
+        // const user = await signInToApp(login, password);
+        await signIn('credentials', { email: login, password, redirect: true, callbackUrl: '/' });
       } catch (err: unknown) {
         setLoadingLogin(false);
         if (err instanceof FirebaseError) {
@@ -117,7 +120,7 @@ export const Login = () => {
           type="submit"
           variant="contained"
           color="secondary"
-          onClick={() => resetPassword(login)}
+        //   onClick={() => resetPassword(login)}
         >
           PRZYWRÓĆ HASŁO
         </Button>

@@ -22,7 +22,7 @@ export function ApplicationsProviders({ children }: { children: ReactElement | R
 
     const loadingStatus = useSelector((state: RootState) => state.ui.loading);
     const user = useSelector((state: RootState) => state.user);
-    const { authUser } = useAuth();
+    // const { authUser } = useAuth();
 
     const queryClient = new QueryClient({
         defaultOptions: {
@@ -33,13 +33,13 @@ export function ApplicationsProviders({ children }: { children: ReactElement | R
         },
     });
 
-    useEffect(() => {
-        // if (authUser) {
-        //   downloadData();
-        // }
-        store.dispatch(actions.reduxLoadingEnd());
+    // useEffect(() => {
+    //     // if (authUser) {
+    //     //   downloadData();
+    //     // }
+    //     store.dispatch(actions.reduxLoadingEnd());
 
-    }, [authUser?.uid]);
+    // }, [authUser?.uid]);
 
     return (
         <SnackbarProvider>

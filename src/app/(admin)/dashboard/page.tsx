@@ -10,9 +10,9 @@ import axios from 'axios-income';
 
 import { RootState } from 'store/models/rootstate.model';
 
-import appInfo from '../../../package.json';
-import * as actions from '../../store/actions/index';
-import store from '../../store/store';
+import appInfo from '../../../../package.json';
+import * as actions from '../../../store/actions/index';
+import store from '../../../store/store';
 
 import classes from './styles.module.css';
 import Importer from 'components/Importer/Importer';
