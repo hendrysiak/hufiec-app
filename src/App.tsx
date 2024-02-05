@@ -68,13 +68,13 @@ function App(): JSX.Element {
   const ForCoders = React.lazy(() => import('./legacy/ForCoders/ForCoders'));
   // const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
   // const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
-  const Import = React.lazy(() => import('./legacy/Import/Import'));
-  const Edit = React.lazy(() => import('./legacy/Edit/Edit'));
-  const EditorTeam = React.lazy(() => import('./legacy/EditorTeam/EditorTeam'));
+  const Import = React.lazy(() => import('./app/(admin)/transfers/page'));
+  const Edit = React.lazy(() => import('./app/(admin)/editor/page'));
+  const EditorTeam = React.lazy(() => import('./app/(admin)/editor-team/page'));
   const Login = React.lazy(() => import('./legacy/Login/Login'));
-  const AddCode = React.lazy(() => import('./legacy/AddCode/AddCode'));
+  const AddCode = React.lazy(() => import('./app/(admin)/add-code/page'));
   const Role = React.lazy(() => import('./legacy/Role/Role'));
-  const Proposals = React.lazy(() => import('./legacy/Proposals/Proposals'));
+  const Proposals = React.lazy(() => import('./app/(admin)/proposals/page'));
   const TeamsEditor = React.lazy(() => import('./legacy/TeamsEditor/TeamsEditor'));
 
   const routes = (

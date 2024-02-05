@@ -1,3 +1,5 @@
+"use client";
+
 import { styled } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -12,9 +14,9 @@ import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
 
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 
-import CodeExplorer from '../../components/CodeExplorer/CodeExplorer';
+import CodeExplorer from '../../../components/CodeExplorer/CodeExplorer';
 
-import CodeGenerator from '../../components/CodeGenerator/CodeGenerator';
+import CodeGenerator from '../../../components/CodeGenerator/CodeGenerator';
 
 interface AddCodeProps {
   isAdmin?: boolean;

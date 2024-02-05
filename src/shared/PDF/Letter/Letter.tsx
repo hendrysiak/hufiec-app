@@ -1,10 +1,12 @@
+"use client";
+
 import DownloadIcon from '@mui/icons-material/Download';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tooltip from '@mui/material/Tooltip';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import {
-  Document, Page, Font, StyleSheet, PDFDownloadLink, usePDF,
+  Document, Page, Font, StyleSheet, usePDF,
 } from '@react-pdf/renderer';
 
 import React from 'react';

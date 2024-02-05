@@ -104,5 +104,9 @@
       "!src/**/*.styled.ts",
       "!src/**/*.stories.tsx"
     ]
-  }
+  },
+  "overrides": {
+		"@react-pdf/image": "2.2.3",
+		"@react-pdf/pdfkit": "3.0.4"
+	}
 }

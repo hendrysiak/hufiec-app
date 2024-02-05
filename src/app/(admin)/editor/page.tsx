@@ -1,3 +1,5 @@
+"use client";
+
 import { TextField, MenuItem } from '@mui/material';
 
 import { useEffect } from 'react';
@@ -9,7 +11,7 @@ import * as actions from 'store/actions/index';
 import { RootState } from 'store/models/rootstate.model';
 import store from 'store/store';
 
-import BudgetDataGrid from '../../components/BudgetDataGrid/BudgetDataGrid';
+import BudgetDataGrid from '../../../components/BudgetDataGrid/BudgetDataGrid';
 import { useEntriesEdit } from 'helpers/hooks/useEntriesEdit';
 
 function Edit(): JSX.Element {

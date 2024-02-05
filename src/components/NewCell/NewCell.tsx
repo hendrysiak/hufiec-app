@@ -7,7 +7,7 @@ import { Rows } from 'models/global.enum';
 
 import { APIPerson } from 'models/registry.models';
 
-import { IPerson } from '../../legacy/EditorTeam/EditorTeam';
+import { IPerson } from '../../app/(admin)/editor-team/page';
 import { useStyles } from '../../helpers/stylesTable';
 
 interface IProps {

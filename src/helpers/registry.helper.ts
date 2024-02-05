@@ -3,7 +3,7 @@ import { deleteTeamMember, editTeamMember, permanentDeleteTeamMember } from 'hel
 import { APIPerson } from 'models/registry.models';
 import { countingMemberFee } from 'helpers/member-fee.helper';
 
-import { IPerson } from '../legacy/EditorTeam/EditorTeam';
+import { IPerson } from '../app/(admin)/editor-team/page';
 
 export const handleRestore = async (rows: IPerson[], id: string): Promise<void> => {
   if (!rows) return;

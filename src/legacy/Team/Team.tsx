@@ -30,7 +30,7 @@ import { IncomeDb, OutcomeDb } from 'models/income.models';
 import { APIPerson } from 'models/registry.models';
 import { IViewModal } from 'models/viewModal.models';
 import CodeGenerator from 'components/CodeGenerator/CodeGenerator';
-import Proposals from 'legacy/Proposals/Proposals';
+import Proposals from 'app/(admin)/proposals/page';
 import Tooltips from 'components/Tooltips/Tooltips';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';

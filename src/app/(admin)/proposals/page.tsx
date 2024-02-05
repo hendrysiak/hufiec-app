@@ -1,18 +1,19 @@
+"use client";
+
 import {
   Box, MenuItem, Select, SelectChangeEvent, Typography,
 } from '@mui/material';
 import React from 'react';
 import { useQuery } from 'react-query';
 
-import { useLocation } from 'react-router';
-
 import { getProposals } from 'helpers/api-helpers/proposal';
 import { ProposalArea } from 'models/global.enum';
 import { Proposal } from 'models/proposal.models';
 
-import CodeProposal from '../../components/CodeProposal/CodeProposal';
-import IncomeProposal from '../../components/IncomeProposal/IncomeProposal';
-import RegistryProposal from '../../components/RegistryProposal/RegistryProposal';
+import CodeProposal from '../../../components/CodeProposal/CodeProposal';
+import IncomeProposal from '../../../components/IncomeProposal/IncomeProposal';
+import RegistryProposal from '../../../components/RegistryProposal/RegistryProposal';
+import { usePathname } from 'next/navigation';
 
 const proposalsList = [
   { name: 'akcje przelewów', value: 'income' },
@@ -38,7 +39,7 @@ const MenuProps = {
 
 function Proposals(props: ProposalsProps): JSX.Element {
   const [selectedProposalState, setSelectedProposalState] = React.useState({ name: 'akcje przelewów', value: 'income' });
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const query = useQuery<Proposal[], Error>('proposal', () => getProposals(pathname.slice(1), props.isAdmin));
 
   const handleFilterActions = (value: string): void => {

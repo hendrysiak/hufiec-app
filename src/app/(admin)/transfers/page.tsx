@@ -1,10 +1,12 @@
+"use client";
+
 import React from "react";
 import { Box, Button, Container, Modal, Step, StepLabel, Stepper, Typography } from "@mui/material";
 
-import Step0 from "../../components/ImportSteps/Step0";
-import Step1 from "../../components/ImportSteps/Step1";
-import Step2 from "../../components/ImportSteps/Step2";
-import Step3 from "../../components/ImportSteps/Step3";
+import Step0 from "../../../components/ImportSteps/Step0";
+import Step1 from "../../../components/ImportSteps/Step1";
+import Step2 from "../../../components/ImportSteps/Step2";
+import Step3 from "../../../components/ImportSteps/Step3";
 
 import { IncomesBankModel } from "models/income.models";
 

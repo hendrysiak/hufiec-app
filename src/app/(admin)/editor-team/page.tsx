@@ -1,3 +1,5 @@
+"use client";
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
@@ -30,13 +32,13 @@ import { FiltersName } from 'shared/TableEditor/FiltersName';
 import { TabPanel } from 'shared/TabPanel/TabPanel';
 import { RootState } from 'store/models/rootstate.model';
 
-import { editTeamMember } from '../../helpers/editing-db.handler';
+import { editTeamMember } from '../../../helpers/editing-db.handler';
 
-import { controlerDate, filterMembers, handleDelete, handleRestore } from '../../helpers/registry.helper';
-import { useStyles } from '../../helpers/stylesTable';
-import SelectTeam from '../../components/SelectTeam/SelectTeam';
+import { controlerDate, filterMembers, handleDelete, handleRestore } from '../../../helpers/registry.helper';
+import { useStyles } from '../../../helpers/stylesTable';
+import SelectTeam from '../../../components/SelectTeam/SelectTeam';
 import { InitAccountState } from 'models/income.models';
-import { CustomTableCell } from '../../components/NewCell/NewCell';
+import { CustomTableCell } from '../../../components/NewCell/NewCell';
 
 export interface IPerson extends APIPerson {
   lp?: number;
