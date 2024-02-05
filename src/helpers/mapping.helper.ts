@@ -18,7 +18,7 @@ export const mappingDbEntriesToRedux = (
 
         if ('surname' in updatedValue) {
           const parsedSurname = updatedValue.surname ? `${updatedValue.surname}` : '';
-          updatedValue.surname = parsedSurname[0].toUpperCase() + parsedSurname.substring(1).toLowerCase();
+          updatedValue.surname = parsedSurname[0]?.toUpperCase() + parsedSurname.substring(1)?.toLowerCase();
         }
 
         output.push(updatedValue);
