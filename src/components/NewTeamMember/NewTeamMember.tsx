@@ -8,7 +8,6 @@ import { addTeamMember } from 'helpers/editing-db.handler';
 
 import { Person } from 'models/registry.models';
 
-import classes from '../../pages/EditorTeam/EditorTeam.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/models/rootstate.model';
 import { contains } from 'helpers/utils/contains';
@@ -48,7 +47,7 @@ function NewTeamMember({ team, handleCloseNewMember }: { team: number; handleClo
   };
 
   return (
-    <form className={classes.positionModal}>
+    <form>
       <TextField name="name" id="standard-basic" label="IMIĘ" onChange={handleInputChange} />
       <TextField name="surname" id="standard-basic" label="NAZWISKO" onChange={handleInputChange} />
       <TextField name="evidenceNumber" id="standard-basic" label="NR EWIDENCJI" onChange={handleInputChange} />
@@ -74,7 +73,7 @@ function NewTeamMember({ team, handleCloseNewMember }: { team: number; handleClo
         )}
         label="Instruktor?"
       />
-      <Button className={classes.btnAddNewMember} variant="contained" color="primary" onClick={handleAddTeamMemebr}>DODAJ</Button>
+      <Button variant="contained" color="primary" onClick={handleAddTeamMemebr}>DODAJ</Button>
     </form>
   );
 }

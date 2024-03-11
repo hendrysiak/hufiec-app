@@ -3,7 +3,6 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useTeams } from 'helpers/hooks/useTeams';
-import styles from '../../pages/EditorTeam/EditorTeam.module.css';
 import NewTeamMember from '../NewTeamMember/NewTeamMember';
 
 export const teamContext = React.createContext<string>('');
@@ -28,7 +27,7 @@ function SelectTeam({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
   };
 
   return (
-    <div className={styles.div}>
+    <div>
       <TextField
         style={{ width: '200px', margin: '0 8px' }}
         label="Wybierz drużynę"
@@ -49,7 +48,7 @@ function SelectTeam({ onChange, team, disabled = false }: SelectTeam): JSX.Eleme
           <MenuItem key={t.teamId} value={t.teamId}>{`${t.teamId} ${t.name}`}</MenuItem>
         ))}
       </TextField>
-      <Button className={styles.button} variant="contained" color="primary" onClick={handleOpenNewMember} disabled={!team}>
+      <Button variant="contained" color="primary" onClick={handleOpenNewMember} disabled={!team}>
         NOWY CZŁONEK
       </Button>
       <Modal
