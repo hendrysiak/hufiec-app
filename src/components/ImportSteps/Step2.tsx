@@ -3,23 +3,56 @@ import React, { MouseEvent, useState } from 'react';
 import { useBankData } from "../../pages/Import/Import";
 import { getDataFromXml } from "../../helpers/getDataFromXml";
 import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
+import { useQuery } from "react-query";
+import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
+import { IncomesBankModel } from "models/income.models";
+
+
+const getProperJSONfromCSVContent = (content: any[]) => {
+
+    const importedIncomes: IncomesBankModel[] = [];
+
+    content.forEach((row) => {
+
+        const parsedRow: IncomesBankModel = {
+            title: row["Opis transakcji"],
+            cash: Number(row["Kwota"].replace(',', '.')),
+            dateOfBook: new Date(row["Data księgowania"]),
+        };
+
+        importedIncomes.push(parsedRow);
+
+    })
+
+    return importedIncomes;
+};
 
 const Step2 = () => {
-    const [xmlFile, setXmlFile] = useState<File | string>('');
+    const [importFile, setImportFile] = useState<File | null>(null);
     const { bankData, setBankData } = useBankData();
     const { setSnackbar } = useSnackbar();
 
-    const handleSetXmlFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useQuery('importFile', async () => {
+        if (!importFile) return;
+        const type = importFile.type;
+
+        if (type === 'text/csv') {
+            const csvContent = await getContentFromCSV(importFile);
+            const content = getProperJSONfromCSVContent(csvContent);
+            setBankData(content)
+        } else {
+            getDataFromXml(importFile as File, setBankData);
+        }
+
+    }, {
+        enabled: importFile !== null,
+    });
+
+    const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e?.target?.files?.[0];
-        if (file) setXmlFile(file);
+        if (file) setImportFile(file);
     };
 
-    const setUrl = (
-        event: MouseEvent<HTMLButtonElement>,
-    ): void => {
-        event.preventDefault();
-        getDataFromXml(xmlFile as File, setBankData);
-    };
 
     React.useEffect(() => {
         if (bankData && bankData.length > 0) {
@@ -34,7 +67,7 @@ const Step2 = () => {
                 <TextField
                     style={{ width: '90%', margin: '16px 0' }}
                     // value={xmlFile.}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSetXmlFile(e)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImportFile(e)}
                     select={false}
                     size="small"
                     variant="outlined"
@@ -43,17 +76,9 @@ const Step2 = () => {
                 />
             </Box>
             <Box>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={typeof xmlFile === 'string'}
-                    onClick={(e: MouseEvent<HTMLButtonElement>) => setUrl(e)}
-                >
-                    Importuj
-                </Button>
-            </Box>
-            <Box>
                 <p>Jeśli w lewym dolnym rogu pojawi się powiadomienie, że import przebiegł pomyślnie - możesz przejść dalej</p>
+                <p><b>UWAGA!</b> Nie ma konieczności klikania przycisku import - proces wykona się automatycznie</p>
+
             </Box>
         </form>
     </Box>)
