@@ -6,7 +6,7 @@ import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
 import { useQuery } from "react-query";
 import { getContentFromCSV } from "helpers/utils/getContentFromCSV";
 import { IncomesBankModel } from "models/income.models";
-
+import { getCorrectDateDDMMYYYY } from "helpers/utils/getCorrectDate";
 
 const getProperJSONfromCSVContent = (content: any[]) => {
 
@@ -17,7 +17,7 @@ const getProperJSONfromCSVContent = (content: any[]) => {
         const parsedRow: IncomesBankModel = {
             title: row["Opis transakcji"],
             cash: Number(row["Kwota"].replace(',', '.')),
-            dateOfBook: new Date(row["Data księgowania"]),
+            dateOfBook: new Date(getCorrectDateDDMMYYYY(row["Data księgowania"])),
         };
 
         importedIncomes.push(parsedRow);
