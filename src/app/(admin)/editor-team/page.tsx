@@ -6,13 +6,13 @@ import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
 import {
-  Box, MenuItem, TablePagination, TextField, Tab, Tabs,
+  Box, MenuItem, TablePagination, TextField, Tab, Tabs, Table, TableCell,
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
+// import { CustomTable as Table } from '../../../helpers/stylesTable';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+// import { CustomTableCell as TableCell } from '../../../helpers/stylesTable';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
@@ -35,7 +35,6 @@ import { RootState } from 'store/models/rootstate.model';
 import { editTeamMember } from '../../../helpers/editing-db.handler';
 
 import { controlerDate, filterMembers, handleDelete, handleRestore } from '../../../helpers/registry.helper';
-import { useStyles } from '../../../helpers/stylesTable';
 import SelectTeam from '../../../components/SelectTeam/SelectTeam';
 import { InitAccountState } from 'models/income.models';
 import { CustomTableCell } from '../../../components/NewCell/NewCell';
@@ -60,7 +59,6 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
 
   const [rows, setRows] = useState<(IPerson & { feeState: number })[]>([]);
   const [team, setTeam] = useState<string>('');
-  const classes = useStyles();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
@@ -187,7 +185,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
         </CSVLink>
       </Box>
 
-        <Table className={classes.table} aria-label="caption table">
+        <Table aria-label="caption table">
           <TableHead>
             <TableRow>
               <TableCell align="left">Edytuj</TableCell>
@@ -212,7 +210,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell className={classes.selectTableCell}>
+                  <TableCell>
                     {row.id === activeRow ? (
                       <>
                         <IconButton aria-label="done" onClick={() => handleAcceptChange(row.id)} size="large">
@@ -229,7 +227,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                     )}
                   </TableCell>
                   <CustomTableCell {...{
-                    row, name: Rows.Lp, onChange, id: activeRow, newData,
+                    row, name: Rows.Lp, onChange, id: activeRow, newData, notEditable: true
                   }}
                   />
                   {team === 'Cały hufiec' && <CustomTableCell {...{
@@ -305,7 +303,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                         </TextField>
                       </TableCell>
                     ) : <TableCell />}
-                  <TableCell className={classes.selectTableCell}>
+                  <TableCell>
                     <IconButton
                       aria-label="delete"
                       color={row && Number(row.feeState) >= 0 ? 'secondary' : 'primary'}

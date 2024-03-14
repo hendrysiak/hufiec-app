@@ -8,7 +8,7 @@ import { Rows } from 'models/global.enum';
 import { APIPerson } from 'models/registry.models';
 
 import { IPerson } from '../../app/(admin)/editor-team/page';
-import { useStyles } from '../../helpers/stylesTable';
+import { CustomCheckbox, CustomTableCell as MUICustomTableCell, CustomInput, useStyles } from '../../helpers/stylesTable';
 
 interface IProps {
   row: IPerson;
@@ -17,12 +17,13 @@ interface IProps {
   useBoolean?: boolean;
   newData: Partial<APIPerson> | null;
   onChange: (e: { target: { value: string | boolean, name: string }}, b: IPerson) => void;
+  notEditable?: boolean;
 }
 
 export function CustomTableCell({
-  row, name, onChange, id, newData, useBoolean
+  row, name, onChange, id, newData, useBoolean, notEditable
 }: IProps) {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const renderCell = (value: unknown) => {
     if (typeof value === 'boolean' || typeof value === 'undefined') return checkOldColumnRenderer(value);
@@ -40,9 +41,13 @@ export function CustomTableCell({
   }
 
   const renderEditability = () => {
-    if (row.id === id) {
+    if(notEditable || row.id !== id) {
+      return renderCell(row[name]);
+    }
+
+      console.log(typeof row[name])
       return typeof row[name] === 'boolean' || useBoolean ? (
-        <Checkbox
+        <CustomCheckbox
           checked={getCheckedState()}
           name={name}
           onChange={(e) => {
@@ -52,23 +57,20 @@ export function CustomTableCell({
               name,
             }}, row)
           }}
-          className={classes.input}
+          // className={classes.input}
         />
       ) : (
-        <Input
+        <CustomInput
           value={newData && newData[name] ? newData[name] : row[name]}
           name={name}
           onChange={(e) => onChange(e, row)}
-          className={classes.input}
+          // className={classes.input}
         />
       );
-    } else {
-      return renderCell(row[name]);
-    }
   };
 
   return (
-    <TableCell align="left" className={classes.tableCell}>
+    <MUICustomTableCell align="left">
       {renderEditability()}
       {/* {row.id === id && name ? (
         <Input
@@ -81,6 +83,6 @@ export function CustomTableCell({
       ) : (
         name && renderCell(row[name])
       )} */}
-    </TableCell>
+    </MUICustomTableCell>
   );
 }
