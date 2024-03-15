@@ -6,7 +6,7 @@ import DoneIcon from '@mui/icons-material/DoneAllTwoTone';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import RevertIcon from '@mui/icons-material/NotInterestedOutlined';
 import {
-  Box, MenuItem, TablePagination, TextField, Tab, Tabs, Table, TableCell,
+  Box, MenuItem, TablePagination, TextField, Tab, Tabs, Table, TableCell, Grid,
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -172,18 +172,24 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
 
   return (
     <>
-      <Box display="flex" justifyContent="center" alignItems="center" p={4}>
-        <FiltersName
-          name={name}
-          setName={setName}
-          surname={surname}
-          setSurname={setSurname}
-        />
-        <SelectTeam onChange={handleChangeSelect} team={Number(team)} disabled={!!activeRow} />
-        <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
-          <Button variant="contained" color="primary">Pobierz stan składek</Button>
-        </CSVLink>
-      </Box>
+      <Grid container p={4} gap={1}>
+        <Grid item xs={12} md={5}>
+          <FiltersName
+            name={name}
+            setName={setName}
+            surname={surname}
+            setSurname={setSurname}
+          />
+        </Grid>
+        <Grid item xs={12} md={3.5}>
+          <SelectTeam onChange={handleChangeSelect} team={Number(team)} disabled={!!activeRow} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <CSVLink data={rows} filename={`${team}.csv`} style={{ margin: '0 8px' }}>
+            <Button variant="contained" color="primary">Pobierz stan składek</Button>
+          </CSVLink>
+        </Grid>
+      </Grid>
 
         <Table aria-label="caption table">
           <TableHead>

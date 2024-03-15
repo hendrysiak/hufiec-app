@@ -76,7 +76,7 @@ const Account = () => {
                     </TextField>
                 </Box>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} lg={6}>
                         {choosenTeam === ""
                             ? <p>Wybierz drużynę</p>
                             : <><TextField
@@ -108,7 +108,7 @@ const Account = () => {
                                     />
                                 </Box></>}
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} lg={6}>
                         <Box height="80vh">
                             {choosenTeam ? <TeamFinance team={choosenTeam} /> : <></>}
                         </Box>

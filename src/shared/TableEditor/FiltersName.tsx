@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 
 import React, { useEffect, useState } from 'react';
 
@@ -27,26 +27,29 @@ export function FiltersName(props: IProps): JSX.Element {
   }, [debouncedSurname]);
 
   return (
-    <>
-      <TextField
-        style={{ margin: 'auto 8px' }}
-        label="Po nazwisku"
-        value={surname}
-        onChange={(e) => setSurname(e.target.value)}
-        placeholder="Wpisz nazwisko"
-        size="small"
-        variant="outlined"
-
-      />
-      <TextField
-        style={{ margin: 'auto 8px' }}
-        label="Po imieniu"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Wpisz imię"
-        size="small"
-        variant="outlined"
-      />
-    </>
+    <Grid container gap={1}>
+      <Grid item xs={12} md={5}>
+        <TextField
+          style={{ margin: 'auto 8px' }}
+          label="Po nazwisku"
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
+          placeholder="Wpisz nazwisko"
+          size="small"
+          variant="outlined"
+        />
+      </Grid>
+      <Grid item xs={12} md={5}>
+        <TextField
+          style={{ margin: 'auto 8px' }}
+          label="Po imieniu"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Wpisz imię"
+          size="small"
+          variant="outlined"
+        />
+      </Grid>
+    </Grid>
   );
 }

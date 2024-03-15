@@ -182,7 +182,7 @@ function DecisionContainer(props: DecisionProps) {
   };
 
   return (
-    <main>
+    <>
       <h1>Decyzje</h1>
       <Box
         sx={{
@@ -222,7 +222,7 @@ function DecisionContainer(props: DecisionProps) {
         // selectionModel={selectionModel}
         />
       </Box>
-    </main>
+    </>
   );
 }
 
