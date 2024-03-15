@@ -57,7 +57,7 @@ const TeamAccountList = () => {
       };
 
     return (
-        <Box height="90vh">
+        <Box height="85vh">
         <DataGrid
             rows={rows}
             columns={columns}

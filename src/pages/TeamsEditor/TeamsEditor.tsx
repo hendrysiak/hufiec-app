@@ -134,7 +134,7 @@ function TeamsEditor(): JSX.Element {
   }
 
   return (
-    <main style={{ height: '100vh' }}>
+    <main style={{ height: '85vh' }}>
       <DataGrid
         columns={columns}
         rows={teams}

@@ -73,7 +73,7 @@ function Dashboard(): JSX.Element {
   }
 
   return (
-    <div>
+    <>
       <h1>{`Aplikacja Hufcowa - ${appInfo.version}`}</h1>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
@@ -163,7 +163,7 @@ function Dashboard(): JSX.Element {
           <AdminActions />
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 }
 

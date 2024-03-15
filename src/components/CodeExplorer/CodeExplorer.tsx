@@ -139,7 +139,7 @@ function CodeExplorer(): JSX.Element {
   ];
 
   return (
-    <main style={{ height: '92vh' }}>
+    <main style={{ height: '80vh' }}>
       <DataGrid
         columns={columns}
         rows={(query?.data || []).map((c: ICode, index) => ({

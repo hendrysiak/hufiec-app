@@ -172,7 +172,7 @@ function Role(): JSX.Element {
   };
 
   return (
-    <main>
+    <main style={{ height: '85vh' }}>
       <h2>Menager użytkowników</h2>
       <DataGrid
         columns={columns}

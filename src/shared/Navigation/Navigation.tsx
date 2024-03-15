@@ -7,6 +7,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LaunchIcon from '@mui/icons-material/Launch';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -17,18 +19,25 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import React, { useEffect } from 'react';
 
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
+import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { NavLink, useHistory } from 'react-router-dom';
+import { styled, useTheme } from '@mui/material/styles';
 
-function Navigation(): JSX.Element {
-  const [isOpen, setIsOpen] = React.useState(false);
+const drawerWidth = 300;
 
-  useEffect(() => {
-    document.body.addEventListener('click', (event: MouseEvent): void => {
-      const target = event.target as HTMLElement;
-      if (target
-        && !(target.classList.contains('nav__open') || target.classList.contains('nav__open--icon'))
-      ) setIsOpen(false);
-    });
-  }, []);
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
+
+
+function Navigation({ open, handleDrawerClose }: { open?: boolean, handleDrawerClose: () => void }): JSX.Element {
+  const theme = useTheme();
+  const history = useHistory();
 
   const navigation = [
     { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
@@ -47,23 +56,61 @@ function Navigation(): JSX.Element {
   ];
 
   return (
-    <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
-      <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
-        {isOpen ? <CloseIcon /> : <LaunchIcon className="nav__open--icon" />}
-      </div>
-      {navigation.map((nEl, index: number) => (
-        <NavigationItem
-          key={index}
-          link={nEl.link}
-          exact
-        >
-          <>
-            {nEl.icon}
-            <span>{`${nEl.title}`}</span>
-          </>
-        </NavigationItem>
-      ))}
-    </div>
+    // <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
+    //   <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
+    //     {isOpen ? <CloseIcon /> : <LaunchIcon className="nav__open--icon" />}
+    //   </div>
+    //   {navigation.map((nEl, index: number) => (
+    //     <NavigationItem
+    //       key={index}
+    //       link={nEl.link}
+    //       exact
+    //     >
+    //       <>
+    //         {nEl.icon}
+    //         <span>{`${nEl.title}`}</span>
+    //       </>
+    //     </NavigationItem>
+    //   ))}
+    // </div>
+    <Drawer
+      variant="persistent"
+      anchor="left"
+      open={open}
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+        },
+      }}
+    >
+      <DrawerHeader>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </DrawerHeader>
+      <Divider />
+      <List>
+        {navigation.map((item) => (
+          <ListItem key={item.link} disablePadding>
+            <ListItemButton onClick={() => history.push(item.link)}>
+              {/* <NavLink
+                to={item.link}
+                exact
+              > */}
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+
+              <ListItemText primary={item.title} />
+              {/* </NavLink> */}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Drawer>
   );
 }
 
