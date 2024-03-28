@@ -55,6 +55,11 @@ function Navigation({ open, handleDrawerClose }: { open?: boolean, handleDrawerC
     { link: '/teams', title: 'ZARZĄDZAJ DRUŻYNAMI', icon: <GroupsIcon fontSize="small" /> },
   ];
 
+  const handleLinkClick = (link: string): void => {
+    handleDrawerClose();
+    history.push(link);
+  };
+
   return (
     // <div className={`nav ${isOpen ? 'nav--active' : ''}`}>
     //   <div className="nav__open" onClick={(): void => setIsOpen(!isOpen)}>
@@ -95,7 +100,7 @@ function Navigation({ open, handleDrawerClose }: { open?: boolean, handleDrawerC
       <List>
         {navigation.map((item) => (
           <ListItem key={item.link} disablePadding>
-            <ListItemButton onClick={() => history.push(item.link)}>
+            <ListItemButton onClick={() => handleLinkClick(item.link)}>
               {/* <NavLink
                 to={item.link}
                 exact
