@@ -1,3 +1,5 @@
+'use client'
+
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AllInboxIcon from '@mui/icons-material/AllInbox';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -20,7 +22,7 @@ import React, { useEffect } from 'react';
 
 import NavigationItem from './NavigationItems/NavigationItem/NavigationItem';
 import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useRouter } from 'next/navigation'
 import { styled, useTheme } from '@mui/material/styles';
 
 const drawerWidth = 300;
@@ -37,7 +39,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 function Navigation({ open, handleDrawerClose }: { open?: boolean, handleDrawerClose: () => void }): JSX.Element {
   const theme = useTheme();
-  const history = useHistory();
+  const router = useRouter()
 
   const navigation = [
     { link: '/dashboard', title: 'STRONA GŁÓWNA', icon: <TableChartIcon fontSize="small" /> },
@@ -95,7 +97,7 @@ function Navigation({ open, handleDrawerClose }: { open?: boolean, handleDrawerC
       <List>
         {navigation.map((item) => (
           <ListItem key={item.link} disablePadding>
-            <ListItemButton onClick={() => history.push(item.link)}>
+            <ListItemButton onClick={() => router.push(item.link)}>
               {/* <NavLink
                 to={item.link}
                 exact

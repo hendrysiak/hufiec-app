@@ -1,10 +1,12 @@
+"use client";
+
 import { Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation'
-import { LogOut } from 'shared/LogOut/LogOut';
+import { signOut } from "next-auth/react";
 
 import Navigation from 'shared/Navigation/Navigation';
 import { styled, useTheme } from '@mui/material/styles';
@@ -60,6 +62,7 @@ const AppBar = styled(MuiAppBar, {
 function NavigationContainer(props: NavigationContainerProps): JSX.Element {
   const pathname = usePathname();
   const { signOutFromApp } = useAuth();
+  
   const router = useRouter()
   
   const theme = useTheme();
@@ -76,7 +79,7 @@ function NavigationContainer(props: NavigationContainerProps): JSX.Element {
 
   return (
     <Box>
-      { pathname !== '/' ? <AppBar position="fixed" open={open}>
+      { pathname !== '/signin' ? <AppBar position="fixed" open={open}>
         <Toolbar>
           <Box display="flex" justifyContent="space-between" width="100%">
             <Box display="flex" alignItems="center">
@@ -95,7 +98,7 @@ function NavigationContainer(props: NavigationContainerProps): JSX.Element {
 
             </Box>
         { pathname !== '/letter' ? <Tooltip sx={{ justifySelf: 'flex-end' }} title="Wyloguj" aria-label="log-out">
-          <IconButton color="inherit" onClick={() => signOutFromApp()?.then(() => router.push('/'))} size="large"><ExitToAppIcon className="clicked" /></IconButton>
+          <IconButton color="inherit" onClick={() => signOut()?.then(() => router.push('/signin'))} size="large"><ExitToAppIcon className="clicked" /></IconButton>
         </Tooltip>: <></> }
           </Box>
         </Toolbar>

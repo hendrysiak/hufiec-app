@@ -45,17 +45,17 @@ export function ApplicationsProviders({ children }: { children: ReactElement | R
         <SnackbarProvider>
             <QueryClientProvider client={queryClient}>
                 <AuthUserProvider>
-                    <TeamsProvider>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <div className="app">
-                                <PermissionsProvider>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <div className="app">
+                            <PermissionsProvider>
+                                <TeamsProvider>
                                     <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
                                         {children}
                                     </NavigationContainer>
-                                </PermissionsProvider>
-                            </div>
-                        </LocalizationProvider>
-                    </TeamsProvider>
+                                </TeamsProvider>
+                            </PermissionsProvider>
+                        </div>
+                    </LocalizationProvider>
                 </AuthUserProvider>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>

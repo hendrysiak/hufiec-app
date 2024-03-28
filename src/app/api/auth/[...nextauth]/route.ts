@@ -28,12 +28,6 @@ export const authOptions = {
               email: user.email,
               idToken: await user.getIdToken(),
             }
-            // return {
-            //   uid: user.user.uid,
-            //   email: user.user.email,
-            //   role: 'admin',
-            // }
-  
           }
           return null;
 
@@ -41,21 +35,6 @@ export const authOptions = {
           console.log(error);
           return null;
         }
-
-        // return user;
-        // return await signInWithEmailAndPassword(auth, (credentials as any).email || '', (credentials as any).password || '')
-        //   .then(userCredential => {
-        //     if (userCredential.user) {
-        //       return userCredential.user;
-        //     }
-        //     return null;
-        //   })
-        //   .catch(error => (console.log(error)))
-        //   .catch((error) => {
-        //     const errorCode = error.code;
-        //     const errorMessage = error.message;
-        //     console.log(error);
-        //   });
       },
     })
   ],

@@ -3,6 +3,8 @@
 import { useQuery } from 'react-query';
 
 import { getTeams } from 'helpers/api-helpers/team';
+
+//change this import and implementation to next-friendly
 import { useUserData } from 'helpers/hooks/useUserData';
 import { Team } from 'models/team';
 import { ReactElement, createContext } from 'react';
@@ -23,7 +25,7 @@ type TeamsProviderProps = {
 
 function TeamsProvider(props: TeamsProviderProps): JSX.Element {
   const user = useUserData();
-
+  
   const query = useQuery<Team[], Error>('teams', () => getTeams(), {
     enabled: !!user,
   });
