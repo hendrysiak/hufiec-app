@@ -82,7 +82,7 @@ const TeamFinance = ({ team }: { team: string }) => {
                             Do wydania 1,5%
                         </Typography>
                         <Typography variant="h5" component="p" minWidth="150px">
-                            {onePercentState - onePercentOutcomes}
+                            {(onePercentState + onePercentOutcomes).toFixed(2)}
                         </Typography>
                     </Box>
                     <Box display="flex" justifyContent="space-between">
@@ -90,7 +90,7 @@ const TeamFinance = ({ team }: { team: string }) => {
                             Do wydania ze zbiórek
                         </Typography>
                         <Typography variant="h5" component="p" minWidth="150px">
-                            {publicCollectionsState - publicCollectionsOutcome}
+                            {(publicCollectionsState + publicCollectionsOutcome).toFixed(2)}
                         </Typography>
                     </Box>
                     <Box display="flex" justifyContent="space-between">
