@@ -25,11 +25,13 @@ export const sortingTransferToIncomesAndOutcomes = (
       cash: Number(income.cash),
       title: income.title,
       dateOfBook: new Date(income.dateOfBook),
+      bank: income.bank
     })),
     outcomes: sortedOutcomes.map((outcome) => ({
       cash: Number(outcome.cash),
       title: outcome.title,
       dateOfBook: new Date(outcome.dateOfBook),
+      bank: outcome.bank
     })),
   };
 };

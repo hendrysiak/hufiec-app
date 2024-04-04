@@ -58,6 +58,9 @@ function BudgetDataGrid({
       field: 'cash', headerName: 'Kwota', editable: true, width: 100, ...columnAligning,
     },
     {
+      field: 'bank', headerName: 'Bank', editable: true, width: 100, ...columnAligning,
+    },
+    {
       field: 'incomeCategory', headerName: 'Kategoria', editable: true, width: 200, type: 'singleSelect', valueOptions: Object.values(IncomeCategory), ...columnAligning,
     },
     {
@@ -134,6 +137,9 @@ function BudgetDataGrid({
       field: 'cash', headerName: 'Kwota', editable: true, width: 100, ...columnAligning,
     },
     {
+      field: 'bank', headerName: 'Bank', editable: true, width: 100, ...columnAligning,
+    },
+    {
       field: 'bilingNr', headerName: 'NR F-ry', editable: true, width: 100, ...columnAligning,
     },
     {
@@ -190,6 +196,7 @@ function BudgetDataGrid({
     id: income.id,
     year: income.year,
     cash: income.cash,
+    bank: income.bank,
     incomeCategory: income.incomeCategory,
     surname: income.surname,
     name: income.name,
@@ -211,6 +218,7 @@ function BudgetDataGrid({
     year: outcome.year,
     financeMethod: outcome.financeMethod,
     cash: outcome.cash,
+    bank: outcome.bank,
     bilingNr: outcome.bilingNr,
     team: outcome.team,
     event: outcome.event,

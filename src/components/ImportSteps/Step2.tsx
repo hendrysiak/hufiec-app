@@ -18,6 +18,7 @@ const getProperJSONfromCSVContent = (content: any[]) => {
             title: row["Opis transakcji"],
             cash: Number(row["Kwota"].replace(',', '.')),
             dateOfBook: new Date(getCorrectDateDDMMYYYY(row["Data księgowania"])),
+            bank: 'MBANK',
         };
 
         importedIncomes.push(parsedRow);

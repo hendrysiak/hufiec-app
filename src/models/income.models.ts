@@ -2,10 +2,13 @@ import { ErrorType } from './error.types.model';
 import { FinanceMethod, FoundingSources, IncomeCategory, OutcomeCategory } from './global.enum';
 import { IObjectKeys } from './object.helper.model';
 
+type Bank = 'ING' | 'MBANK';
+
 export interface IncomesBankModel extends IObjectKeys {
   cash: number;
   title: string;
   dateOfBook: Date | string;
+  bank?: Bank;
   errors?: ErrorType[];
 }
 

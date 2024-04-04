@@ -11,6 +11,7 @@ export const sortBilingFromING = (jsonBiling: INGBilingDocument): IncomesBankMod
         ? `-${result.Amt._text}` : result.Amt._text),
       title: result.NtryDtls.TxDtls.RmtInf.Ustrd._text,
       dateOfBook: new Date(result.BookgDt.DtTm._text),
+      bank: 'ING',
     });
   });
 
