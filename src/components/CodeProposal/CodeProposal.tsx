@@ -43,6 +43,28 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
   const queryClient = useQueryClient();
   const teamsMap = useTeams();
 
+  const memoizedRows = React.useMemo(() => props.rows.map((r) => {
+    const newValues = r.newValues as Omit<ICode, 'id'>;
+
+    return {
+      id: r.id,
+      event: `${newValues.prefix}${newValues.suffix ? `-${newValues.suffix}` : ''}`,
+      responsiblePerson: `${newValues.responsiblePerson.name} ${newValues.responsiblePerson.surname}`,
+      author: r.author,
+      amount: newValues.amount,
+      startDate: new Date(newValues.startDate).toLocaleDateString(),
+      endDate: newValues.endDate ? new Date(newValues.endDate).toLocaleDateString() : '',
+      locality: newValues.locality,
+      teams: newValues.teams,
+      letterNumber: r.letterNumber,
+      letterDate: r.letterDate ? new Date(r.letterDate) : '',
+      letterAuthor: r.letterAuthor,
+      letterReceive: r.letterReceive ? new Date(r.letterReceive) : '',
+      firstAccept: newValues.firstAccept,
+      secondAccept: newValues.secondAccept,
+    };
+  }), [])
+
   const editProposalMutation = useMutation(editProposal, {
     onSuccess: () => {
       queryClient.invalidateQueries('proposal');
@@ -197,7 +219,7 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
     }
   };
 
-  const columns = [
+  const columns = React.useMemo(() => [
     {
       field: 'event', headerName: 'Wydarzenie', editable: false, width: 150, ...columnAligning,
     },
@@ -282,32 +304,16 @@ function CodeProposal(props: CodeProposalProps): JSX.Element {
         return actions;
       },
     },
-  ];
+  ], []);
+
+  React.useEffect(() => {
+    console.log('Rerender');
+  }, [memoizedRows, columns])
 
   return (
     <StyledDataGrid
       columns={columns}
-      rows={props.rows.map((r) => {
-        const newValues = r.newValues as Omit<ICode, 'id'>;
-
-        return {
-          id: r.id,
-          event: `${newValues.prefix}${newValues.suffix ? `-${newValues.suffix}` : ''}`,
-          responsiblePerson: `${newValues.responsiblePerson.name} ${newValues.responsiblePerson.surname}`,
-          author: r.author,
-          amount: newValues.amount,
-          startDate: new Date(newValues.startDate).toLocaleDateString(),
-          endDate: newValues.endDate ? new Date(newValues.endDate).toLocaleDateString() : '',
-          locality: newValues.locality,
-          teams: newValues.teams,
-          letterNumber: r.letterNumber,
-          letterDate: r.letterDate ? new Date(r.letterDate) : '',
-          letterAuthor: r.letterAuthor,
-          letterReceive: r.letterReceive ? new Date(r.letterReceive) : '',
-          firstAccept: newValues.firstAccept,
-          secondAccept: newValues.secondAccept,
-        };
-      })}
+      rows={memoizedRows}
       onCellEditCommit={handleCellEditCommit}
       localeText={localizationDataGrid}
       getRowClassName={(params) => `super-app-theme--${params.row.secondAccept ? 'Filled' : params.row.firstAccept ? 'Open' : ''}`}

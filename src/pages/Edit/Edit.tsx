@@ -52,7 +52,7 @@ function Edit(): JSX.Element {
       </header>
 
       <main>
-        <section style={{ height: '92vh' }}>
+        <section style={{ height: '85vh' }}>
           <BudgetDataGrid
             editedData={editedData}
             displayedIncome={dbIncomes.sort((a, b) => new Date(b.dateOfBook).getTime() - new Date(a.dateOfBook).getTime())}

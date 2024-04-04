@@ -45,9 +45,7 @@ const pageStyle = StyleSheet.create({
   },
 });
 
-function Letter(props: LetterProps): JSX.Element {
-  const [downloadEnabled, setDownloadEnabled] = React.useState(false);
-
+const PDFIntance = (props: LetterProps) => {
   const Doc = (
     <Document>
       <Page size="A4" orientation="portrait" style={pageStyle.page}>
@@ -68,6 +66,12 @@ function Letter(props: LetterProps): JSX.Element {
 
   const [instance, updateInstance] = usePDF({ document: Doc })
 
+  return <>{instance.loading ? <CircularProgress /> : <Tooltip placement="top" title="Pobierz pismo"><a href={instance.url ?? ''} download="pismo.pdf"><DownloadIcon /></a></Tooltip>}</>;
+}
+
+function Letter(props: LetterProps): JSX.Element {
+  const [downloadEnabled, setDownloadEnabled] = React.useState(false);
+
   return (
     <>
       {downloadEnabled ? 
@@ -78,7 +82,7 @@ function Letter(props: LetterProps): JSX.Element {
                 alignItems: 'center',
               }}
             >
-              {instance.loading ? <CircularProgress /> : <Tooltip placement="top" title="Pobierz pismo"><a href={instance.url ?? ''} download="pismo.pdf"><DownloadIcon /></a></Tooltip>}
+              {<PDFIntance {...props} />}
             </div>
       )
         : (

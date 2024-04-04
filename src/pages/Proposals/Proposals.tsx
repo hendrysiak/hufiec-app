@@ -76,7 +76,7 @@ function Proposals(props: ProposalsProps): JSX.Element {
   };
 
   return (
-    <main style={{ height: props.height }}>
+    <div>
       <h2>Propozycje działań</h2>
       <Box display="flex" p={2}>
         <Typography>Filtrowanie akcji:</Typography>
@@ -96,8 +96,10 @@ function Proposals(props: ProposalsProps): JSX.Element {
           ))}
         </Select>
       </Box>
+      <div style={{ height: props.height }}>
       {renderCorrectProposalTable()}
-    </main>
+      </div>
+    </div>
   );
 }
 

@@ -86,7 +86,7 @@ function App(): JSX.Element {
             <Route exact path="/account" render={() => <Account />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
             <Route exact path="/transfers" render={() => <Import />} />
-            <Route exact path="/proposals" render={() => <Proposals isAdmin height="85vh" />} />
+            <Route exact path="/proposals" render={() => <Proposals isAdmin height="80vh" />} />
             <Route exact path="/decisions" render={() => <Decision />} />
             <Route exact path="/add-code" render={() => <AddCode isAdmin />} />
             {/* <Route exact path="/add-approval" render={() => <EventApproval />} /> */}
