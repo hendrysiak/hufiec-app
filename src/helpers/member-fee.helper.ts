@@ -50,12 +50,25 @@ const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() 
 //   return startAndEndYearFeeValue + allFees;
 // };
 
+const getDateOfAdd = (person: APIPerson, today: Date) => {
+  if (!person?.dateOfAdd) return new Date(`01/01/${today.getFullYear()}`);
+
+  const dateOfAdd = new Date(person.dateOfAdd);
+
+  if (dateOfAdd.getFullYear() < today.getFullYear()) {
+    return new Date(`01/01/${today.getFullYear()}`);
+  };
+
+  return dateOfAdd;
+};
+
 export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
   if (person.disability) return 0;
 
   const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
   const today = new Date();
-  const dateOfAdd = new Date(`01/01/${today.getFullYear()}`);
+  // const dateOfAdd = person?.dateOfAdd?.getFullYear() && person?.dateOfAdd?.getFullYear() < today.getFullYear() ? new Date(`01/01/${today.getFullYear()}`) : new Date(person.dateOfAdd);
+  const dateOfAdd = getDateOfAdd(person, today);
 
   if (dateOfAdd > lastDate) return 0;
 
