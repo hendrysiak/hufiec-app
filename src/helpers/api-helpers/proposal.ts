@@ -1,21 +1,24 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from "axios";
 
-import axios from 'axios-income';
-import { Proposal } from 'models/proposal.models';
+import axios from "axios-income";
+import { Proposal } from "models/proposal.models";
 
-export const saveProposal = async (
-  proposal: Proposal,
-): Promise<void> => {
-  const newProposal = await axios.post('/proposal.json', proposal);
+export const saveProposal = async (proposal: Proposal): Promise<void> => {
+  const newProposal = await axios.post("/proposal.json", proposal);
   return newProposal.data;
 };
 
-export const getProposals = async (team?: string, isAdmin?: boolean): Promise<Proposal[]> => {
-  const proposals: AxiosResponse<Record<string, Proposal>> = await axios.get('/proposal.json');
+export const getProposals = async (
+  team?: string,
+  isAdmin?: boolean
+): Promise<Proposal[]> => {
+  const proposals: AxiosResponse<Record<string, Proposal>> = await axios.get(
+    "/proposal.json"
+  );
 
-  const mappedProposals = Object
-    .entries(proposals.data)
-    .map(([id, proposal]: [string, Proposal]) => ({ id, ...proposal }));
+  const mappedProposals = Object.entries(proposals.data).map(
+    ([id, proposal]: [string, Proposal]) => ({ id, ...proposal })
+  );
 
   if (isAdmin) return mappedProposals;
 
@@ -27,7 +30,10 @@ export const deleteProposal = async (proposalId: string): Promise<void> => {
 };
 
 export const editProposal = async (proposal: Proposal): Promise<Proposal> => {
-  const updatedProposal = await axios.patch(`/proposal/${proposal.id}.json`, proposal);
+  const updatedProposal = await axios.patch(
+    `/proposal/${proposal.id}.json`,
+    proposal
+  );
 
   return updatedProposal.data;
 };

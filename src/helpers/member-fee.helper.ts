@@ -1,5 +1,5 @@
-import { APIPerson } from 'models/registry.models';
-import store from 'store/store';
+import { APIPerson } from "models/registry.models";
+import store from "store/store";
 
 const feeByYear: Record<number, number> = {
   2019: 30,
@@ -8,9 +8,11 @@ const feeByYear: Record<number, number> = {
   2022: 36,
   2023: 45,
   2024: 69,
+  2025: 70,
 };
 
-const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() + 3) / 3);
+const getQuarterForDate = (date: Date) =>
+  Math.floor((new Date(date).getMonth() + 3) / 3);
 
 // Because of change in the whole logic, we decide to store this logic if the new version won't work properly (please check it on the end of 2024)
 
@@ -50,10 +52,15 @@ const getQuarterForDate = (date: Date) => Math.floor((new Date(date).getMonth() 
 //   return startAndEndYearFeeValue + allFees;
 // };
 
-export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): number => {
+export const countAmountOfFee = (
+  person: APIPerson,
+  endOfPeriod = new Date()
+): number => {
   if (person.disability) return 0;
 
-  const lastDate = person.dateOfDelete ? new Date(person.dateOfDelete) : endOfPeriod;
+  const lastDate = person.dateOfDelete
+    ? new Date(person.dateOfDelete)
+    : endOfPeriod;
   const today = new Date();
   const dateOfAdd = new Date(`01/01/${today.getFullYear()}`);
 
@@ -62,9 +69,11 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
   const quarterOfStart = getQuarterForDate(dateOfAdd);
   const quarterOfEnd = getQuarterForDate(lastDate);
 
-  const checkIfMemberComeInCurrentYear = dateOfAdd.getFullYear() === lastDate.getFullYear();
+  const checkIfMemberComeInCurrentYear =
+    dateOfAdd.getFullYear() === lastDate.getFullYear();
 
-  const amountOfFeesInLastYear = quarterOfEnd * feeByYear[lastDate.getFullYear()];
+  const amountOfFeesInLastYear =
+    quarterOfEnd * feeByYear[lastDate.getFullYear()];
 
   if (checkIfMemberComeInCurrentYear) {
     const quartersInCurrentYear = quarterOfEnd - quarterOfStart + 1;
@@ -73,32 +82,49 @@ export const countAmountOfFee = (person: APIPerson, endOfPeriod = new Date()): n
   }
 
   const numberOfYearsPassed = lastDate.getFullYear() - dateOfAdd.getFullYear();
-  const numberOfQuartersInStartYear = 4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
+  const numberOfQuartersInStartYear =
+    4 - quarterOfStart === 0 ? 1 : 4 - quarterOfStart + 1;
   const feeValueInStartYear = feeByYear[dateOfAdd.getFullYear()];
 
   if (numberOfYearsPassed === 1) {
-    return numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
+    return (
+      numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear
+    );
   }
-  const startAndEndYearFeeValue = numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
+  const startAndEndYearFeeValue =
+    numberOfQuartersInStartYear * feeValueInStartYear + amountOfFeesInLastYear;
   let allFees = 0;
   for (let i = 1; i < numberOfYearsPassed; i++) {
-    allFees += (feeByYear[dateOfAdd.getFullYear() + i] * 4);
+    allFees += feeByYear[dateOfAdd.getFullYear() + i] * 4;
   }
   return startAndEndYearFeeValue + allFees;
 };
 
-export const countingMemberFee = (person: APIPerson, endOfPeriod?: Date): number => {
+export const countingMemberFee = (
+  person: APIPerson,
+  endOfPeriod?: Date
+): number => {
   const incomes = store.getState().income.dbIncomes;
 
-  const feeIncomeByPerson = incomes.filter((i) => i.name?.toLowerCase() === person?.name?.toLowerCase()
-    && i.surname?.toLowerCase() === person?.surname?.toLowerCase()
-    && i.event === 'SC');
+  const feeIncomeByPerson = incomes.filter(
+    (i) =>
+      i.name?.toLowerCase() === person?.name?.toLowerCase() &&
+      i.surname?.toLowerCase() === person?.surname?.toLowerCase() &&
+      i.event === "SC"
+  );
 
-  const initAccountStatePerPerson = store?.getState().income?.initAccount?.find((ia) => (
-    ia?.name?.toLowerCase() === person?.name?.toLowerCase()
-      && ia?.surname?.toLowerCase() === person?.surname?.toLowerCase()));
+  const initAccountStatePerPerson = store
+    ?.getState()
+    .income?.initAccount?.find(
+      (ia) =>
+        ia?.name?.toLowerCase() === person?.name?.toLowerCase() &&
+        ia?.surname?.toLowerCase() === person?.surname?.toLowerCase()
+    );
 
-  const allFeeIncomesValue = feeIncomeByPerson.reduce((sum, currentIncome) => sum + Number(currentIncome.cash), 0);
+  const allFeeIncomesValue = feeIncomeByPerson.reduce(
+    (sum, currentIncome) => sum + Number(currentIncome.cash),
+    0
+  );
   const neededFee = Math.abs(countAmountOfFee(person, endOfPeriod));
 
   const sum = initAccountStatePerPerson

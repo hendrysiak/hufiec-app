@@ -1,24 +1,30 @@
 "use client";
 
 import {
-  Box, MenuItem, Select, SelectChangeEvent, Typography,
-} from '@mui/material';
-import React from 'react';
-import { useQuery } from 'react-query';
+  Box,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import { useQuery } from "react-query";
 
-import { getProposals } from 'helpers/api-helpers/proposal';
-import { ProposalArea } from 'models/global.enum';
-import { Proposal } from 'models/proposal.models';
+import { getProposals } from "helpers/api-helpers/proposal";
+import { ProposalArea } from "models/global.enum";
+import { Proposal } from "models/proposal.models";
 
-import CodeProposal from '../../../components/CodeProposal/CodeProposal';
-import IncomeProposal from '../../../components/IncomeProposal/IncomeProposal';
-import RegistryProposal from '../../../components/RegistryProposal/RegistryProposal';
-import { usePathname } from 'next/navigation';
+import CodeProposal from "../../../components/CodeProposal/CodeProposal";
+import IncomeProposal from "../../../components/IncomeProposal/IncomeProposal";
+import RegistryProposal from "../../../components/RegistryProposal/RegistryProposal";
+import { usePathname } from "next/navigation";
+import { RootState } from "store/models/rootstate.model";
+import { useSelector } from "react-redux";
 
 const proposalsList = [
-  { name: 'akcje przelewów', value: 'income' },
-  { name: 'akcje kodów', value: 'code' },
-  { name: 'akcje ewidencji', value: 'registry' },
+  { name: "akcje przelewów", value: "income" },
+  { name: "akcje kodów", value: "code" },
+  { name: "akcje ewidencji", value: "registry" },
 ];
 
 interface ProposalsProps {
@@ -38,9 +44,16 @@ const MenuProps = {
 };
 
 function Proposals(props: ProposalsProps): JSX.Element {
-  const [selectedProposalState, setSelectedProposalState] = React.useState({ name: 'akcje przelewów', value: 'income' });
+  const [selectedProposalState, setSelectedProposalState] = React.useState({
+    name: "akcje przelewów",
+    value: "income",
+  });
   const pathname = usePathname();
-  const query = useQuery<Proposal[], Error>('proposal', () => getProposals(pathname.slice(1), props.isAdmin));
+  const user = useSelector((state: RootState) => state.user);
+  const isAdmin = user.roles?.includes("admin");
+  const query = useQuery<Proposal[], Error>("proposal", () =>
+    getProposals(pathname.slice(1), isAdmin)
+  );
 
   const handleFilterActions = (value: string): void => {
     const foundedAction = proposalsList.find((p) => p.value === value);
@@ -50,25 +63,39 @@ function Proposals(props: ProposalsProps): JSX.Element {
 
   const renderCorrectProposalTable = () => {
     switch (selectedProposalState.value) {
-      case 'code':
+      case "code":
         return (
           <CodeProposal
-            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Code)}
-            isAdmin={props.isAdmin}
+            rows={
+              !query?.data
+                ? []
+                : query.data.filter((data) => data.area === ProposalArea.Code)
+            }
+            isAdmin={isAdmin}
           />
         );
-      case 'registry':
+      case "registry":
         return (
           <RegistryProposal
-            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Registry)}
-            isAdmin={props.isAdmin}
+            rows={
+              !query?.data
+                ? []
+                : query.data.filter(
+                    (data) => data.area === ProposalArea.Registry
+                  )
+            }
+            isAdmin={isAdmin}
           />
         );
-      case 'income':
+      case "income":
         return (
           <IncomeProposal
-            rows={!query?.data ? [] : query.data.filter((data) => data.area === ProposalArea.Income)}
-            isAdmin={props.isAdmin}
+            rows={
+              !query?.data
+                ? []
+                : query.data.filter((data) => data.area === ProposalArea.Income)
+            }
+            isAdmin={isAdmin}
           />
         );
       default:
@@ -77,21 +104,20 @@ function Proposals(props: ProposalsProps): JSX.Element {
   };
 
   return (
-    <main style={{ height: props.height }}>
+    <main style={{ height: "85vh" }}>
       <h2>Propozycje działań</h2>
       <Box display="flex" p={2}>
         <Typography>Filtrowanie akcji:</Typography>
         <Select
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           value={selectedProposalState.value}
-          onChange={(e: SelectChangeEvent) => handleFilterActions(e.target.value as string)}
+          onChange={(e: SelectChangeEvent) =>
+            handleFilterActions(e.target.value as string)
+          }
           MenuProps={MenuProps}
         >
           {proposalsList.map((proposal) => (
-            <MenuItem
-              key={proposal.value}
-              value={proposal.value}
-            >
+            <MenuItem key={proposal.value} value={proposal.value}>
               {proposal.name}
             </MenuItem>
           ))}
