@@ -304,7 +304,16 @@ function Team(): JSX.Element {
   const lastImportDate = dbIncomes.slice(-1)[0]?.importDate;
 
   if (globalSettings?.isMaintenanceMode) {
-    return <Maintenance />;
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
+        <img src={Maintenance} alt="maintenance" />
+      </div>
+    );
   }
 
   return (
