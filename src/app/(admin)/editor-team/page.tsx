@@ -51,6 +51,7 @@ import {
 import SelectTeam from "../../../components/SelectTeam/SelectTeam";
 import { InitAccountState } from "models/income.models";
 import { CustomTableCell } from "../../../components/NewCell/NewCell";
+import { useGlobalSettings } from "helpers/hooks/useGlobalSettings";
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -91,7 +92,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
 
-  console.log(rows);
+  const { globalSettings } = useGlobalSettings();
 
   const clearStateRow = () => {
     setActiveRow(null);
@@ -195,7 +196,13 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     if (usedRegistry) {
       sortOfSurname(usedRegistry, "ŻŻŻ");
     }
-    const rows = usedRegistry ? filterMembers(usedRegistry, name, surname) : [];
+    const rows = usedRegistry
+      ? filterMembers(
+          usedRegistry,
+          { name, surname },
+          globalSettings?.endOfPeriodToCalc
+        )
+      : [];
     setRows(rows);
   }, [team, registry, name, surname]);
 
@@ -215,6 +222,10 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
       [nameKey]: value,
     }));
   };
+
+  if (globalSettings?.isMaintenanceMode) {
+    return <p>W trakcie przerwy technicznej</p>;
+  }
 
   return (
     <>
@@ -407,7 +418,9 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                   </TableCell>
                   <TableCell>{getInitAccountState(row, initAccount)}</TableCell>
                   <TableCell>{row.feeState}</TableCell>
-                  <TableCell>{countAmountOfFee(row)}</TableCell>
+                  <TableCell>
+                    {countAmountOfFee(row, globalSettings?.endOfPeriodToCalc)}
+                  </TableCell>
                   {row.id === activeRow ? (
                     <TableCell>
                       <TextField
