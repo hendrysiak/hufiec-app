@@ -48,6 +48,7 @@ import { useStyles } from "./stylesTable";
 import SelectTeam from "../../components/SelectTeam/SelectTeam";
 import { InitAccountState } from "models/income.models";
 import { CustomTableCell } from "../../components/NewCell/NewCell";
+import { useGlobalSettings } from "helpers/hooks/useGlobalSettings";
 
 export interface IPerson extends APIPerson {
   lp?: number;
@@ -88,6 +89,8 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
 
   const [activeRow, setActiveRow] = useState<string | null>(null);
   const [newData, setNewData] = useState<Partial<APIPerson> | null>(null);
+
+  const { globalSettings } = useGlobalSettings();
 
   const clearStateRow = () => {
     setActiveRow(null);
@@ -191,7 +194,13 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     if (usedRegistry) {
       sortOfSurname(usedRegistry, "ŻŻŻ");
     }
-    const rows = usedRegistry ? filterMembers(usedRegistry, name, surname) : [];
+    const rows = usedRegistry
+      ? filterMembers(
+          usedRegistry,
+          { name, surname },
+          globalSettings?.endOfPeriodToCalc
+        )
+      : [];
     setRows(rows);
   }, [team, registry, name, surname]);
 

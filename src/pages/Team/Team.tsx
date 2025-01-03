@@ -55,6 +55,7 @@ import { ShowModal } from "../../helpers/typeViewModal.enum";
 import { useAuth } from "providers/AuthUserProvider/AuthUserProvider";
 import { useUserData } from "helpers/hooks/useUserData";
 import TeamFinance from "components/TeamFinance/TeamFinance";
+import { useGlobalSettings } from "helpers/hooks/useGlobalSettings";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -124,6 +125,8 @@ function Team(): JSX.Element {
   const { authUser } = useAuth();
 
   const user = useUserData(authUser?.uid);
+
+  const { globalSettings } = useGlobalSettings();
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -300,7 +303,26 @@ function Team(): JSX.Element {
   const isMobile = useMobileView(360);
   const lastImportDate = dbIncomes.slice(-1)[0]?.importDate;
 
-  return <Maintenance />;
+  if (globalSettings?.isMaintenanceMode) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
+        <img
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+          src={Maintenance}
+          alt="maintenance"
+        />
+      </div>
+    );
+  }
 
   // return (
   //   <>
