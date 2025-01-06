@@ -61,7 +61,7 @@ export const countAmountOfFee = (
   const lastDate = person.dateOfDelete
     ? new Date(person.dateOfDelete)
     : endOfPeriod;
-  const today = new Date();
+  const today = endOfPeriod || new Date();
   const dateOfAdd = new Date(`01/01/${today.getFullYear()}`);
 
   if (dateOfAdd > lastDate) return 0;
