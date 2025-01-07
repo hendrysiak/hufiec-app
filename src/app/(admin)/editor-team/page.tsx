@@ -223,10 +223,6 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
     }));
   };
 
-  if (globalSettings?.isMaintenanceMode) {
-    return <p>W trakcie przerwy technicznej</p>;
-  }
-
   return (
     <>
       <Grid container p={4} gap={1}>
