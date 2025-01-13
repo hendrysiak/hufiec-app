@@ -1,38 +1,60 @@
-import AddIcon from '@mui/icons-material/Add';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import EditIcon from '@mui/icons-material/Edit';
+"use client";
+
+import AddIcon from "@mui/icons-material/Add";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box, Button, FormControl, MenuItem, Modal, Select, TextField, IconButton, Tooltip, SelectChangeEvent,
-} from '@mui/material';
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  IconButton,
+  Tooltip,
+  SelectChangeEvent,
+} from "@mui/material";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import { useLocation } from 'react-router';
+import { useLocation } from "react-router";
 
-import { saveProposal } from 'helpers/api-helpers/proposal';
-import { ProposalArea, ProposalKind } from 'models/global.enum';
-import { IncomeDb } from 'models/income.models';
+import { saveProposal } from "helpers/api-helpers/proposal";
+import { ProposalArea, ProposalKind } from "models/global.enum";
+import { IncomeDb } from "models/income.models";
 
-import './style.css';
+import "./style.css";
 
-import { Proposal } from 'models/proposal.models';
-import { ErrorDispllayCell } from 'components/ErrorCell/ErrorCell';
-import { useSnackbar } from 'providers/SnackbarProvider/SnackbarProvider';
-import { RootState } from 'store/models/rootstate.model';
+import { Proposal } from "models/proposal.models";
+import { ErrorDispllayCell } from "components/ErrorCell/ErrorCell";
+import { useSnackbar } from "providers/SnackbarProvider/SnackbarProvider";
+import { RootState } from "store/models/rootstate.model";
 // eslint-disable-next-line import/order
-import { useTeams } from 'helpers/hooks/useTeams';
+import { useTeams } from "helpers/hooks/useTeams";
 
 enum ActionPagination {
-  Next = 'next',
-  Prev = 'prev',
+  Next = "next",
+  Prev = "prev",
 }
 
-export function List({ navHeight, scrollPosition, rows }:
-{ navHeight: number | null, scrollPosition: number, rows: IncomeDb[] }): JSX.Element {
-  const codes = useSelector((state: RootState) => state.income.codes)?.map((c) => c?.code);
+export function List({
+  navHeight,
+  scrollPosition,
+  rows,
+  team,
+}: {
+  navHeight: number | null;
+  scrollPosition: number;
+  rows: IncomeDb[];
+  team: string;
+}): JSX.Element {
+  const codes = useSelector((state: RootState) => state.income.codes)?.map(
+    (c) => c?.code
+  );
   const user = useSelector((state: RootState) => state.user);
   const teamsMap = useTeams();
   const [page, setPage] = useState(0);
@@ -42,38 +64,36 @@ export function List({ navHeight, scrollPosition, rows }:
   const [heightFirstLi, setHeightFirstLi] = useState<number>(0);
   const [newValues, setNewValues] = useState<IncomeDb>({
     cash: 0,
-    title: '',
+    title: "",
     dateOfBook: new Date(),
     importDate: new Date(),
     year: new Date().getFullYear(),
-    event: '',
-    id: '',
-    name: '',
-    surname: '',
-    team: '',
+    event: "",
+    id: "",
+    name: "",
+    surname: "",
+    team: "",
   });
   const [currentValues, setCurrentValues] = useState<IncomeDb>({
     cash: 0,
-    title: '',
+    title: "",
     dateOfBook: new Date(),
     importDate: new Date(),
     year: new Date().getFullYear(),
-    event: '',
-    id: '',
-    name: '',
-    surname: '',
-    team: '',
+    event: "",
+    id: "",
+    name: "",
+    surname: "",
+    team: "",
   });
   const [openChangeModal, setOpenChangeModal] = useState(false);
 
   const { setSnackbar } = useSnackbar();
 
-  const { pathname } = useLocation();
-
   const handleRowsPerPage = (value: string) => {
     setRowsPerPage(Number(value));
 
-    if ((page * rowsPerPage) > displayRows.length) {
+    if (page * rowsPerPage > displayRows.length) {
       setPage(0);
     }
   };
@@ -88,30 +108,36 @@ export function List({ navHeight, scrollPosition, rows }:
           kind: ProposalKind.Edit,
           oldValues: currentValues,
           newValues,
-          team: Number(pathname.slice(1)),
+          team: Number(team),
           dateOfCreation: new Date(),
         };
 
         await saveProposal(newProposal);
-        setSnackbar({ children: 'Propozycja zmiany zapisana pomyślnie', severity: 'success' });
+        setSnackbar({
+          children: "Propozycja zmiany zapisana pomyślnie",
+          severity: "success",
+        });
       } else {
-        setSnackbar({ children: 'Wystąpił błąd - odśwież', severity: 'error' });
+        setSnackbar({ children: "Wystąpił błąd - odśwież", severity: "error" });
       }
     } catch (err) {
-      setSnackbar({ children: 'Nieoczekiwany błąd - spróbuj ponownie', severity: 'error' });
+      setSnackbar({
+        children: "Nieoczekiwany błąd - spróbuj ponownie",
+        severity: "error",
+      });
     }
 
     setOpenChangeModal(false);
     setNewValues({
       cash: 0,
-      title: '',
+      title: "",
       dateOfBook: new Date(),
-      event: '',
-      id: '',
+      event: "",
+      id: "",
       importDate: new Date(),
-      name: '',
-      surname: '',
-      team: '',
+      name: "",
+      surname: "",
+      team: "",
       year: new Date().getFullYear(),
     });
   };
@@ -140,7 +166,10 @@ export function List({ navHeight, scrollPosition, rows }:
   }, [page]);
 
   const handleChangePage = (action: string) => {
-    if (action === ActionPagination.Next && rows.length > page * rowsPerPage + rowsPerPage) {
+    if (
+      action === ActionPagination.Next &&
+      rows.length > page * rowsPerPage + rowsPerPage
+    ) {
       setPage((prev) => prev + 1);
     }
     if (action === ActionPagination.Prev && page > 0) {
@@ -151,7 +180,14 @@ export function List({ navHeight, scrollPosition, rows }:
   const firstLi = useRef<HTMLLIElement>(null);
 
   const controlEntireDataRow = (el: IncomeDb) => {
-    if (el.name && el.surname && el.dateOfBook && el.title && el.event && el.cash) {
+    if (
+      el.name &&
+      el.surname &&
+      el.dateOfBook &&
+      el.title &&
+      el.event &&
+      el.cash
+    ) {
       return true;
     }
     return false;
@@ -159,20 +195,20 @@ export function List({ navHeight, scrollPosition, rows }:
 
   const getListItemClasses = (el: IncomeDb) => {
     if (el.isEdited) {
-      return 'edited';
-    };
+      return "edited";
+    }
 
     if (controlEntireDataRow(el)) {
-      return '';
-    };
+      return "";
+    }
 
-    return 'incompleteData';
+    return "incompleteData";
   };
 
   return (
     <div className="containerList">
       <ul className="ul">
-        <li ref={firstLi} className={`first ${barFixed ? 'fixedBar' : ''}`}>
+        <li ref={firstLi} className={`first ${barFixed ? "fixedBar" : ""}`}>
           <div className="containerGroup">
             <p className="name">NAZWISKO I IMIĘ</p>
             <p className="date">DATA</p>
@@ -186,18 +222,19 @@ export function List({ navHeight, scrollPosition, rows }:
         {displayRows.map((el: IncomeDb, index: number) => (
           <li
             key={index}
-            style={{ marginTop: `${index === 0 && barFixed ? `${heightFirstLi}px` : '0'}` }}
+            style={{
+              marginTop: `${
+                index === 0 && barFixed ? `${heightFirstLi}px` : "0"
+              }`,
+            }}
             className={`li ${getListItemClasses(el)}`}
           >
             <div className="containerGroup">
               <p className="name">
-                {el.surname}
-                {' '}
-                {el.name}
+                {el.surname} {el.name}
               </p>
               <p className="date">
-                {el.dateOfBook}
-                {' '}
+                <>{el.dateOfBook}</>
               </p>
               <p className="title">{el.title}</p>
             </div>
@@ -227,9 +264,11 @@ export function List({ navHeight, scrollPosition, rows }:
             <FormControl>
               <Select
                 value={`${rowsPerPage}`}
-                onChange={(e: SelectChangeEvent): void => handleRowsPerPage(e.target.value as string)}
+                onChange={(e: SelectChangeEvent): void =>
+                  handleRowsPerPage(e.target.value as string)
+                }
                 displayEmpty
-                inputProps={{ 'aria-label': 'Without label' }}
+                inputProps={{ "aria-label": "Without label" }}
               >
                 <MenuItem value={25}>25</MenuItem>
                 <MenuItem value={50}>50</MenuItem>
@@ -238,33 +277,37 @@ export function List({ navHeight, scrollPosition, rows }:
             </FormControl>
           </div>
           <div className="paginationItem">
-            od
-            {' '}
-            {page * rowsPerPage + 1}
-            {' '}
-            do
-            {' '}
+            od {page * rowsPerPage + 1} do{" "}
             {page * rowsPerPage + rowsPerPage < rows.length
-              ? page * rowsPerPage + rowsPerPage : rows.length }
-            {' '}
-            of
-            {' '}
-            {rows.length}
+              ? page * rowsPerPage + rowsPerPage
+              : rows.length}{" "}
+            of {rows.length}
           </div>
           <div className="paginationItem">
-            <ChevronLeftIcon onClick={() => handleChangePage(ActionPagination.Prev)} style={{ cursor: 'pointer', fontSize: '44px' }} />
-            <ChevronRightIcon onClick={() => handleChangePage(ActionPagination.Next)} style={{ cursor: 'pointer', fontSize: '44px' }} />
+            <ChevronLeftIcon
+              onClick={() => handleChangePage(ActionPagination.Prev)}
+              style={{ cursor: "pointer", fontSize: "44px" }}
+            />
+            <ChevronRightIcon
+              onClick={() => handleChangePage(ActionPagination.Next)}
+              style={{ cursor: "pointer", fontSize: "44px" }}
+            />
           </div>
         </li>
       </ul>
-      <Modal
-        open={openChangeModal}
-      >
-        <div style={{
-          width: '80%', backgroundColor: 'white', transform: 'translate(13%, 10%)', display: 'flex', flexDirection: 'column',
-        }}
+      <Modal open={openChangeModal}>
+        <div
+          style={{
+            width: "80%",
+            backgroundColor: "white",
+            transform: "translate(13%, 10%)",
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          <h3 style={{ textAlign: 'center', margin: '32px' }}>STARE WARTOŚCI</h3>
+          <h3 style={{ textAlign: "center", margin: "32px" }}>
+            STARE WARTOŚCI
+          </h3>
           <li className="first">
             <div className="containerGroup">
               <p className="name">NAZWISKO I IMIĘ</p>
@@ -275,92 +318,123 @@ export function List({ navHeight, scrollPosition, rows }:
             <p className="cash">KWOTA</p>
           </li>
           <li
-            className={`li ${controlEntireDataRow(currentValues) ? '' : 'incompleteData'}`}
+            className={`li ${
+              controlEntireDataRow(currentValues) ? "" : "incompleteData"
+            }`}
           >
             <div className="containerGroup">
               <p className="name">
-                {currentValues.surname}
-                {' '}
-                {currentValues.name}
+                {currentValues.surname} {currentValues.name}
               </p>
               <p className="date">
-                {currentValues.dateOfBook}
-                {' '}
+                <>{currentValues.dateOfBook}</>
               </p>
               <p className="title">{currentValues.title}</p>
             </div>
             <p className="event">{currentValues.event}</p>
             <p className="cash">{currentValues.cash}</p>
           </li>
-          <h3 style={{ textAlign: 'center', margin: '16px' }}>NOWE WARTOŚCI</h3>
-          <Box style={{ width: '100%' }} p={2} display="flex" justifyContent="space-between">
+          <h3 style={{ textAlign: "center", margin: "16px" }}>NOWE WARTOŚCI</h3>
+          <Box
+            style={{ width: "100%" }}
+            p={2}
+            display="flex"
+            justifyContent="space-between"
+          >
             <TextField
-              style={{ margin: '16px', width: '40%' }}
+              style={{ margin: "16px", width: "40%" }}
               value={newValues.name}
-              onChange={(e) => setNewValues({ ...newValues, name: e.target.value })}
+              onChange={(e) =>
+                setNewValues({ ...newValues, name: e.target.value })
+              }
               label="Imię"
               variant="standard"
             />
             <TextField
-              style={{ margin: '16px', width: '40%' }}
+              style={{ margin: "16px", width: "40%" }}
               value={newValues.surname}
-              onChange={(e) => setNewValues({ ...newValues, surname: e.target.value })}
+              onChange={(e) =>
+                setNewValues({ ...newValues, surname: e.target.value })
+              }
               label="Nazwisko"
               variant="standard"
             />
-
           </Box>
-          <Box style={{ width: '100%' }} p={2} display="flex" justifyContent="space-between">
+          <Box
+            style={{ width: "100%" }}
+            p={2}
+            display="flex"
+            justifyContent="space-between"
+          >
             <TextField
-              style={{ margin: '16px', width: '40%' }}
+              style={{ margin: "16px", width: "40%" }}
               value={newValues.team}
-              onChange={(e) => setNewValues({ ...newValues, team: e.target.value })}
+              onChange={(e) =>
+                setNewValues({ ...newValues, team: e.target.value })
+              }
               select
               label="Drużyna"
               variant="standard"
             >
               {teamsMap.map((team) => (
-                <MenuItem key={team.teamId} value={team.teamId}>{team.name}</MenuItem>
+                <MenuItem key={team.teamId} value={team.teamId}>
+                  {team.name}
+                </MenuItem>
               ))}
             </TextField>
             <TextField
-              style={{ margin: '16px', width: '40%' }}
+              style={{ margin: "16px", width: "40%" }}
               value={newValues.event}
-              onChange={(e) => setNewValues({ ...newValues, event: e.target.value })}
+              onChange={(e) =>
+                setNewValues({ ...newValues, event: e.target.value })
+              }
               label="Kod"
               variant="standard"
               select
             >
-              {codes && codes.map((code) => (
-                <MenuItem key={code} value={code}>{code}</MenuItem>
-              ))}
+              {codes &&
+                codes.map((code) => (
+                  <MenuItem key={code} value={code}>
+                    {code}
+                  </MenuItem>
+                ))}
             </TextField>
-
           </Box>
-          <Box p={2} style={{ width: '100%' }} display="flex" justifyContent="space-between">
+          <Box
+            p={2}
+            style={{ width: "100%" }}
+            display="flex"
+            justifyContent="space-between"
+          >
             <Button
-              style={{ width: '40%' }}
+              style={{ width: "40%" }}
               color="secondary"
               variant="contained"
               onClick={() => {
                 setOpenChangeModal(false);
                 setNewValues({
                   cash: 0,
-                  title: '',
+                  title: "",
                   dateOfBook: new Date(),
-                  event: '',
-                  id: '',
+                  event: "",
+                  id: "",
                   importDate: new Date(),
-                  name: '',
-                  surname: '',
-                  team: '',
+                  name: "",
+                  surname: "",
+                  team: "",
                   year: new Date().getFullYear(),
                 });
               }}
             >
               Anuluj
             </Button>
-            <Button style={{ width: '40%' }} color="primary" variant="contained" startIcon={<AddIcon />} onClick={handleChangeIncome}>
+            <Button
+              style={{ width: "40%" }}
+              color="primary"
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleChangeIncome}
+            >
               Dodaj
             </Button>
           </Box>

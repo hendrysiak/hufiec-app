@@ -1,18 +1,15 @@
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import React, { useMemo } from "react";
+import { CSVLink } from "react-csv";
 
-import React, { useMemo } from 'react';
-import { CSVLink } from 'react-csv';
+import { IncomeDb, OutcomeDb } from "models/income.models";
+import { APIPerson } from "models/registry.models";
+import Form from "components/Form/Form";
+import TeamFinances from "components/TeamFinances/TeamFinances";
+import TeamPage from "components/TeamPage/TeamPage";
 
-import { IncomeDb, OutcomeDb } from 'models/income.models';
-import { APIPerson } from 'models/registry.models';
-import Form from 'components/Form/Form';
-import TeamFinances from 'components/TeamFinances/TeamFinances';
-import TeamPage from 'components/TeamPage/TeamPage';
+import { IViewModal } from "../../models/viewModal.models";
 
-import { IViewModal } from '../../models/viewModal.models';
-
-import classes from './Tooltips.module.css';
+import classes from "./Tooltips.module.css";
 
 interface IProps {
   open: IViewModal;
@@ -25,16 +22,13 @@ interface IProps {
 }
 
 function Tooltips({
-  open, members, incomes, outcomes, currentTeam, dataToExport,
+  open,
+  members,
+  incomes,
+  outcomes,
+  currentTeam,
+  dataToExport,
 }: IProps): JSX.Element {
-  const tooltipStyles = useMemo(() => makeStyles(() => createStyles({
-    tooltip: {
-      fontSize: 32,
-    },
-  })), []);
-
-  const tooltipsClasses = tooltipStyles();
-
   return (
     <div className={classes.tooltips}>
       {/* <Tooltip title="" classes={tooltipsClasses}>

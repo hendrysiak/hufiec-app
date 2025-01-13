@@ -1,3 +1,5 @@
+"use client";
+
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,7 +19,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import makeStyles from "@mui/styles/makeStyles";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import React, {
   useState,
@@ -29,8 +30,6 @@ import React, {
 import { CSVLink, CSVDownload } from "react-csv";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-
-import Maintenance from "assets/maintenance.jpg";
 
 import { useDebounce } from "helpers/hooks/useDebounce";
 import { useMobileView } from "helpers/hooks/useMobileView";
@@ -83,7 +82,7 @@ const StyledTabs = styled((props: StyledTabsProps) => (
   },
 });
 
-function Team(): JSX.Element {
+function Team({ currentTeam }: { currentTeam: string }): JSX.Element {
   const codes = useSelector((state: RootState) => state.income.codes);
   const dbIncomes = useSelector((state: RootState) => state.income.dbIncomes);
   const dbOutcomes = useSelector((state: RootState) => state.income.dbOutcomes);
@@ -100,8 +99,6 @@ function Team(): JSX.Element {
   const [incomesByCode, setIncomeByCode] = useState<IncomeDb[]>([]);
   const [outcomesByCode, setOutcomeByCode] = useState<OutcomeDb[]>([]);
 
-  const location = useLocation();
-  const currentTeam = location.pathname.split("/")[1];
   const [openPopup, setOpenPopup] = useState<IViewModal>(ShowModal.Empty);
   const [rows, setRows] = useState<IncomeDb[]>([]);
   const [useDate, setUseDate] = useState<boolean>(false);
@@ -242,38 +239,38 @@ function Team(): JSX.Element {
     debouncedSurname,
   ]);
 
-  const useStyles = makeStyles((theme: Theme) => ({
-    dayWithDotContainer: {
-      position: "relative",
-    },
-    dayWithDot: {
-      position: "absolute",
-      height: 0,
-      width: 0,
-      border: "2px solid",
-      borderRadius: 4,
-      right: "50%",
-      transform: "translateX(1px)",
-      top: "80%",
-    },
-    customTooltip: {
-      //  I used the rgba color for the standard "secondary" color
-      fontSize: "16px",
-      color: "white",
-    },
-    icon: {
-      width: "24px",
-      height: "24px",
-    },
-    button: {
-      color: "white",
-    },
-    indicator: {
-      backgroundColor: "white",
-    },
-  }));
+  // const useStyles = makeStyles((theme: Theme) => ({
+  //   dayWithDotContainer: {
+  //     position: "relative",
+  //   },
+  //   dayWithDot: {
+  //     position: "absolute",
+  //     height: 0,
+  //     width: 0,
+  //     border: "2px solid",
+  //     borderRadius: 4,
+  //     right: "50%",
+  //     transform: "translateX(1px)",
+  //     top: "80%",
+  //   },
+  //   customTooltip: {
+  //     //  I used the rgba color for the standard "secondary" color
+  //     fontSize: "16px",
+  //     color: "white",
+  //   },
+  //   icon: {
+  //     width: "24px",
+  //     height: "24px",
+  //   },
+  //   button: {
+  //     color: "white",
+  //   },
+  //   indicator: {
+  //     backgroundColor: "white",
+  //   },
+  // }));
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   const handleOpenFilter = () => {
     setOpenFilter(!openFilter);
@@ -304,7 +301,15 @@ function Team(): JSX.Element {
   const lastImportDate = dbIncomes.slice(-1)[0]?.importDate;
 
   if (globalSettings?.isMaintenanceMode) {
-    return <Maintenance />;
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: "../../public/images/maintenance.jpg",
+        }}
+      ></div>
+    );
   }
 
   return (
@@ -335,14 +340,14 @@ function Team(): JSX.Element {
           )}
           <Tooltip
             title="Otwórz filtry"
-            classes={{
-              tooltip: classes.customTooltip,
-            }}
+            // classes={{
+            //   tooltip: classes.customTooltip,
+            // }}
           >
             <IconButton
               aria-label="account-state"
               onClick={handleOpenFilter}
-              classes={{ root: classes.button }}
+              // classes={{ root: classes.button }}
               size="large"
             >
               <SearchIcon fontSize="large" color="inherit" />
@@ -351,13 +356,13 @@ function Team(): JSX.Element {
           <CSVLink data={displayedIncome} filename={`${currentTeam}.csv`}>
             <Tooltip
               title="Wyeksportuj widok do CSV"
-              classes={{
-                tooltip: classes.customTooltip,
-              }}
+              // classes={{
+              //   tooltip: classes.customTooltip,
+              // }}
             >
               <IconButton
                 aria-label="account-state"
-                classes={{ root: classes.button }}
+                // classes={{ root: classes.button }}
                 size="large"
               >
                 <GetAppIcon fontSize="large" color="inherit" />
@@ -366,14 +371,14 @@ function Team(): JSX.Element {
           </CSVLink>
           <Tooltip
             title="Pomoc"
-            classes={{
-              tooltip: classes.customTooltip,
-            }}
+            // classes={{
+            //   tooltip: classes.customTooltip,
+            // }}
           >
             <IconButton
               aria-label="account-state"
               onClick={() => setOpenHelp(!openHelp)}
-              classes={{ root: classes.button }}
+              // classes={{ root: classes.button }}
               size="large"
             >
               <HelpOutlineIcon fontSize="large" color="inherit" />
@@ -485,6 +490,7 @@ function Team(): JSX.Element {
           <div className="containerDataGrid">
             {displayedIncome?.length ? (
               <List
+                team={currentTeam}
                 navHeight={navHeight}
                 scrollPosition={scrollPosition}
                 rows={displayedIncome.sort((a, b) => {
