@@ -6,7 +6,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { handleLogout } from "helpers/auth/logout";
 
 import Navigation from "shared/Navigation/Navigation";
 import { styled, useTheme } from "@mui/material/styles";
@@ -104,9 +104,7 @@ function NavigationContainer(props: NavigationContainerProps): JSX.Element {
                 >
                   <IconButton
                     color="inherit"
-                    onClick={() =>
-                      signOut()?.then(() => router.push("/signin"))
-                    }
+                    onClick={handleLogout}
                     size="large"
                   >
                     <ExitToAppIcon className="clicked" />

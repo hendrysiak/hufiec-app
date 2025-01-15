@@ -2,18 +2,13 @@ export {
   reduxEditIncome,
   reduxAssignIncomesToAccount,
   reduxAssignOutcomesToAccount,
-}
-  from './income';
+} from "./income";
 
-export {
-  reduxLoadingEnd,
-  reduxLoadingStart,
-}
-  from './ui';
+export { reduxLoadingEnd, reduxLoadingStart } from "./ui";
 
 export {
   reduxIsAuthentication,
   reduxSetRoles,
   reduxSetTeam,
-}
-  from './user';
+  reduxSetEvidenceNumber,
+} from "./user";

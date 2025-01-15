@@ -1,15 +1,18 @@
-"use client"
+"use client";
 
-import { UserCredential } from 'firebase/auth';
+import { UserCredential } from "firebase/auth";
 
-import { ReactElement, createContext, useContext } from 'react';
+import { ReactElement, createContext, useContext } from "react";
 
-import useFirebaseAuth from 'helpers/db/firebase/useFirebaseAuth';
+import useFirebaseAuth from "helpers/db/firebase/useFirebaseAuth";
 
 interface AuthUserContextValues {
-  authUser: { uid: string, email: string | null } | null;
+  authUser: { uid: string; email: string | null } | null;
   loading: boolean;
-  signInToApp: (email: string, password: string) => Promise<UserCredential> | Promise<null>;
+  signInToApp: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential> | Promise<null>;
   signOutFromApp: () => Promise<void> | null;
   resetPassword: (email: string) => Promise<void>;
 }
@@ -24,7 +27,9 @@ const authUserContext = createContext<AuthUserContextValues>({
 
 export function AuthUserProvider({ children }: { children: ReactElement }) {
   const auth = useFirebaseAuth();
-  return <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>;
+  return (
+    <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>
+  );
 }
 
 export const useAuth = () => useContext(authUserContext);

@@ -1,11 +1,17 @@
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 
-import { getAccount } from 'helpers/api-helpers/user';
+import { getAccount } from "helpers/api-helpers/user";
 
 export const useUserData = (uid?: string) => {
-  const { data } = useQuery(['user', uid], () => getAccount(uid), {
-    enabled: !!uid,
-  });
+  const { data, error, isLoading } = useQuery(
+    ["user", uid],
+    () => getAccount(uid),
+    {
+      enabled: !!uid,
+      staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+      retry: 2,
+    }
+  );
 
-  return data;
+  return { user: data, error, isLoading };
 };

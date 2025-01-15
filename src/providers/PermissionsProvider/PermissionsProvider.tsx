@@ -1,21 +1,16 @@
 "use client";
 
-// import { useHistory } from 'react-router-dom';
-
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useUserData } from "helpers/hooks/useUserData";
-import {
-  getInitAccountState,
-  getAccountState,
-  getRegistry,
-  getImportDates,
-  getCodes,
-} from "helpers/api-helpers/account.handler";
 import {
   reduxSetRoles,
   reduxIsAuthentication,
   reduxSetTeam,
+  reduxSetEvidenceNumber,
 } from "store/actions";
-import { reduxSetEvidenceNumber } from "store/actions/user";
+
 import store from "store/store";
 
 import { useAuth } from "../AuthUserProvider/AuthUserProvider";
@@ -34,22 +29,16 @@ import {
 import { blue } from "@mui/material/colors";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { getAccountsStates } from "helpers/api-helpers/account";
-import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { getSession, useSession } from "next-auth/react";
+import { useInitialData } from "helpers/hooks/useInitialData";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "helpers/db/firebase/firebase";
-
-const downloadData = async (team: number) => {
-  await getInitAccountState();
-  await getAccountState();
-  await getCodes(team);
-  await getRegistry();
-  await getImportDates();
-  await getAccountsStates();
-};
+// const downloadData = async (team: number) => {
+//   await getInitAccountState();
+//   await getAccountState();
+//   await getCodes(team);
+//   await getRegistry();
+//   await getImportDates();
+//   await getAccountsStates();
+// };
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -125,77 +114,64 @@ export function PermissionsProvider({
 }: {
   children: React.ReactElement;
 }) {
-  const session = useSession();
+  const { data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();
-  const [team, setTeam] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
-
-  const user = useUserData(session.data?.user?.uid);
-
-  const handleSelectTeam = (newTeam: string) => {
-    setTeam(Number(newTeam));
-  };
-
-  // THere we want to provide check function to make sure that the user with correct role has access to correct data
+  const { user, isLoading } = useUserData(session?.user?.uid);
+  const [team, setTeam] = useState<number | null>(null);
+  const { downloadData } = useInitialData();
 
   useEffect(() => {
-    if (user) {
-      const currentUrl = pathname;
-
-      if (user?.team) {
-        if (currentUrl !== "/") {
-          const potentialTeam = pathname.slice(1);
-          if (user?.team.includes(potentialTeam)) {
-            return setTeam(Number(potentialTeam));
-          }
-        }
-
-        if (!team) {
-          if (user?.team.length > 1) {
-            setOpen(true);
+    if (!isLoading && user) {
+      // Handle team selection
+      if (user.role === "leader") {
+        if (user.team.length === 1) {
+          setTeam(Number(user.team[0]));
+        } else if (user.team.length > 1) {
+          const currentTeam = pathname.slice(1);
+          if (user.team.includes(currentTeam)) {
+            setTeam(Number(currentTeam));
           } else {
-            setTeam(Number(user.team[0]));
+            setOpen(true);
           }
         }
       }
 
-      if (user?.role === "admin" && pathname === "/signin") {
-        router?.push("/dashboard");
-      }
-    }
-
-    if (!user) {
-      router?.push("/signin");
-    }
-  }, [pathname, user]);
-
-  useEffect(() => {
-    if (team !== null) {
-      router?.push(`/${team}`);
-    }
-  }, [team]);
-
-  useEffect(() => {
-    if (user) {
+      // Set Redux state
       store.dispatch(reduxSetRoles([user.role]));
       store.dispatch(reduxIsAuthentication(true));
       store.dispatch(reduxSetEvidenceNumber(user.evidenceNumber ?? ""));
-      store.dispatch(reduxSetTeam(team ?? 1111));
-      downloadData(team ?? 1111);
+      downloadData(team); // Download data when team is set
+      if (team) {
+        store.dispatch(reduxSetTeam(team));
+      }
     }
-  }, [user, team]);
+  }, [user, isLoading, pathname, team]);
+
+  // Handle team changes
+  useEffect(() => {
+    if (team !== null) {
+      router.push(`/${team}`);
+    }
+  }, [team]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or your loading component
+  }
 
   return (
     <>
       {children}
-      <ChooseTeamDialog
-        teams={user?.team ?? []}
-        open={open}
-        setOpen={setOpen}
-        selectedValue={`${team}` ?? "1111"}
-        setSelectedValue={handleSelectTeam}
-      />
+      {user?.role === "leader" && user.team.length > 1 && (
+        <ChooseTeamDialog
+          teams={user.team}
+          open={open}
+          setOpen={setOpen}
+          selectedValue={`${team}` ?? ""}
+          setSelectedValue={(newTeam) => setTeam(Number(newTeam))}
+        />
+      )}
     </>
   );
 }
