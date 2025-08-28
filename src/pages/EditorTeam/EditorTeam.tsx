@@ -64,7 +64,9 @@ const getInitAccountState = (
 ) => {
   return (
     initAccount.find(
-      (p) => p.name === person.name && p.surname === person.surname
+      (p) =>
+        p?.name?.toLowerCase() === person?.name?.toLowerCase() &&
+        p?.surname?.toLowerCase() === person?.surname?.toLowerCase()
     )?.balance ?? 0
   );
 };
