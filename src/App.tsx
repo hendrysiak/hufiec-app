@@ -1,32 +1,27 @@
-import './App.css';
-import CircularProgress from '@mui/material/CircularProgress';
+import "./App.css";
+import CircularProgress from "@mui/material/CircularProgress";
+import { LocalizationProvider } from "@mui/x-date-pickers/";
+
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
+import React, { Suspense, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { useSelector } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import NavigationContainer from "containers/NavigationContainer/NavigationContainer";
+import PWAInstallPrompt from "components/PWAInstallPrompt";
+
 import {
-  LocalizationProvider,
-} from '@mui/x-date-pickers/';
+  AuthUserProvider,
+  useAuth,
+} from "providers/AuthUserProvider/AuthUserProvider";
+import { PermissionsProvider } from "providers/PermissionsProvider/PermissionsProvider";
+import SnackbarProvider from "providers/SnackbarProvider/SnackbarProvider";
+import TeamsProvider from "providers/TeamsProvider/TeamsProvider";
 
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-
-import React, { Suspense, useEffect } from 'react';
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { useSelector } from 'react-redux';
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-} from 'react-router-dom';
-
-import NavigationContainer from 'containers/NavigationContainer/NavigationContainer';
-
-import { AuthUserProvider, useAuth } from 'providers/AuthUserProvider/AuthUserProvider';
-import { PermissionsProvider } from 'providers/PermissionsProvider/PermissionsProvider';
-import SnackbarProvider from 'providers/SnackbarProvider/SnackbarProvider';
-import TeamsProvider from 'providers/TeamsProvider/TeamsProvider';
-
-import { RootState } from 'store/models/rootstate.model';
+import { RootState } from "store/models/rootstate.model";
 
 import {
   getAccountState,
@@ -34,10 +29,10 @@ import {
   getRegistry,
   getImportDates,
   getInitAccountState,
-} from './helpers/api-helpers/account.handler';
+} from "./helpers/api-helpers/account.handler";
 
-import * as actions from './store/actions/index';
-import store from './store/store';
+import * as actions from "./store/actions/index";
+import store from "./store/store";
 
 function App(): JSX.Element {
   const loadingStatus = useSelector((state: RootState) => state.ui.loading);
@@ -58,42 +53,53 @@ function App(): JSX.Element {
     //   downloadData();
     // }
     store.dispatch(actions.reduxLoadingEnd());
-
   }, [authUser?.uid]);
 
-  const Account = React.lazy(() => import('./pages/account'));
-  const DashBoard = React.lazy(() => import('./pages/DashBoard/Dashboard'));
-  const Decision = React.lazy(() => import('./pages/Decision/Decision'));
-  const Team = React.lazy(() => import('./pages/Team/Team'));
-  const ForCoders = React.lazy(() => import('./pages/ForCoders/ForCoders'));
+  const Account = React.lazy(() => import("./pages/account"));
+  const DashBoard = React.lazy(() => import("./pages/DashBoard/Dashboard"));
+  const Decision = React.lazy(() => import("./pages/Decision/Decision"));
+  const Team = React.lazy(() => import("./pages/Team/Team"));
+  const ForCoders = React.lazy(() => import("./pages/ForCoders/ForCoders"));
   // const EventBilling = React.lazy(() => import('./pages/EventBilling/EventBilling'));
   // const EventApproval = React.lazy(() => import('./pages/EventApproval/EventApproval'));
-  const Import = React.lazy(() => import('./pages/Import/Import'));
-  const Edit = React.lazy(() => import('./pages/Edit/Edit'));
-  const EditorTeam = React.lazy(() => import('./pages/EditorTeam/EditorTeam'));
-  const Login = React.lazy(() => import('./pages/Login/Login'));
-  const AddCode = React.lazy(() => import('./pages/AddCode/AddCode'));
-  const Role = React.lazy(() => import('./pages/Role/Role'));
-  const Proposals = React.lazy(() => import('./pages/Proposals/Proposals'));
-  const TeamsEditor = React.lazy(() => import('./pages/TeamsEditor/TeamsEditor'));
+  const Import = React.lazy(() => import("./pages/Import/Import"));
+  const Edit = React.lazy(() => import("./pages/Edit/Edit"));
+  const EditorTeam = React.lazy(() => import("./pages/EditorTeam/EditorTeam"));
+  const Login = React.lazy(() => import("./pages/Login/Login"));
+  const AddCode = React.lazy(() => import("./pages/AddCode/AddCode"));
+  const Role = React.lazy(() => import("./pages/Role/Role"));
+  const Proposals = React.lazy(() => import("./pages/Proposals/Proposals"));
+  const TeamsEditor = React.lazy(
+    () => import("./pages/TeamsEditor/TeamsEditor")
+  );
 
   const routes = (
     <BrowserRouter>
       <PermissionsProvider>
-        <NavigationContainer isAdmin={user?.roles?.includes('admin')}>
+        <NavigationContainer isAdmin={user?.roles?.includes("admin")}>
           <Switch>
             <Route exact path="/" render={() => <Login />} />
             <Route exact path="/account" render={() => <Account />} />
             <Route exact path="/dashboard" render={() => <DashBoard />} />
             <Route exact path="/transfers" render={() => <Import />} />
-            <Route exact path="/proposals" render={() => <Proposals isAdmin height="80vh" />} />
+            <Route
+              exact
+              path="/proposals"
+              render={() => <Proposals isAdmin height="80vh" />}
+            />
             <Route exact path="/decisions" render={() => <Decision />} />
             <Route exact path="/add-code" render={() => <AddCode isAdmin />} />
             {/* <Route exact path="/add-approval" render={() => <EventApproval />} /> */}
             {/* <Route exact path="/add-billing" render={() => <EventBilling />} /> */}
             <Route exact path="/for-coders" render={() => <ForCoders />} />
             <Route exact path="/editor" render={() => <Edit />} />
-            <Route exact path="/editor-team" render={() => <EditorTeam isAdmin={user?.roles?.includes('admin')} />} />
+            <Route
+              exact
+              path="/editor-team"
+              render={() => (
+                <EditorTeam isAdmin={user?.roles?.includes("admin")} />
+              )}
+            />
             <Route exact path="/users" render={() => <Role />} />
             <Route exact path="/teams" render={() => <TeamsEditor />} />
             <Route exact path="/:teamId" render={() => <Team />} />
@@ -110,15 +116,24 @@ function App(): JSX.Element {
           <TeamsProvider>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <div className="app">
-                {loadingStatus
-                  ? <div className="loader"><CircularProgress /></div>
-                  : (
-                    <div>
-                      <Suspense fallback={<div className="loader"><CircularProgress /></div>}>
-                        {routes}
-                      </Suspense>
-                    </div>
-                  )}
+                {loadingStatus ? (
+                  <div className="loader">
+                    <CircularProgress />
+                  </div>
+                ) : (
+                  <div>
+                    <Suspense
+                      fallback={
+                        <div className="loader">
+                          <CircularProgress />
+                        </div>
+                      }
+                    >
+                      {routes}
+                    </Suspense>
+                  </div>
+                )}
+                <PWAInstallPrompt />
               </div>
             </LocalizationProvider>
           </TeamsProvider>

@@ -28,4 +28,10 @@ root.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register({
+  onSuccess: () => console.log("Service worker registered successfully"),
+  onUpdate: (registration) => {
+    console.log("New content is available; please refresh.");
+    // You can show a notification to the user here
+  },
+});
