@@ -1,23 +1,28 @@
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
-import store from './store/store';
+import store from "./store/store";
 
-global.window.Buffer = Buffer as unknown as Buffer;
+// Polyfill for Buffer
+(window as any).Buffer = Buffer;
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
+const container = document.getElementById("root");
+const root = createRoot(container!);
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

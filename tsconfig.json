@@ -1,33 +1,55 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "module": "esNext",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src",
     "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./src/types"]
+    
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "containers/*": ["src/containers/*"],
+      "helpers/*": ["src/helpers/*"],
+      "models/*": ["src/models/*"],
+      "pages/*": ["src/pages/*"],
+      "providers/*": ["src/providers/*"],
+      "shared/*": ["src/shared/*"],
+      "store/*": ["src/store/*"],
+      "constans/*": ["src/constans/*"],
+      "assets/*": ["src/assets/*"],
+      "fonts/*": ["src/fonts/*"],
+      "axios-income": ["src/axios-income"]
+    },
+    
+    /* Additional options */
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   },
   "include": [
     "src",
     "jspdf.d.ts",
     "ui-payload.ts"
-  ]
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
