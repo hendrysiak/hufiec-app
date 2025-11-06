@@ -71,4 +71,7 @@ export const codePattern = [
   {
     name: 'INO', value: 'INO', useSuffix: false, adminEvent: true,
   },
+  {
+    name: 'JAMBOREE', value: 'JAMBO', useSuffix: false, adminEvent: true,
+  },
 ];
