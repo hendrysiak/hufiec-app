@@ -68,7 +68,7 @@ export const countAmountOfFee = (
   person: APIPerson,
   endOfPeriod = new Date()
 ): number => {
-  if (person.disability) return 0;
+  if (person?.disability) return 0;
 
   const lastDate = person.dateOfDelete
     ? new Date(person.dateOfDelete)
