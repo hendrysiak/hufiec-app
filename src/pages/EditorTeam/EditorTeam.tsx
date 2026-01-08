@@ -387,8 +387,8 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                         newData?.dateOfAdd && activeRow === row.id
                           ? new Date(newData.dateOfAdd)
                           : row.dateOfAdd
-                          ? new Date(row.dateOfAdd)
-                          : null
+                            ? new Date(row.dateOfAdd)
+                            : null
                       }
                       onChange={(e) => handleDateChange(e, row, "dateOfAdd")}
                       renderInput={(params) => <TextField {...params} />}
@@ -404,8 +404,8 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                         newData?.dateOfDelete && activeRow === row.id
                           ? new Date(newData.dateOfDelete)
                           : row.dateOfDelete
-                          ? new Date(row.dateOfDelete)
-                          : null
+                            ? new Date(row.dateOfDelete)
+                            : null
                       }
                       onChange={(e) => handleDateChange(e, row, "dateOfDelete")}
                       renderInput={(params) => <TextField {...params} />}
@@ -414,7 +414,7 @@ function EditorTeam({ isAdmin = false }: EditorTeamProps): JSX.Element {
                   <TableCell>{getInitAccountState(row, initAccount)}</TableCell>
                   <TableCell>{row.feeState}</TableCell>
                   <TableCell>
-                    {countAmountOfFee(row, new Date("2024-12-31"))}
+                    {countAmountOfFee(row, new Date("2025-12-31"))}
                   </TableCell>
                   {row.id === activeRow ? (
                     <TableCell>
