@@ -64,7 +64,7 @@ function TeamFinances({
           if (income.year === 2023) {
             return sum + income.cash * 0.2;
           } else if (income.year === 2026) {
-            return sum + income.cash * ((17.5 / 90) * 100);
+            return sum + income.cash * (17.5 / 90);
           } else return sum + income.cash * 0.16;
         }, 0);
 
