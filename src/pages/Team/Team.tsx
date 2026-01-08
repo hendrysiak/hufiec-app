@@ -405,7 +405,7 @@ function Team(): JSX.Element {
           <Tab label="Lista wpłat" />
           <Tab label="Stan składek" />
           <Tab label="Stan konta" />
-          <Tab label="Akcje" />
+          {/* <Tab label="Akcje" /> */}
         </StyledTabs>
       </div>
       <p className="lastImport">
@@ -541,25 +541,25 @@ function Team(): JSX.Element {
           indicatorColor="secondary"
           onChange={handleInnerTabChange}
         >
-          {/* <Tab label="Kody" /> */}
-          {/* <Tab label="Podjęte akcje" /> */}
+          <Tab label="Kody" />
+          <Tab label="Podjęte akcje" />
           <Tab label="Wyślij wiadomość" />
           <Tab label="Poradnik" />
         </Tabs>
-        {/* <TabPanel value={innerTab} index={0}>
+        <TabPanel value={innerTab} index={0}>
           <CodeGenerator />
-        </TabPanel> */}
-        {/* <TabPanel value={innerTab} index={1}>
+        </TabPanel>
+        <TabPanel value={innerTab} index={1}>
           <Proposals height="65vh" />
-        </TabPanel> */}
-        <TabPanel value={innerTab} index={2}>
+        </TabPanel>
+        <TabPanel value={innerTab} index={0}>
           <Form
             title="WYŚLIJ ZGŁOSZENIE"
             currentTeam={currentTeam}
             navHeight={Number(navBar.current?.clientHeight)}
           />
         </TabPanel>
-        <TabPanel value={innerTab} index={3}>
+        <TabPanel value={innerTab} index={1}>
           <h2>Poradnik</h2>
           <p>Link do poradnika - tymczasowy</p>
           <a href="https:gkzhp-my.sharepoint.com/:w:/g/personal/lukasz_hendrysiak_zhp_net_pl/EQfShaYQXbhItrauW-62ckoBszP-iGvt9fTUb-s_ZV3xlA?e=OPIylW">
