@@ -9,6 +9,7 @@ const feeByYear: Record<number, number> = {
   2023: 45,
   2024: 69,
   2025: 70,
+  2026: 90,
 };
 
 const getQuarterForDate = (date: Date) =>

@@ -541,17 +541,17 @@ function Team(): JSX.Element {
           indicatorColor="secondary"
           onChange={handleInnerTabChange}
         >
-          <Tab label="Kody" />
-          <Tab label="Podjęte akcje" />
+          {/* <Tab label="Kody" /> */}
+          {/* <Tab label="Podjęte akcje" /> */}
           <Tab label="Wyślij wiadomość" />
           <Tab label="Poradnik" />
         </Tabs>
-        <TabPanel value={innerTab} index={0}>
+        {/* <TabPanel value={innerTab} index={0}>
           <CodeGenerator />
-        </TabPanel>
-        <TabPanel value={innerTab} index={1}>
+        </TabPanel> */}
+        {/* <TabPanel value={innerTab} index={1}>
           <Proposals height="65vh" />
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel value={innerTab} index={2}>
           <Form
             title="WYŚLIJ ZGŁOSZENIE"

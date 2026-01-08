@@ -55,6 +55,8 @@ const getSumOfFeesForTeam = (team: string, incomes: IncomeDb[]) => {
         return sum + income.cash * 0.2174;
       } else if (income.year === 2025) {
         return sum + getCorrectFeeForTeam(income.cash);
+      } else if (income.year === 2026) {
+        return sum + income.cash * ((17.5 / 90) * 100);
       } else return sum + income.cash * 0.16;
     }, 0);
 };
