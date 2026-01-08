@@ -41,7 +41,8 @@ const getProperJSONfromCSVContent = (content: any[]) => {
     const evidenceNumber = row["nr ewidencyjny"];
     //! It's temporary - reploace this logic with real orgNumber after migration
     const orgNumber = "6671";
-    const parsedBalance = Number(balance.replace("-", ""));
+    const parsedBalance =
+      typeof balance === "number" ? balance : Number(balance.replace("-", ""));
 
     array.push({
       surname,
