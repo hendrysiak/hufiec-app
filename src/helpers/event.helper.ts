@@ -15,7 +15,7 @@ export const codePattern = [
     name: 'harcerski start', value: 'HS', useSuffix: false, adminEvent: true,
   },
   {
-    name: 'CMOK SONG', value: 'CS', useSuffix: false, adminEvent: true,
+    name: 'CMOK SONG', value: 'CMOK', useSuffix: false, adminEvent: true,
   },
   {
     name: 'Odrzański Spływ Wiosenny', value: 'OSW', useSuffix: false, adminEvent: false,
